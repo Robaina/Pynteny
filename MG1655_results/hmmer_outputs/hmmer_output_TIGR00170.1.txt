@@ -1,0 +1,17 @@
+#                                                                                  --- full sequence ---- --- best 1 domain ---- --- domain number estimation ----
+# target name                          accession  query name           accession     E-value  score  bias   E-value  score  bias   exp reg clu  ov env dom rep inc description of target
+#                  ------------------- ---------- --------------------  ---------- --------- ------ ----- --------- ------ -----   --- --- --- --- --- --- --- --- ---------------------
+b0072__U00096_72_79463_80864_neg       -          leuC                 TIGR00170.1  4.9e-284  939.9   0.6  5.5e-284  939.7   0.6   1.0   1   0   0   1   1   1   1 -
+b1276__U00096_1250_1335830_1338506_pos -          leuC                 TIGR00170.1   9.1e-30  101.5   0.0   1.4e-29  100.9   0.0   1.2   1   0   0   1   1   1   1 -
+b0771__U00096_738_803502_805764_pos    -          leuC                 TIGR00170.1   1.5e-24   84.3   0.1   2.7e-24   83.5   0.1   1.3   1   0   0   1   1   1   1 -
+b0118__U00096_117_131614_134212_pos    -          leuC                 TIGR00170.1     2e-21   74.0   0.1   7.8e-17   58.9   0.0   2.7   1   1   1   2   2   2   2 -
+#
+# Program:         hmmsearch
+# Version:         3.3.2 (Nov 2020)
+# Pipeline mode:   SEARCH
+# Query file:      /home/robaina/Databases/hmm_PGAP/TIGR00170.1.HMM
+# Target file:     /home/robaina/Documents/Pynteny/MG1655.fasta
+# Option settings: hmmsearch --tblout /home/robaina/Documents/Pynteny/MG1655_results/hmmer_outputs/hmmer_output_TIGR00170.1.txt --cpu 15 /home/robaina/Databases/hmm_PGAP/TIGR00170.1.HMM /home/robaina/Documents/Pynteny/MG1655.fasta 
+# Current dir:     /home/robaina/Documents/Pynteny
+# Date:            Wed Jun  1 13:44:01 2022
+# [ok]
