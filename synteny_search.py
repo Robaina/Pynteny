@@ -1,25 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-Reference database:
-1) Run hmmer to extract peptides of interest following gene structure
-2) Reduce redundancy: cd-hit and/or repset
-3) Relabel entries with temporary ids to avoid donwstream conflicts
-"""
-
 import os
 import shutil
 import argparse
 
 from pynteny.utils import setDefaultOutputPath, TemporaryFilePath
-from pynteny.preprocessing import setTempRecordIDsInFASTA
 from pynteny.filter import filterFASTAByHMMstructure, filterFASTABySequenceLength, SyntenyParser
 
 
 parser = argparse.ArgumentParser(
     description=(
-        'Build peptide reference database from HMM synteny structure. '
+        'Build peptide database from HMM synteny structure. '
         'The script outputs a main file containing sequences matching the provided '
         'hmm structure and corresponding to the main target indicated in the argument: '
         'target_hmm. These sequences are filtered by sequence length and by maximum '
@@ -27,7 +19,7 @@ parser = argparse.ArgumentParser(
         'The script also outputs additional file containing the matched records for the '
         'other, non-target, hmms. However, these files are not processed any further.'
         ),
-    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2021'
+    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2022'
     )
 
 optional = parser._action_groups.pop()
@@ -91,18 +83,9 @@ parser.add_argument('--max_seq_length', dest='maxseqlength',
                         'Defaults to inf'
                         )
 )
-parser.add_argument('--relabel', dest='relabel', action='store_true',
-                    required=False,
-                    default=False,
-                    help=(
-                        'relabel record IDs with numerical ids. '
-                        'Unrequired to build database, but highly recommended '
-                        'to avoid possible conflicts downstream the pipeline.')
-)
 
 
 args = parser.parse_args()
-
 hmm_names = SyntenyParser.getHMMsInStructure(args.synteny_struc)
 input_hmms = [
     os.path.join(args.hmm_dir, file)
@@ -122,12 +105,11 @@ hmmsearch_args = list(map(lambda x: x.strip(), hmmsearch_args.split(",")))
 hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
 hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
 output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
-output_fasta_short = os.path.join(args.outdir, f'{args.prefix}ref_database_short_ids.faa')
     
 
 def main():
     
-    print('* Making peptide-specific reference database...')
+    print('* Searching database by synteny structure...')
     with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2:
         filterFASTAByHMMstructure(
             synteny_structure=args.synteny_struc,
@@ -152,15 +134,6 @@ def main():
             )
             shutil.move(tempfasta2, tempfasta)
         shutil.move(tempfasta, output_fasta)
-
-    if args.relabel:
-        print('* Relabelling records in reference database...')
-        setTempRecordIDsInFASTA(
-            input_fasta=output_fasta,
-            output_dir=args.outdir,
-            prefix=f'ref_{args.prefix}'
-            )
-        shutil.move(output_fasta_short, output_fasta)
     print('Finished!')
 
 if __name__ == '__main__':
