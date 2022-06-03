@@ -15,7 +15,6 @@ import re
 from Bio import SeqIO
 import pyfastx
 
-
 import pynteny.wrappers as wrappers
 from pynteny.utils import (saveToPickleFile, setDefaultOutputPath,
                            terminalExecute, handle_exceptions)
@@ -229,7 +228,6 @@ def is_fasta(filename):
             return any(fasta)
     else:
         return False
-
 
 def assignGeneLocationToRecords(gbk_file: str, output_fasta: str = None,
                                 nucleotide: bool = False) -> None:

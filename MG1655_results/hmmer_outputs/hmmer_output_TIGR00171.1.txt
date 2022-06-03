@@ -11,5 +11,5 @@ b1276__U00096_1250_1335830_1338506_pos -          leuD                 TIGR00171
 # Target file:     /home/robaina/Documents/Pynteny/MG1655.fasta
 # Option settings: hmmsearch --tblout /home/robaina/Documents/Pynteny/MG1655_results/hmmer_outputs/hmmer_output_TIGR00171.1.txt --cpu 15 /home/robaina/Databases/hmm_PGAP/TIGR00171.1.HMM /home/robaina/Documents/Pynteny/MG1655.fasta 
 # Current dir:     /home/robaina/Documents/Pynteny
-# Date:            Wed Jun  1 13:44:00 2022
+# Date:            Fri Jun  3 10:23:38 2022
 # [ok]

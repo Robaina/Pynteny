@@ -173,6 +173,7 @@ class SyntenyParser():
     """
     @staticmethod
     def splitStrandFromLocus(locus_str: str) -> tuple[str]:
+        locus_str = locus_str.strip()
         if locus_str[0] == '<' or locus_str[0] == '>':
             sense = locus_str[0]
             locus_str = locus_str[1:]
@@ -224,7 +225,7 @@ class SyntenyParser():
         return parsed_struc
     
 
-class LinkedHMMfilter():
+class SyntenyHMMfilter():
     """
     Tools to search for synteny structures among sets of hmm models
     """
@@ -311,7 +312,7 @@ class LinkedHMMfilter():
         else:
             return get_linked_hit_labels_with_strand()
 
-    def filterHitsByLinkedHMMstructure(self, synteny_structure: str) -> pd.DataFrame:
+    def filterHitsBySyntenyStructure(self, synteny_structure: str) -> pd.DataFrame:
         """
         Search for contigs that satisfy the given gene synteny structure
         @param: synteny_structure, a str describing the desired synteny structure,
@@ -363,7 +364,7 @@ class LinkedHMMfilter():
         """
         Partition linked labels dataframe into several dataframes containing
         hmm-specific hits.  This is a workaround to avoid extensive modification of
-        LinkedHMMfilter.filterHitsByLinkedHMMstructure.
+        SyntenyHMMfilter.filterHitsBySyntenyStructure.
         """
         return {
             hmm_name: linked_hit_labels[linked_hit_labels.full.isin(hits.id)]
@@ -394,7 +395,6 @@ def filterFASTAByHMMstructure(synteny_structure: str,
     input hmm. A single string may also be passed, in which case the 
     same additional argument is passed to hmmsearch for all input hmms
     """
-    hmms = SyntenyParser.getHMMsInStructure(synteny_structure)
     if output_fasta is None:
         output_fasta = setDefaultOutputPath(
             input_fasta, tag=f'filtered_{synteny_structure.replace(" ", "_")}'
@@ -441,7 +441,7 @@ def filterFASTAByHMMstructure(synteny_structure: str,
                 )
         hmm_hits[hmm_name] = parseHMMsearchOutput(hmmer_output)
 
-    if len(hmms) == 1:
+    if len(input_hmms) == 1:
         strand, hmm_name = SyntenyParser.splitStrandFromLocus(synteny_structure)
         if strand is not None:
             record_ids = [
@@ -456,11 +456,11 @@ def filterFASTAByHMMstructure(synteny_structure: str,
         )
     else:
         print('Filtering results by HMM structure...')
-        linkedfilter = LinkedHMMfilter(hmm_hits)
-        linked_hit_labels = linkedfilter.filterHitsByLinkedHMMstructure(synteny_structure)
+        linkedfilter = SyntenyHMMfilter(hmm_hits)
+        linked_hit_labels = linkedfilter.filterHitsBySyntenyStructure(synteny_structure)
 
         if not linked_hit_labels.full.values.tolist():
-            raise ValueError('No records found in database matching provided hmm structure')
+            raise ValueError('No records found in database matching provided synteny structure')
         
         print('Filtering Fasta...')
         partitioned_hit_labels = linkedfilter.partitionLinkedLabelsByHMM(linked_hit_labels)

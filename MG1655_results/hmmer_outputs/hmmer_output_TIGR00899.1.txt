@@ -21,5 +21,5 @@ b3662__U00096_3591_3840548_3841739_neg -          2A0120               TIGR00899
 # Target file:     /home/robaina/Documents/Pynteny/MG1655.fasta
 # Option settings: hmmsearch --tblout /home/robaina/Documents/Pynteny/MG1655_results/hmmer_outputs/hmmer_output_TIGR00899.1.txt --cpu 15 /home/robaina/Databases/hmm_PGAP/TIGR00899.1.HMM /home/robaina/Documents/Pynteny/MG1655.fasta 
 # Current dir:     /home/robaina/Documents/Pynteny
-# Date:            Wed Jun  1 13:44:00 2022
+# Date:            Fri Jun  3 10:23:38 2022
 # [ok]

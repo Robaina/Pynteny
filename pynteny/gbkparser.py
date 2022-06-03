@@ -6,7 +6,7 @@ from typing import OrderedDict
 from Bio import SeqIO, SeqFeature, SeqRecord
 import pandas as pd
 
-from utils import setDefaultOutputPath, terminalExecute, fullPathListDir, unZipFile, mergeMultiRecordGBK
+from pynteny.utils import setDefaultOutputPath, terminalExecute, fullPathListDir, unZipFile, mergeMultiRecordGBK
 
 
 

@@ -13,5 +13,5 @@ b0118__U00096_117_131614_134212_pos    -          leuC                 TIGR00170
 # Target file:     /home/robaina/Documents/Pynteny/MG1655.fasta
 # Option settings: hmmsearch --tblout /home/robaina/Documents/Pynteny/MG1655_results/hmmer_outputs/hmmer_output_TIGR00170.1.txt --cpu 15 /home/robaina/Databases/hmm_PGAP/TIGR00170.1.HMM /home/robaina/Documents/Pynteny/MG1655.fasta 
 # Current dir:     /home/robaina/Documents/Pynteny
-# Date:            Wed Jun  1 13:44:01 2022
+# Date:            Fri Jun  3 10:23:38 2022
 # [ok]
