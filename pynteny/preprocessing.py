@@ -10,10 +10,10 @@ Tools to preprocess sequence databases
 """
 
 import os
-import re
+# import re
 
 from Bio import SeqIO
-import pyfastx
+# import pyfastx
 
 import pynteny.wrappers as wrappers
 from pynteny.utils import (saveToPickleFile, setDefaultOutputPath,
