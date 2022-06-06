@@ -6,7 +6,7 @@ import shutil
 import argparse
 
 from pynteny.utils import setDefaultOutputPath, TemporaryFilePath
-from pynteny.filter import filterFASTAByHMMstructure, filterFASTABySequenceLength, SyntenyParser
+from pynteny.filter import filterFASTABySyntenyStructure, filterFASTABySequenceLength, SyntenyParser
 
 
 parser = argparse.ArgumentParser(
@@ -111,7 +111,7 @@ def main():
     
     print('* Searching database by synteny structure...')
     with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2:
-        filterFASTAByHMMstructure(
+        filterFASTABySyntenyStructure(
             synteny_structure=args.synteny_struc,
             target_hmm=args.target_hmm,
             input_fasta=args.data,

@@ -13,7 +13,7 @@ import os
 # import re
 
 from Bio import SeqIO
-# import pyfastx
+import pyfastx
 
 import pynteny.wrappers as wrappers
 from pynteny.utils import (saveToPickleFile, setDefaultOutputPath,
@@ -227,6 +227,29 @@ def setTempRecordIDsInFASTA(input_fasta: str,
 #             return any(fasta)
 #     else:
 #         return False
+
+
+def parseProdigalOutput(prodigal_faa: str, output_file: str = None) -> str:
+    """
+    Extract positional gene info from prodigal output and export to
+    fasta file.
+    """
+    if output_file is None:
+        output_file = setDefaultOutputPath(prodigal_faa, tag="_longlabels")
+    data = pyfastx.Fasta(prodigal_faa, build_index=False, full_name=True)
+    with open(output_file, "w") as outfile:
+        for record_name, record_seq in data:
+            name_list = record_name.split(" ")
+            if len(name_list) < 9:
+                raise ValueError(f"Invalid prodigal header format for record: {record_name}")
+            contig = "_".join(name_list[0].split("_")[:-1])
+            gene_number = name_list[0].split("_")[-1]
+            start, end = name_list[2], name_list[4]
+            strand = "pos" if name_list[6] == "1" else "neg"
+            header = f">{contig}_{gene_number}__{contig}_{gene_number}_{start}_{end}_{strand}"
+            outfile.write(header + "\n")
+            outfile.write(record_seq + "\n")
+
 
 def assignGeneLocationToRecords(gbk_file: str, output_fasta: str = None,
                                 nucleotide: bool = False) -> None:

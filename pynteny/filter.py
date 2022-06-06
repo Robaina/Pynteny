@@ -372,16 +372,16 @@ class SyntenyHMMfilter():
         }
 
 
-def filterFASTAByHMMstructure(synteny_structure: str,
-                              input_fasta: str,
-                              input_hmms: list[str],
-                              target_hmm: str = None,
-                              output_fasta: str = None,
-                              output_dir: str = None,
-                              hmmer_output_dir: str = None,
-                              reuse_hmmer_results: bool = True,
-                              method: str = 'hmmsearch',
-                              additional_args: list[str] = None) -> None:
+def filterFASTABySyntenyStructure(synteny_structure: str,
+                                  input_fasta: str,
+                                  input_hmms: list[str],
+                                  target_hmm: str = None,
+                                  output_fasta: str = None,
+                                  output_dir: str = None,
+                                  hmmer_output_dir: str = None,
+                                  reuse_hmmer_results: bool = True,
+                                  method: str = 'hmmsearch',
+                                  additional_args: list[str] = None) -> None:
     """
     Generate protein-specific database by filtering sequence database
     to only contain sequences which satisfy the provided (gene/hmm)
@@ -439,6 +439,9 @@ def filterFASTAByHMMstructure(synteny_structure: str,
                 method=method,
                 additional_args=add_args
                 )
+        elif reuse_hmmer_results and os.path.isfile(hmmer_output):
+            print(f"Reusing Hmmer results for HMM: {hmm_name}")
+
         hmm_hits[hmm_name] = parseHMMsearchOutput(hmmer_output)
 
     if len(input_hmms) == 1:
@@ -455,7 +458,7 @@ def filterFASTAByHMMstructure(synteny_structure: str,
             output_fasta=output_fasta
         )
     else:
-        print('Filtering results by HMM structure...')
+        print('Filtering results by synteny structure...')
         linkedfilter = SyntenyHMMfilter(hmm_hits)
         linked_hit_labels = linkedfilter.filterHitsBySyntenyStructure(synteny_structure)
 

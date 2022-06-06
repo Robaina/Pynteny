@@ -43,16 +43,16 @@ args = parser.parse_args()
 def main():
     
     runProdigal(
-        input_file="",
-        output_prefix=None,
-        output_dir=None,
+        input_file=args.assembly_fasta,
+        output_prefix=args.prefix,
+        output_dir=args.outdir,
         metagenome=False,
         additional_args=None
     )
 
     assignGeneLocationToRecords(
-        gbk_file="",
-        output_fasta=None,
+        gbk_file=os.path.join(args.outdir, f"{args.prefix}.gbk"),
+        output_fasta=os.path.join(args.outdir, "ref_database.faa"),
         nucleotide=False
     )
 
