@@ -72,7 +72,7 @@ def runProdigal(input_file: str, output_prefix: str = None,
     if output_dir is None:
         output_dir = setDefaultOutputPath(input_file, only_dirname=True)
     if output_prefix is None:
-        output_prefix = setDefaultOutputPath(input_file, only_filename=True)
+        output_prefix = setDefaultOutputPath(input_file, only_basename=True)
     if additional_args is not None:
         args_str = additional_args
     else:

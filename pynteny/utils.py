@@ -102,6 +102,7 @@ def deleteTemporaryFiles(dir_path: str) -> None:
 def setDefaultOutputPath(input_path: str, tag: str = None,
                          extension: str = None,
                          only_filename: bool = False,
+                         only_basename: bool = True,
                          only_dirname: bool = False) -> str:
     """
     Get default path to output file or directory
@@ -114,6 +115,8 @@ def setDefaultOutputPath(input_path: str, tag: str = None,
     if tag is None:
         tag = ''
     default_file = f'{fname}{tag}{extension}'
+    if only_basename:
+        return fname
     if only_filename:
         return default_file
     if only_dirname:

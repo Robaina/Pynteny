@@ -45,8 +45,28 @@ def removeDuplicatesFromFasta(input_fasta: str,
     else:
         wrappers.runSeqKitNoDup(input_fasta=input_fasta, output_fasta=output_fasta,
                                 export_duplicates=export_duplicates)
+                                
 
-def mergeFASTAs(input_fastas_dir: list, output_fasta: str = None) -> None:
+def splitFASTAbyContigs(input_fasta: str, output_dir: str = None) -> None:
+    """
+    Split large fasta file into several ones containing one contig each
+    """
+    if output_dir is None:
+        output_dir = os.path.join(
+            setDefaultOutputPath(input_fasta, only_dirname=True),
+            "split_" + setDefaultOutputPath(input_fasta, only_basename=True)
+        )
+    os.makedirs(output_dir, exist_ok=True)
+    base, ext = os.path.splitext(input_fasta)
+    contigs = pyfastx.Fasta(input_fasta, build_index=False, full_name=True)
+    for contig_name, seq in contigs:
+        outfile = os.path.join(output_dir, f"{contig_name.split(' ')[0]}{ext}")
+        with open(outfile, "w+") as file:
+            file.write(f">{contig_name}\n")
+            file.write(seq + "\n")
+
+
+def mergeFASTAs(input_fastas_dir: str, output_fasta: str = None) -> None:
     """
     Merge input fasta files into a single fasta
     """

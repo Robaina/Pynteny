@@ -4,8 +4,9 @@
 import os
 import argparse
 
+from pynteny.utils import parallelizeOverInputFiles, fullPathListDir
 from pynteny.wrappers import runProdigal
-from pynteny.preprocessing import assignGeneLocationToRecords
+from pynteny.preprocessing import parseProdigalOutput, mergeFASTAs
 
 
 parser = argparse.ArgumentParser(
@@ -35,26 +36,53 @@ optional.add_argument('--prefix', dest='prefix', type=str,
                       default='',
                       help='prefix to be added to output files'
 )
-
-
+optional.add_argument("--processes", "-p", dest="processes", type=int,
+                      required=False, default=None, help=(
+                          "set maximum number of processes. "
+                          "Defaults to all but one."
+                          )
+                          )
 
 args = parser.parse_args()
 
-def main():
-    
-    runProdigal(
-        input_file=args.assembly_fasta,
-        output_prefix=args.prefix,
-        output_dir=args.outdir,
-        metagenome=False,
-        additional_args=None
-    )
+if args.processes is None:
+    args.processes = os.cpu_count() - 1
 
-    assignGeneLocationToRecords(
-        gbk_file=os.path.join(args.outdir, f"{args.prefix}.gbk"),
-        output_fasta=os.path.join(args.outdir, "ref_database.faa"),
-        nucleotide=False
-    )
+def main():
+
+
+    if os.path.isdir(args.assembly_fasta):
+        parallelizeOverInputFiles(
+            runProdigal, 
+            input_list=fullPathListDir(args.assembly_fasta),
+            n_processes=args.processes,
+            output_dir=args.outdir,
+            metagenome=True,
+            additional_args=None
+        )
+        mergeFASTAs(
+            args.outdir,
+            output_fasta=os.path.join()
+        )
+    else:
+        runProdigal(
+            input_file=args.assembly_fasta,
+            output_prefix=args.prefix,
+            output_dir=args.outdir,
+            metagenome=True,
+            additional_args=None
+        )
+
+    # assignGeneLocationToRecords(
+    #     gbk_file=os.path.join(args.outdir, f"{args.prefix}.gbk"),
+    #     output_fasta=os.path.join(args.outdir, "ref_database.faa"),
+    #     nucleotide=False
+    # )
+
+    # parseProdigalOutput(
+    #     prodigal_faa=os.path.join(args.outdir, f"{args.prefix}.faa"),
+    #     output_file=None
+    # )
 
 
 if __name__ == '__main__':
