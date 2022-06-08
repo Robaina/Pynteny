@@ -251,13 +251,9 @@ class SyntenyHMMfilter():
             else:
                 return True
 
-        def gene_distance(gene_b_positions: pd.Series, gene_a_position: int, ordered: bool = True):
-            if ordered:
-                return (gene_b_positions - gene_a_position)
-            else:
-                return abs(gene_b_positions - gene_a_position)
-
-
+        def gene_distance(gene_b_positions: pd.Series, gene_a_position: int):
+            return (gene_b_positions - gene_a_position)
+     
         def get_linked_hit_labels_with_strand():
             linked_labels = set()
             linked_hit_labels = pd.DataFrame(columns=hit_labels_a.columns)
@@ -270,7 +266,7 @@ class SyntenyHMMfilter():
                         (
                             (hit_labels_b.contig == contig_a) & 
                             (gene_distance(hit_labels_b.gene_pos, pos_a) <= (dist_ab + 1)) &
-                            (gene_distance(hit_labels_b.gene_pos, pos_a) >= 0) &
+                            (gene_distance(hit_labels_b.gene_pos, pos_a) > 0) &
                             (hit_labels_b.strand.apply(
                                 lambda hit_strand_b: in_right_strand(hit_strand_b, strand_b)
                                 ))
@@ -296,7 +292,7 @@ class SyntenyHMMfilter():
                         (
                             (hit_labels_b.contig == contig_a) & 
                             (gene_distance(hit_labels_b.gene_pos, pos_a) <= (dist_ab + 1)) &
-                            (gene_distance(hit_labels_b.gene_pos, pos_a) >= 0)
+                            (gene_distance(hit_labels_b.gene_pos, pos_a) > 0)
                             )
                         ]
                     linked_b_labels = linked_b_hits.full.values.tolist()
@@ -467,11 +463,16 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
         
         print('Filtering Fasta...')
         partitioned_hit_labels = linkedfilter.partitionLinkedLabelsByHMM(linked_hit_labels)
+
+     
+        print(linked_hit_labels)
+
+
         for hmm_name in hmm_hits:
             outfasta = os.path.join(output_dir, f'{hmm_name}_hits.fasta')
             record_ids = partitioned_hit_labels[hmm_name].full.values
             filterFASTAbyIDs(input_fasta, record_ids=record_ids,
-                            output_fasta=outfasta)
+                             output_fasta=outfasta)
             if (target_hmm is not None) and (hmm_name in target_hmm):
                 shutil.copy(outfasta, output_fasta)
             
