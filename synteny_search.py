@@ -98,7 +98,7 @@ if len(input_hmms) < len(hmm_names):
 if args.outdir is None:
     args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
 if not os.path.isdir(args.outdir):
-    os.mkdir(args.outdir)
+    os.makedirs(args.outdir, exist_ok=True)
 if args.hmmsearch_args is None:
     hmmsearch_args = ",".join(["None" for _ in input_hmms])
 hmmsearch_args = list(map(lambda x: x.strip(), hmmsearch_args.split(",")))

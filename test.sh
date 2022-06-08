@@ -17,6 +17,6 @@
 
 python synteny_search.py \
  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
- --in /home/robaina/Documents/TRAITS/data/final_ref_database.fasta \
+ --in /home/robaina/Documents/MAR_database/marref_prodigal_longlabels.faa \
  --outdir /home/robaina/Documents/Pynteny/tests/TRAITS_results \
  --synteny_struc ">TIGR00899.1 0 <TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1"
