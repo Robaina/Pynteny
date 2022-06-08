@@ -8,5 +8,5 @@
 
 
 # TODO: 
-1. If required, export text file with matched reference IDs across HMMs, i.e.,
-    ID_a (HMM_a), ID_b (HMM_b), ID_c (HMM_c)
+1. Redesign filtering strategy
+2. Use Path from pathlib instead of str
