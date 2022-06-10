@@ -126,10 +126,8 @@ class LabelParser():
     """
     Parse entry label to extract coded info
     """
-    def __init__(self) -> None:
-        pass
-    
-    def parse(self, label: str) -> dict:
+    @staticmethod
+    def parse(label: str) -> dict:
         """
         Parse sequence labels to obtain contig and locus info
         """
@@ -157,13 +155,14 @@ class LabelParser():
         except Exception:
             pass
         return parsed_dict
-
-    def parse_from_list(self, labels=list) -> pd.DataFrame: 
+    
+    @staticmethod
+    def parse_from_list(labels=list) -> pd.DataFrame: 
         """
         Parse labels in list of labels and return DataFrame
         """
         return pd.DataFrame(
-            [self.parse(label) for label in labels]
+            [LabelParser.parse(label) for label in labels]
         )
 
 
@@ -463,10 +462,6 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
         
         print('Filtering Fasta...')
         partitioned_hit_labels = linkedfilter.partitionLinkedLabelsByHMM(linked_hit_labels)
-
-     
-        print(linked_hit_labels)
-
 
         for hmm_name in hmm_hits:
             outfasta = os.path.join(output_dir, f'{hmm_name}_hits.fasta')
