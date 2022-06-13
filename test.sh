@@ -9,14 +9,15 @@
 #
 # > setA 1 < leuD < leuC < leuB < leuA 
 
-# python synteny_search.py \
-#  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
-#  --in /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
-#  --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results \
-#  --synteny_struc ">TIGR00899.1 0 <TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1"
-
 python synteny_search.py \
  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
- --in /home/robaina/Databases/MarRef_1.7/marref_prodigal_longlabels.faa \
- --outdir /home/robaina/Documents/Pynteny/tests/TRAITS_results \
- --synteny_struc ">TIGR00899.1 0 <TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1"
+ --in /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
+ --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results \
+ --synteny_struc "TIGR00899.1 0 TIGR00171.1 0 TIGR00170.1 1 TIGR00973.1"
+
+# python synteny_search.py \
+#  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
+#  --in /home/robaina/Databases/MarRef_1.7/marref_prodigal_longlabels.faa \
+#  --outdir /home/robaina/Documents/Pynteny/tests/test_results \
+#  --prefix "test_" \
+#  --synteny_struc "<TIGR00899.1" # 0 <TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1"
