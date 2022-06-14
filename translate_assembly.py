@@ -61,7 +61,8 @@ def main():
             f"split_{setDefaultOutputPath(args.assembly_fasta, only_basename=True)}"
         )
         os.makedirs(split_dir)
-
+        print(split_dir)
+        print(setDefaultOutputPath(args.assembly_fasta, only_dirname=True))
         splitFASTAbyContigs(
             input_fasta=args.assembly_fasta,
             output_dir=split_dir
