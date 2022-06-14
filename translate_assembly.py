@@ -61,8 +61,6 @@ def main():
             f"split_{setDefaultOutputPath(args.assembly_fasta, only_basename=True)}"
         )
         os.makedirs(split_dir)
-        print(split_dir)
-        print(setDefaultOutputPath(args.assembly_fasta, only_dirname=True))
         splitFASTAbyContigs(
             input_fasta=args.assembly_fasta,
             output_dir=split_dir
@@ -73,23 +71,25 @@ def main():
 
     print("2. Running prodigal on assembly...")
     if os.path.isdir(input_assembly):
+        split_prodigal_dir = os.path.join(args.outdir, "split_prodigal/")
+        os.makedirs(split_prodigal_dir)
         parallelizeOverInputFiles(
             runProdigal, 
             input_list=fullPathListDir(input_assembly),
             n_processes=args.processes,
-            output_dir=os.path.join(args.outdir, "split_prodigal/"),
+            output_dir=split_prodigal_dir,
             metagenome=True,
             additional_args=None
         )
         mergeFASTAs(
-            os.path.join(args.outdir, "split_prodigal/"),
+            split_prodigal_dir,
             output_fasta=os.path.join(
                 args.outdir,
                 f"{args.prefix}.faa"
                 )
         )
     else:
-        runProdigal(
+        runProdigal(input_assembly,
             input_file=input_assembly,
             output_prefix=args.prefix,
             output_dir=args.outdir,
