@@ -9,11 +9,22 @@
 #
 # > setA 1 < leuD < leuC < leuB < leuA 
 
-python synteny_search.py \
- --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
- --in /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
- --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results \
- --synteny_struc "TIGR00899.1 0 TIGR00171.1 0 TIGR00170.1 1 TIGR00973.1"
+
+
+# python synteny_search.py \
+#  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
+#  --in /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
+#  --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results \
+#  --synteny_struc "TIGR00899.1 0 TIGR00171.1 0 TIGR00170.1 1 TIGR00973.1"
+
+
+
+python translate_assembly.py \
+ --assembly_fasta /home/robaina/Databases/MAR_database/marref_assembly_V6.fa \
+ --outdir /home/robaina/Databases/MAR_database/ \
+ --prefix "marref_V6_" \
+ --processes 7 \
+ --split_contigs
 
 # python synteny_search.py \
 #  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \

@@ -9,7 +9,6 @@ Tools to create peptide-specific sequence databases
 """
 
 from __future__ import annotations
-import dis
 import os
 from collections import defaultdict
 

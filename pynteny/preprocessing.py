@@ -10,13 +10,12 @@ Tools to preprocess sequence databases
 """
 
 import os
-# import re
 
 from Bio import SeqIO
 import pyfastx
 
 import pynteny.wrappers as wrappers
-from pynteny.utils import (saveToPickleFile, setDefaultOutputPath,
+from pynteny.utils import (setDefaultOutputPath,
                            terminalExecute, handle_exceptions)
 
 
@@ -78,7 +77,7 @@ def mergeFASTAs(input_fastas_dir: str, output_fasta: str = None) -> None:
         work_dir=input_fastas_dir,
         suppress_shell_output=False
         )
-        
+
 
 def parseProdigalOutput(prodigal_faa: str, output_file: str = None) -> str:
     """

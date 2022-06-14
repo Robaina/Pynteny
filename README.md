@@ -10,3 +10,10 @@
 # TODO: 
 1. Redesign filtering strategy
 2. Use Path from pathlib instead of str
+
+# Packages:
+1. pandas
+2. pyfastx
+3. biopython
+4. prodigal
+5. hmmer
