@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import shutil
 import argparse
 
 from pynteny.utils import setDefaultOutputPath
@@ -101,7 +100,7 @@ hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
     
 
 def main():
-    print('* Searching database by synteny structure...')
+    print(' 1. Searching database by synteny structure...')
     filterFASTABySyntenyStructure(
         synteny_structure=args.synteny_struc,
         input_fasta=args.data,
