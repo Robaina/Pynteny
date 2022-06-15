@@ -397,7 +397,7 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
 
     results_table = os.path.join(output_dir, f"{output_prefix}synteny_matched.tsv")
 
-    print('Running Hmmer...')
+    print('* Running Hmmer...')
     hmm_names, hmm_hits = [], {}
     for hmm_model, add_args in zip(input_hmms, additional_args):
         hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
@@ -413,16 +413,16 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
                 additional_args=add_args
                 )
         elif reuse_hmmer_results and os.path.isfile(hmmer_output):
-            print(f"Reusing Hmmer results for HMM: {hmm_name}")
+            print(f"*  Reusing Hmmer results for HMM: {hmm_name}")
 
         hmm_hits[hmm_name] = parseHMMsearchOutput(hmmer_output)
 
-    print('Filtering results by synteny structure...')
+    print('* Filtering results by synteny structure...')
     syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure)
     matches = syntenyfilter.filterHitsBySyntenyStructure(
         output_tsv=results_table
         )
-    print("Writing matching sequences to FASTA files...")
+    print("* Writing matching sequences to FASTA files...")
     df = pd.read_csv(results_table, sep="\t")
     for hmm_name in hmm_names:
         record_ids = df[df.HMM == hmm_name].full_label.values.tolist()

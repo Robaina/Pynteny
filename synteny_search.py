@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import shutil
 import argparse
 
 from pynteny.utils import setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
@@ -82,12 +83,26 @@ parser.add_argument('--max_seq_length', dest='maxseqlength',
 args = parser.parse_args()
 
 if isTarFile(args.hmm_dir):
-    extractTarFile()
+    print("0. Extracting hmm files to temporary directory...")
+    temp_hmm_dir = os.path.join(
+        setDefaultOutputPath(args.hmm_dir, only_dirname=True),
+        "temp_hmm_dir"
+        )
+    extractTarFile(
+        tar_file=args.hmm_dir,
+        dest_dir=temp_hmm_dir
+    )
+    flattenDirectory(
+        temp_hmm_dir
+    )
+    hmm_dir = temp_hmm_dir
+else:
+    hmm_dir = args.hmm_dir
 
 hmm_names = SyntenyParser.getHMMsInStructure(args.synteny_struc)
 input_hmms = [
-    os.path.join(args.hmm_dir, file)
-    for file in os.listdir(args.hmm_dir)
+    os.path.join(hmm_dir, file)
+    for file in os.listdir(hmm_dir)
     if any([hmm_name in file for hmm_name in hmm_names])
 ]
 if len(input_hmms) < len(hmm_names):
@@ -117,6 +132,10 @@ def main():
         method='hmmsearch',
         additional_args=hmmsearch_args
     )
+
+    if isTarFile(args.hmm_dir):
+        shutil.rmtree(temp_hmm_dir)
+
     print('Finished!')
 
 if __name__ == '__main__':
