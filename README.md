@@ -1,6 +1,8 @@
 # Pynteny: synteny hmm searches made easy in Python
 
-1. Genome annotation provided via gbk/gff3 file, via text file with contig/gene info or via prokka if desired and prokaryotic organism
+1. Install environment
+
+conda env create -f environment.yml
 
 # Possible applications:
 
@@ -8,12 +10,5 @@
 
 
 # TODO: 
-1. Redesign filtering strategy
-2. Use Path from pathlib instead of str
-
-# Packages:
-1. pandas
-2. pyfastx
-3. biopython
-4. prodigal
-5. hmmer
+1. Use Path from pathlib instead of str
+2. Enable search of TigrFAM by gene name? need gene/TigrFAM dictionary
