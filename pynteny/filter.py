@@ -212,7 +212,7 @@ class SyntenyHMMfilter():
             hit_labels.values()
             ).groupby("contig").filter(
                 lambda x : len(x) >= self._n_hmms
-                ).sort_values(["contig", "gene_pos"])
+                ).sort_values(["contig", "gene_pos"], ascending=True)
         # Drop sequences hit by more than one hmm
         all_hit_labels = all_hit_labels.drop_duplicates(
             subset=all_hit_labels.columns.difference(["hmm"]), keep=False)
@@ -252,9 +252,11 @@ class SyntenyHMMfilter():
         with open(output_file, "w") as outfile:
             outfile.write("contig\tgene_id\tgene_number\tlocus\tstrand\tHMM\tfull_label\n")
             outfile.writelines(output_lines)
+        # sort values by gene pos and contig
+        df = pd.read_csv(output_file, sep="\t").sort_values(["contig", "gene_number"]).to_csv(output_file, sep="\t")
         return None
 
-    def filterHitsBySyntenyStructure(self, output_tsv: str = None) -> pd.DataFrame:
+    def filterHitsBySyntenyStructure(self, output_tsv: str = None) -> dict:
         """
         Search for contigs that satisfy the given gene synteny structure
         @param: synteny_structure, a str describing the desired synteny structure,
@@ -298,13 +300,14 @@ class SyntenyHMMfilter():
                         (hmm_match == 1) &
                         (strand_match == 1)
                     ]
-
-                for i, row in matched_rows.iterrows():
+                
+                for i, _ in matched_rows.iterrows():
                     matched_hits = contig_hits.iloc[i - (self._n_hmms - 1): i + 1, :]
-                    for label, hmm in zip(matched_hits.full.values, matched_hits.hmm):
+                    for label, hmm in zip((matched_hits.full.values), matched_hits.hmm):
                         matched_hit_labels[hmm].append(label)
 
                 all_matched_hits[contig] = matched_hit_labels
+
         if output_tsv is not None:
             self._writeAllHitsToTSV(all_matched_hits, output_file=output_tsv)
         return all_matched_hits
