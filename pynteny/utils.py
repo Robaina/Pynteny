@@ -183,13 +183,20 @@ def fullPathListDir(dir: str) -> list:
     """
     return [os.path.join(dir, file) for file in os.listdir(dir)]
 
+def isTarFile(tar_file: str) -> bool:
+    return (
+        (tar_file.endswith('tar.gz')) or 
+        (tar_file.endswith('tgz')) or
+        (tar_file.endswith('tar'))
+        )
+
 def extractTarFile(tar_file: str, dest_dir: str = None) -> None:
     """
     Extract tar or tar.gz files to dest_dir
     """ 
     if dest_dir is None:
         dest_dir = '.'
-    if tar_file.endswith('tar.gz'):
+    if (tar_file.endswith('tar.gz')) or (tar_file.endswith('tgz')):
         tar = tarfile.open(tar_file, 'r:gz')
         tar.extractall(path=dest_dir)
         tar.close()
@@ -221,7 +228,23 @@ def easyPatternMatching(text: str, left_pattern: str, right_pattern: str = None)
         matched_text = left_subtext
     return matched_text
 
+def flattenDirectory(directory):
+    for dirpath, _, filenames in os.walk(directory, topdown=False):
+        for filename in filenames:
+            i = 0
+            source = os.path.join(dirpath, filename)
+            target = os.path.join(directory, filename)
+            while os.path.exists(target):
+                i += 1
+                file_parts = os.path.splitext(os.path.basename(filename))
 
+                target = os.path.join(
+                    directory,
+                    file_parts[0] + "_" + str(i) + file_parts[1],
+                )
+            shutil.move(source, target)
+        if dirpath != directory:
+            os.rmdir(dirpath)
 
 class DictMerger():
     def __init__(self, dicts: list[dict]) -> None:

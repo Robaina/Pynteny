@@ -4,7 +4,7 @@
 import os
 import argparse
 
-from pynteny.utils import setDefaultOutputPath
+from pynteny.utils import setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
 from pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser
 
 
@@ -29,7 +29,8 @@ required.add_argument('--hmm_dir', dest='hmm_dir', type=str,
                       required=True,
                       help=(
                           'path to directory containing hmm (i.e, tigrfam or pfam) models. '
-                          'The directory can contain more hmm models than used in the synteny structure.'
+                          'The directory can contain more hmm models than used in the synteny structure. '
+                          'It may also be the path to a compressed (tar, tar.gz, tgz) directory.'
                           )
 )
 required.add_argument('--synteny_struc', dest='synteny_struc', type=str, required=True,
@@ -79,6 +80,10 @@ parser.add_argument('--max_seq_length', dest='maxseqlength',
 
 
 args = parser.parse_args()
+
+if isTarFile(args.hmm_dir):
+    extractTarFile()
+
 hmm_names = SyntenyParser.getHMMsInStructure(args.synteny_struc)
 input_hmms = [
     os.path.join(args.hmm_dir, file)
