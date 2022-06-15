@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import os
-import shutil
 import argparse
 
-from pynteny.utils import setDefaultOutputPath, TemporaryFilePath
-from pynteny.filter import filterFASTABySyntenyStructure, filterFASTABySequenceLength, SyntenyParser
+from pynteny.utils import setDefaultOutputPath
+from pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser
 
 
 parser = argparse.ArgumentParser(
@@ -47,12 +46,6 @@ required.add_argument('--synteny_struc', dest='synteny_struc', type=str, require
 )
 required.add_argument('--in', dest='data', type=str, required=True,
                       help='path to peptide database'
-)
-optional.add_argument('--target_hmm', dest='target_hmm', type=str,
-                      required=False,
-                      help=(
-                          'name of target hmm model to be used to generate sequence database. '
-                          'Name must be equal to the name of one of the provided hmms')
 )
 optional.add_argument('--outdir', dest='outdir', type=str,
                       help='path to output directory'
@@ -104,36 +97,21 @@ if args.hmmsearch_args is None:
 hmmsearch_args = list(map(lambda x: x.strip(), hmmsearch_args.split(",")))
 hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
 hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
-output_fasta = os.path.join(args.outdir, f'{args.prefix}ref_database.faa')
     
 
 def main():
-    
-    print('* Searching database by synteny structure...')
-    with TemporaryFilePath() as tempfasta, TemporaryFilePath() as tempfasta2:
-        filterFASTABySyntenyStructure(
-            synteny_structure=args.synteny_struc,
-            target_hmm=args.target_hmm,
-            input_fasta=args.data,
-            input_hmms=input_hmms,
-            output_fasta=tempfasta,
-            output_dir=args.outdir,
-            hmmer_output_dir=hmmer_output_dir,
-            reuse_hmmer_results=True,
-            method='hmmsearch',
-            additional_args=hmmsearch_args #'--cut_nc'
-        )
-        
-        if (args.minseqlength is not None) or (args.maxseqlength is not None):
-            print("* Filtering sequences by established length bounds...")
-            filterFASTABySequenceLength(
-                input_fasta=tempfasta,
-                minLength=args.minseqlength,
-                maxLength=args.maxseqlength,
-                output_fasta=tempfasta2
-            )
-            shutil.move(tempfasta2, tempfasta)
-        shutil.move(tempfasta, output_fasta)
+    print(' 1. Searching database by synteny structure...')
+    filterFASTABySyntenyStructure(
+        synteny_structure=args.synteny_struc,
+        input_fasta=args.data,
+        input_hmms=input_hmms,
+        output_dir=args.outdir,
+        output_prefix=args.prefix,
+        hmmer_output_dir=hmmer_output_dir,
+        reuse_hmmer_results=True,
+        method='hmmsearch',
+        additional_args=hmmsearch_args
+    )
     print('Finished!')
 
 if __name__ == '__main__':

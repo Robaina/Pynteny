@@ -2,11 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import os
+import shutil
 import argparse
 
-from pynteny.utils import parallelizeOverInputFiles, fullPathListDir
+from pynteny.utils import TemporaryFilePath, parallelizeOverInputFiles, fullPathListDir, setDefaultOutputPath
 from pynteny.wrappers import runProdigal
-from pynteny.preprocessing import parseProdigalOutput, mergeFASTAs
+from pynteny.preprocessing import (
+    parseProdigalOutput, splitFASTAbyContigs,
+    mergeFASTAs, removeCorruptedSequences
+    )
 
 
 parser = argparse.ArgumentParser(
@@ -25,15 +29,15 @@ parser._action_groups.append(optional)
 required.add_argument('--assembly_fasta', dest='assembly_fasta', type=str,
                       required=True,
                       help=(
-                          'path to directory containing hmm (i.e, tigrfam or pfam) models. '
-                          'The directory can contain more hmm models than used in the synteny structure.'
+                          "path to assembly input nucleotide data. It can be a single FASTA file or "
+                          "a directory containing several FASTA files."
                           )
 )
 optional.add_argument('--outdir', dest='outdir', type=str,
                       help='path to output directory'
 )
 optional.add_argument('--prefix', dest='prefix', type=str,
-                      default='',
+                      default='prodigal',
                       help='prefix to be added to output files'
 )
 optional.add_argument("--processes", "-p", dest="processes", type=int,
@@ -42,7 +46,16 @@ optional.add_argument("--processes", "-p", dest="processes", type=int,
                           "Defaults to all but one."
                           )
                           )
-
+optional.add_argument('--split_contigs', dest='split',
+                      default=False, action='store_true',
+                      help='split assembly input file into files containing one contig each')
+optional.add_argument('--metagenome', dest='metagenome',
+                      default=False, action='store_true',
+                      help='treat input assembly as of type metagenome (for prodigal)')
+optional.add_argument("--prodigal_args", dest="prodigal_args", type=str,
+                      default=None, required=False,
+                      help=(("additional arguments to prodigal provided as defined by it"))
+                    )
 args = parser.parse_args()
 
 if args.processes is None:
@@ -51,38 +64,65 @@ if args.processes is None:
 def main():
 
 
-    if os.path.isdir(args.assembly_fasta):
+    if args.split:
+        print("1. Splitting assembly file...")
+        split_dir = os.path.join(
+            setDefaultOutputPath(args.assembly_fasta, only_dirname=True),
+            f"split_{setDefaultOutputPath(args.assembly_fasta, only_basename=True)}"
+        )
+        os.makedirs(split_dir)
+        splitFASTAbyContigs(
+            input_fasta=args.assembly_fasta,
+            output_dir=split_dir
+        )
+        input_assembly = split_dir
+    else:
+        input_assembly = args.assembly_fasta
+
+    print("2. Running prodigal on assembly...")
+    if os.path.isdir(input_assembly):
+        split_prodigal_dir = os.path.join(args.outdir, "split_prodigal/")
+        os.makedirs(split_prodigal_dir)
         parallelizeOverInputFiles(
             runProdigal, 
-            input_list=fullPathListDir(args.assembly_fasta),
+            input_list=fullPathListDir(input_assembly),
             n_processes=args.processes,
-            output_dir=args.outdir,
-            metagenome=True,
-            additional_args=None
+            output_dir=split_prodigal_dir,
+            metagenome=args.metagenome,
+            additional_args=args.prodigal_args
         )
         mergeFASTAs(
-            args.outdir,
-            output_fasta=os.path.join()
+            split_prodigal_dir,
+            output_fasta=os.path.join(
+                args.outdir,
+                f"{args.prefix}merged.faa"
+                )
         )
     else:
-        runProdigal(
-            input_file=args.assembly_fasta,
+        runProdigal(input_assembly,
+            input_file=input_assembly,
             output_prefix=args.prefix,
             output_dir=args.outdir,
             metagenome=True,
             additional_args=None
         )
+    shutil.rmtree(split_dir)
+    
+    print("3. Parsing prodigal output...")
+    with TemporaryFilePath() as tempfasta:
+        parseProdigalOutput(
+            prodigal_faa=os.path.join(args.outdir, f"{args.prefix}merged.faa"),
+            output_file=tempfasta
+        )
+        
+        removeCorruptedSequences(
+            fasta_file=tempfasta,
+            output_file=os.path.join(args.outdir, f"{args.prefix}positioned.faa"),
+            is_peptide=True,
+            keep_stop_codon=True
+        )
 
-    # assignGeneLocationToRecords(
-    #     gbk_file=os.path.join(args.outdir, f"{args.prefix}.gbk"),
-    #     output_fasta=os.path.join(args.outdir, "ref_database.faa"),
-    #     nucleotide=False
-    # )
-
-    # parseProdigalOutput(
-    #     prodigal_faa=os.path.join(args.outdir, f"{args.prefix}.faa"),
-    #     output_file=None
-    # )
+    print("Finished!")
 
 
 if __name__ == '__main__':
