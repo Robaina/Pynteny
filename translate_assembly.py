@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import shutil
 import argparse
 
 from pynteny.utils import parallelizeOverInputFiles, fullPathListDir, setDefaultOutputPath
@@ -102,7 +103,7 @@ def main():
             metagenome=True,
             additional_args=None
         )
-    os.remove(split_dir)
+    shutil.rmtree(split_dir)
     
     print("3. Parsing prodigal output...")
     parseProdigalOutput(
