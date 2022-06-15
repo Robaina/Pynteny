@@ -12,3 +12,4 @@ conda env create -f environment.yml
 # TODO: 
 1. Use Path from pathlib instead of str
 2. Enable search of TigrFAM by gene name? need gene/TigrFAM dictionary
+3. Enable inputing gbk files instead of fasta/assembly files
