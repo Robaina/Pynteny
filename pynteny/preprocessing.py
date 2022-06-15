@@ -43,7 +43,59 @@ def removeDuplicatesFromFasta(input_fasta: str,
 
     else:
         wrappers.runSeqKitNoDup(input_fasta=input_fasta, output_fasta=output_fasta,
+        
                                 export_duplicates=export_duplicates)
+
+@handle_exceptions
+def removeCorruptedSequences(fasta_file: str,
+                             output_file: str = None,
+                             is_peptide: bool = True,
+                             keep_stop_codon: bool = False) -> None:
+    """
+    Filter out (DNA or peptide) sequences containing illegal characters
+    """
+    dirname = os.path.dirname(fasta_file)
+    basename = os.path.basename(fasta_file)
+    fname, ext = os.path.splitext(basename)
+
+    def removeStopCodonSignals(record_seq: str) -> str:
+        return record_seq.replace('*', '')
+
+    def isLegitPeptideSequence(record_seq: str) -> bool:
+        """
+        Assert that peptide sequence only contains valid symbols
+        """
+        aas = {
+            'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
+            'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y', '*'
+        }
+        seq_symbols = {s.upper() for s in record_seq}
+        return seq_symbols.issubset(aas)
+
+    def isLegitDNAsequence(record_seq: str) -> bool:
+        """
+        Assert that DNA sequence only contains valid symbols
+        """
+        nts = {'A', 'G', 'T', 'C', 'N'}
+        seq_symbols = {s.upper() for s in record_seq}
+        return seq_symbols.issubset(nts)
+
+    if output_file is None:
+        output_file = os.path.join(dirname, f'{fname}_modified{ext}')
+    else:
+        output_file = os.path.abspath(output_file)
+    if is_peptide:
+        isLegitSequence = isLegitPeptideSequence
+    else:
+        isLegitSequence = isLegitDNAsequence
+
+    fasta = pyfastx.Fasta(fasta_file, build_index=False, full_name=True)
+    with open(output_file, 'w') as outfile:
+        for record_name, record_seq in fasta:
+            if is_peptide and (not keep_stop_codon):
+                record_seq = removeStopCodonSignals(record_seq)
+            if isLegitSequence(record_seq):
+                outfile.write(f'>{record_name}\n{record_seq}\n')
                                 
 
 def splitFASTAbyContigs(input_fasta: str, output_dir: str = None) -> None:

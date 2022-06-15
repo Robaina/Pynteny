@@ -5,9 +5,12 @@ import os
 import shutil
 import argparse
 
-from pynteny.utils import parallelizeOverInputFiles, fullPathListDir, setDefaultOutputPath
+from pynteny.utils import TemporaryFilePath, parallelizeOverInputFiles, fullPathListDir, setDefaultOutputPath
 from pynteny.wrappers import runProdigal
-from pynteny.preprocessing import parseProdigalOutput, splitFASTAbyContigs, mergeFASTAs
+from pynteny.preprocessing import (
+    parseProdigalOutput, splitFASTAbyContigs,
+    mergeFASTAs, removeCorruptedSequences
+    )
 
 
 parser = argparse.ArgumentParser(
@@ -106,10 +109,18 @@ def main():
     shutil.rmtree(split_dir)
     
     print("3. Parsing prodigal output...")
-    parseProdigalOutput(
-        prodigal_faa=os.path.join(args.outdir, f"{args.prefix}merged.faa"),
-        output_file=os.path.join(args.outdir, f"{args.prefix}positioned.faa")
-    )
+    with TemporaryFilePath() as tempfasta:
+        parseProdigalOutput(
+            prodigal_faa=os.path.join(args.outdir, f"{args.prefix}merged.faa"),
+            output_file=tempfasta
+        )
+        
+        removeCorruptedSequences(
+            fasta_file=tempfasta,
+            output_file=os.path.join(args.outdir, f"{args.prefix}positioned.faa"),
+            is_peptide=True,
+            keep_stop_codon=True
+        )
 
     print("Finished!")
 
