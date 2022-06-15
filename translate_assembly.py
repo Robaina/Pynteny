@@ -45,7 +45,13 @@ optional.add_argument("--processes", "-p", dest="processes", type=int,
 optional.add_argument('--split_contigs', dest='split',
                       default=False, action='store_true',
                       help='split assembly input file into files containing one contig each')
-
+optional.add_argument('--metagenome', dest='metagenome',
+                      default=False, action='store_true',
+                      help='treat input assembly as of type metagenome (for prodigal)')
+optional.add_argument("--prodigal_args", dest="prodigal_args", type=str,
+                      default=None, required=False,
+                      help=(("additional arguments to prodigal provided as defined by it"))
+                    )
 args = parser.parse_args()
 
 if args.processes is None:
@@ -78,14 +84,14 @@ def main():
             input_list=fullPathListDir(input_assembly),
             n_processes=args.processes,
             output_dir=split_prodigal_dir,
-            metagenome=True,
-            additional_args=None
+            metagenome=args.metagenome,
+            additional_args=args.prodigal_args
         )
         mergeFASTAs(
             split_prodigal_dir,
             output_fasta=os.path.join(
                 args.outdir,
-                f"{args.prefix}.faa"
+                f"{args.prefix}merged.faa"
                 )
         )
     else:
@@ -96,11 +102,12 @@ def main():
             metagenome=True,
             additional_args=None
         )
+    os.remove(split_dir)
     
     print("3. Parsing prodigal output...")
     parseProdigalOutput(
-        prodigal_faa=os.path.join(args.outdir, f"{args.prefix}.faa"),
-        output_file=None
+        prodigal_faa=os.path.join(args.outdir, f"{args.prefix}merged.faa"),
+        output_file=os.path.join(args.outdir, f"{args.prefix}positioned.faa")
     )
 
     print("Finished!")

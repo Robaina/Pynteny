@@ -24,7 +24,7 @@ python translate_assembly.py \
  --outdir /home/robaina/Databases/MAR_database/ \
  --prefix "marref_V6_" \
  --processes 7 \
- --split_contigs
+ --split_contigs --metagenome
 
 # python synteny_search.py \
 #  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
