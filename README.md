@@ -14,3 +14,4 @@ conda env create -f environment.yml
 2. Enable search of TigrFAM by gene name? need gene/TigrFAM dictionary
 3. Organize code into a package / CLI
 4. Use python logger instead of print statements
+5. Enable inputing gbk files instead of fasta/assembly files
