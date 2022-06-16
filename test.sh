@@ -33,11 +33,3 @@
 #  --outdir /home/robaina/Documents/Pynteny/tests/sar11_results \
 #  --prefix "sar11_" \
 #  --synteny_struc "<TIGR00170.1 10 >TIGR00652.1"  # "<TIGR00169.1 0 <TIGR00171.1 0 <TIGR00170.1"
-
-
-python synteny_search.py \
- --hmm_dir /home/robaina/Downloads/hmm_PGAP.HMM.tgz \
- --in /home/robaina/Databases/MAR_database/marref_V6_positioned_clean.faa \
- --outdir /home/robaina/Documents/Pynteny/tests/sar11_results \
- --prefix "sar11_" \
- --synteny_struc "<TIGR00170.1 10 >TIGR00652.1"  # "<TIGR00169.1 0 <TIGR00171.1 0 <TIGR00170.1"

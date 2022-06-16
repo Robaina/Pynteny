@@ -253,7 +253,7 @@ class SyntenyHMMfilter():
             outfile.write("contig\tgene_id\tgene_number\tlocus\tstrand\tHMM\tfull_label\n")
             outfile.writelines(output_lines)
         # sort values by gene pos and contig
-        df = pd.read_csv(output_file, sep="\t").sort_values(["contig", "gene_number"]).to_csv(output_file, sep="\t")
+        pd.read_csv(output_file, sep="\t").sort_values(["contig", "gene_number"]).to_csv(output_file, sep="\t")
         return None
 
     def filterHitsBySyntenyStructure(self, output_tsv: str = None) -> dict:

@@ -4,6 +4,7 @@
 import os
 import shutil
 import argparse
+from pathlib import Path
 
 from pynteny.utils import setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
 from pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser
