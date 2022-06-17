@@ -13,6 +13,7 @@ import string
 import subprocess
 import tarfile
 import pickle
+from pathlib import Path
 from functools import partial
 from multiprocessing import Pool
 
@@ -99,7 +100,7 @@ def deleteTemporaryFiles(dir_path: str) -> None:
     for fname in os.listdir(dir_path):
         os.remove(os.path.join(dir_path, fname))
 
-def setDefaultOutputPath(input_path: str, tag: str = None,
+def setDefaultOutputPath(input_path: Path, tag: str = None,
                          extension: str = None,
                          only_filename: bool = False,
                          only_basename: bool = False,
@@ -107,22 +108,21 @@ def setDefaultOutputPath(input_path: str, tag: str = None,
     """
     Get default path to output file or directory
     """
-    basename = os.path.basename(input_path)
-    dirname = os.path.dirname(input_path)
-    fname, ext = os.path.splitext(basename)
+    dirname = input_path.parent
+    fname, ext = input_path.stem, input_path.suffix
     if extension is None:
         extension = ext
     if tag is None:
         tag = ''
     default_file = f'{fname}{tag}{extension}'
     if only_basename:
-        return fname
+        return Path(fname)
     if only_filename:
-        return default_file
+        return Path(default_file)
     if only_dirname:
-        return dirname
+        return Path(dirname)
     else:
-        return os.path.abspath(os.path.join(dirname, default_file))
+        return Path(os.path.abspath(os.path.join(dirname, default_file)))
 
 def saveToPickleFile(python_object, path_to_file='object.pkl'):
     """

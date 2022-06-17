@@ -6,10 +6,28 @@ Simple CLI wrappers to several tools
 """
 
 import os
+from pathlib import Path
 
 from pynteny.utils import terminalExecute, setDefaultOutputPath
 
-        
+
+def runSeqKitNoDup(input_fasta: str, output_fasta: Path = None,
+                   export_duplicates: bool = False):
+    """
+    Simpe CLI wrapper to seqkit rmdup
+    """
+    if output_fasta is None:
+        output_fasta = setDefaultOutputPath(input_fasta, tag="_no_duplicates")
+    if export_duplicates:
+        dup_file = setDefaultOutputPath(input_fasta, tag="_duplicates", extension=".txt")
+        dup_str = f"-D {dup_file.as_posix()}"
+    else:
+        dup_str = ""
+    cmd_str = (
+        f"seqkit rmdup {input_fasta} -s {dup_str} -o {output_fasta.as_posix()}"
+    )
+    terminalExecute(cmd_str)
+
 def runProdigal(input_file: str, output_prefix: str = None,
                 output_dir: str = None,
                 metagenome: bool = False,

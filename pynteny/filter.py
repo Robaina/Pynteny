@@ -10,6 +10,7 @@ Tools to create peptide-specific sequence databases
 
 from __future__ import annotations
 import os
+from pathlib import Path
 from collections import defaultdict
 
 import pandas as pd
@@ -434,3 +435,54 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
             )
         else:
             print(f"No record matches found in synteny structure for HMM: {hmm_name}")
+
+
+class HMMER:
+    def __init__(self, hmm_output_dir: Path,
+                 input_data: Path) -> None:
+        """
+        Run Hmmer on multiple hmms and parse output
+        """
+        self._hmmer_output_dir = hmm_output_dir
+        self._input_fasta = input_data
+
+    @staticmethod
+    def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
+        """
+        Parse hmmsearch or hmmscan summary table output file
+        """
+        attribs = ['id', 'bias', 'bitscore', 'description']
+        hits = defaultdict(list)
+        with open(hmmer_output) as handle:
+            for queryresult in SearchIO.parse(handle, 'hmmer3-tab'):
+                for hit in queryresult.hits:
+                    for attrib in attribs:
+                        hits[attrib].append(getattr(hit, attrib))
+        return pd.DataFrame.from_dict(hits)
+    
+    def getHMMERtables(self, input_hmms: list[Path],
+                       additional_args: list[str],
+                       reuse_hmmer_results: bool = True,
+                       method: str = None) -> dict[pd.DataFrame]:
+        """
+        Run hmmer for given hmm list
+        """
+        hmm_names, hmm_hits = [], {}
+        for hmm_model, add_args in zip(input_hmms, additional_args):
+            hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
+            hmmer_output = os.path.join(self._hmmer_output_dir, f'hmmer_output_{hmm_name}.txt')
+            hmm_names.append(hmm_name)
+
+            if not (reuse_hmmer_results and os.path.isfile(hmmer_output)):
+                wrappers.runHMMsearch(
+                    hmm_model=hmm_model,
+                    input_fasta=self._input_fasta,
+                    output_file=hmmer_output,
+                    method=method,
+                    additional_args=add_args
+                    )
+            elif reuse_hmmer_results and os.path.isfile(hmmer_output):
+                print(f"*  Reusing Hmmer results for HMM: {hmm_name}")
+
+            hmm_hits[hmm_name] = HMMER.parseHMMsearchOutput(hmmer_output)
+        return hmm_hits
