@@ -27,7 +27,7 @@ optional = parser._action_groups.pop()
 required = parser.add_argument_group('required arguments')
 parser._action_groups.append(optional)
 
-required.add_argument('--hmm_dir', dest='hmm_dir', type=str,
+required.add_argument('--hmm_dir', dest='hmm_dir', type=Path,
                       required=True,
                       help=(
                           'path to directory containing hmm (i.e, tigrfam or pfam) models. '
@@ -47,10 +47,10 @@ required.add_argument('--synteny_struc', dest='synteny_struc', type=str, require
                           'of strand location. '
                           )
 )
-required.add_argument('--in', dest='data', type=str, required=True,
+required.add_argument('--in', dest='data', type=Path, required=True,
                       help='path to peptide database'
 )
-optional.add_argument('--outdir', dest='outdir', type=str,
+optional.add_argument('--outdir', dest='outdir', type=Path,
                       help='path to output directory'
 )
 optional.add_argument('--prefix', dest='prefix', type=str,
@@ -85,10 +85,7 @@ args = parser.parse_args()
 
 if isTarFile(args.hmm_dir):
     print("0. Extracting hmm files to temporary directory...")
-    temp_hmm_dir = os.path.join(
-        setDefaultOutputPath(args.hmm_dir, only_dirname=True),
-        "temp_hmm_dir"
-        )
+    temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
     extractTarFile(
         tar_file=args.hmm_dir,
         dest_dir=temp_hmm_dir
@@ -102,7 +99,7 @@ else:
 
 hmm_names = SyntenyParser.getHMMsInStructure(args.synteny_struc)
 input_hmms = [
-    os.path.join(hmm_dir, file)
+    Path(os.path.join(hmm_dir, file))
     for file in os.listdir(hmm_dir)
     if any([hmm_name in file for hmm_name in hmm_names])
 ]

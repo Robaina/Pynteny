@@ -15,9 +15,9 @@ from collections import defaultdict
 
 import pandas as pd
 from Bio import SearchIO
-import pyfastx
 
 import pynteny.wrappers as wrappers
+from pynteny.preprocessing import FASTA
 from pynteny.utils import setDefaultOutputPath
 
 
@@ -314,43 +314,68 @@ class SyntenyHMMfilter():
         return all_matched_hits
 
 
-def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
-    """
-    Parse hmmsearch or hmmscan summary table output file
-    """
-    attribs = ['id', 'bias', 'bitscore', 'description']
-    hits = defaultdict(list)
-    with open(hmmer_output) as handle:
-        for queryresult in SearchIO.parse(handle, 'hmmer3-tab'):
-            for hit in queryresult.hits:
-                for attrib in attribs:
-                    hits[attrib].append(getattr(hit, attrib))
-    return pd.DataFrame.from_dict(hits)
+class HMMER:
+    def __init__(self, input_hmms: list[Path],
+                 hmm_output_dir: Path,
+                 input_data: Path,
+                 additional_args: list[str]) -> None:
+        """
+        Run Hmmer on multiple hmms and parse output
+        """
+        self._hmmer_output_dir = hmm_output_dir
+        self._input_hmms = input_hmms
+        self._input_fasta = input_data
+        self._additional_args = additional_args
+        return None
 
-def filterFASTAbyIDs(input_fasta: str, record_ids: list,
-                     output_fasta: str = None) -> None:
-    """
-    Filter records in fasta file matching provided IDs
-    """
-    if output_fasta is None:
-       output_fasta = setDefaultOutputPath(input_fasta, '_fitered')
-    record_ids = set(record_ids)
-    fa = pyfastx.Fasta(input_fasta)
-    with open(output_fasta, 'w') as fp:
-        for record_id in record_ids:
-            try:
-                record_obj = fa[record_id]
-                fp.write(record_obj.raw)
-            except:
-                pass
-    os.remove(input_fasta + ".fxi")
+    @property
+    def hmm_names(self) -> list[str]:
+        return [hmm_path.stem for hmm_path in self._input_hmms]
+
+    @staticmethod
+    def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
+        """
+        Parse hmmsearch or hmmscan summary table output file
+        """
+        attribs = ['id', 'bias', 'bitscore', 'description']
+        hits = defaultdict(list)
+        with open(hmmer_output) as handle:
+            for queryresult in SearchIO.parse(handle, 'hmmer3-tab'):
+                for hit in queryresult.hits:
+                    for attrib in attribs:
+                        hits[attrib].append(getattr(hit, attrib))
+        return pd.DataFrame.from_dict(hits)
+    
+    def getHMMERtables(self,
+                       reuse_hmmer_results: bool = True,
+                       method: str = None) -> dict[pd.DataFrame]:
+        """
+        Run hmmer for given hmm list
+        """
+        hmm_hits = {}
+        for hmm_model, add_args in zip(self._input_hmms, self._additional_args):
+            hmm_name = hmm_model.stem
+            hmmer_output = Path(os.path.join(self._hmmer_output_dir, f'hmmer_output_{hmm_name}.txt'))
+            if not (reuse_hmmer_results and os.path.isfile(hmmer_output)):
+                wrappers.runHMMsearch(
+                    hmm_model=hmm_model,
+                    input_fasta=self._input_fasta,
+                    output_file=hmmer_output,
+                    method=method,
+                    additional_args=add_args
+                    )
+            elif reuse_hmmer_results and os.path.isfile(hmmer_output):
+                print(f"*  Reusing Hmmer results for HMM: {hmm_name}")
+            hmm_hits[hmm_name] = HMMER.parseHMMsearchOutput(hmmer_output)
+        return hmm_hits
+
 
 def filterFASTABySyntenyStructure(synteny_structure: str,
-                                  input_fasta: str,
-                                  input_hmms: list[str],
-                                  output_dir: str = None,
+                                  input_fasta: Path,
+                                  input_hmms: list[Path],
+                                  output_dir: Path = None,
                                   output_prefix: str = None,
-                                  hmmer_output_dir: str = None,
+                                  hmmer_output_dir: Path = None,
                                   reuse_hmmer_results: bool = True,
                                   method: str = 'hmmsearch',
                                   additional_args: list[str] = None) -> None:
@@ -392,31 +417,24 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
         os.mkdir(hmmer_output_dir)
     
     if output_dir is None:
-        output_dir = setDefaultOutputPath(input_fasta, only_dirname=True)
+        output_dir = setDefaultOutputPath(input_fasta.as_posix(), only_dirname=True)
     else:
         output_dir = output_dir
 
-    results_table = os.path.join(output_dir, f"{output_prefix}synteny_matched.tsv")
+    results_table = output_dir / f"{output_prefix}synteny_matched.tsv"
 
     print('* Running Hmmer...')
-    hmm_names, hmm_hits = [], {}
-    for hmm_model, add_args in zip(input_hmms, additional_args):
-        hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
-        hmmer_output = os.path.join(hmmer_output_dir, f'hmmer_output_{hmm_name}.txt')
-        hmm_names.append(hmm_name)
-
-        if not (reuse_hmmer_results and os.path.isfile(hmmer_output)):
-            wrappers.runHMMsearch(
-                hmm_model=hmm_model,
-                input_fasta=input_fasta,
-                output_file=hmmer_output,
-                method=method,
-                additional_args=add_args
-                )
-        elif reuse_hmmer_results and os.path.isfile(hmmer_output):
-            print(f"*  Reusing Hmmer results for HMM: {hmm_name}")
-
-        hmm_hits[hmm_name] = parseHMMsearchOutput(hmmer_output)
+    hmmer = HMMER(
+        input_hmms=input_hmms,
+        input_data=input_fasta,
+        hmm_output_dir=hmmer_output_dir,
+        additional_args=additional_args
+    )
+    hmm_names = hmmer.hmm_names
+    hmm_hits = hmmer.getHMMERtables(
+        reuse_hmmer_results=reuse_hmmer_results,
+        method=method
+    )
 
     print('* Filtering results by synteny structure...')
     syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure)
@@ -424,65 +442,16 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
         output_tsv=results_table
         )
     print("* Writing matching sequences to FASTA files...")
+    fasta = FASTA(input_fasta)
     df = pd.read_csv(results_table, sep="\t")
     for hmm_name in hmm_names:
         record_ids = df[df.HMM == hmm_name].full_label.values.tolist()
+        output_fasta = output_dir / f"{output_prefix}{hmm_name}_hits.fasta"
         if record_ids:
-            filterFASTAbyIDs(
-                input_fasta=input_fasta,
+            fasta.filterByIDs(
                 record_ids=record_ids,
-                output_fasta=os.path.join(output_dir, f"{output_prefix}{hmm_name}_hits.fasta")
+                output_file=output_fasta
+                
             )
         else:
             print(f"No record matches found in synteny structure for HMM: {hmm_name}")
-
-
-class HMMER:
-    def __init__(self, hmm_output_dir: Path,
-                 input_data: Path) -> None:
-        """
-        Run Hmmer on multiple hmms and parse output
-        """
-        self._hmmer_output_dir = hmm_output_dir
-        self._input_fasta = input_data
-
-    @staticmethod
-    def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
-        """
-        Parse hmmsearch or hmmscan summary table output file
-        """
-        attribs = ['id', 'bias', 'bitscore', 'description']
-        hits = defaultdict(list)
-        with open(hmmer_output) as handle:
-            for queryresult in SearchIO.parse(handle, 'hmmer3-tab'):
-                for hit in queryresult.hits:
-                    for attrib in attribs:
-                        hits[attrib].append(getattr(hit, attrib))
-        return pd.DataFrame.from_dict(hits)
-    
-    def getHMMERtables(self, input_hmms: list[Path],
-                       additional_args: list[str],
-                       reuse_hmmer_results: bool = True,
-                       method: str = None) -> dict[pd.DataFrame]:
-        """
-        Run hmmer for given hmm list
-        """
-        hmm_names, hmm_hits = [], {}
-        for hmm_model, add_args in zip(input_hmms, additional_args):
-            hmm_name, _ = os.path.splitext(os.path.basename(hmm_model))
-            hmmer_output = os.path.join(self._hmmer_output_dir, f'hmmer_output_{hmm_name}.txt')
-            hmm_names.append(hmm_name)
-
-            if not (reuse_hmmer_results and os.path.isfile(hmmer_output)):
-                wrappers.runHMMsearch(
-                    hmm_model=hmm_model,
-                    input_fasta=self._input_fasta,
-                    output_file=hmmer_output,
-                    method=method,
-                    additional_args=add_args
-                    )
-            elif reuse_hmmer_results and os.path.isfile(hmmer_output):
-                print(f"*  Reusing Hmmer results for HMM: {hmm_name}")
-
-            hmm_hits[hmm_name] = HMMER.parseHMMsearchOutput(hmmer_output)
-        return hmm_hits

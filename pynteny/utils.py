@@ -177,37 +177,38 @@ def parallelizeOverInputFiles(callable,
     p.close()
     p.join()
 
-def fullPathListDir(dir: str) -> list:
+def fullPathListDir(directory: Path) -> list[Path]:
     """
     Return full path of files in provided directory
     """
-    return [os.path.join(dir, file) for file in os.listdir(dir)]
+    return list(directory.iterdir())
 
-def isTarFile(tar_file: str) -> bool:
+def isTarFile(tar_file: Path) -> bool:
+    tar_file_str = tar_file.as_posix()
     return (
-        (tar_file.endswith('tar.gz')) or 
-        (tar_file.endswith('tgz')) or
-        (tar_file.endswith('tar'))
+        (tar_file_str.endswith('tar.gz')) or 
+        (tar_file_str.endswith('tgz')) or
+        (tar_file_str.endswith('tar'))
         )
 
-def extractTarFile(tar_file: str, dest_dir: str = None) -> None:
+def extractTarFile(tar_file: Path, dest_dir: Path = None) -> None:
     """
     Extract tar or tar.gz files to dest_dir
     """ 
     if dest_dir is None:
         dest_dir = '.'
-    if (tar_file.endswith('tar.gz')) or (tar_file.endswith('tgz')):
+    if (tar_file.as_posix().endswith('tar.gz')) or (tar_file.as_posix().endswith('tgz')):
         tar = tarfile.open(tar_file, 'r:gz')
         tar.extractall(path=dest_dir)
         tar.close()
-    elif tar_file.endswith('tar'):
+    elif tar_file.as_posix().endswith('tar'):
         tar = tarfile.open(tar_file, 'r:')
         tar.extractall(path=dest_dir)
         tar.close()
     else:
         raise ValueError('Input is not a tar file')
 
-def listTarDir(tar_dir: str) -> list:
+def listTarDir(tar_dir: Path) -> list:
     """
     List files within tar or tar.gz directory
     """

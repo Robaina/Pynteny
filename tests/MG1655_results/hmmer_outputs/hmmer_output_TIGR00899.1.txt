@@ -18,8 +18,8 @@ b3662__U00096_3591_3840548_3841739_neg -          2A0120               TIGR00899
 # Version:         3.3.2 (Nov 2020)
 # Pipeline mode:   SEARCH
 # Query file:      /home/robaina/Databases/hmm_PGAP/TIGR00899.1.HMM
-# Target file:     /home/robaina/Documents/Pynteny/MG1655.fasta
-# Option settings: hmmsearch --tblout /home/robaina/Documents/Pynteny/MG1655_results/hmmer_outputs/hmmer_output_TIGR00899.1.txt --cpu 15 /home/robaina/Databases/hmm_PGAP/TIGR00899.1.HMM /home/robaina/Documents/Pynteny/MG1655.fasta 
+# Target file:     /home/robaina/Documents/Pynteny/tests/MG1655.fasta
+# Option settings: hmmsearch --tblout /home/robaina/Documents/Pynteny/tests/MG1655_results/hmmer_outputs/hmmer_output_TIGR00899.1.txt --cpu 15 /home/robaina/Databases/hmm_PGAP/TIGR00899.1.HMM /home/robaina/Documents/Pynteny/tests/MG1655.fasta 
 # Current dir:     /home/robaina/Documents/Pynteny
-# Date:            Fri Jun  3 10:23:38 2022
+# Date:            Sat Jun 18 18:07:43 2022
 # [ok]

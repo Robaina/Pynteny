@@ -11,15 +11,16 @@ from pathlib import Path
 from pynteny.utils import terminalExecute, setDefaultOutputPath
 
 
-def runSeqKitNoDup(input_fasta: str, output_fasta: Path = None,
+
+def runSeqKitNoDup(input_fasta: Path, output_fasta: Path = None,
                    export_duplicates: bool = False):
     """
     Simpe CLI wrapper to seqkit rmdup
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta, tag="_no_duplicates")
+        output_fasta = setDefaultOutputPath(input_fasta.as_posix(), tag="_no_duplicates")
     if export_duplicates:
-        dup_file = setDefaultOutputPath(input_fasta, tag="_duplicates", extension=".txt")
+        dup_file = setDefaultOutputPath(input_fasta.as_posix(), tag="_duplicates", extension=".txt")
         dup_str = f"-D {dup_file.as_posix()}"
     else:
         dup_str = ""
@@ -57,8 +58,8 @@ def runProdigal(input_file: str, output_prefix: str = None,
         )
     terminalExecute(cmd_str, suppress_shell_output=False)
 
-def runHMMsearch(hmm_model: str, input_fasta: str,
-                 output_file: str = None,
+def runHMMsearch(hmm_model: Path, input_fasta: Path,
+                 output_file: Path = None,
                  method: str = 'hmmsearch',
                  n_processes: int = None,
                  additional_args: str = None) -> None:
@@ -69,7 +70,7 @@ def runHMMsearch(hmm_model: str, input_fasta: str,
     if n_processes is None:
         n_processes = os.cpu_count() - 1
     if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta, '_hmmer_hits', '.txt')
+        output_file = setDefaultOutputPath(input_fasta.as_posix(), '_hmmer_hits', '.txt')
     if additional_args is not None:
         args_str = additional_args
     else:
