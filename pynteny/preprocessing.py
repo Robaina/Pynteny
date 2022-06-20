@@ -9,6 +9,7 @@ Tools to preprocess sequence databases
 3. Relabel fasta records and make dictionary with old labels
 """
 
+from __future__ import annotations
 import os
 from pathlib import Path
 # from typing import Self
@@ -85,7 +86,7 @@ class FASTA():
         Removes duplicate entries (either by sequence or ID) from fasta.
         """
         if output_file is None:
-            output_file = setDefaultOutputPath(self._input_file_str, '_noduplicates')
+            output_file = setDefaultOutputPath(self._input_file, '_noduplicates')
 
         if 'bio' in method:
             seen_seqs, seen_ids = set(), set()
@@ -133,7 +134,7 @@ class FASTA():
         Filter records in fasta file matching provided IDs
         """
         if output_file is None:
-            output_file = setDefaultOutputPath(self._input_file_str, '_fitered')
+            output_file = setDefaultOutputPath(self._input_file, '_fitered')
         record_ids = set(record_ids)
         fa = pyfastx.Fasta(self._input_file_str)
         with open(output_file, 'w') as fp:
@@ -246,3 +247,51 @@ class LabelledFASTA(FASTA):
                     if "cds" in feature.type.lower():
                         gene_counter = write_record(gbk_contig, feature, outfile, gene_counter)
         return cls(output_file)
+
+
+class PGAP:
+    def __init__(self, meta_file: Path) -> None:
+        """
+        Tools to parse PGAP hmm database metadata
+        """
+        meta = pd.read_csv(meta_file, sep="\t")
+        meta = meta[["#ncbi_accession", "gene_symbol", "product_name"]]
+        self._meta = meta
+        return None 
+
+    def getHMMnamesByGeneID(self, gene_id: str) -> list[str]:
+        """
+        Try to retrieve HMM by its gene symbol, more
+        than one HMM may map to a single gene symbol
+        """
+        meta = self._meta.dropna(subset=["gene_symbol"], axis=0)
+        try:
+            return meta[
+                meta.gene_symbol == gene_id
+                ]["#ncbi_accession"].values.tolist()
+        except:
+            return None
+    
+    def getHMMgeneID(self, hmm_name: str) -> list[str]: 
+        """
+        Get gene symbol of given hmm
+        """
+        meta = self._meta.dropna(subset=["#ncbi_accession"], axis=0)
+        try:
+            return meta[
+                meta["#ncbi_accession"] == hmm_name
+            ]["gene_symbol"].values.tolist()
+        except:
+            return None
+
+    def getHMMgeneProduct(self, hmm_name: str) -> list[str]: 
+        """
+        Get gene product of given hmm
+        """
+        meta = self._meta.dropna(subset=["#ncbi_accession"], axis=0)
+        try:
+            return meta[
+                meta["#ncbi_accession"] == hmm_name
+            ]["product_name"].values.tolist()
+        except:
+            return None

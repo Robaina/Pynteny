@@ -18,10 +18,10 @@ def runSeqKitNoDup(input_fasta: Path, output_fasta: Path = None,
     Simpe CLI wrapper to seqkit rmdup
     """
     if output_fasta is None:
-        output_fasta = setDefaultOutputPath(input_fasta.as_posix(), tag="_no_duplicates")
+        output_fasta = setDefaultOutputPath(input_fasta, tag="_no_duplicates")
     if export_duplicates:
-        dup_file = setDefaultOutputPath(input_fasta.as_posix(), tag="_duplicates", extension=".txt")
-        dup_str = f"-D {dup_file.as_posix()}"
+        dup_file = setDefaultOutputPath(input_fasta, tag="_duplicates", extension=".txt")
+        dup_str = f"-D {dup_file}"
     else:
         dup_str = ""
     cmd_str = (
@@ -29,8 +29,9 @@ def runSeqKitNoDup(input_fasta: Path, output_fasta: Path = None,
     )
     terminalExecute(cmd_str)
 
-def runProdigal(input_file: str, output_prefix: str = None,
-                output_dir: str = None,
+def runProdigal(input_file: Path,
+                output_prefix: str = None,
+                output_dir: Path = None,
                 metagenome: bool = False,
                 additional_args: str = None):
     """
@@ -50,8 +51,8 @@ def runProdigal(input_file: str, output_prefix: str = None,
         args_str = additional_args
     else:
         args_str = ''
-    output_gbk = os.path.join(output_dir, output_prefix + '.gbk')
-    output_fasta = os.path.join(output_dir, output_prefix + '.faa')
+    output_gbk = output_dir / f"{output_prefix}.gbk"
+    output_fasta = output_dir / f"{output_prefix}.faa"
     cmd_str = (
         f'prodigal -i {input_file} -o {output_gbk} -p {procedure} '
         f'-a {output_fasta} -q {args_str}'
@@ -70,7 +71,7 @@ def runHMMsearch(hmm_model: Path, input_fasta: Path,
     if n_processes is None:
         n_processes = os.cpu_count() - 1
     if output_file is None:
-        output_file = setDefaultOutputPath(input_fasta.as_posix(), '_hmmer_hits', '.txt')
+        output_file = setDefaultOutputPath(input_fasta, '_hmmer_hits', '.txt')
     if additional_args is not None:
         args_str = additional_args
     else:
@@ -81,7 +82,7 @@ def runHMMsearch(hmm_model: Path, input_fasta: Path,
         )
     terminalExecute(cmd_str, suppress_shell_output=True)
 
-def runHMMbuild(input_aln: str, output_hmm: str = None,
+def runHMMbuild(input_aln: Path, output_hmm: Path = None,
                 additional_args: str = None) -> None:
     """
     Simple CLI wrapper to hmmbuild (build HMM profile from MSA file)

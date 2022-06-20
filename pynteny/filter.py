@@ -84,15 +84,18 @@ class SyntenyParser():
     @staticmethod
     def getHMMsInStructure(synteny_structure: str) -> list[str]:
         """
-        Get hmm names employed in synteny structure
+        Get hmm names employed in synteny structure,
+        if more than one hmm for the same gene, return
+        a list with all of them.
         """
         links = synteny_structure.strip().split()
         if not links:
             raise ValueError("Invalid format for synteny structure")
-        return [
+        hmm_names = [
             SyntenyParser.splitStrandFromLocus(h)[1] 
             for h in links if not h.isdigit()
             ]
+        return list(map(lambda x: x.split("|") if "|" in x else x, hmm_names))
 
     @staticmethod
     def getStrandsInStructure(synteny_structure: str) -> list[str]:
@@ -113,6 +116,8 @@ class SyntenyParser():
         Get maximum gene distances in structure
         """
         links = synteny_structure.strip().split()
+        if not links:
+            raise ValueError("Invalid format for synteny structure")
         return [int(dist) for dist in links if dist.isdigit()]
 
     @staticmethod
@@ -417,7 +422,7 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
         os.mkdir(hmmer_output_dir)
     
     if output_dir is None:
-        output_dir = setDefaultOutputPath(input_fasta.as_posix(), only_dirname=True)
+        output_dir = setDefaultOutputPath(input_fasta, only_dirname=True)
     else:
         output_dir = output_dir
 
