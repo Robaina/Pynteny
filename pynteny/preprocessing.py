@@ -58,8 +58,8 @@ class FASTA():
         """
         Class to handle and process fasta files
         """
-        self._input_file_str = input_file.as_posix()
         self._input_file = Path(input_file)
+        self._input_file_str = self._input_file.as_posix()
         return None
 
     @staticmethod
@@ -134,7 +134,7 @@ class FASTA():
         Filter records in fasta file matching provided IDs
         """
         if output_file is None:
-            output_file = setDefaultOutputPath(self._input_file, '_fitered')
+            output_file = setDefaultOutputPath(self._input_file, tag="_fitered")
         record_ids = set(record_ids)
         fa = pyfastx.Fasta(self._input_file_str)
         with open(output_file, 'w') as fp:
@@ -154,7 +154,7 @@ class FASTA():
         if output_dir is None:
             output_dir = Path(self._input_file.parent) / "split_" + self._input_file.name
         os.makedirs(output_dir, exist_ok=True)
-        contigs = pyfastx.Fasta(self._input_file, build_index=False, full_name=True)
+        contigs = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
         for contig_name, seq in contigs:
             outfile = output_dir / f"{contig_name.split(' ')[0]}{self._input_file.suffix}"
             with open(outfile, "w+") as file:
@@ -164,13 +164,9 @@ class FASTA():
 
 
 class LabelledFASTA(FASTA):
-    def __init__(self, input_file: Path) -> None:
-        """
-        Tools to add and parse FASTA with positional info on record tags
-        """
-        self._input_file = input_file
-        return None
-    
+    """
+    Tools to add and parse FASTA with positional info on record tags
+    """
     @classmethod
     def fromProdigalOutput(cls,
                            prodigal_faa: Path,
@@ -182,7 +178,7 @@ class LabelledFASTA(FASTA):
         number_prodigal_record_fields = 9
         if output_file is None:
             output_file = setDefaultOutputPath(prodigal_faa, tag="_longlabels")
-        data = pyfastx.Fasta(prodigal_faa, build_index=False, full_name=True)
+        data = pyfastx.Fasta(prodigal_faa.as_posix(), build_index=False, full_name=True)
         with open(output_file, "w") as outfile:
             for record_name, record_seq in data:
                 name_list = record_name.split(" ")
@@ -195,7 +191,7 @@ class LabelledFASTA(FASTA):
                 header = f">{contig}_{gene_number}__{contig}_{gene_number}_{start}_{end}_{strand}"
                 outfile.write(header + "\n")
                 outfile.write(record_seq + "\n")
-        return LabelledFASTA(output_file)
+        return cls(output_file)
 
     @classmethod
     def fromGenBankFile(cls,

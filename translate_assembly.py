@@ -4,13 +4,14 @@
 import os
 import shutil
 import argparse
+from pathlib import Path
 
 from pynteny.utils import TemporaryFilePath, parallelizeOverInputFiles, fullPathListDir, setDefaultOutputPath
 from pynteny.wrappers import runProdigal
-from pynteny.preprocessing import (
-    parseProdigalOutput, splitFASTAbyContigs,
-    mergeFASTAs, removeCorruptedSequences
-    )
+from pynteny.preprocessing import FASTA, LabelledFASTA
+    # (parseProdigalOutput, splitFASTAbyContigs,
+    # mergeFASTAs, removeCorruptedSequences
+    # )
 
 
 parser = argparse.ArgumentParser(
@@ -19,26 +20,26 @@ parser = argparse.ArgumentParser(
         "to each identified ORF (using prodigal). Then label predicted ORFs according to "
         "positional info and export a fasta file containing predicted and translated ORFs."
         ),
-    epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2022'
+    epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022"
     )
 
 optional = parser._action_groups.pop()
-required = parser.add_argument_group('required arguments')
+required = parser.add_argument_group("required arguments")
 parser._action_groups.append(optional)
 
-required.add_argument('--assembly_fasta', dest='assembly_fasta', type=str,
+required.add_argument("--assembly_fasta", dest="assembly_fasta", type=Path,
                       required=True,
                       help=(
                           "path to assembly input nucleotide data. It can be a single FASTA file or "
                           "a directory containing several FASTA files."
                           )
 )
-optional.add_argument('--outdir', dest='outdir', type=str,
-                      help='path to output directory'
+optional.add_argument("--outdir", dest="outdir", type=Path,
+                      help="path to output directory"
 )
-optional.add_argument('--prefix', dest='prefix', type=str,
-                      default='prodigal',
-                      help='prefix to be added to output files'
+optional.add_argument("--prefix", dest="prefix", type=str,
+                      default="prodigal",
+                      help="prefix to be added to output files"
 )
 optional.add_argument("--processes", "-p", dest="processes", type=int,
                       required=False, default=None, help=(
@@ -46,15 +47,15 @@ optional.add_argument("--processes", "-p", dest="processes", type=int,
                           "Defaults to all but one."
                           )
                           )
-optional.add_argument('--split_contigs', dest='split',
-                      default=False, action='store_true',
-                      help='split assembly input file into files containing one contig each')
-optional.add_argument('--metagenome', dest='metagenome',
-                      default=False, action='store_true',
-                      help='treat input assembly as of type metagenome (for prodigal)')
+optional.add_argument("--split_contigs", dest="split",
+                      default=False, action="store_true",
+                      help="split assembly input file into files containing one contig each")
+optional.add_argument("--metagenome", dest="metagenome",
+                      default=False, action="store_true",
+                      help="treat input assembly as of type metagenome (for prodigal)")
 optional.add_argument("--prodigal_args", dest="prodigal_args", type=str,
                       default=None, required=False,
-                      help=(("additional arguments to prodigal provided as defined by it"))
+                      help=("additional arguments to prodigal provided as defined by it")
                     )
 args = parser.parse_args()
 
@@ -70,9 +71,9 @@ def main():
             setDefaultOutputPath(args.assembly_fasta, only_dirname=True),
             f"split_{setDefaultOutputPath(args.assembly_fasta, only_basename=True)}"
         )
+        split_dir = Path(args.assembly_fasta.parent) / f"split_{args.assembly_fasta.stem}"
         os.makedirs(split_dir)
-        splitFASTAbyContigs(
-            input_fasta=args.assembly_fasta,
+        FASTA(args.assembly_fasta).splitByContigs(
             output_dir=split_dir
         )
         input_assembly = split_dir
@@ -80,23 +81,20 @@ def main():
         input_assembly = args.assembly_fasta
 
     print("2. Running prodigal on assembly...")
-    if os.path.isdir(input_assembly):
-        split_prodigal_dir = os.path.join(args.outdir, "split_prodigal/")
+    if input_assembly.is_dir():
+        split_prodigal_dir = args.outdir / "split_prodigal/"
         os.makedirs(split_prodigal_dir)
         parallelizeOverInputFiles(
             runProdigal, 
-            input_list=fullPathListDir(input_assembly),
+            input_list=list(input_assembly.iterdir()),
             n_processes=args.processes,
             output_dir=split_prodigal_dir,
             metagenome=args.metagenome,
             additional_args=args.prodigal_args
         )
-        mergeFASTAs(
+        FASTA.mergeFASTAs(
             split_prodigal_dir,
-            output_fasta=os.path.join(
-                args.outdir,
-                f"{args.prefix}merged.faa"
-                )
+            output_file=args.outdir / f"{args.prefix}merged.faa"
         )
     else:
         runProdigal(input_assembly,
@@ -110,20 +108,23 @@ def main():
     
     print("3. Parsing prodigal output...")
     with TemporaryFilePath() as tempfasta:
-        parseProdigalOutput(
-            prodigal_faa=os.path.join(args.outdir, f"{args.prefix}merged.faa"),
-            output_file=tempfasta
+        labelledfasta = LabelledFASTA.fromProdigalOutput(
+            prodigal_faa=args.outdir / f"{args.prefix}merged.faa",
+            output_file=Path(tempfasta)
         )
-        
-        removeCorruptedSequences(
-            fasta_file=tempfasta,
-            output_file=os.path.join(args.outdir, f"{args.prefix}positioned.faa"),
+        labelledfasta.removeCorruptedSequences(
+            output_file=args.outdir / f"{args.prefix}positioned.faa",
             is_peptide=True,
             keep_stop_codon=True
         )
+        # FASTA(tempfasta).removeCorruptedSequences(
+        #     output_file=args.outdir / f"{args.prefix}positioned.faa",
+        #     is_peptide=True,
+        #     keep_stop_codon=True
+        # )
 
     print("Finished!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

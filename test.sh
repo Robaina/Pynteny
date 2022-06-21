@@ -20,12 +20,12 @@ python synteny_search.py \
 # Searching MAR database (SAR11 synteny structure)
 # <leuB 0 <leuD 0 <leuC 4 >dapF
 
-# python translate_assembly.py \
-#  --assembly_fasta /home/robaina/Databases/MAR_database/marref_assembly_V6.fa \
-#  --outdir /home/robaina/Databases/MAR_database/ \
-#  --prefix "marref_V6_" \
-#  --processes 7 \
-#  --split_contigs --metagenome
+python translate_assembly.py \
+ --assembly_fasta /home/robaina/Databases/MAR_database/marref_assembly_V6_example.fa \
+ --outdir /home/robaina/Databases/MAR_database/ \
+ --prefix "marref_V6_" \
+ --processes 7 \
+ --split_contigs --metagenome
 
 # python synteny_search.py \
 #  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
