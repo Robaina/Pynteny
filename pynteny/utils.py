@@ -124,7 +124,7 @@ def setDefaultOutputPath(input_path: Path, tag: str = None,
     else:
         return Path(os.path.abspath(os.path.join(dirname, default_file)))
 
-def saveToPickleFile(python_object, path_to_file='object.pkl'):
+def saveToPickleFile(python_object, path_to_file: Path = "object.pkl"):
     """
     Save python object to pickle file
     """
@@ -132,7 +132,7 @@ def saveToPickleFile(python_object, path_to_file='object.pkl'):
     pickle.dump(python_object, out_file)
     out_file.close()
     
-def readFromPickleFile(path_to_file='object.pkl'):
+def readFromPickleFile(path_to_file: Path = "object.pkl"):
     """
     Load python object from pickle file.
     Returns python object.
@@ -144,7 +144,7 @@ def readFromPickleFile(path_to_file='object.pkl'):
 
 def terminalExecute(command_str: str,
                     suppress_shell_output=False,
-                    work_dir: str = None,
+                    work_dir: Path = None,
                     return_output=False) -> subprocess.STDOUT:
     """
     Execute given command in terminal through Python
@@ -229,7 +229,7 @@ def easyPatternMatching(text: str, left_pattern: str, right_pattern: str = None)
         matched_text = left_subtext
     return matched_text
 
-def flattenDirectory(directory):
+def flattenDirectory(directory: str):
     for dirpath, _, filenames in os.walk(directory, topdown=False):
         for filename in filenames:
             i = 0
@@ -257,7 +257,7 @@ class DictMerger():
         self._dict_list = dicts
     
     @classmethod
-    def fromPicklePaths(cls, dict_paths: list[str]) -> DictMerger:
+    def fromPicklePaths(cls, dict_paths: list[Path]) -> DictMerger:
         """
         Initialize class from list of paths to dictionaries (pickle)
         """
@@ -267,7 +267,7 @@ class DictMerger():
         return cls(dicts=dict_list)
     
     @staticmethod
-    def readFromPickleFile(path_to_file='object.pkl'):
+    def readFromPickleFile(path_to_file: Path = "object.pkl"):
         """
         Load python object from pickle file.
         Returns python object.
@@ -277,7 +277,16 @@ class DictMerger():
         in_file.close()
         return python_object
 
-    def merge(self, dict_prefixes: list[str] = None, save_pickle_path: str = None) -> dict:
+    @staticmethod
+    def saveToPickleFile(python_object, path_to_file: Path = "object.pkl"):
+        """
+        Save python object to pickle file
+        """
+        out_file = open(path_to_file,'wb')
+        pickle.dump(python_object, out_file)
+        out_file.close()
+
+    def merge(self, dict_prefixes: list[str] = None, save_pickle_path: Path = None) -> dict:
         """
         Merge dictionaries
         @params
@@ -296,5 +305,5 @@ class DictMerger():
             }
 
         if save_pickle_path is not None:
-            saveToPickleFile(merged_dict, save_pickle_path)
+            self.saveToPickleFile(merged_dict, save_pickle_path)
         return merged_dict
