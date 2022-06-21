@@ -117,11 +117,6 @@ def main():
             is_peptide=True,
             keep_stop_codon=True
         )
-        # FASTA(tempfasta).removeCorruptedSequences(
-        #     output_file=args.outdir / f"{args.prefix}positioned.faa",
-        #     is_peptide=True,
-        #     keep_stop_codon=True
-        # )
 
     print("Finished!")
 
