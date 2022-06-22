@@ -112,8 +112,8 @@ class Pynteny():
     def preprocess(self):
         parser = argparse.ArgumentParser(
             description=(
-                "Translate nucleotide assembly file and assign contig and gene location info "
-                "to each identified ORF (using prodigal). Then label predicted ORFs according to "
+                "Translate nucleotide assembly file and assign contig and gene location info \n"
+                "to each identified ORF (using prodigal). Then label predicted ORFs according to \n"
                 "positional info and export a fasta file containing predicted and translated ORFs."
                 ),
             epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
