@@ -9,9 +9,6 @@ from pathlib import Path
 from pynteny.utils import TemporaryFilePath, parallelizeOverInputFiles, fullPathListDir, setDefaultOutputPath
 from pynteny.wrappers import runProdigal
 from pynteny.preprocessing import FASTA, LabelledFASTA
-    # (parseProdigalOutput, splitFASTAbyContigs,
-    # mergeFASTAs, removeCorruptedSequences
-    # )
 
 
 parser = argparse.ArgumentParser(

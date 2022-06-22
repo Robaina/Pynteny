@@ -30,7 +30,7 @@ parser._action_groups.append(optional)
 required.add_argument('--hmm_dir', dest='hmm_dir', type=Path,
                       required=True,
                       help=(
-                          'path to directory containing hmm (i.e, tigrfam or pfam) models. '
+                          'path to directory containing hmm (i.e, tigrfam or pfam) models. \n'
                           'The directory can contain more hmm models than used in the synteny structure. '
                           'It may also be the path to a compressed (tar, tar.gz, tgz) directory.'
                           )
