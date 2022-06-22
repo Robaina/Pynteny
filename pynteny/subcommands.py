@@ -18,7 +18,7 @@ from pynteny.preprocessing import FASTA, LabelledFASTA
 
 
 
-def synteny_seach(args):
+def synteny_search(args):
 
     if isTarFile(args.hmm_dir):
         print("0. Extracting hmm files to temporary directory...")
