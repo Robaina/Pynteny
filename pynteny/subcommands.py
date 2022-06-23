@@ -34,7 +34,7 @@ def synteny_search(args):
     else:
         hmm_dir = args.hmm_dir
 
-    hmm_names = SyntenyParser.getHMMsInStructure(args.synteny_struc)
+    hmm_names = SyntenyParser.getAllHMMsInStructure(args.synteny_struc)
     input_hmms = [
         Path(os.path.join(hmm_dir, file))
         for file in os.listdir(hmm_dir)

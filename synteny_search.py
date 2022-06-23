@@ -8,6 +8,7 @@ from pathlib import Path
 
 from pynteny.utils import setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
 from pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser
+import pynteny.subcommands as sub
 
 
 parser = argparse.ArgumentParser(
@@ -83,58 +84,5 @@ parser.add_argument('--max_seq_length', dest='maxseqlength',
 
 args = parser.parse_args()
 
-if isTarFile(args.hmm_dir):
-    print("0. Extracting hmm files to temporary directory...")
-    temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
-    extractTarFile(
-        tar_file=args.hmm_dir,
-        dest_dir=temp_hmm_dir
-    )
-    flattenDirectory(
-        temp_hmm_dir
-    )
-    hmm_dir = temp_hmm_dir
-else:
-    hmm_dir = args.hmm_dir
-
-hmm_names = SyntenyParser.getHMMsInStructure(args.synteny_struc)
-input_hmms = [
-    Path(os.path.join(hmm_dir, file))
-    for file in os.listdir(hmm_dir)
-    if any([hmm_name in file for hmm_name in hmm_names])
-]
-if len(input_hmms) < len(hmm_names):
-    raise ValueError("Not all HMMs in synteny structure found in HMM directory")
-
-if args.outdir is None:
-    args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
-if not os.path.isdir(args.outdir):
-    os.makedirs(args.outdir, exist_ok=True)
-if args.hmmsearch_args is None:
-    hmmsearch_args = ",".join(["None" for _ in input_hmms])
-hmmsearch_args = list(map(lambda x: x.strip(), hmmsearch_args.split(",")))
-hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
-hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
-    
-
-def main():
-    print(' 1. Searching database by synteny structure...')
-    filterFASTABySyntenyStructure(
-        synteny_structure=args.synteny_struc,
-        input_fasta=args.data,
-        input_hmms=input_hmms,
-        output_dir=args.outdir,
-        output_prefix=args.prefix,
-        hmmer_output_dir=hmmer_output_dir,
-        reuse_hmmer_results=True,
-        method='hmmsearch',
-        additional_args=hmmsearch_args
-    )
-
-    if isTarFile(args.hmm_dir):
-        shutil.rmtree(temp_hmm_dir)
-
-    print('Finished!')
-
 if __name__ == '__main__':
-    main()
+    sub.synteny_search(args)
