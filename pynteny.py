@@ -22,8 +22,24 @@ class Pynteny():
         self._subcommand = sys.argv[1:2]
         self._subcommand_args = sys.argv[2:]
         parser = argparse.ArgumentParser(
-            description=("Pynteny: synteny-based hmm searches made easy in Python"),
-            epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
+            description=(
+                """
+
+    ____              __                  
+   / __ \__  ______  / /____  ____  __  __
+  / /_/ / / / / __ \/ __/ _ \/ __ \/ / / /
+ / ____/ /_/ / / / / /_/  __/ / / / /_/ / 
+/_/    \__, /_/ /_/\__/\___/_/ /_/\__, /  
+      /____/                     /____/   
+
+"""
+                "synteny-based Hmmer searches made easy in Python\n"
+                " \n"
+                ),
+            epilog=(
+                "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"
+                " "
+                ),
             formatter_class=argparse.RawDescriptionHelpFormatter
             )
         parser.add_argument("subcommand", help="pynteny subcommand", choices=["search", "preprocess"])

@@ -85,7 +85,7 @@ def translate_assembly(args):
             f"split_{setDefaultOutputPath(args.assembly_fasta, only_basename=True)}"
         )
         split_dir = Path(args.assembly_fasta.parent) / f"split_{args.assembly_fasta.stem}"
-        os.makedirs(split_dir)
+        os.makedirs(split_dir, exist_ok=True)
         FASTA(args.assembly_fasta).splitByContigs(
             output_dir=split_dir
         )
@@ -96,7 +96,7 @@ def translate_assembly(args):
     print("2. Running prodigal on assembly...")
     if input_assembly.is_dir():
         split_prodigal_dir = args.outdir / "split_prodigal/"
-        os.makedirs(split_prodigal_dir)
+        os.makedirs(split_prodigal_dir, exist_ok=True)
         parallelizeOverInputFiles(
             runProdigal, 
             input_list=list(input_assembly.iterdir()),
