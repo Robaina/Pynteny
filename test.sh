@@ -16,11 +16,15 @@
 #  --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results \
 #  --synteny_struc ">TIGR00899.1 0 <TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1"
 
+rm tests/MG1655_results/*
+
 python pynteny.py search \
  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
  --in /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
  --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results \
- --synteny_struc ">TIGR00899.1 0 <TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1"
+ --synteny_struc "TIGR00899.1"
+ 
+#  ">TIGR00899.1 0 <(TIGR00171.1|TIGR02084.1) 0 <TIGR00170.1 1 <TIGR00973.1"
 
 
 # Searching MAR database (SAR11 synteny structure)
