@@ -80,14 +80,14 @@ class Pynteny():
         )
         required.add_argument('--synteny_struc', dest='synteny_struc', type=str, required=True,
                             help=(
-                                'string displaying hmm sctructure to search for, such as: \n'
-                                '">hmm_a n_ab <hmm_b n_bc hmm_c", \n'
-                                'where ">" indicates a hmm target located on the positive strand, '
-                                '"<" a target located on the negative strand, and n_ab cooresponds '
-                                'to the maximum number of genes separating matched gene a and b. \n' 
-                                'Multiple hmms may be employed (limited by computational capabilities).'
-                                'No order symbol in a hmm indicates that results should be independent '
-                                'of strand location. '
+                                f'string displaying hmm sctructure to search for, such as: \n'
+                                f'">hmm_a n_ab <hmm_b n_bc hmm_c", \n'
+                                f'where ">" indicates a hmm target located on the positive strand, '
+                                f'"<" a target located on the negative strand, and n_ab cooresponds '
+                                f'to the maximum number of genes separating matched gene a and b. \n' 
+                                f'Multiple hmms may be employed (limited by computational capabilities).'
+                                f'No order symbol in a hmm indicates that results should be independent '
+                                f'of strand location. '
                                 )
         )
         required.add_argument('--in', dest='data', type=Path, required=True,
