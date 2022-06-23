@@ -8,7 +8,7 @@ Simple CLI wrappers to several tools
 import os
 from pathlib import Path
 
-from pynteny.utils import terminalExecute, setDefaultOutputPath
+from pynteny.pynteny.utils import terminalExecute, setDefaultOutputPath
 
 
 

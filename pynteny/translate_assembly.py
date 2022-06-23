@@ -6,10 +6,10 @@ import shutil
 import argparse
 from pathlib import Path
 
-from pynteny.utils import TemporaryFilePath, parallelizeOverInputFiles, fullPathListDir, setDefaultOutputPath
-from pynteny.wrappers import runProdigal
-from pynteny.preprocessing import FASTA, LabelledFASTA
-import pynteny.subcommands as sub
+from pynteny.pynteny.utils import TemporaryFilePath, parallelizeOverInputFiles, fullPathListDir, setDefaultOutputPath
+from pynteny.pynteny.wrappers import runProdigal
+from pynteny.pynteny.preprocessing import FASTA, LabelledFASTA
+import pynteny.pynteny.subcommands as sub
 
 
 parser = argparse.ArgumentParser(

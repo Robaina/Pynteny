@@ -2,3 +2,9 @@
 tests/
 *.pickle
 *.tsv
+
+dev.ipynb
+
+build/
+dist/
+*.egg-info

@@ -17,8 +17,8 @@ from pathlib import Path
 from Bio import SeqIO
 import pyfastx
 
-import pynteny.wrappers as wrappers
-from pynteny.utils import (setDefaultOutputPath,
+import pynteny.pynteny.wrappers as wrappers
+from pynteny.pynteny.utils import (setDefaultOutputPath,
                            terminalExecute)
 
 

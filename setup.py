@@ -9,8 +9,8 @@ this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), 'r', encoding='utf-8') as f:
     long_description = f.read()
 
-DESCRIPTION = 'Multiple HMM - search via synteny structures in Python',
-LONG_DESCRIPTION = long_description,
+DESCRIPTION = 'Multiple HMM - search via synteny structures in Python'
+LONG_DESCRIPTION = 'Multiple HMM - search via synteny structures in Python' #long_description,
 LONG_DESCRIPTION_CONTENT_TYPE = 'text/markdown'
 NAME = 'pynteny'
 AUTHOR = "Semidán Robaina Estévez"
@@ -34,10 +34,10 @@ setup(name=NAME,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
       packages=find_packages(),
-      install_requires=['biopython', 'pyfastx', 'pandas', 'hmmer', 'prodigal'],
+      install_requires=['biopython', 'pyfastx', 'pandas'],
       entry_points ={
             'console_scripts': [
-                'pynteny = pynteny.pynteny:main'
+                'pynteny = pynteny.cli:Pynteny'
             ]
         }
       )

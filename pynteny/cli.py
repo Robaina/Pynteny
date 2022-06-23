@@ -6,7 +6,7 @@ import sys
 import argparse
 from pathlib import Path
 
-import pynteny.subcommands as sub
+import pynteny.pynteny.subcommands as sub
 
 
 

@@ -6,9 +6,9 @@ import shutil
 import argparse
 from pathlib import Path
 
-from pynteny.utils import setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
-from pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser
-import pynteny.subcommands as sub
+from pynteny.pynteny.utils import setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
+from pynteny.pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser
+import pynteny.pynteny.subcommands as sub
 
 
 parser = argparse.ArgumentParser(

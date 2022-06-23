@@ -18,7 +18,7 @@
 
 rm tests/MG1655_results/*
 
-python pynteny.py search \
+python pynteny.pynteny.py search \
  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
  --in /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
  --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results \
@@ -35,7 +35,7 @@ python pynteny.py search \
 #  --processes 7 \
 #  --split_contigs --metagenome
 
-python pynteny.py preprocess \
+python pynteny.pynteny.py preprocess \
  --assembly_fasta /home/robaina/Databases/MAR_database/marref_assembly_V6_example.fa \
  --outdir /home/robaina/Databases/MAR_database/ \
  --prefix "marref_V6_" \
