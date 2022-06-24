@@ -414,6 +414,96 @@ class HMMER:
             hmm_hits[hmm_name] = HMMER.parseHMMsearchOutput(hmmer_output)
         return hmm_hits
 
+    
+class PGAP:
+    def __init__(self, meta_file: Path) -> None:
+        """
+        Tools to parse PGAP hmm database metadata
+        """
+        meta = pd.read_csv(meta_file, sep="\t")
+        meta = meta[["#ncbi_accession", "gene_symbol", "product_name"]]
+        self._meta = meta
+        return None 
+
+    def getHMMnamesByGeneID(self, gene_id: str) -> list[str]:
+        """
+        Try to retrieve HMM by its gene symbol, more
+        than one HMM may map to a single gene symbol
+        """
+        meta = self._meta.dropna(subset=["gene_symbol"], axis=0)
+        try:
+            return meta[
+                meta.gene_symbol == gene_id
+                ]["#ncbi_accession"].values.tolist()
+        except:
+            return None
+    
+    def getHMMgeneID(self, hmm_name: str) -> list[str]: 
+        """
+        Get gene symbol of given hmm
+        """
+        meta = self._meta.dropna(subset=["#ncbi_accession"], axis=0)
+        try:
+            return meta[
+                meta["#ncbi_accession"] == hmm_name
+            ]["gene_symbol"].values.tolist()
+        except:
+            return None
+
+    def getHMMgeneProduct(self, hmm_name: str) -> list[str]: 
+        """
+        Get gene product of given hmm
+        """
+        meta = self._meta.dropna(subset=["#ncbi_accession"], axis=0)
+        try:
+            return meta[
+                meta["#ncbi_accession"] == hmm_name
+            ]["product_name"].values.tolist()
+        except:
+            return None
+
+    def parseGenesInSyntenyStructure(self, synteny_structure: str) -> str:
+        """
+        Convert gene-based synteny structure into a HMM-based one.
+        If a gene symbol matches more than one HMM, return a HMM group
+        like: (HMM1 | HMM2 | ...)
+        """
+        links = synteny_structure.strip().split()
+        if not links:
+            raise ValueError("Invalid format for synteny structure")
+        gene_symbols = [
+            SyntenyParser.splitStrandFromLocus(h)[1] 
+            for h in links if not h.isdigit()
+            ]
+        strand_locs = SyntenyParser.getStrandsInStructure(
+            synteny_structure, parsed_symbol=False
+            )
+        gene_dists = SyntenyParser.getMaximumDistancesInStructure(
+            synteny_structure
+            )
+        hmm_names = {
+            gene_id: self.getHMMnamesByGeneID(gene_id)
+            for gene_id in gene_symbols
+        }
+        unmatched_genes = [
+            gene_id for gene_id, hmms in hmm_names.items()
+            if not hmms
+        ]
+        if unmatched_genes:
+            raise ValueError(
+                f"These genes did not get a HMM match in database: {unmatched_genes}"
+                )
+        hmm_synteny_struc = ""
+        for strand, dist, hmms in zip(
+            strand_locs, [""] + gene_dists, hmm_names.values()
+            ):
+            if len(hmms) == 1:
+                hmm_group = f"{dist} {strand}{hmms.pop()} "
+            else:
+                hmm_group = f"{dist} {strand}({'|'.join(hmms)}) "
+            hmm_synteny_struc += hmm_group
+        return hmm_synteny_struc.strip()
+
 
 def filterFASTABySyntenyStructure(synteny_structure: str,
                                   input_fasta: Path,
