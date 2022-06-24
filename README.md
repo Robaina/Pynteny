@@ -13,4 +13,5 @@ conda env create -f environment.yml
 
 
 # TODO: 
+1. Implement subcommand to download PGAP database and metadata. Also, make hmm databse optional if downloaded.
 3. Use python logger instead of print statements
