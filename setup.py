@@ -37,7 +37,7 @@ setup(name=NAME,
       install_requires=['biopython', 'pyfastx', 'pandas'],
       entry_points ={
             'console_scripts': [
-                'pynteny = pynteny.cli:Pynteny'
+                'pynteny = pynteny.cli:main'
             ]
         }
       )

@@ -33,7 +33,7 @@ class Pynteny():
       /____/                     /____/   
 
 """
-                "synteny-based Hmmer searches made easy in Python\n"
+                "synteny-based Hmmer searches made easy\n"
                 " \n"
                 ),
             epilog=(
@@ -42,7 +42,7 @@ class Pynteny():
                 ),
             formatter_class=argparse.RawDescriptionHelpFormatter
             )
-        parser.add_argument("subcommand", help="pynteny subcommand", choices=["search", "preprocess"])
+        parser.add_argument("subcommand", help="pynteny subcommand", choices=["search", "preprocess", "parse_genes"])
         parser.add_argument("-v","--version", help="show version and exit", action="version", version="0.0.1")
         args = parser.parse_args(self._subcommand)
         self._call_subcommand(subcommand_name=args.subcommand)
@@ -114,13 +114,24 @@ class Pynteny():
                                 'A single argument may be provided, in which case the same additional argument '
                                 'is employed in all hmms.')
         )
-        parser.add_argument('--max_seq_length', dest='maxseqlength',
+        optional.add_argument('--max_seq_length', dest='maxseqlength',
                             default=None, type=int,
                             required=False,
                             help=(
                                 'maximum sequence length in reference database. '
                                 'Defaults to inf'
                                 )
+        )
+        optional.add_argument("--gene_ids", dest="gene_ids",
+                             default=False, action="store_true",
+                             help=(
+                                "use gene symbols in synteny structure instead of HMM nanmes. "
+                                "If set, a path to the hmm database metadata file must be provided "
+                                "in argument '--hmm_meta'"
+                                )
+        )
+        required.add_argument('--hmm_meta', dest='hmm_meta', type=Path,
+                            required=False, help='path to hmm database metadata file'
         )
         args = parser.parse_args(self._subcommand_args)
         sub.synteny_search(args)
@@ -173,9 +184,34 @@ class Pynteny():
         args = parser.parse_args(self._subcommand_args)
         sub.translate_assembly(args)
 
+    def parse_genes(self):
+        parser = argparse.ArgumentParser(
+            description=(
+                "Translate synteny structure with gene symbols into one with\n"
+                "HMM groups, according to provided HMM database."
+                ),
+            epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
+            formatter_class=argparse.RawDescriptionHelpFormatter
+            )
+
+        optional = parser._action_groups.pop()
+        required = parser.add_argument_group("required arguments")
+        parser._action_groups.append(optional)
+
+        required.add_argument("--synteny_struc", dest="synteny_struc", type=str,
+                            required=True,
+                            help=(
+                                "synteny structure containing gene symbols instead of HMMs"
+                                )
+        )
+        required.add_argument("--hmm_meta", dest="hmm_meta", type=Path,
+                             required=True, help="path to hmm database metadata file")
+        args = parser.parse_args(self._subcommand_args)
+        sub.parse_gene_ids(args)
+
 
 def main():
-    Pynteny()
+    pynteny = Pynteny()
     
 if __name__ == "__main__":
-    Pynteny()
+    main()

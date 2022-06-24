@@ -10,7 +10,7 @@ import shutil
 from pathlib import Path
 
 from pynteny.pynteny.utils import setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
-from pynteny.pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser
+from pynteny.pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser, PGAP
 
 from pynteny.pynteny.utils import TemporaryFilePath, parallelizeOverInputFiles, setDefaultOutputPath
 from pynteny.pynteny.wrappers import runProdigal
@@ -19,9 +19,20 @@ from pynteny.pynteny.preprocessing import FASTA, LabelledFASTA
 
 
 def synteny_search(args):
+    """
+    """
+    if args.gene_ids:
+        print("* Finding matching HMMs for gene symbols...")
+        parser = PGAP(args.hmm_meta)
+        gene_synteny_struc = parser.parseGenesInSyntenyStructure(
+            synteny_structure=args.synteny_struc
+        )
+        args.synteny_struc = gene_synteny_struc
+        print("* Found the following HMMs in database for given structure: ")
+        print(gene_synteny_struc)
 
     if isTarFile(args.hmm_dir):
-        print("0. Extracting hmm files to temporary directory...")
+        print("* Extracting hmm files to temporary directory...")
         temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
         extractTarFile(
             tar_file=args.hmm_dir,
@@ -53,7 +64,6 @@ def synteny_search(args):
     hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
     hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
         
-
     print(' 1. Searching database by synteny structure...')
     filterFASTABySyntenyStructure(
         synteny_structure=args.synteny_struc,
@@ -74,7 +84,8 @@ def synteny_search(args):
 
 
 def translate_assembly(args):
-
+    """
+    """
     if args.processes is None:
         args.processes = os.cpu_count() - 1
 
@@ -132,3 +143,15 @@ def translate_assembly(args):
         )
 
     print("Finished!")
+
+
+def parse_gene_ids(args):
+    """
+    """
+    parser = PGAP(args.hmm_meta)
+    gene_synteny_struc = parser.parseGenesInSyntenyStructure(
+        synteny_structure=args.synteny_struc
+        )
+    print("Found the following HMMs in database for given structure: ")
+    print(" ")
+    print(gene_synteny_struc)
