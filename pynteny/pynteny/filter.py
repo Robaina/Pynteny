@@ -71,12 +71,16 @@ class SyntenyParser():
     Tools to parse synteny structure strings
     """
     @staticmethod
-    def splitStrandFromLocus(locus_str: str) -> tuple[str]:
+    def splitStrandFromLocus(locus_str: str,
+                             parsed_symbol: bool = True) -> tuple[str]:
         locus_str = locus_str.strip()
         if locus_str[0] == '<' or locus_str[0] == '>':
             sense = locus_str[0]
             locus_str = locus_str[1:]
-            strand = 'pos' if sense == '>' else 'neg'
+            if parsed_symbol:
+                strand = 'pos' if sense == '>' else 'neg'
+            else:
+                strand = sense
         else:
             strand = None
         return (strand, locus_str)
@@ -109,7 +113,8 @@ class SyntenyParser():
         return hmm_names
 
     @staticmethod
-    def getStrandsInStructure(synteny_structure: str) -> list[str]:
+    def getStrandsInStructure(synteny_structure: str,
+                              parsed_symbol: bool = True) -> list[str]:
         """
         Get strand sense list in structure
         """
@@ -117,7 +122,7 @@ class SyntenyParser():
         if not links:
             raise ValueError("Invalid format for synteny structure")
         return [
-            SyntenyParser.splitStrandFromLocus(h)[0] 
+            SyntenyParser.splitStrandFromLocus(h, parsed_symbol)[0] 
             for h in links if not h.isdigit()
             ]
 

@@ -8,7 +8,7 @@
 # setA -> TIGR00899.1
 # dapF -> TIGR00652.1
 #
-# > setA 1 < leuD < leuC < leuB < leuA 
+# >setA 0 <leuD 0 <leuC 0 <leuB 0 <leuA 
 
 # python synteny_search.py \
 #  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
@@ -18,7 +18,7 @@
 
 rm tests/MG1655_results/*
 
-python pynteny.pynteny.py search \
+pynteny search \
  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
  --in /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
  --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results \
@@ -35,12 +35,12 @@ python pynteny.pynteny.py search \
 #  --processes 7 \
 #  --split_contigs --metagenome
 
-python pynteny.pynteny.py preprocess \
- --assembly_fasta /home/robaina/Databases/MAR_database/marref_assembly_V6_example.fa \
- --outdir /home/robaina/Databases/MAR_database/ \
- --prefix "marref_V6_" \
- --processes 7 \
- --split_contigs --metagenome
+# python pynteny.pynteny.py preprocess \
+#  --assembly_fasta /home/robaina/Databases/MAR_database/marref_assembly_V6_example.fa \
+#  --outdir /home/robaina/Databases/MAR_database/ \
+#  --prefix "marref_V6_" \
+#  --processes 7 \
+#  --split_contigs --metagenome
 
 # python synteny_search.py \
 #  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
