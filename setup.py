@@ -34,7 +34,7 @@ setup(name=NAME,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
       packages=find_packages(),
-      install_requires=['biopython', 'pyfastx', 'pandas'],
+      install_requires=['biopython', 'pyfastx', 'pandas', 'wget'],
       entry_points ={
             'console_scripts': [
                 'pynteny = pynteny.cli:main'

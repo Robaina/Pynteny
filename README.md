@@ -14,4 +14,6 @@ conda env create -f environment.yml
 
 # TODO: 
 1. Implement subcommand to download PGAP database and metadata. Also, make hmm databse optional if downloaded.
+   PGAP database: https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz
+   PGAP metadata: https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv
 3. Use python logger instead of print statements

@@ -9,6 +9,8 @@ import os
 import shutil
 from pathlib import Path
 
+import wget
+
 from pynteny.pynteny.utils import setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
 from pynteny.pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser, PGAP
 
@@ -155,3 +157,13 @@ def parse_gene_ids(args):
     print("Found the following HMMs in database for given structure: ")
     print(" ")
     print(gene_synteny_struc)
+
+def download(args):
+    """
+    """
+    data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
+    meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
+    print("Downloading PGAP database...")
+    response_data = wget.download(data_url, "../data/hmm_PGAP.HMM.tgz")
+    print("Downloading PGAP metadata...")
+    response_meta = wget.download(meta_url, "../data/hmm_PGAP.tsv")
