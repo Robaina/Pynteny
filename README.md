@@ -13,5 +13,4 @@ conda env create -f environment.yml
 
 
 # TODO: 
-2. Enable search of TigrFAM by gene name? need gene/TigrFAM dictionary
 3. Use python logger instead of print statements

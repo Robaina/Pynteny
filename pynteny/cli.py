@@ -40,12 +40,24 @@ class Pynteny():
                 "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"
                 " "
                 ),
-            formatter_class=argparse.RawDescriptionHelpFormatter
+            formatter_class=argparse.RawTextHelpFormatter
             )
-        parser.add_argument("subcommand", help="pynteny subcommand", choices=["search", "preprocess", "parse_genes"])
+        parser._positionals.title = "subcommands"
+        parser.add_argument(
+            help=(
+                f"search \n"
+                f"preprocess \n"
+                f"parse \n"
+                ),
+            dest="subcommand"
+            )
         parser.add_argument("-v","--version", help="show version and exit", action="version", version="0.0.1")
+        if len(sys.argv) < 2:
+            parser.print_help()
+            sys.exit(1)
         args = parser.parse_args(self._subcommand)
-        self._call_subcommand(subcommand_name=args.subcommand)
+        input_subcommand = getattr(args, "subcommand")
+        self._call_subcommand(subcommand_name=input_subcommand)
     
     def _call_subcommand(self, subcommand_name: str) -> None: 
         subcommand = getattr(self, subcommand_name)
@@ -63,7 +75,7 @@ class Pynteny():
                 'other, non-target, hmms. However, these files are not processed any further.'
                 ),
             epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2022',
-            formatter_class=argparse.RawDescriptionHelpFormatter
+            formatter_class=argparse.RawTextHelpFormatter
             )
 
         optional = parser._action_groups.pop()
@@ -74,19 +86,21 @@ class Pynteny():
                             required=True,
                             help=(
                                 'path to directory containing hmm (i.e, tigrfam or pfam) models. \n'
-                                'The directory can contain more hmm models than used in the synteny structure. '
+                                'The directory can contain more hmm models than used in the synteny structure. \n'
                                 'It may also be the path to a compressed (tar, tar.gz, tgz) directory.'
                                 )
         )
         required.add_argument('--synteny_struc', dest='synteny_struc', type=str, required=True,
                             help=(
                                 f'string displaying hmm sctructure to search for, such as: \n'
-                                f'">hmm_a n_ab <hmm_b n_bc hmm_c", \n'
-                                f'where ">" indicates a hmm target located on the positive strand, '
-                                f'"<" a target located on the negative strand, and n_ab cooresponds '
+                                f" \n"
+                                f'">hmm_a n_ab <hmm_b n_bc hmm_c"\n'
+                                f" \n"
+                                f'where ">" indicates a hmm target located on the positive strand, \n'
+                                f'"<" a target located on the negative strand, and n_ab cooresponds \n'
                                 f'to the maximum number of genes separating matched gene a and b. \n' 
-                                f'Multiple hmms may be employed (limited by computational capabilities).'
-                                f'No order symbol in a hmm indicates that results should be independent '
+                                f'Multiple hmms may be employed (limited by computational capabilities). \n'
+                                f'No order symbol in a hmm indicates that results should be independent \n'
                                 f'of strand location. '
                                 )
         )
@@ -110,8 +124,8 @@ class Pynteny():
         optional.add_argument('--hmmsearch_args', dest='hmmsearch_args', type=str,
                             default=None, required=False,
                             help=(
-                                'list of comma-separated additional arguments to hmmsearch for each input hmm. '
-                                'A single argument may be provided, in which case the same additional argument '
+                                'list of comma-separated additional arguments to hmmsearch for each input hmm. \n'
+                                'A single argument may be provided, in which case the same additional argument \n'
                                 'is employed in all hmms.')
         )
         optional.add_argument('--max_seq_length', dest='maxseqlength',
@@ -125,8 +139,8 @@ class Pynteny():
         optional.add_argument("--gene_ids", dest="gene_ids",
                              default=False, action="store_true",
                              help=(
-                                "use gene symbols in synteny structure instead of HMM nanmes. "
-                                "If set, a path to the hmm database metadata file must be provided "
+                                "use gene symbols in synteny structure instead of HMM nanmes. \n"
+                                "If set, a path to the hmm database metadata file must be provided \n"
                                 "in argument '--hmm_meta'"
                                 )
         )
@@ -144,7 +158,7 @@ class Pynteny():
                 "positional info and export a fasta file containing predicted and translated ORFs."
                 ),
             epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
-            formatter_class=argparse.RawDescriptionHelpFormatter
+            formatter_class=argparse.RawTextHelpFormatter
             )
 
         optional = parser._action_groups.pop()
@@ -154,8 +168,8 @@ class Pynteny():
         required.add_argument("--assembly_fasta", dest="assembly_fasta", type=Path,
                             required=True,
                             help=(
-                                "path to assembly input nucleotide data. It can be a single FASTA file or "
-                                "a directory containing several FASTA files."
+                                "path to assembly input nucleotide data. It can be a single \n"
+                                "FASTA file or a directory containing several FASTA files."
                                 )
         )
         optional.add_argument("--outdir", dest="outdir", type=Path,
@@ -184,14 +198,14 @@ class Pynteny():
         args = parser.parse_args(self._subcommand_args)
         sub.translate_assembly(args)
 
-    def parse_genes(self):
+    def parse(self):
         parser = argparse.ArgumentParser(
             description=(
                 "Translate synteny structure with gene symbols into one with\n"
                 "HMM groups, according to provided HMM database."
                 ),
             epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
-            formatter_class=argparse.RawDescriptionHelpFormatter
+            formatter_class=argparse.RawTextHelpFormatter
             )
 
         optional = parser._action_groups.pop()
