@@ -7,6 +7,7 @@ import argparse
 from pathlib import Path
 
 import pynteny.src.subcommands as sub
+from pynteny.src.utils import ConfigParser
 
 
 
@@ -18,6 +19,7 @@ class Pynteny():
 
     """
     def __init__(self):
+        ConfigParser.initialize_config_file()
         self._subcommand = sys.argv[1:2]
         self._subcommand_args = sys.argv[2:]
         parser = argparse.ArgumentParser(

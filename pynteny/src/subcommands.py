@@ -158,9 +158,11 @@ def download_hmms(args):
     """
     Download HMM (PGAP) database from NCBI.
     """
-    config = ConfigParser(Path("/home/robaina/Documents/Pynteny/pynteny/config.json"))
+    module_dir = Path(__file__).parent
+    config_path = Path(module_dir.parent) / "config.json"
+    config = ConfigParser(config_path)
     if args.dir is None:
-        download_dir = Path("../data/").absolute()
+        download_dir = Path(module_dir.parent) / "data"
     else:
         download_dir = Path(args.dir).absolute()
     if not download_dir.exists():

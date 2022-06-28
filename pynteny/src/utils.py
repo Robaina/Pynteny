@@ -26,6 +26,24 @@ class ConfigParser():
     def __init__(self, config_file: Path) -> None:
         self._config_file = Path(config_file)
         self._config = self.load_config()
+    
+    @staticmethod
+    def initialize_config_file():
+        """
+        initialize empty config file
+        """
+        config_file = Path(Path(Path(__file__).parent).parent) / "config.json"
+        if not config_file.exists():
+            config = {
+                "database_dir": "",
+                "upack_PGAP_database": False,
+                "data_downloaded": False,
+                "PGAP_file": "",
+                "PGAP_meta_file": ""
+            }
+            print(f"Initializing config file at: {config_file}")
+            with open(config_file, 'w') as f:
+                json.dump(config, f, indent=4)
 
     def load_config(self) -> dict:
         """
