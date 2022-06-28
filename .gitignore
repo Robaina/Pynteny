@@ -8,3 +8,4 @@ dev.ipynb
 build/
 dist/
 *.egg-info
+/data

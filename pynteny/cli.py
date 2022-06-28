@@ -48,6 +48,7 @@ class Pynteny():
                 f"search \n"
                 f"preprocess \n"
                 f"parse \n"
+                f"download \n"
                 ),
             dest="subcommand"
             )
@@ -222,6 +223,31 @@ class Pynteny():
                              required=True, help="path to hmm database metadata file")
         args = parser.parse_args(self._subcommand_args)
         sub.parse_gene_ids(args)
+
+    def download(self):
+        parser = argparse.ArgumentParser(
+            description=(
+                "Download HMM database from NCBI."
+                ),
+            epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
+            formatter_class=argparse.RawTextHelpFormatter
+            )
+
+        optional = parser._action_groups.pop()
+        required = parser.add_argument_group("required arguments")
+        parser._action_groups.append(optional)
+
+        optional.add_argument("--dir", dest="dir", type=Path,
+                             required=False, default=None,
+                             help="path to directory where to download HMM database"
+                             )
+        optional.add_argument("--unpack", dest="unpack",
+                            default=False, action="store_true",
+                            help="unpack originally compressed database files"
+                            )
+        args = parser.parse_args(self._subcommand_args)
+        sub.download_hmms(args)
+        
 
 
 def main():

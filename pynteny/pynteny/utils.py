@@ -13,22 +13,48 @@ import string
 import subprocess
 import tarfile
 import pickle
+import json
 from pathlib import Path
 from functools import partial
 from multiprocessing import Pool
 
 
-def handle_exceptions(foo):
+class ConfigParser():
     """
-    Decorator to handle possible exceptions in
-    given function (foo)
+    Base configuration class
     """
-    def inner_foo(*args, **kwargs):
-        try:
-            foo(*args, **kwargs)
-        except Exception as e:
-            print(f'{foo.__name__} failed with exception: {e}')
-    return inner_foo
+    def __init__(self, config_file: Path) -> None:
+        self._config_file = Path(config_file)
+        self._config = self.load_config()
+
+    def load_config(self) -> dict:
+        """
+        load config file
+        """
+        with open(self._config_file, 'r') as file:
+            config = json.loads(file.read())
+        return config
+
+    def write_config(self) -> None:
+        """
+        write config file
+        """
+        with open(self._config_file, 'w') as f:
+            json.dump(self._config, f, indent=4)
+
+    def update_config(self, key: str, value: str) -> None:
+        """
+        update config file
+        """
+        self._config[key] = value
+        self.write_config()
+
+    def get_field(self, key: str) -> str:
+        """
+        get field from config file
+        """
+        return self._config[key]
+
 
 class TemporaryFilePath:
     """

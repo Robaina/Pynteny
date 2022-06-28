@@ -6,12 +6,12 @@ Functions containing CLI subcommands
 """
 
 import os
+import sys
 import shutil
 from pathlib import Path
-
 import wget
 
-from pynteny.pynteny.utils import setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
+from pynteny.pynteny.utils import ConfigParser, setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
 from pynteny.pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser, PGAP
 
 from pynteny.pynteny.utils import TemporaryFilePath, parallelizeOverInputFiles, setDefaultOutputPath
@@ -81,9 +81,7 @@ def synteny_search(args):
 
     if isTarFile(args.hmm_dir):
         shutil.rmtree(temp_hmm_dir)
-
     print('Finished!')
-
 
 def translate_assembly(args):
     """
@@ -143,9 +141,7 @@ def translate_assembly(args):
             is_peptide=True,
             keep_stop_codon=True
         )
-
     print("Finished!")
-
 
 def parse_gene_ids(args):
     """
@@ -158,12 +154,35 @@ def parse_gene_ids(args):
     print(" ")
     print(gene_synteny_struc)
 
-def download(args):
+def download_hmms(args):
     """
+    Download HMM (PGAP) database from NCBI.
     """
-    data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
-    meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
-    print("Downloading PGAP database...")
-    response_data = wget.download(data_url, "../data/hmm_PGAP.HMM.tgz")
-    print("Downloading PGAP metadata...")
-    response_meta = wget.download(meta_url, "../data/hmm_PGAP.tsv")
+    config = ConfigParser(Path("/home/robaina/Documents/Pynteny/pynteny/config.json"))
+    if args.dir is None:
+        download_dir = Path("../data/").absolute()
+    else:
+        download_dir = Path(args.dir).absolute()
+    if not download_dir.exists():
+        os.makedirs(download_dir, exist_ok=True)
+
+    if not config.get_field("data_downloaded"):
+        config.update_config("database_dir", download_dir.as_posix())
+        config.update_config("upack_PGAP_database", args.unpack)
+
+        data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
+        meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
+        print("Downloading PGAP database...")
+        try:
+            PGAP_file = download_dir / "hmm_PGAP.HMM.tgz"
+            meta_file = download_dir / "hmm_PGAP.tsv"
+            wget.download(data_url, PGAP_file.as_posix())
+            wget.download(meta_url, meta_file.as_posix())
+            print("\nDatabase dowloaded successfully")
+            config.update_config("data_downloaded", True)
+            config.update_config("PGAP_file", PGAP_file.as_posix())
+            config.update_config("PGAP_meta_file",  meta_file.as_posix())
+        except Exception as e:
+            print(e)
+            print("Failed to download PGAP database. Please check your internet connection.")
+            sys.exit(1)
