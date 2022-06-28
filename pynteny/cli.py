@@ -14,8 +14,7 @@ class Pynteny():
     """
     Temporary fix to enable subcommands without too much
     code rewriting. Based on:
-    https://selvakumar-arumugapandian.medium.com/ \ 
-    command-line-subcommands-with-pythons-argparse-4dbac80f7110
+    https://selvakumar-arumugapandian.medium.com/command-line-subcommands-with-pythons-argparse-4dbac80f7110
 
     """
     def __init__(self):
@@ -75,6 +74,7 @@ class Pynteny():
                 'The script also outputs additional file containing the matched records for the \n'
                 'other, non-target, hmms. However, these files are not processed any further.'
                 ),
+            usage=("pynteny search [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
             epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2022',
             formatter_class=argparse.RawTextHelpFormatter
             )
@@ -158,6 +158,7 @@ class Pynteny():
                 "to each identified ORF (using prodigal). Then label predicted ORFs according to \n"
                 "positional info and export a fasta file containing predicted and translated ORFs."
                 ),
+            usage=("pynteny preprocess [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
             epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
             formatter_class=argparse.RawTextHelpFormatter
             )
@@ -205,6 +206,7 @@ class Pynteny():
                 "Translate synteny structure with gene symbols into one with\n"
                 "HMM groups, according to provided HMM database."
                 ),
+            usage=("pynteny parse [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
             epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
             formatter_class=argparse.RawTextHelpFormatter
             )
@@ -230,6 +232,7 @@ class Pynteny():
                 "Download HMM database from NCBI."
                 ),
             epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
+            usage=("pynteny download [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
             formatter_class=argparse.RawTextHelpFormatter
             )
 
