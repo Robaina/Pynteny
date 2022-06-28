@@ -18,8 +18,8 @@ import pandas as pd
 from Bio import SeqIO
 import pyfastx
 
-import pynteny.pynteny.wrappers as wrappers
-from pynteny.pynteny.utils import (setDefaultOutputPath,
+import pynteny.src.wrappers as wrappers
+from pynteny.src.utils import (setDefaultOutputPath,
                                    terminalExecute)
 
 

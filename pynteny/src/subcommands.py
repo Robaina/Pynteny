@@ -11,12 +11,12 @@ import shutil
 from pathlib import Path
 import wget
 
-from pynteny.pynteny.utils import ConfigParser, setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
-from pynteny.pynteny.filter import filterFASTABySyntenyStructure, SyntenyParser, PGAP
+from pynteny.src.utils import ConfigParser, setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
+from pynteny.src.filter import filterFASTABySyntenyStructure, SyntenyParser, PGAP
 
-from pynteny.pynteny.utils import TemporaryFilePath, parallelizeOverInputFiles, setDefaultOutputPath
-from pynteny.pynteny.wrappers import runProdigal
-from pynteny.pynteny.preprocessing import FASTA, LabelledFASTA
+from pynteny.src.utils import TemporaryFilePath, parallelizeOverInputFiles, setDefaultOutputPath
+from pynteny.src.wrappers import runProdigal
+from pynteny.src.preprocessing import FASTA, LabelledFASTA
 
 
 

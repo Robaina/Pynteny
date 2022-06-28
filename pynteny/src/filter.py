@@ -16,9 +16,9 @@ from collections import defaultdict
 import pandas as pd
 from Bio import SearchIO
 
-import pynteny.pynteny.wrappers as wrappers
-from pynteny.pynteny.preprocessing import FASTA
-from pynteny.pynteny.utils import setDefaultOutputPath
+import pynteny.src.wrappers as wrappers
+from pynteny.src.preprocessing import FASTA
+from pynteny.src.utils import setDefaultOutputPath
 
 
 
