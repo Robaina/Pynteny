@@ -85,14 +85,6 @@ class Pynteny():
         required = parser.add_argument_group('required arguments')
         parser._action_groups.append(optional)
 
-        required.add_argument('--hmm_dir', dest='hmm_dir', type=Path,
-                            required=True,
-                            help=(
-                                'path to directory containing hmm (i.e, tigrfam or pfam) models. \n'
-                                'The directory can contain more hmm models than used in the synteny structure. \n'
-                                'It may also be the path to a compressed (tar, tar.gz, tgz) directory.'
-                                )
-        )
         required.add_argument('--synteny_struc', dest='synteny_struc', type=str, required=True,
                             help=(
                                 f'string displaying hmm sctructure to search for, such as: \n'
@@ -109,6 +101,16 @@ class Pynteny():
         )
         required.add_argument('--in', dest='data', type=Path, required=True,
                             help='path to peptide database'
+        )
+        optional.add_argument('--hmm_dir', dest='hmm_dir', type=Path,
+                            required=False, default=None,
+                            help=(
+                                'path to directory containing hmm (i.e, tigrfam or pfam) models. \n'
+                                'The directory can contain more hmm models than used in the synteny structure. \n'
+                                'It may also be the path to a compressed (tar, tar.gz, tgz) directory. \n'
+                                'If not provided, hmm models (PGAP database) will be downloaded from the NCBI.\n'
+                                '(if not already downloaded)'
+                                )
         )
         optional.add_argument('--outdir', dest='outdir', type=Path,
                             help='path to output directory'

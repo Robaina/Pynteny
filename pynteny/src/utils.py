@@ -27,8 +27,15 @@ class ConfigParser():
         self._config_file = Path(config_file)
         self._config = self.load_config()
     
+    @classmethod
+    def get_default_config(cls):
+        """
+        Initialize ConfigParser with default config file
+        """
+        return cls(cls.initialize_config_file())
+    
     @staticmethod
-    def initialize_config_file():
+    def initialize_config_file() -> Path:
         """
         initialize empty config file
         """
@@ -44,7 +51,8 @@ class ConfigParser():
             print(f"Initializing config file at: {config_file}")
             with open(config_file, 'w') as f:
                 json.dump(config, f, indent=4)
-
+        return config_file
+    
     def load_config(self) -> dict:
         """
         load config file

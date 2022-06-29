@@ -22,7 +22,14 @@ from pynteny.src.preprocessing import FASTA, LabelledFASTA
 
 def synteny_search(args):
     """
+    Search peptide database by synteny structure containing HMMs.
     """
+    config = ConfigParser.get_default_config()
+    if args.hmm_dir is None:
+        if not config.get_field("data_downloaded"):
+            raise ValueError("Please download hmm data first or provide path to hmm directory.")
+        else:
+            args.hmm_dir = config.get_field("PGAP_file")
     if args.gene_ids:
         print("* Finding matching HMMs for gene symbols...")
         parser = PGAP(args.hmm_meta)
@@ -85,6 +92,8 @@ def synteny_search(args):
 
 def translate_assembly(args):
     """
+    Preprocess assembly FASTA file and translate it to protein FASTA file.
+    Add positional information to sequence headers.
     """
     if args.processes is None:
         args.processes = os.cpu_count() - 1
@@ -145,6 +154,7 @@ def translate_assembly(args):
 
 def parse_gene_ids(args):
     """
+    Convert gene symbols to hmm names.
     """
     parser = PGAP(args.hmm_meta)
     gene_synteny_struc = parser.parseGenesInSyntenyStructure(
