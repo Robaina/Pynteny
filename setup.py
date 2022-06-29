@@ -10,7 +10,7 @@ with open(this_directory / 'README.md', 'r', encoding='utf-8') as f:
     long_description = f.read()
 
 DESCRIPTION = 'Multiple HMM - search via synteny structures in Python'
-LONG_DESCRIPTION = 'Multiple HMM - search via synteny structures in Python' #long_description,
+LONG_DESCRIPTION = 'Multiple HMM - search via synteny structures in Python'
 LONG_DESCRIPTION_CONTENT_TYPE = 'text/markdown'
 NAME = 'pynteny'
 AUTHOR = "Semidán Robaina Estévez"

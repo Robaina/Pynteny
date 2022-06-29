@@ -254,7 +254,6 @@ class Pynteny():
         sub.download_hmms(args)
         
 
-
 def main():
     pynteny = Pynteny()
     
