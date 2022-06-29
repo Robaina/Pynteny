@@ -26,8 +26,3 @@ https://pubs.rsc.org/en/content/articlelanding/2021/np/d1np00006c
 
 # Current limitations:
 1. If using several, alternative HMMs (for the same gene), pynteny only retains matches
-
-
-# TODO: 
-2. Double-check final output, some of the hmms in each hmm group may not have returned any hit yet they appear in results (HMM1 | HMM2)
-3. Use python logger instead of print statements
