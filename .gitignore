@@ -4,6 +4,7 @@ tests/
 *.tsv
 
 dev.ipynb
+NOTES.md
 
 build/
 dist/
