@@ -1,4 +1,4 @@
-# Pynteny: synteny hmm searches made easy in Python
+# Pynteny: synteny hmm searches made easy
 
 1. Install environment
 

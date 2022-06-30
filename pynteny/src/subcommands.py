@@ -30,12 +30,12 @@ def synteny_search(args):
             raise ValueError("Please download hmm database first or provide path to hmm directory.")
         else:
             args.hmm_dir = Path(config.get_field("PGAP_file"))
-    if args.hmm_meta is None:
-        if not config.get_field("data_downloaded"):
-            raise ValueError("Please download hmm database first or provide path to hmm metadata file.")
+    if args.gene_ids:
+        if args.hmm_meta is None:
+            if not config.get_field("data_downloaded"):
+                raise ValueError("Please download hmm database first or provide path to hmm metadata file.")
         else:
             args.hmm_meta = Path(config.get_field("PGAP_meta_file"))
-    if args.gene_ids:
         print("* Finding matching HMMs for gene symbols...")
         parser = PGAP(args.hmm_meta)
         gene_synteny_struc = parser.parseGenesInSyntenyStructure(
@@ -80,7 +80,7 @@ def synteny_search(args):
     hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
     hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
         
-    print(' 1. Searching database by synteny structure...')
+    print('Searching database by synteny structure...')
     filterFASTABySyntenyStructure(
         synteny_structure=args.synteny_struc,
         input_fasta=args.data,
