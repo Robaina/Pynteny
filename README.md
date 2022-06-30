@@ -24,5 +24,11 @@ https://pubs.rsc.org/en/content/articlelanding/2021/np/d1np00006c
 5. Taking this one step further, deep learning methods for embedding genes as vectors in their genomic context (e.g., pfam2vec) have led to improvements in BGC prediction.
 
 
-# Current limitations:
-1. If using several, alternative HMMs (for the same gene), pynteny only retains matches
+# Issues:
+1. If using several, alternative HMMs (for the same gene), pynteny only retains coincidental matches
+
+2. Would be useful to enable partially ordered synteny searches, i.e., incomplete matches that preserve the ordering and orientation of hmms. This is because MAGs are expected to be incomplete, thus it may happen that a structure is present in the genuine genome, but not in the assembled genome. Yet, these partial matches are still interesting to investigate.
+
+3. Implement synteny strucutre format checker
+
+4. Avoid need to add whitespace at start of additional args string

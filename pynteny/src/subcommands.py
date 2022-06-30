@@ -27,9 +27,14 @@ def synteny_search(args):
     config = ConfigParser.get_default_config()
     if args.hmm_dir is None:
         if not config.get_field("data_downloaded"):
-            raise ValueError("Please download hmm data first or provide path to hmm directory.")
+            raise ValueError("Please download hmm database first or provide path to hmm directory.")
         else:
-            args.hmm_dir = config.get_field("PGAP_file")
+            args.hmm_dir = Path(config.get_field("PGAP_file"))
+    if args.hmm_meta is None:
+        if not config.get_field("data_downloaded"):
+            raise ValueError("Please download hmm database first or provide path to hmm metadata file.")
+        else:
+            args.hmm_meta = Path(config.get_field("PGAP_meta_file"))
     if args.gene_ids:
         print("* Finding matching HMMs for gene symbols...")
         parser = PGAP(args.hmm_meta)
@@ -56,12 +61,14 @@ def synteny_search(args):
 
     hmm_names = SyntenyParser.getAllHMMsInStructure(args.synteny_struc)
     input_hmms = [
-        Path(os.path.join(hmm_dir, file))
-        for file in os.listdir(hmm_dir)
-        if any([hmm_name in file for hmm_name in hmm_names])
+        file for file in hmm_dir.iterdir()
+        if any([hmm_name in file.as_posix() for hmm_name in hmm_names])
     ]
     if len(input_hmms) < len(hmm_names):
-        raise ValueError("Not all HMMs in synteny structure found in HMM directory")
+        raise ValueError(
+            "Not all HMMs in synteny structure found in HMM directory. "
+            "Remember to include '--gene_ids' option if you want to search by gene symbols."
+            )
 
     if args.outdir is None:
         args.outdir = setDefaultOutputPath(args.data, only_dirname=True)

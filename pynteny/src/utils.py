@@ -281,7 +281,12 @@ def easyPatternMatching(text: str, left_pattern: str, right_pattern: str = None)
         matched_text = left_subtext
     return matched_text
 
-def flattenDirectory(directory: str):
+def flattenDirectory(directory: Path) -> None:
+    """
+    Flatten directory, i.e. remove all subdirectories and
+    copy all files to the top level directory
+    """
+    directory = directory.as_posix()
     for dirpath, _, filenames in os.walk(directory, topdown=False):
         for filename in filenames:
             i = 0

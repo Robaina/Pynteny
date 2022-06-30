@@ -100,7 +100,7 @@ class Pynteny():
                                 )
         )
         required.add_argument('--in', dest='data', type=Path, required=True,
-                            help='path to peptide database'
+                             help='path to peptide database'
         )
         optional.add_argument('--hmm_dir', dest='hmm_dir', type=Path,
                             required=False, default=None,
@@ -113,7 +113,7 @@ class Pynteny():
                                 )
         )
         optional.add_argument('--outdir', dest='outdir', type=Path,
-                            help='path to output directory'
+                             help='path to output directory', default=None
         )
         optional.add_argument('--prefix', dest='prefix', type=str,
                             default='',
@@ -149,8 +149,8 @@ class Pynteny():
                                 "in argument '--hmm_meta'"
                                 )
         )
-        required.add_argument('--hmm_meta', dest='hmm_meta', type=Path,
-                            required=False, help='path to hmm database metadata file'
+        required.add_argument('--hmm_meta', dest='hmm_meta', type=Path, default=None,
+                             required=False, help='path to hmm database metadata file'
         )
         args = parser.parse_args(self._subcommand_args)
         sub.synteny_search(args)
