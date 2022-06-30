@@ -1,5 +1,3 @@
-# Pynteny: synteny hmm searches made easy
-
 ```
     ____              __                  
    / __ \__  ______  / /____  ____  __  __
@@ -9,7 +7,7 @@
       /____/                     /____/   
 ```
 
-
+# Synteny hmm searches made easy
 ## Installation
 
 Download (or fork) repo to local directory:
