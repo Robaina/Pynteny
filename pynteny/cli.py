@@ -23,10 +23,7 @@ class Pynteny():
         self._subcommand_args = sys.argv[2:]
         parser = argparse.ArgumentParser(
             description=(self._printLogo()),
-            # epilog=(
-            #     "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"
-            #     " "
-            #     ),
+            epilog=(self._generateCoolSentence()),
             formatter_class=argparse.RawTextHelpFormatter
             )
         parser._positionals.title = "subcommands"
@@ -67,6 +64,12 @@ class Pynteny():
             )
             )
     
+    def _generateCoolQuotes(self):
+        return(
+            "May the force be with you (Yoda)\n"
+            " "
+        )
+        
     def _call_subcommand(self, subcommand_name: str) -> None: 
         subcommand = getattr(self, subcommand_name)
         subcommand()
