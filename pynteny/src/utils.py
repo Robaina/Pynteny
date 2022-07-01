@@ -7,6 +7,7 @@ Functions and classes for general purposes
 
 from __future__ import annotations
 import os
+import logging
 import shutil
 import random
 import string
@@ -17,6 +18,8 @@ import json
 from pathlib import Path
 from functools import partial
 from multiprocessing import Pool
+
+logger = logging.getLogger(__name__)
 
 
 class ConfigParser():
@@ -48,7 +51,7 @@ class ConfigParser():
                 "PGAP_file": "",
                 "PGAP_meta_file": ""
             }
-            print(f"Initializing config file at: {config_file}")
+            logger.info(f"Initializing config file at: {config_file}")
             with open(config_file, 'w') as f:
                 json.dump(config, f, indent=4)
         return config_file

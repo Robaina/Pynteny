@@ -10,6 +10,7 @@ Tools to create peptide-specific sequence databases
 
 from __future__ import annotations
 import os
+import logging
 from pathlib import Path
 from collections import defaultdict
 
@@ -20,7 +21,7 @@ import pynteny.src.wrappers as wrappers
 from pynteny.src.preprocessing import FASTA
 from pynteny.src.utils import setDefaultOutputPath
 
-
+logger = logging.getLogger(__name__)
 
 class LabelParser():
     """
@@ -408,7 +409,7 @@ class HMMER:
                     additional_args=add_args
                     )
             elif reuse_hmmer_results and os.path.isfile(hmmer_output):
-                print(f"*  Reusing Hmmer results for HMM: {hmm_name}")
+                logger.info(f"Reusing Hmmer results for HMM: {hmm_name}")
             hmm_hits[hmm_name] = HMMER.parseHMMsearchOutput(hmmer_output)
         return hmm_hits
 
@@ -555,7 +556,7 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
 
     results_table = output_dir / f"{output_prefix}synteny_matched.tsv"
 
-    print('* Running Hmmer...')
+    logger.info('* Running Hmmer...')
     hmmer = HMMER(
         input_hmms=input_hmms,
         input_data=input_fasta,
@@ -567,13 +568,13 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
         method=method
     )
 
-    print('* Filtering results by synteny structure...')
+    logger.info('* Filtering results by synteny structure...')
     syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure)
     hmm_groups = syntenyfilter._parsed_structure["hmm_groups"]
     matches = syntenyfilter.filterHitsBySyntenyStructure(
         output_tsv=results_table
         )
-    print("* Writing matching sequences to FASTA files...")
+    logger.info("* Writing matching sequences to FASTA files...")
     fasta = FASTA(input_fasta)
     df = pd.read_csv(results_table, sep="\t")
     for hmm_group in hmm_groups:
@@ -585,4 +586,4 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
                 output_file=output_fasta      
             )
         else:
-            print(f"No record matches found in synteny structure for HMM: {hmm_group}")
+            logger.warning(f"No record matches found in synteny structure for HMM: {hmm_group}")

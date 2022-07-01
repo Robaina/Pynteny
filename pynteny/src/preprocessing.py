@@ -21,7 +21,6 @@ import pynteny.src.wrappers as wrappers
 from pynteny.src.utils import setDefaultOutputPath, terminalExecute
 
 
-
 class RecordSequence():
     """
     Tools to process nucleotide or peptide sequences

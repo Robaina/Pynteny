@@ -8,6 +8,7 @@ Functions containing CLI subcommands
 import os
 import sys
 import shutil
+import logging
 from pathlib import Path
 import wget
 
@@ -18,6 +19,7 @@ from pynteny.src.utils import TemporaryFilePath, parallelizeOverInputFiles, setD
 from pynteny.src.wrappers import runProdigal
 from pynteny.src.preprocessing import FASTA, LabelledFASTA
 
+logger = logging.getLogger(__name__)
 
 
 def synteny_search(args):
@@ -36,17 +38,16 @@ def synteny_search(args):
                 raise ValueError("Please download hmm database first or provide path to hmm metadata file.")
         else:
             args.hmm_meta = Path(config.get_field("PGAP_meta_file"))
-        print("* Finding matching HMMs for gene symbols...")
+        logger.info("* Finding matching HMMs for gene symbols...")
         parser = PGAP(args.hmm_meta)
         gene_synteny_struc = parser.parseGenesInSyntenyStructure(
             synteny_structure=args.synteny_struc
         )
         args.synteny_struc = gene_synteny_struc
-        print("* Found the following HMMs in database for given structure: ")
-        print(gene_synteny_struc)
+        logger.info(f"* Found the following HMMs in database for given structure:\n{gene_synteny_struc}")
 
     if isTarFile(args.hmm_dir):
-        print("* Extracting hmm files to temporary directory...")
+        logger.info("* Extracting hmm files to temporary directory...")
         temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
         extractTarFile(
             tar_file=args.hmm_dir,
@@ -80,7 +81,7 @@ def synteny_search(args):
     hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
     hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
         
-    print('Searching database by synteny structure...')
+    logger.info('Searching database by synteny structure...')
     filterFASTABySyntenyStructure(
         synteny_structure=args.synteny_struc,
         input_fasta=args.data,
@@ -95,7 +96,7 @@ def synteny_search(args):
 
     if isTarFile(args.hmm_dir):
         shutil.rmtree(temp_hmm_dir)
-    print('Finished!')
+    logger.info('Finished!')
 
 def translate_assembly(args):
     """
@@ -106,7 +107,7 @@ def translate_assembly(args):
         args.processes = os.cpu_count() - 1
 
     if args.split:
-        print("1. Splitting assembly file...")
+        logger.info("1. Splitting assembly file...")
         split_dir = os.path.join(
             setDefaultOutputPath(args.assembly_fasta, only_dirname=True),
             f"split_{setDefaultOutputPath(args.assembly_fasta, only_basename=True)}"
@@ -120,7 +121,7 @@ def translate_assembly(args):
     else:
         input_assembly = args.assembly_fasta
 
-    print("2. Running prodigal on assembly...")
+    logger.info("2. Running prodigal on assembly...")
     if input_assembly.is_dir():
         split_prodigal_dir = args.outdir / "split_prodigal/"
         os.makedirs(split_prodigal_dir, exist_ok=True)
@@ -146,7 +147,7 @@ def translate_assembly(args):
         )
     shutil.rmtree(split_dir)
     
-    print("3. Parsing prodigal output...")
+    logger.info("3. Parsing prodigal output...")
     with TemporaryFilePath() as tempfasta:
         labelledfasta = LabelledFASTA.fromProdigalOutput(
             prodigal_faa=args.outdir / f"{args.prefix}merged.faa",
@@ -157,7 +158,7 @@ def translate_assembly(args):
             is_peptide=True,
             keep_stop_codon=True
         )
-    print("Finished!")
+    logger.info("Finished!")
 
 def parse_gene_ids(args):
     """
@@ -167,9 +168,7 @@ def parse_gene_ids(args):
     gene_synteny_struc = parser.parseGenesInSyntenyStructure(
         synteny_structure=args.synteny_struc
         )
-    print("Found the following HMMs in database for given structure: ")
-    print(" ")
-    print(gene_synteny_struc)
+    logger.info(f"Found the following HMMs in database for given structure:\{gene_synteny_struc}")
 
 def download_hmms(args):
     """
@@ -191,17 +190,16 @@ def download_hmms(args):
 
         data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
         meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
-        print("Downloading PGAP database...")
+        logger.info("Downloading PGAP database...")
         try:
             PGAP_file = download_dir / "hmm_PGAP.HMM.tgz"
             meta_file = download_dir / "hmm_PGAP.tsv"
             wget.download(data_url, PGAP_file.as_posix())
             wget.download(meta_url, meta_file.as_posix())
-            print("\nDatabase dowloaded successfully")
+            logger.info("\nDatabase dowloaded successfully")
             config.update_config("data_downloaded", True)
             config.update_config("PGAP_file", PGAP_file.as_posix())
             config.update_config("PGAP_meta_file",  meta_file.as_posix())
         except Exception as e:
-            print(e)
-            print("Failed to download PGAP database. Please check your internet connection.")
+            logger.exception("Failed to download PGAP database. Please check your internet connection.")
             sys.exit(1)
