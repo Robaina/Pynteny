@@ -11,6 +11,7 @@ Tools to preprocess sequence databases
 
 from __future__ import annotations
 import os
+import logging
 from pathlib import Path
 # from typing import Self
 
@@ -19,6 +20,8 @@ import pyfastx
 
 import pynteny.src.wrappers as wrappers
 from pynteny.src.utils import setDefaultOutputPath, terminalExecute
+
+logger = logging.getLogger(__name__)
 
 
 class RecordSequence():
@@ -175,7 +178,7 @@ class LabelledFASTA(FASTA):
             for record_name, record_seq in data:
                 name_list = record_name.split(" ")
                 if len(name_list) < number_prodigal_record_fields:
-                    raise ValueError(f"Invalid prodigal header format for record: {record_name}")
+                    logger.error(f"Invalid prodigal header format for record: {record_name}")
                 contig = "_".join(name_list[0].split("_")[:-1])
                 gene_number = name_list[0].split("_")[-1]
                 start, end = name_list[2], name_list[4]

@@ -95,7 +95,7 @@ class SyntenyParser():
         """
         links = synteny_structure.replace("(","").replace(")","").strip().split()
         if not links:
-            raise ValueError("Invalid format for synteny structure")
+            logger.error("Invalid format for synteny structure")
         hmm_groups = [
             SyntenyParser.splitStrandFromLocus(h)[1] 
             for h in links if not h.isdigit()
@@ -121,7 +121,7 @@ class SyntenyParser():
         """
         links = synteny_structure.strip().split()
         if not links:
-            raise ValueError("Invalid format for synteny structure")
+            logger.error("Invalid format for synteny structure")
         return [
             SyntenyParser.splitStrandFromLocus(h, parsed_symbol)[0] 
             for h in links if not h.isdigit()
@@ -134,7 +134,7 @@ class SyntenyParser():
         """
         links = synteny_structure.strip().split()
         if not links:
-            raise ValueError("Invalid format for synteny structure")
+            logger.error("Invalid format for synteny structure")
         return [int(dist) for dist in links if dist.isdigit()]
 
     @staticmethod
@@ -240,7 +240,7 @@ class SyntenyHMMfilter():
         for hmm, hits in self._hmm_hits.items():
             labels = hits.id.values.tolist()
             if not labels:
-                raise ValueError(
+                logger.error(
                     f'No records found in database matching HMM: {hmm}'
                     )
             hit_labels[hmm] = labelparser.parse_from_list(labels)
@@ -263,7 +263,7 @@ class SyntenyHMMfilter():
             if hmm_name in hmm_group
             ]
         if len(code) > 1:
-            raise ValueError(
+            logger.error(
             f"HMM: {hmm_name} found in more than one hmm group in synteny structure"
             )
         return code[0]
@@ -468,7 +468,7 @@ class PGAP:
         """
         links = synteny_structure.strip().split()
         if not links:
-            raise ValueError("Invalid format for synteny structure")
+            logger.error("Invalid format for synteny structure")
         gene_symbols = [
             SyntenyParser.splitStrandFromLocus(h)[1] 
             for h in links if not h.isdigit()
@@ -488,7 +488,7 @@ class PGAP:
             if not hmms
         ]
         if unmatched_genes:
-            raise ValueError(
+            logger.error(
                 f"These genes did not get a HMM match in database: {unmatched_genes}"
                 )
         hmm_synteny_struc = ""
@@ -543,9 +543,9 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
             additional_args = [additional_args[0] for _ in input_hmms]
 
         if (len(additional_args) > 1) and (len(additional_args) < len(input_hmms)):
-            raise ValueError("Provided additional argument strings are less than the number of input hmms.")
+            logger.error("Provided additional argument strings are less than the number of input hmms.")
     else:
-        raise ValueError('Additional arguments must be: 1) a list[str], 2) a str, or 3) None')
+        logger.error("Additional arguments must be: 1) a list[str], 2) a str, or 3) None")
     if not os.path.isdir(hmmer_output_dir):
         os.mkdir(hmmer_output_dir)
     

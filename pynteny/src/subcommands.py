@@ -29,25 +29,25 @@ def synteny_search(args):
     config = ConfigParser.get_default_config()
     if args.hmm_dir is None:
         if not config.get_field("data_downloaded"):
-            raise ValueError("Please download hmm database first or provide path to hmm directory.")
+            logger.error("Please download hmm database first or provide path to hmm directory.")
         else:
             args.hmm_dir = Path(config.get_field("PGAP_file"))
     if args.gene_ids:
         if args.hmm_meta is None:
             if not config.get_field("data_downloaded"):
-                raise ValueError("Please download hmm database first or provide path to hmm metadata file.")
+                logger.error("Please download hmm database first or provide path to hmm metadata file.")
         else:
             args.hmm_meta = Path(config.get_field("PGAP_meta_file"))
-        logger.info("* Finding matching HMMs for gene symbols...")
+        logger.info("Finding matching HMMs for gene symbols...")
         parser = PGAP(args.hmm_meta)
         gene_synteny_struc = parser.parseGenesInSyntenyStructure(
             synteny_structure=args.synteny_struc
         )
         args.synteny_struc = gene_synteny_struc
-        logger.info(f"* Found the following HMMs in database for given structure:\n{gene_synteny_struc}")
+        logger.info(f"Found the following HMMs in database for given structure:\n{gene_synteny_struc}")
 
     if isTarFile(args.hmm_dir):
-        logger.info("* Extracting hmm files to temporary directory...")
+        logger.info("Extracting hmm files to temporary directory...")
         temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
         extractTarFile(
             tar_file=args.hmm_dir,
@@ -66,7 +66,7 @@ def synteny_search(args):
         if any([hmm_name in file.as_posix() for hmm_name in hmm_names])
     ]
     if len(input_hmms) < len(hmm_names):
-        raise ValueError(
+        logger.error(
             "Not all HMMs in synteny structure found in HMM directory. "
             "Remember to include '--gene_ids' option if you want to search by gene symbols."
             )
@@ -196,7 +196,7 @@ def download_hmms(args):
             meta_file = download_dir / "hmm_PGAP.tsv"
             wget.download(data_url, PGAP_file.as_posix())
             wget.download(meta_url, meta_file.as_posix())
-            logger.info("\nDatabase dowloaded successfully")
+            logger.info("\nDatabase dowloaded successfully\n")
             config.update_config("data_downloaded", True)
             config.update_config("PGAP_file", PGAP_file.as_posix())
             config.update_config("PGAP_meta_file",  meta_file.as_posix())

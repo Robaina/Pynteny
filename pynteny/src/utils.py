@@ -261,7 +261,7 @@ def extractTarFile(tar_file: Path, dest_dir: Path = None) -> None:
         tar.extractall(path=dest_dir)
         tar.close()
     else:
-        raise ValueError('Input is not a tar file')
+        logger.error("Input is not a tar file")
 
 def listTarDir(tar_dir: Path) -> list:
     """
