@@ -246,7 +246,7 @@ class SyntenyHMMfilter():
             hit_labels[hmm]["hmm"] = hmm
 
         # Create single dataframe with new column corresponding to HMM and all hits
-        # Remove contigs with less hits than the number of hmms in synteny structure
+        # Remove contigs with less hits than the number of hmms in synteny structure (drop if enabling partial searching)
         all_hit_labels = pd.concat(
             hit_labels.values()
             ).groupby("contig").filter(
