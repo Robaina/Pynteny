@@ -300,7 +300,6 @@ class SyntenyHMMfilter():
             outfile.writelines(output_lines)
         # sort values by gene pos and contig
         pd.read_csv(output_file, sep="\t").sort_values(["contig", "gene_number"]).to_csv(output_file, sep="\t")
-        return None
 
     def filterHitsBySyntenyStructure(self, output_tsv: str = None) -> dict:
         """
@@ -371,7 +370,6 @@ class HMMER:
         self._input_hmms = input_hmms
         self._input_fasta = input_data
         self._additional_args = additional_args
-        return None
 
     @property
     def hmm_names(self) -> list[str]:
@@ -423,7 +421,6 @@ class PGAP:
         meta = pd.read_csv(meta_file, sep="\t")
         meta = meta[["#ncbi_accession", "gene_symbol", "product_name"]]
         self._meta = meta
-        return None 
 
     def getHMMnamesByGeneID(self, gene_id: str) -> list[str]:
         """

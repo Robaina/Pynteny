@@ -14,13 +14,11 @@ import os
 from pathlib import Path
 # from typing import Self
 
-import pandas as pd
 from Bio import SeqIO
 import pyfastx
 
 import pynteny.src.wrappers as wrappers
-from pynteny.src.utils import (setDefaultOutputPath,
-                                   terminalExecute)
+from pynteny.src.utils import setDefaultOutputPath, terminalExecute
 
 
 
@@ -61,7 +59,6 @@ class FASTA():
         """
         self._input_file = Path(input_file)
         self._input_file_str = self._input_file.as_posix()
-        return None
 
     @staticmethod
     def mergeFASTAs(input_dir: Path,
@@ -77,7 +74,6 @@ class FASTA():
             work_dir=input_dir,
             suppress_shell_output=False
             )
-        return None
   
     def removeDuplicates(self,
                          output_file: Path = None,
@@ -101,7 +97,6 @@ class FASTA():
         else:
             wrappers.runSeqKitNoDup(input_fasta=self._input_file, output_fasta=output_file,
                                     export_duplicates=export_duplicates)
-        return None
 
     def removeCorruptedSequences(self,
                                  output_file: Path = None,
@@ -127,7 +122,6 @@ class FASTA():
                     record_seq = RecordSequence.removeStopCodonSignals(record_seq)
                 if isLegitSequence(record_seq):
                     outfile.write(f'>{record_name}\n{record_seq}\n')
-        return None
 
     def filterByIDs(self, record_ids: list,
                     output_file: Path = None) -> None:
@@ -146,7 +140,6 @@ class FASTA():
                 except:
                     pass
         os.remove(self._input_file_str + ".fxi")
-        return None
 
     def splitByContigs(self, output_dir: Path = None) -> None:
         """
@@ -161,7 +154,6 @@ class FASTA():
             with open(outfile, "w+") as file:
                 file.write(f">{contig_name}\n")
                 file.write(seq + "\n")
-        return None
 
 
 class LabelledFASTA(FASTA):
@@ -208,7 +200,6 @@ class LabelledFASTA(FASTA):
         """
         if output_file is None:
             output_file = setDefaultOutputPath(gbk_file, extension=".fasta")
-            # output_file = Path(gbk_file.parent) / gbk_file.stem + ".fasta"
         gbk_contigs = list(SeqIO.parse(gbk_file, 'genbank'))
         
         def get_label_str(gbk_contig, feature):
