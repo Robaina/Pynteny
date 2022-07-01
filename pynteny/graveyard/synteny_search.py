@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-import shutil
 import argparse
 from pathlib import Path
 
@@ -80,7 +78,6 @@ parser.add_argument('--max_seq_length', dest='maxseqlength',
                         'Defaults to inf'
                         )
 )
-
 
 args = parser.parse_args()
 
