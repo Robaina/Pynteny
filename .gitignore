@@ -1,5 +1,6 @@
 **/__pycache__/
 tests/
+!tests/script.sh
 *.pickle
 *.tsv
 
@@ -9,4 +10,4 @@ NOTES.md
 build/
 dist/
 *.egg-info
-/data
+data/
