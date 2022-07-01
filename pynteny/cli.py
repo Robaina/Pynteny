@@ -3,6 +3,7 @@
 
 
 import sys
+import random
 import argparse
 from pathlib import Path
 
@@ -23,7 +24,7 @@ class Pynteny():
         self._subcommand_args = sys.argv[2:]
         parser = argparse.ArgumentParser(
             description=(self._printLogo()),
-            epilog=(self._generateCoolSentence()),
+            epilog=(self._generateCoolQuotes()),
             formatter_class=argparse.RawTextHelpFormatter
             )
         parser._positionals.title = "subcommands"
@@ -65,8 +66,13 @@ class Pynteny():
             )
     
     def _generateCoolQuotes(self):
+        quotes = [
+            "May the force be with you (Yoda)",
+            "This looks like a job for a computer (AI)",
+            "This is such a wonderful day to do bioinformatics (SR)"
+        ]
         return(
-            "May the force be with you (Yoda)\n"
+            f"{random.choice(quotes)}\n"
             " "
         )
         
