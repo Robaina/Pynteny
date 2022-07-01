@@ -419,7 +419,7 @@ class PGAP:
         """
         Tools to parse PGAP hmm database metadata
         """
-        meta = pd.read_csv(meta_file, sep="\t")
+        meta = pd.read_csv(meta_file.as_posix(), sep="\t")
         meta = meta[["#ncbi_accession", "gene_symbol", "product_name"]]
         self._meta = meta
 
@@ -556,7 +556,7 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
 
     results_table = output_dir / f"{output_prefix}synteny_matched.tsv"
 
-    logger.info('* Running Hmmer...')
+    logger.info('* Running Hmmer')
     hmmer = HMMER(
         input_hmms=input_hmms,
         input_data=input_fasta,
@@ -568,13 +568,13 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
         method=method
     )
 
-    logger.info('* Filtering results by synteny structure...')
+    logger.info('* Filtering results by synteny structure')
     syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure)
     hmm_groups = syntenyfilter._parsed_structure["hmm_groups"]
     matches = syntenyfilter.filterHitsBySyntenyStructure(
         output_tsv=results_table
         )
-    logger.info("* Writing matching sequences to FASTA files...")
+    logger.info("* Writing matching sequences to FASTA files")
     fasta = FASTA(input_fasta)
     df = pd.read_csv(results_table, sep="\t")
     for hmm_group in hmm_groups:

@@ -62,8 +62,8 @@ pynteny search \
  --in /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
  --outdir /home/robaina/Documents/Pynteny/tests/sox_results_2 \
  --synteny_struc ">soxX 0 >soxY 0 >soxZ 0 >soxA 0 >soxB 0 >soxC" \
- --gene_ids
-#  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
-#  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
+ --gene_ids \
+ --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
+ --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
 #  --gene_ids
  

@@ -19,6 +19,8 @@ from pynteny.src.utils import TemporaryFilePath, parallelizeOverInputFiles, setD
 from pynteny.src.wrappers import runProdigal
 from pynteny.src.preprocessing import FASTA, LabelledFASTA
 
+
+logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s', level=logging.NOTSET)
 logger = logging.getLogger(__name__)
 
 
@@ -36,9 +38,9 @@ def synteny_search(args):
         if args.hmm_meta is None:
             if not config.get_field("data_downloaded"):
                 logger.error("Please download hmm database first or provide path to hmm metadata file.")
-        else:
-            args.hmm_meta = Path(config.get_field("PGAP_meta_file"))
-        logger.info("Finding matching HMMs for gene symbols...")
+            else:
+                args.hmm_meta = Path(config.get_field("PGAP_meta_file"))
+        logger.info("Finding matching HMMs for gene symbols")
         parser = PGAP(args.hmm_meta)
         gene_synteny_struc = parser.parseGenesInSyntenyStructure(
             synteny_structure=args.synteny_struc
@@ -47,7 +49,7 @@ def synteny_search(args):
         logger.info(f"Found the following HMMs in database for given structure:\n{gene_synteny_struc}")
 
     if isTarFile(args.hmm_dir):
-        logger.info("Extracting hmm files to temporary directory...")
+        logger.info("Extracting hmm files to temporary directory")
         temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
         extractTarFile(
             tar_file=args.hmm_dir,
@@ -81,7 +83,7 @@ def synteny_search(args):
     hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
     hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
         
-    logger.info('Searching database by synteny structure...')
+    logger.info('Searching database by synteny structure')
     filterFASTABySyntenyStructure(
         synteny_structure=args.synteny_struc,
         input_fasta=args.data,
@@ -107,7 +109,7 @@ def translate_assembly(args):
         args.processes = os.cpu_count() - 1
 
     if args.split:
-        logger.info("1. Splitting assembly file...")
+        logger.info("Splitting assembly file")
         split_dir = os.path.join(
             setDefaultOutputPath(args.assembly_fasta, only_dirname=True),
             f"split_{setDefaultOutputPath(args.assembly_fasta, only_basename=True)}"
@@ -121,7 +123,7 @@ def translate_assembly(args):
     else:
         input_assembly = args.assembly_fasta
 
-    logger.info("2. Running prodigal on assembly...")
+    logger.info("Running prodigal on assembly")
     if input_assembly.is_dir():
         split_prodigal_dir = args.outdir / "split_prodigal/"
         os.makedirs(split_prodigal_dir, exist_ok=True)
@@ -147,7 +149,7 @@ def translate_assembly(args):
         )
     shutil.rmtree(split_dir)
     
-    logger.info("3. Parsing prodigal output...")
+    logger.info("Parsing prodigal output")
     with TemporaryFilePath() as tempfasta:
         labelledfasta = LabelledFASTA.fromProdigalOutput(
             prodigal_faa=args.outdir / f"{args.prefix}merged.faa",
@@ -190,13 +192,14 @@ def download_hmms(args):
 
         data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
         meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
-        logger.info("Downloading PGAP database...")
+        logger.info("Downloading PGAP database")
         try:
             PGAP_file = download_dir / "hmm_PGAP.HMM.tgz"
             meta_file = download_dir / "hmm_PGAP.tsv"
             wget.download(data_url, PGAP_file.as_posix())
             wget.download(meta_url, meta_file.as_posix())
-            logger.info("\nDatabase dowloaded successfully\n")
+            print(" \n")
+            logger.info("Database dowloaded successfully\n")
             config.update_config("data_downloaded", True)
             config.update_config("PGAP_file", PGAP_file.as_posix())
             config.update_config("PGAP_meta_file",  meta_file.as_posix())
