@@ -19,28 +19,14 @@ class Pynteny():
 
     """
     def __init__(self):
-        ConfigParser.initialize_config_file()
         self._subcommand = sys.argv[1:2]
         self._subcommand_args = sys.argv[2:]
         parser = argparse.ArgumentParser(
-            description=(
-                """
-
-    ____              __                  
-   / __ \__  ______  / /____  ____  __  __
-  / /_/ / / / / __ \/ __/ _ \/ __ \/ / / /
- / ____/ /_/ / / / / /_/  __/ / / / /_/ / 
-/_/    \__, /_/ /_/\__/\___/_/ /_/\__, /  
-      /____/                     /____/   
-
-"""
-                "synteny-based Hmmer searches made easy\n"
-                " \n"
-                ),
-            epilog=(
-                "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"
-                " "
-                ),
+            description=(self._printLogo()),
+            # epilog=(
+            #     "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"
+            #     " "
+            #     ),
             formatter_class=argparse.RawTextHelpFormatter
             )
         parser._positionals.title = "subcommands"
@@ -59,7 +45,27 @@ class Pynteny():
             sys.exit(1)
         args = parser.parse_args(self._subcommand)
         input_subcommand = getattr(args, "subcommand")
+        self._printLogo()
+        ConfigParser.initialize_config_file()
         self._call_subcommand(subcommand_name=input_subcommand)
+
+    def _printLogo(self):
+        print(
+            (
+            """
+    ____              __                  
+   / __ \__  ______  / /____  ____  __  __
+  / /_/ / / / / __ \/ __/ _ \/ __ \/ / / /
+ / ____/ /_/ / / / / /_/  __/ / / / /_/ / 
+/_/    \__, /_/ /_/\__/\___/_/ /_/\__, /  
+      /____/                     /____/   
+
+"""
+            "Synteny-based Hmmer searches made easy\n"
+            "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"
+            " \n"
+            )
+            )
     
     def _call_subcommand(self, subcommand_name: str) -> None: 
         subcommand = getattr(self, subcommand_name)

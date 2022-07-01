@@ -51,7 +51,7 @@ class ConfigParser():
                 "PGAP_file": "",
                 "PGAP_meta_file": ""
             }
-            logger.info(f"Initializing config file at: {config_file}")
+            logger.info(f"Initializing config file at: \n{config_file}")
             with open(config_file, 'w') as f:
                 json.dump(config, f, indent=4)
         return config_file
