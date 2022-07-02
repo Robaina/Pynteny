@@ -43,7 +43,6 @@ class Pynteny():
             sys.exit(1)
         args = parser.parse_args(self._subcommand)
         input_subcommand = getattr(args, "subcommand")
-        self._printLogo()
         ConfigParser.initialize_config_file()
         self._call_subcommand(subcommand_name=input_subcommand)
 
@@ -69,7 +68,9 @@ class Pynteny():
         quotes = [
             "May the force be with you (Yoda)",
             "This looks like a job for a computer (AI)",
-            "This is such a wonderful day to do bioinformatics (SR)"
+            "This is such a wonderful day to do bioinformatics (SR)",
+            "One does not simply walk into Mordor (J.R.R. Tolkien)",
+            "Damn, looks like a rainy day, let's do bioiformatics! (SR)",
         ]
         return(
             f"{random.choice(quotes)}\n"

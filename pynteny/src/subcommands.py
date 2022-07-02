@@ -51,6 +51,8 @@ def synteny_search(args):
     if isTarFile(args.hmm_dir):
         logger.info("Extracting hmm files to temporary directory")
         temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
+        if temp_hmm_dir.exists():
+            shutil.rmtree(temp_hmm_dir)
         extractTarFile(
             tar_file=args.hmm_dir,
             dest_dir=temp_hmm_dir
@@ -95,8 +97,7 @@ def synteny_search(args):
         method='hmmsearch',
         additional_args=hmmsearch_args
     )
-
-    if isTarFile(args.hmm_dir):
+    if temp_hmm_dir.exists():
         shutil.rmtree(temp_hmm_dir)
     logger.info('Finished!')
 
