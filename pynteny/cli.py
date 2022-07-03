@@ -35,7 +35,8 @@ class Pynteny():
                 f"parse \n"
                 f"download \n"
                 ),
-            dest="subcommand"
+            dest="subcommand",
+            metavar="",
             )
         parser.add_argument("-v","--version", help="show version and exit", action="version", version="0.0.1")
         if len(sys.argv) < 2:
@@ -84,80 +85,61 @@ class Pynteny():
     def search(self):
         parser = argparse.ArgumentParser(
             description=(
-                'Build peptide database from HMM synteny structure. \n'
-                'The script outputs a main file containing sequences matching the provided \n'
-                'hmm structure and corresponding to the main target indicated in the argument: \n'
-                'target_hmm. These sequences are filtered by sequence length and by maximum \n'
-                'number of total sequences. \n'
-                'The script also outputs additional file containing the matched records for the \n'
-                'other, non-target, hmms. However, these files are not processed any further.'
+                "Query sequence database for HMM hits arranged in provided synteny structure."
                 ),
             usage=("pynteny search [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
-            epilog='Semidán Robaina Estévez (srobaina@ull.edu.es), 2022',
+            epilog="  \n",
             formatter_class=argparse.RawTextHelpFormatter
             )
 
         optional = parser._action_groups.pop()
-        required = parser.add_argument_group('required arguments')
+        required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
 
-        required.add_argument('--synteny_struc', dest='synteny_struc', type=str, required=True,
+        required.add_argument("-s", "--synteny_struc", 
+                            metavar="", dest="synteny_struc", 
+                            type=str, required=True,
                             help=(
-                                f'string displaying hmm sctructure to search for, such as: \n'
+                                f"string displaying hmm sctructure to search for, such as: \n"
                                 f" \n"
-                                f'">hmm_a n_ab <hmm_b n_bc hmm_c"\n'
+                                f"'>hmm_a n_ab <hmm_b n_bc hmm_c'\n"
                                 f" \n"
-                                f'where ">" indicates a hmm target located on the positive strand, \n'
-                                f'"<" a target located on the negative strand, and n_ab cooresponds \n'
-                                f'to the maximum number of genes separating matched gene a and b. \n' 
-                                f'Multiple hmms may be employed (limited by computational capabilities). \n'
-                                f'No order symbol in a hmm indicates that results should be independent \n'
-                                f'of strand location. '
+                                f"where '>' indicates a hmm target located on the positive strand, \n"
+                                f"'<' a target located on the negative strand, and n_ab cooresponds \n"
+                                f"to the maximum number of genes separating matched gene a and b. \n" 
+                                f"Multiple hmms may be employed. \n"
+                                f"No order symbol in a hmm indicates that results should be independent \n"
+                                f"of strand location. "
                                 )
         )
-        required.add_argument('--in', dest='data', type=Path, required=True,
-                             help='path to peptide database'
+        required.add_argument("-i", "--data", dest="data", metavar="", type=Path, required=True,
+                             help="path to peptide database"
         )
-        optional.add_argument('--hmm_dir', dest='hmm_dir', type=Path,
+        optional.add_argument("-d", "--hmm_dir", dest="hmm_dir", type=Path, metavar="",
                             required=False, default=None,
                             help=(
-                                'path to directory containing hmm (i.e, tigrfam or pfam) models. \n'
-                                'The directory can contain more hmm models than used in the synteny structure. \n'
-                                'It may also be the path to a compressed (tar, tar.gz, tgz) directory. \n'
-                                'If not provided, hmm models (PGAP database) will be downloaded from the NCBI.\n'
-                                '(if not already downloaded)'
+                                "path to directory containing hmm (i.e, tigrfam or pfam) models. \n"
+                                "The directory can contain more hmm models than used in the synteny structure. \n"
+                                "It may also be the path to a compressed (tar, tar.gz, tgz) directory. \n"
+                                "If not provided, hmm models (PGAP database) will be downloaded from the NCBI.\n"
+                                "(if not already downloaded)"
                                 )
         )
-        optional.add_argument('--outdir', dest='outdir', type=Path,
-                             help='path to output directory', default=None
+        optional.add_argument("-o", "--outdir", dest="outdir", type=Path, metavar="",
+                             help="path to output directory", default=None
         )
-        optional.add_argument('--prefix', dest='prefix', type=str,
-                            default='',
-                            help='prefix to be added to output files'
+        optional.add_argument("-p", "--prefix", dest="prefix", type=str, metavar="",
+                            default="",
+                            help="prefix to be added to output files"
         )
-        optional.add_argument('--min_seq_length', dest='minseqlength',
-                            default=None, type=int,
+        optional.add_argument("-a", "--hmmsearch_args", dest="hmmsearch_args", type=str,
+                            metavar="", default=None, required=False,
                             help=(
-                                'minimum sequence length in reference database. '
-                                'Defaults to zero'
-                                )
+                                "list of comma-separated additional arguments to hmmsearch for each input hmm. \n"
+                                "A single argument may be provided, in which case the same additional argument \n"
+                                "is employed in all hmms.")
         )
-        optional.add_argument('--hmmsearch_args', dest='hmmsearch_args', type=str,
-                            default=None, required=False,
-                            help=(
-                                'list of comma-separated additional arguments to hmmsearch for each input hmm. \n'
-                                'A single argument may be provided, in which case the same additional argument \n'
-                                'is employed in all hmms.')
-        )
-        optional.add_argument('--max_seq_length', dest='maxseqlength',
-                            default=None, type=int,
-                            required=False,
-                            help=(
-                                'maximum sequence length in reference database. '
-                                'Defaults to inf'
-                                )
-        )
-        optional.add_argument("--gene_ids", dest="gene_ids",
+        optional.add_argument("-g", "--gene_ids", dest="gene_ids",
                              default=False, action="store_true",
                              help=(
                                 "use gene symbols in synteny structure instead of HMM nanmes. \n"
@@ -165,8 +147,9 @@ class Pynteny():
                                 "in argument '--hmm_meta'"
                                 )
         )
-        required.add_argument('--hmm_meta', dest='hmm_meta', type=Path, default=None,
-                             required=False, help='path to hmm database metadata file'
+        required.add_argument("-m", "--hmm_meta", dest="hmm_meta", type=Path, default=None,
+                             metavar="",
+                             required=False, help="path to hmm database metadata file"
         )
         args = parser.parse_args(self._subcommand_args)
         sub.synteny_search(args)
@@ -175,11 +158,11 @@ class Pynteny():
         parser = argparse.ArgumentParser(
             description=(
                 "Translate nucleotide assembly file and assign contig and gene location info \n"
-                "to each identified ORF (using prodigal). Then label predicted ORFs according to \n"
+                "to each identified ORF (using prodigal). Label predicted ORFs according to \n"
                 "positional info and export a fasta file containing predicted and translated ORFs."
                 ),
             usage=("pynteny preprocess [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
-            epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
+            epilog="  \n",
             formatter_class=argparse.RawTextHelpFormatter
             )
 
@@ -187,33 +170,33 @@ class Pynteny():
         required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
 
-        required.add_argument("--assembly_fasta", dest="assembly_fasta", type=Path,
-                            required=True,
+        required.add_argument("-i", "--assembly_fasta", dest="assembly_fasta", type=Path,
+                            required=True, metavar="",
                             help=(
                                 "path to assembly input nucleotide data. It can be a single \n"
                                 "FASTA file or a directory containing several FASTA files."
                                 )
         )
-        optional.add_argument("--outdir", dest="outdir", type=Path,
+        optional.add_argument("-o", "--outdir", dest="outdir", type=Path, metavar="",
                             help="path to output directory"
         )
-        optional.add_argument("--prefix", dest="prefix", type=str,
-                            default="prodigal",
+        optional.add_argument("-p", "--prefix", dest="prefix", type=str,
+                            default="prodigal", metavar="",
                             help="prefix to be added to output files"
         )
-        optional.add_argument("--processes", "-p", dest="processes", type=int,
+        optional.add_argument("-n", "--processes", dest="processes", type=int, metavar="",
                             required=False, default=None, help=(
                                 "set maximum number of processes. "
                                 "Defaults to all but one."
                                 )
                                 )
-        optional.add_argument("--split_contigs", dest="split",
+        optional.add_argument("-s", "--split_contigs", dest="split",
                             default=False, action="store_true",
                             help="split assembly input file into files containing one contig each")
-        optional.add_argument("--metagenome", dest="metagenome",
+        optional.add_argument("-m", "--metagenome", dest="metagenome",
                             default=False, action="store_true",
                             help="treat input assembly as of type metagenome (for prodigal)")
-        optional.add_argument("--prodigal_args", dest="prodigal_args", type=str,
+        optional.add_argument("-a", "--prodigal_args", dest="prodigal_args", type=str, metavar="",
                             default=None, required=False,
                             help=("additional arguments to prodigal provided as defined by it")
                             )
@@ -227,7 +210,7 @@ class Pynteny():
                 "HMM groups, according to provided HMM database."
                 ),
             usage=("pynteny parse [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
-            epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
+            epilog="  \n",
             formatter_class=argparse.RawTextHelpFormatter
             )
 
@@ -235,13 +218,13 @@ class Pynteny():
         required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
 
-        required.add_argument("--synteny_struc", dest="synteny_struc", type=str,
-                            required=True,
+        required.add_argument("-s", "--synteny_struc", dest="synteny_struc", type=str,
+                            required=True, metavar="",
                             help=(
                                 "synteny structure containing gene symbols instead of HMMs"
                                 )
         )
-        required.add_argument("--hmm_meta", dest="hmm_meta", type=Path,
+        required.add_argument("-m", "--hmm_meta", dest="hmm_meta", type=Path, metavar="",
                              required=True, help="path to hmm database metadata file")
         args = parser.parse_args(self._subcommand_args)
         sub.parse_gene_ids(args)
@@ -251,7 +234,7 @@ class Pynteny():
             description=(
                 "Download HMM database from NCBI."
                 ),
-            epilog="Semidán Robaina Estévez (srobaina@ull.edu.es), 2022",
+            epilog="  \n",
             usage=("pynteny download [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
             formatter_class=argparse.RawTextHelpFormatter
             )
@@ -260,11 +243,11 @@ class Pynteny():
         required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
 
-        optional.add_argument("--dir", dest="dir", type=Path,
+        optional.add_argument("-d", "--dir", dest="dir", type=Path, metavar="",
                              required=False, default=None,
                              help="path to directory where to download HMM database"
                              )
-        optional.add_argument("--unpack", dest="unpack",
+        optional.add_argument("-u", "--unpack", dest="unpack",
                             default=False, action="store_true",
                             help="unpack originally compressed database files"
                             )

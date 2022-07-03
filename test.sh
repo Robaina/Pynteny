@@ -59,7 +59,7 @@
 
 
 pynteny search \
- --in /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
+ --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
  --outdir /home/robaina/Documents/Pynteny/tests/sox_results \
  --synteny_struc ">soxX 0 >soxY 0 >soxZ 0 >soxA 0 >soxB 0 >soxC" \
  --gene_ids \
