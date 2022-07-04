@@ -61,7 +61,7 @@
 pynteny search \
  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
  --outdir /home/robaina/Documents/Pynteny/tests/narG_results \
- --synteny_struc "narG 0 narAlpha 0 narJ 0 narI" \
+ --synteny_struc "narG 0 narH 0 narJ 0 narI" \
  --gene_ids \
  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
