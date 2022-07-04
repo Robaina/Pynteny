@@ -7,6 +7,7 @@ Functions and classes for general purposes
 
 from __future__ import annotations
 import os
+import sys
 import logging
 import shutil
 import random
@@ -262,6 +263,7 @@ def extractTarFile(tar_file: Path, dest_dir: Path = None) -> None:
         tar.close()
     else:
         logger.error("Input is not a tar file")
+        sys.exit(1)
 
 def listTarDir(tar_dir: Path) -> list:
     """

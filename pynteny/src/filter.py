@@ -10,6 +10,7 @@ Tools to create peptide-specific sequence databases
 
 from __future__ import annotations
 import os
+import sys
 import logging
 from pathlib import Path
 from collections import defaultdict
@@ -96,6 +97,7 @@ class SyntenyParser():
         links = synteny_structure.replace("(","").replace(")","").strip().split()
         if not links:
             logger.error("Invalid format for synteny structure")
+            sys.exit(1)
         hmm_groups = [
             SyntenyParser.splitStrandFromLocus(h)[1] 
             for h in links if not h.isdigit()
@@ -122,6 +124,7 @@ class SyntenyParser():
         links = synteny_structure.strip().split()
         if not links:
             logger.error("Invalid format for synteny structure")
+            sys.exit(1)
         return [
             SyntenyParser.splitStrandFromLocus(h, parsed_symbol)[0] 
             for h in links if not h.isdigit()
@@ -135,6 +138,7 @@ class SyntenyParser():
         links = synteny_structure.strip().split()
         if not links:
             logger.error("Invalid format for synteny structure")
+            sys.exit(1)
         return [int(dist) for dist in links if dist.isdigit()]
 
     @staticmethod
@@ -243,6 +247,7 @@ class SyntenyHMMfilter():
                 logger.error(
                     f'No records found in database matching HMM: {hmm}'
                     )
+                sys.exit(1)
             hit_labels[hmm] = labelparser.parse_from_list(labels)
             hit_labels[hmm]["hmm"] = hmm
 
@@ -266,6 +271,7 @@ class SyntenyHMMfilter():
             logger.error(
             f"HMM: {hmm_name} found in more than one hmm group in synteny structure"
             )
+            sys.exit(1)
         return code[0]
 
     def _addMetaInfoToHMMhits(self, all_hit_labels: pd.Dataframe) -> pd.Dataframe:
@@ -472,6 +478,7 @@ class PGAP:
         links = synteny_structure.strip().split()
         if not links:
             logger.error("Invalid format for synteny structure")
+            sys.exit(1)
         gene_symbols = [
             SyntenyParser.splitStrandFromLocus(h)[1] 
             for h in links if not h.isdigit()
@@ -494,6 +501,7 @@ class PGAP:
             logger.error(
                 f"These genes did not get a HMM match in database: {unmatched_genes}"
                 )
+            sys.exit(1)
         hmm_synteny_struc = ""
         for strand, dist, hmms in zip(
             strand_locs, [""] + gene_dists, hmm_names.values()
@@ -549,6 +557,7 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
             logger.error("Provided additional argument strings are less than the number of input hmms.")
     else:
         logger.error("Additional arguments must be: 1) a list[str], 2) a str, or 3) None")
+        sys.exit(1)
     if not os.path.isdir(hmmer_output_dir):
         os.mkdir(hmmer_output_dir)
     

@@ -10,6 +10,7 @@ Tools to preprocess sequence databases
 """
 
 from __future__ import annotations
+import sys
 import os
 import logging
 from pathlib import Path
@@ -179,6 +180,7 @@ class LabelledFASTA(FASTA):
                 name_list = record_name.split(" ")
                 if len(name_list) < number_prodigal_record_fields:
                     logger.error(f"Invalid prodigal header format for record: {record_name}")
+                    sys.exit(1)
                 contig = "_".join(name_list[0].split("_")[:-1])
                 gene_number = name_list[0].split("_")[-1]
                 start, end = name_list[2], name_list[4]

@@ -32,12 +32,14 @@ def synteny_search(args):
     if args.hmm_dir is None:
         if not config.get_field("data_downloaded"):
             logger.error("Please download hmm database first or provide path to hmm directory.")
+            sys.exit(1)
         else:
             args.hmm_dir = Path(config.get_field("PGAP_file"))
     if args.gene_ids:
         if args.hmm_meta is None:
             if not config.get_field("data_downloaded"):
                 logger.error("Please download hmm database first or provide path to hmm metadata file.")
+                sys.exit(1)
             else:
                 args.hmm_meta = Path(config.get_field("PGAP_meta_file"))
         logger.info("Finding matching HMMs for gene symbols")
@@ -74,6 +76,7 @@ def synteny_search(args):
             "Not all HMMs in synteny structure found in HMM directory. "
             "Remember to include '--gene_ids' option if you want to search by gene symbols."
             )
+        sys.exit(1)
 
     if args.outdir is None:
         args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
