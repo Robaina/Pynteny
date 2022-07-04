@@ -83,7 +83,7 @@ class SyntenyParser():
             else:
                 strand = sense
         else:
-            strand = None
+            strand = ""
         return (strand, locus_str)
 
     @staticmethod
@@ -276,7 +276,7 @@ class SyntenyHMMfilter():
         all_hit_labels.loc[0, "gene_pos_diff"] = 1 # required for rolling (skips first nan)
         all_hit_labels["hmm_code"] = all_hit_labels.hmm.apply(self._assignCodeToHMM)
         all_hit_labels["strand"] = all_hit_labels.strand.apply(
-            lambda strand: -1 if strand == "neg" else 1
+            lambda strand : -1 if strand == "neg" else (1 if strand ==  "pos" else 0)
             )
         return all_hit_labels
 
@@ -420,7 +420,7 @@ class PGAP:
         Tools to parse PGAP hmm database metadata
         """
         meta = pd.read_csv(meta_file.as_posix(), sep="\t")
-        meta = meta[["#ncbi_accession", "gene_symbol", "product_name"]]
+        meta = meta[["#ncbi_accession", "gene_symbol", "label", "product_name"]]
         self._meta = meta
 
     def getHMMnamesByGeneID(self, gene_id: str) -> list[str]:
@@ -428,10 +428,13 @@ class PGAP:
         Try to retrieve HMM by its gene symbol, more
         than one HMM may map to a single gene symbol
         """
-        meta = self._meta.dropna(subset=["gene_symbol"], axis=0)
+        meta = self._meta#.dropna(subset=["gene_symbol"], axis=0)
         try:
             return meta[
-                meta.gene_symbol == gene_id
+                (
+                    (meta.gene_symbol == gene_id) |
+                    (meta.label.str.contains(gene_id))
+                    )
                 ]["#ncbi_accession"].values.tolist()
         except:
             return None

@@ -182,7 +182,7 @@ class LabelledFASTA(FASTA):
                 contig = "_".join(name_list[0].split("_")[:-1])
                 gene_number = name_list[0].split("_")[-1]
                 start, end = name_list[2], name_list[4]
-                strand = "pos" if name_list[6] == "1" else "neg"
+                strand = "pos" if name_list[6] == "1" else ("neg" if name_list[6] == "-1" else "")
                 header = f">{contig}_{gene_number}__{contig}_{gene_number}_{start}_{end}_{strand}"
                 outfile.write(header + "\n")
                 outfile.write(record_seq + "\n")
@@ -209,7 +209,7 @@ class LabelledFASTA(FASTA):
             start, end, strand = str(feature.location.start), str(feature.location.end), feature.location.strand
             start = start.replace(">", "").replace("<", "")
             end = end.replace(">", "").replace("<", "")
-            strand_sense = "neg" if strand == -1 else "pos"
+            strand_sense = "neg" if strand == -1 else ("pos" if strand == 1 else "")
             return f">{name}__{gbk_contig.name.replace('_', '')}_{gene_counter}_{start}_{end}_{strand_sense}\n"
 
         if nucleotide:
