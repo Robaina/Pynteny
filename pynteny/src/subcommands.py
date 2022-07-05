@@ -13,7 +13,7 @@ from pathlib import Path
 import wget
 
 from pynteny.src.utils import ConfigParser, setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
-from pynteny.src.filter import filterFASTABySyntenyStructure, SyntenyParser, PGAP
+from pynteny.src.filter import filterFASTABySyntenyStructure, SyntenyParser
 
 from pynteny.src.utils import TemporaryFilePath, parallelizeOverInputFiles, setDefaultOutputPath
 from pynteny.src.wrappers import runProdigal
@@ -43,9 +43,10 @@ def synteny_search(args):
             else:
                 args.hmm_meta = Path(config.get_field("PGAP_meta_file"))
         logger.info("Finding matching HMMs for gene symbols")
-        parser = PGAP(args.hmm_meta)
-        gene_synteny_struc = parser.parseGenesInSyntenyStructure(
-            synteny_structure=args.synteny_struc
+        # pgap = PGAP(args.hmm_meta)
+        gene_synteny_struc = SyntenyParser.parseGenesInSyntenyStructure(
+            synteny_structure=args.synteny_struc,
+            hmm_meta=args.hmm_meta
         )
         args.synteny_struc = gene_synteny_struc
         logger.info(f"Found the following HMMs in database for given structure:\n{gene_synteny_struc}")
@@ -93,6 +94,7 @@ def synteny_search(args):
         synteny_structure=args.synteny_struc,
         input_fasta=args.data,
         input_hmms=input_hmms,
+        hmm_meta=args.hmm_meta,
         output_dir=args.outdir,
         output_prefix=args.prefix,
         hmmer_output_dir=hmmer_output_dir,
@@ -170,9 +172,9 @@ def parse_gene_ids(args):
     """
     Convert gene symbols to hmm names.
     """
-    parser = PGAP(args.hmm_meta)
-    gene_synteny_struc = parser.parseGenesInSyntenyStructure(
-        synteny_structure=args.synteny_struc
+    gene_synteny_struc = SyntenyParser.parseGenesInSyntenyStructure(
+        synteny_structure=args.synteny_struc,
+        hmm_meta=args.hmm_meta
         )
     logger.info(f"Found the following HMMs in database for given structure:\{gene_synteny_struc}")
 
