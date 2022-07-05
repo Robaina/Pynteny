@@ -89,7 +89,7 @@ class PGAP:
         Try to retrieve HMM by its gene symbol, more
         than one HMM may map to a single gene symbol
         """
-        meta = self._meta
+        meta = self._meta.dropna(subset=["gene_symbol"], axis=0)
         try:
             return meta[
                 (
