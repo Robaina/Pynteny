@@ -7,6 +7,7 @@ Tools to parse Hmmer output and PGAP (HMM) database
 
 from __future__ import annotations
 import os
+import sys
 import logging
 from pathlib import Path
 from collections import defaultdict
@@ -84,7 +85,7 @@ class PGAP:
         meta = meta[["#ncbi_accession", "gene_symbol", "label", "product_name", "ec_numbers"]]
         self._meta = meta
 
-    def getHMMnamesByGeneID(self, gene_id: str) -> list[str]:
+    def getHMMnamesByGeneSymbol(self, gene_id: str) -> list[str]:
         """
         Try to retrieve HMM by its gene symbol, more
         than one HMM may map to a single gene symbol
@@ -98,7 +99,21 @@ class PGAP:
                     )
                 ]["#ncbi_accession"].values.tolist()
         except:
-            return None
+            return list()
+
+    def getHMMgroupForGeneSymbol(self, gene_symbol: str) -> str:
+        """
+        Get HMMs corresponding to gene symbol in PGAP metadata.
+        If more than one HMM matching gene symbol, return a HMM group
+        """
+        hmms = self.getHMMnamesByGeneSymbol(gene_symbol)
+        if not hmms:
+            logger.error(f"No HMM found for gene {gene_symbol}")
+            sys.exit(1)
+        if len(hmms) == 1:
+            return hmms.pop()
+        else:
+            return "|".join(hmms)
     
     def getHMMgeneID(self, hmm_name: str) -> list[str]: 
         """

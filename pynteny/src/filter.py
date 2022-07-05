@@ -100,6 +100,21 @@ class SyntenyParser():
         return hmm_groups
 
     @staticmethod
+    def getGeneSymbolsInStructure(synteny_structure: str) -> list[str]:
+        """
+        Get gene symbols employed in synteny structure
+        """
+        links = synteny_structure.strip().split()
+        if not links:
+            logger.error("Invalid format for synteny structure")
+            sys.exit(1)
+        gene_symbols = [
+            SyntenyParser.splitStrandFromLocus(h)[1] 
+            for h in links if not h.isdigit()
+            ]
+        return gene_symbols
+
+    @staticmethod
     def getAllHMMsInStructure(synteny_structure: str) -> list[str]:
         """
         Get hmm names employed in synteny structure,
@@ -157,50 +172,68 @@ class SyntenyParser():
         return {"hmm_groups": hmm_groups, "strands": strands, "distances": max_dists}
 
     @staticmethod
-    def parseGenesInSyntenyStructure(synteny_structure: str, hmm_meta: Path) -> str:
+    def parseGenesInSyntenyStructure(synteny_structure: str, hmm_meta: Path) -> tuple[str,dict]:
         """
         Convert gene-based synteny structure into a HMM-based one.
         If a gene symbol matches more than one HMM, return a HMM group
         like: (HMM1 | HMM2 | ...)
         """
         pgap = PGAP(hmm_meta)
-        links = synteny_structure.strip().split()
-        if not links:
-            logger.error("Invalid format for synteny structure")
-            sys.exit(1)
-        gene_symbols = [
-            SyntenyParser.splitStrandFromLocus(h)[1] 
-            for h in links if not h.isdigit()
-            ]
+        # links = synteny_structure.strip().split()
+        # if not links:
+        #     logger.error("Invalid format for synteny structure")
+        #     sys.exit(1)
+        # gene_symbols = [
+        #     SyntenyParser.splitStrandFromLocus(h)[1] 
+        #     for h in links if not h.isdigit()
+        #     ]
+        gene_symbols = SyntenyParser.getGeneSymbolsInStructure(
+            synteny_structure
+            )
         strand_locs = SyntenyParser.getStrandsInStructure(
             synteny_structure, parsed_symbol=False
             )
         gene_dists = SyntenyParser.getMaximumDistancesInStructure(
             synteny_structure
             )
-        hmm_names = {
-            gene_id: pgap.getHMMnamesByGeneID(gene_id)
-            for gene_id in gene_symbols
+        # hmm_names = {
+        #     gene_symbol: pgap.getHMMnamesByGeneSymbol(gene_symbol)
+        #     for gene_symbol in gene_symbols
+        # }
+        # unmatched_genes = [
+        #     gene_id for gene_id, hmms in hmm_names.items()
+        #     if not hmms
+        # ]
+        hmm_groups = {
+            gene_symbol: pgap.getHMMgroupForGeneSymbol(gene_symbol)
+            for gene_symbol in gene_symbols
         }
         unmatched_genes = [
-            gene_id for gene_id, hmms in hmm_names.items()
-            if not hmms
+            gene_id for gene_id, hmm_group in hmm_groups.items()
+            if not hmm_group
         ]
         if unmatched_genes:
             logger.error(
                 f"These genes did not get a HMM match in database: {unmatched_genes}"
                 )
             sys.exit(1)
+      
         hmm_synteny_struc = ""
-        for strand, dist, hmms in zip(
-            strand_locs, [""] + gene_dists, hmm_names.values()
+        # for strand, dist, hmms in zip(
+        #     strand_locs, [""] + gene_dists, hmm_names.values()
+        #     ):
+        #     if len(hmms) == 1:
+        #         hmm_group = f"{dist} {strand}{hmms.pop()} "
+        #     else:
+        #         hmm_group = f"{dist} {strand}({'|'.join(hmms)}) "
+        #     hmm_synteny_struc += hmm_group
+
+        for strand, dist, hmm_group in zip(
+            strand_locs, [""] + gene_dists, hmm_groups.values()
             ):
-            if len(hmms) == 1:
-                hmm_group = f"{dist} {strand}{hmms.pop()} "
-            else:
-                hmm_group = f"{dist} {strand}({'|'.join(hmms)}) "
-            hmm_synteny_struc += hmm_group
-        return hmm_synteny_struc.strip()
+            hmm_synteny_struc += f"{dist} {strand}{hmm_group} "
+
+        return hmm_synteny_struc.strip(), hmm_groups
 
 
 
@@ -498,12 +531,42 @@ def filterFASTABySyntenyStructure(synteny_structure: str,
         output_tsv=results_table,
         hmm_meta=hmm_meta
         )
-    logger.info("* Writing matching sequences to FASTA files")
+    # logger.info("* Writing matching sequences to FASTA files")
+    # SyntenyParser.parseGenesInSyntenyStructure
+    # fasta = FASTA(input_fasta)
+    # df = pd.read_csv(results_table, sep="\t")
+    # for hmm_group in hmm_groups:
+    #     record_ids = df[df.HMM == hmm_group].full_label.values.tolist()
+    #     output_fasta = output_dir / f"{output_prefix}{hmm_group}_hits.fasta"
+    #     if record_ids:
+    #         fasta.filterByIDs(
+    #             record_ids=record_ids,
+    #             output_file=output_fasta      
+    #         )
+    #     else:
+    #         logger.warning(f"No record matches found in synteny structure for HMM: {hmm_group}")
+
+def writeMatchingSequencesToFASTA(input_fasta: Path,
+                                  synteny_results: Path,
+                                  output_dir: Path,
+                                  output_prefix: str,
+                                  hmm_group_to_gene: dict = None
+                                  ) -> None:
+    """
+    Write matching sequences to FASTA files
+    """
+    SyntenyParser.parseGenesInSyntenyStructure
     fasta = FASTA(input_fasta)
-    df = pd.read_csv(results_table, sep="\t")
+    df = pd.read_csv(synteny_results, sep="\t")
+    hmm_groups = df.HMM.unique().tolist()
+
     for hmm_group in hmm_groups:
         record_ids = df[df.HMM == hmm_group].full_label.values.tolist()
-        output_fasta = output_dir / f"{output_prefix}{hmm_group}_hits.fasta"
+        if hmm_group_to_gene is not None:
+            gene_symbol = hmm_group_to_gene[hmm_group] if hmm_group in hmm_group_to_gene else "no_gene_symbol"
+            output_fasta = output_dir / f"{output_prefix}{gene_symbol}_{hmm_group}_hits.fasta"
+        else:
+            output_fasta = output_dir / f"{output_prefix}{hmm_group}_hits.fasta"
         if record_ids:
             fasta.filterByIDs(
                 record_ids=record_ids,

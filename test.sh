@@ -47,14 +47,23 @@
 # >soxX 0 >soxY 0 >soxZ 0 >soxA
 
 # rm tests/sox_results/*
+# pynteny search \
+#  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
+#  --outdir /home/robaina/Documents/Pynteny/tests/sox_results \
+#  --synteny_struc ">soxX 0 >soxY 0 >soxZ 0 >soxA 0 >soxB 0 >soxC" \
+#  --gene_ids \
+#  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
+#  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
+
 pynteny search \
  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
  --outdir /home/robaina/Documents/Pynteny/tests/sox_results \
- --synteny_struc ">soxX 0 >soxY 0 >soxZ 0 >soxA 0 >soxB 0 >soxC" \
- --gene_ids \
+ --synteny_struc ">TIGR04485.1 0 >TIGR04488.1 0 >TIGR04490.1 0 >TIGR04484.1 0 >TIGR04486.1 0 >TIGR04555.1" \
  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
 
+# ">TIGR04485.1 0 >TIGR04488.1 0 >TIGR04490.1 0 >TIGR04484.1 0 >TIGR04486.1 0 >TIGR04555.1"
+# ">soxX 0 >soxY 0 >soxZ 0 >soxA 0 >soxB 0 >soxC"
 
 # narGHJI: found in SAR11 and other groups that use Nitrate as electron acceptor in OMZs
 # Results: looks like Nocardia seriolae contains a duplicate of the entire operon (AP017900.1_MMP00066002)
