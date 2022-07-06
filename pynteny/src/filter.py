@@ -10,6 +10,7 @@ import os
 import sys
 import logging
 from pathlib import Path
+from urllib.parse import ParseResultBytes
 
 import pandas as pd
 
@@ -150,9 +151,10 @@ class SyntenyHMMfilter():
             lambda strand : -1 if strand == "neg" else (1 if strand ==  "pos" else 0)
             )
         return all_hit_labels
-
-    def _writeAllHitsToTSV(self, all_matched_hits: dict,
-                           output_file: str, hmm_meta: Path = None) -> None:
+    
+    @staticmethod
+    def writeSyntenyHitsToTSV(all_matched_hits: dict,
+                              output_file: str, hmm_meta: Path = None) -> None:
         """
         Write hits matching synteny structure to TSV file
         """
@@ -187,7 +189,7 @@ class SyntenyHMMfilter():
             outfile.write(header)
             outfile.writelines(output_lines)
         # sort values by gene pos and contig
-        pd.read_csv(output_file, sep="\t").sort_values(["contig", "gene_number"]).to_csv(output_file, sep="\t")
+        pd.read_csv(output_file, sep="\t").sort_values(["contig", "gene_number"]).to_csv(output_file, sep="\t", index=False)
 
     def filterHitsBySyntenyStructure(self, output_tsv: str = None,
                                      hmm_meta: Path = None) -> dict:
@@ -243,7 +245,7 @@ class SyntenyHMMfilter():
                 all_matched_hits[contig] = matched_hit_labels
 
         if output_tsv is not None:
-            self._writeAllHitsToTSV(all_matched_hits, output_file=output_tsv, hmm_meta=hmm_meta)
+            self.writeSyntenyHitsToTSV(all_matched_hits, output_file=output_tsv, hmm_meta=hmm_meta)
         return all_matched_hits
 
 
@@ -252,12 +254,12 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
                                   input_fasta: Path,
                                   input_hmms: list[Path],
                                   hmm_meta: Path = None,
-                                  output_dir: Path = None,
-                                  output_prefix: str = None,
+                                #   output_dir: Path = None,
+                                #   output_prefix: str = None,
                                   hmmer_output_dir: Path = None,
                                   reuse_hmmer_results: bool = True,
                                   method: str = 'hmmsearch',
-                                  additional_args: list[str] = None) -> None:
+                                  additional_args: list[str] = None) -> SyntenyHits:
     """
     Generate protein-specific database by filtering sequence database
     to only contain sequences which satisfy the provided (gene/hmm)
@@ -275,8 +277,8 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
         hmmer_output_dir = os.path.join(
             setDefaultOutputPath(input_fasta, only_dirname=True), 'hmmer_outputs')
     
-    if output_prefix is None:
-        output_prefix = ""
+    # if output_prefix is None:
+    #     output_prefix = ""
         
     if additional_args is None:
         additional_args = [None for _ in input_hmms]
@@ -296,12 +298,12 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
     if not os.path.isdir(hmmer_output_dir):
         os.mkdir(hmmer_output_dir)
     
-    if output_dir is None:
-        output_dir = setDefaultOutputPath(input_fasta, only_dirname=True)
-    else:
-        output_dir = output_dir
+    # if output_dir is None:
+    #     output_dir = setDefaultOutputPath(input_fasta, only_dirname=True)
+    # else:
+    #     output_dir = output_dir
 
-    results_table = output_dir / f"{output_prefix}synteny_matched.tsv"
+    # results_table = output_dir / f"{output_prefix}synteny_matched.tsv"
 
     logger.info('Running Hmmer')
     hmmer = HMMER(
@@ -314,14 +316,15 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
         reuse_hmmer_results=reuse_hmmer_results,
         method=method
     )
-
     logger.info('Filtering results by synteny structure')
     syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure)
-    # hmm_groups = syntenyfilter._parsed_structure["hmm_groups"]
-    matches = syntenyfilter.filterHitsBySyntenyStructure(
-        output_tsv=results_table,
+    hits_by_contig = syntenyfilter.filterHitsBySyntenyStructure(
         hmm_meta=hmm_meta
         )
+    if hmm_meta is not None:
+        return SyntenyHits.fromHitsDict(hits_by_contig).addMetaToHits(hmm_meta)
+    else:
+        return SyntenyHits.fromHitsDict(hits_by_contig)
 
 def writeMatchingSequencesToFASTA(input_fasta: Path,
                                   synteny_results: Path,
@@ -335,10 +338,10 @@ def writeMatchingSequencesToFASTA(input_fasta: Path,
     SyntenyParser.parseGenesInSyntenyStructure
     fasta = FASTA(input_fasta)
     df = pd.read_csv(synteny_results, sep="\t")
-    hmm_groups = df.HMM.unique().tolist()
+    hmm_groups = df.hmm.unique().tolist()
 
     for hmm_group in hmm_groups:
-        record_ids = df[df.HMM == hmm_group].full_label.values.tolist()
+        record_ids = df[df.hmm == hmm_group].full_label.values.tolist()
         if hmm_group_to_gene is not None:
             gene_symbol = hmm_group_to_gene[hmm_group] if hmm_group in hmm_group_to_gene else "no_gene_symbol"
             output_fasta = output_dir / f"{output_prefix}{gene_symbol}_{hmm_group}_hits.fasta"
@@ -351,3 +354,105 @@ def writeMatchingSequencesToFASTA(input_fasta: Path,
             )
         else:
             logger.warning(f"No record matches found in synteny structure for HMM: {hmm_group}")
+
+
+
+class SyntenyHits():
+    def __init__(self, synteny_hits: pd.DataFrame) -> None:
+        """
+        Class to store and manipulate synteny hits by contig
+        """
+        self._synteny_hits = synteny_hits
+
+    @staticmethod
+    def _hitsToDataframe(hits_by_contig) -> pd.DataFrame:
+        """
+        Return synteny hits as a dataframe
+        """
+        data = []
+        columns = ["contig", "gene_id", "gene_number", "locus", "strand", "full_label", "hmm"]
+        for contig, matched_hits in hits_by_contig.items():
+            for hmm, labels in matched_hits.items():
+                for label in labels:
+                    parsed_label = LabelParser.parse(label)
+                    data.append(
+                        [
+                            parsed_label['contig'], parsed_label['gene_id'],
+                            parsed_label['gene_pos'], parsed_label['locus_pos'],
+                            parsed_label['strand'], parsed_label["full"], hmm
+                            ]
+                    )
+        return pd.DataFrame(data, columns=columns).sort_values(["contig", "gene_number"])
+
+    @classmethod
+    def fromHitsDict(cls, hits_by_contig: dict) -> SyntenyHits:
+        """
+        Return SyntenyHits object from hits_by_contig dictionary
+        """
+        return cls(cls._hitsToDataframe(hits_by_contig))
+
+    def getSyntenyHits(self) -> pd.DataFrame:
+        """
+        Return synteny hits
+        """
+        return self._synteny_hits
+
+    def addMetaToHits(self, hmm_meta: Path) -> SyntenyHits:
+        """
+        Add molecular metadata to synteny hits
+        """
+        fields = ["gene_symbol", "label", "product", "ec_number"]
+        if all([f in self._synteny_hits.columns for f in fields]):
+            return self._synteny_hits
+        pgap = PGAP(hmm_meta)
+        self._synteny_hits[fields] = ""
+        for i, row in self._synteny_hits.iterrows():
+            values = [
+                str(v).replace("nan", "") 
+                for k, v in pgap.getMetaInfoForHMM(row.hmm).items()
+                if k != "#ncbi_accession"
+            ]
+            self._synteny_hits.at[i, fields] = values
+        return SyntenyHits(self._synteny_hits)
+
+    def writeToTSV(self, output_tsv: Path) -> None:
+        """
+        Write synteny hits to a TSV file
+        """
+        self._synteny_hits.to_csv(output_tsv, sep="\t", index=False)
+
+    # def writeToTSV(self, output_file: str, hmm_meta: Path = None) -> None:
+    #     """
+    #     Write hits matching synteny structure to TSV file
+    #     """
+    #     if hmm_meta is not None:
+    #         pgap = PGAP(hmm_meta)
+    #         header = (
+    #             "contig\tgene_id\tgene_number\tlocus\tstrand\tfull_label\t"
+    #             "HMM\tgene_symbol\tlabel\tproduct\tec_number\n"
+    #             )
+    #     else:
+    #         header = "contig\tgene_id\tgene_number\tlocus\tstrand\tfull_label\tHMM\n"
+    #     output_lines = []
+    #     for contig, matched_hits in self._synteny_hits.items():
+    #         for hmm, labels in matched_hits.items():
+    #             if hmm_meta is not None:
+    #                 hmm_meta_info = pgap.getMetaInfoForHMM(hmm)
+    #                 meta_str = "\t".join(
+    #                     [str(v) for k, v in hmm_meta_info.items() if k != "#ncbi_accession"]
+    #                     ).replace("nan", "")
+    #             else:
+    #                 meta_str = ""
+    #             for label in labels:
+    #                 parsed_label = LabelParser.parse(label)
+    #                 output_lines.append(
+    #                     (
+    #                         f"{parsed_label['contig']}\t{parsed_label['gene_id']}\t"
+    #                         f"{parsed_label['gene_pos']}\t{parsed_label['locus_pos']}\t"
+    #                         f"{parsed_label['strand']}\t{parsed_label['full']}\t{hmm}\t{meta_str}\n"
+    #                         )
+    #                 )
+    #     with open(output_file, "w") as outfile:
+    #         outfile.write(header)
+    #         outfile.writelines(output_lines)
+    #     pd.read_csv(output_file, sep="\t").sort_values(["contig", "gene_number"]).to_csv(output_file, sep="\t", index=False)

@@ -90,24 +90,26 @@ def synteny_search(args):
     hmmsearch_args = list(map(lambda x: x.strip(), hmmsearch_args.split(",")))
     hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
     hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
+    synteny_table = args.outdir / f"{args.prefix}synteny_matched.tsv"
         
     logger.info('Searching database by synteny structure')
-    filterFASTAbySyntenyStructure(
+    synteny_hits = filterFASTAbySyntenyStructure(
         synteny_structure=args.synteny_struc,
         input_fasta=args.data,
         input_hmms=input_hmms,
         hmm_meta=args.hmm_meta,
-        output_dir=args.outdir,
-        output_prefix=args.prefix,
+        # output_dir=args.outdir,
+        # output_prefix=args.prefix,
         hmmer_output_dir=hmmer_output_dir,
         reuse_hmmer_results=True,
         method='hmmsearch',
         additional_args=hmmsearch_args
     )
+    synteny_hits.writeToTSV(synteny_table)
     logger.info("Writing matching sequences to FASTA files")
     writeMatchingSequencesToFASTA(
         input_fasta=args.data,
-        synteny_results=args.outdir / f"{args.prefix}synteny_matched.tsv",
+        synteny_results=synteny_table,
         output_dir=args.outdir,
         output_prefix=args.prefix,
         hmm_group_to_gene=hmm_group_to_gene
