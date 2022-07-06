@@ -90,12 +90,13 @@ class PGAP:
         Try to retrieve HMM by its gene symbol, more
         than one HMM may map to a single gene symbol
         """
-        meta = self._meta.dropna(subset=["gene_symbol"], axis=0)
+        meta = self._meta#.dropna(subset=["gene_symbol", "label"], axis=0)
         try:
             return meta[
                 (
                     (meta.gene_symbol == gene_id) |
-                    (meta.label.str.contains(gene_id))
+                    # (meta.label.str.contains(gene_id))
+                    (meta.label == gene_id)
                     )
                 ]["#ncbi_accession"].values.tolist()
         except:

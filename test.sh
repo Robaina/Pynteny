@@ -43,6 +43,16 @@
 #  --prefix "sar11_" \
 #  --synteny_struc "<TIGR00170.1 10 >TIGR00652.1"  # "<TIGR00169.1 0 <TIGR00171.1 0 <TIGR00170.1"
 
+
+# leu operon
+# pynteny search \
+#  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
+#  --outdir /home/robaina/Documents/Pynteny/tests/leu_results \
+#  --synteny_struc "<leuD 0 <leuC 1 <leuA" \
+#  --gene_ids \
+#  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
+#  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
+
 # Searching for sox operon in MAR database 
 # >soxX 0 >soxY 0 >soxZ 0 >soxA
 
@@ -58,20 +68,23 @@
 pynteny search \
  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
  --outdir /home/robaina/Documents/Pynteny/tests/sox_results \
- --synteny_struc ">TIGR04485.1 0 >TIGR04488.1 0 >TIGR04490.1 0 >TIGR04484.1 0 >TIGR04486.1 0 >TIGR04555.1" \
+ --synteny_struc ">TIGR04485.1 0 >TIGR04488.1 0 >TIGR04490.1 0 >(TIGR01372.1|TIGR04484.1) 0 >(TIGR01373.1|TIGR04486.1) 0 >TIGR04555.1" \
  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
 
-# ">TIGR04485.1 0 >TIGR04488.1 0 >TIGR04490.1 0 >TIGR04484.1 0 >TIGR04486.1 0 >TIGR04555.1"
-# ">soxX 0 >soxY 0 >soxZ 0 >soxA 0 >soxB 0 >soxC"
+# pynteny search \
+#  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
+#  --outdir /home/robaina/Documents/Pynteny/tests/sox_results \
+#  --synteny_struc ">TIGR04485.1 0 >TIGR04488.1 0 >TIGR04490.1 0 >TIGR04484.1 0 >TIGR04486.1 0 >TIGR04555.1" \
+#  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
+#  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
 
-# narGHJI: found in SAR11 and other groups that use Nitrate as electron acceptor in OMZs
-# Results: looks like Nocardia seriolae contains a duplicate of the entire operon (AP017900.1_MMP00066002)
+# # narGHJI: found in SAR11 and other groups that use Nitrate as electron acceptor in OMZs
+# # Results: looks like Nocardia seriolae contains a duplicate of the entire operon (AP017900.1_MMP00066002)
 # pynteny search \
 #  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
 #  --outdir /home/robaina/Documents/Pynteny/tests/narG_results \
 #  --synteny_struc "narG 0 narH 0 narJ 0 narI" \
 #  --gene_ids \
 #  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
-#  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
- 
+#  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv

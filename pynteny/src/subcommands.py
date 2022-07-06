@@ -13,7 +13,7 @@ from pathlib import Path
 import wget
 
 from pynteny.src.utils import ConfigParser, setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
-from pynteny.src.filter import filterFASTABySyntenyStructure, SyntenyParser, writeMatchingSequencesToFASTA
+from pynteny.src.filter import filterFASTAbySyntenyStructure, SyntenyParser, writeMatchingSequencesToFASTA
 
 from pynteny.src.utils import TemporaryFilePath, parallelizeOverInputFiles, setDefaultOutputPath
 from pynteny.src.wrappers import runProdigal
@@ -92,7 +92,7 @@ def synteny_search(args):
     hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
         
     logger.info('Searching database by synteny structure')
-    filterFASTABySyntenyStructure(
+    filterFASTAbySyntenyStructure(
         synteny_structure=args.synteny_struc,
         input_fasta=args.data,
         input_hmms=input_hmms,
