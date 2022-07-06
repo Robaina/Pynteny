@@ -177,14 +177,6 @@ class SyntenyParser():
         like: (HMM1 | HMM2 | ...)
         """
         pgap = PGAP(hmm_meta)
-        # links = synteny_structure.strip().split()
-        # if not links:
-        #     logger.error("Invalid format for synteny structure")
-        #     sys.exit(1)
-        # gene_symbols = [
-        #     SyntenyParser.splitStrandFromLocus(h)[1] 
-        #     for h in links if not h.isdigit()
-        #     ]
         gene_symbols = SyntenyParser.getGeneSymbolsInStructure(
             synteny_structure
             )
@@ -194,14 +186,6 @@ class SyntenyParser():
         gene_dists = SyntenyParser.getMaximumDistancesInStructure(
             synteny_structure
             )
-        # hmm_names = {
-        #     gene_symbol: pgap.getHMMnamesByGeneSymbol(gene_symbol)
-        #     for gene_symbol in gene_symbols
-        # }
-        # unmatched_genes = [
-        #     gene_id for gene_id, hmms in hmm_names.items()
-        #     if not hmms
-        # ]
         hmm_groups = {
             gene_symbol: pgap.getHMMgroupForGeneSymbol(gene_symbol)
             for gene_symbol in gene_symbols
@@ -217,14 +201,6 @@ class SyntenyParser():
             sys.exit(1)
       
         hmm_synteny_struc = ""
-        # for strand, dist, hmms in zip(
-        #     strand_locs, [""] + gene_dists, hmm_names.values()
-        #     ):
-        #     if len(hmms) == 1:
-        #         hmm_group = f"{dist} {strand}{hmms.pop()} "
-        #     else:
-        #         hmm_group = f"{dist} {strand}({'|'.join(hmms)}) "
-        #     hmm_synteny_struc += hmm_group
 
         for strand, dist, hmm_group in zip(
             strand_locs, [""] + gene_dists, hmm_groups.values()

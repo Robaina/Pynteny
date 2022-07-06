@@ -322,20 +322,6 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
         output_tsv=results_table,
         hmm_meta=hmm_meta
         )
-    # logger.info("Writing matching sequences to FASTA files")
-    # SyntenyParser.parseGenesInSyntenyStructure
-    # fasta = FASTA(input_fasta)
-    # df = pd.read_csv(results_table, sep="\t")
-    # for hmm_group in hmm_groups:
-    #     record_ids = df[df.HMM == hmm_group].full_label.values.tolist()
-    #     output_fasta = output_dir / f"{output_prefix}{hmm_group}_hits.fasta"
-    #     if record_ids:
-    #         fasta.filterByIDs(
-    #             record_ids=record_ids,
-    #             output_file=output_fasta      
-    #         )
-    #     else:
-    #         logger.warning(f"No record matches found in synteny structure for HMM: {hmm_group}")
 
 def writeMatchingSequencesToFASTA(input_fasta: Path,
                                   synteny_results: Path,
