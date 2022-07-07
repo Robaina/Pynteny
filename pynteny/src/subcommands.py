@@ -13,7 +13,7 @@ from pathlib import Path
 import wget
 
 from pynteny.src.utils import ConfigParser, setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
-from pynteny.src.filter import filterFASTAbySyntenyStructure, SyntenyParser, writeMatchingSequencesToFASTA
+from pynteny.src.filter import filterFASTAbySyntenyStructure, SyntenyParser
 
 from pynteny.src.utils import TemporaryFilePath, parallelizeOverInputFiles, setDefaultOutputPath
 from pynteny.src.wrappers import runProdigal
@@ -47,11 +47,8 @@ def synteny_search(args):
             synteny_structure=args.synteny_struc,
             hmm_meta=args.hmm_meta
         )
-        hmm_group_to_gene = dict(zip(gene_to_hmm_group.values(), gene_to_hmm_group.keys()))
         args.synteny_struc = gene_synteny_struc
         logger.info(f"Found the following HMMs in database for given structure:\n{gene_synteny_struc}")
-    else:
-        hmm_group_to_gene = None
 
     if isTarFile(args.hmm_dir):
         logger.info("Extracting hmm files to temporary directory")
@@ -98,8 +95,6 @@ def synteny_search(args):
         input_fasta=args.data,
         input_hmms=input_hmms,
         hmm_meta=args.hmm_meta,
-        # output_dir=args.outdir,
-        # output_prefix=args.prefix,
         hmmer_output_dir=hmmer_output_dir,
         reuse_hmmer_results=True,
         method='hmmsearch',
@@ -107,12 +102,10 @@ def synteny_search(args):
     )
     synteny_hits.writeToTSV(synteny_table)
     logger.info("Writing matching sequences to FASTA files")
-    writeMatchingSequencesToFASTA(
-        input_fasta=args.data,
-        synteny_results=synteny_table,
+    synteny_hits.writeHitSequencesToFASTAfiles(
+        sequence_database=args.data,
         output_dir=args.outdir,
-        output_prefix=args.prefix,
-        hmm_group_to_gene=hmm_group_to_gene
+        output_prefix=args.prefix
     )
     if temp_hmm_dir.exists():
         shutil.rmtree(temp_hmm_dir)

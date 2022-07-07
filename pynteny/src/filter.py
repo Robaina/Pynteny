@@ -10,7 +10,6 @@ import os
 import sys
 import logging
 from pathlib import Path
-from urllib.parse import ParseResultBytes
 
 import pandas as pd
 
@@ -152,47 +151,7 @@ class SyntenyHMMfilter():
             )
         return all_hit_labels
     
-    @staticmethod
-    def writeSyntenyHitsToTSV(all_matched_hits: dict,
-                              output_file: str, hmm_meta: Path = None) -> None:
-        """
-        Write hits matching synteny structure to TSV file
-        """
-        if hmm_meta is not None:
-            pgap = PGAP(hmm_meta)
-            header = (
-                "contig\tgene_id\tgene_number\tlocus\tstrand\tfull_label\t"
-                "HMM\tgene_symbol\tlabel\tproduct\tec_number\n"
-                )
-        else:
-            header = "contig\tgene_id\tgene_number\tlocus\tstrand\tfull_label\tHMM\n"
-        output_lines = []
-        for contig, matched_hits in all_matched_hits.items():
-            for hmm, labels in matched_hits.items():
-                if hmm_meta is not None:
-                    hmm_meta_info = pgap.getMetaInfoForHMM(hmm)
-                    meta_str = "\t".join(
-                        [str(v) for k, v in hmm_meta_info.items() if k != "#ncbi_accession"]
-                        ).replace("nan", "")
-                else:
-                    meta_str = ""
-                for label in labels:
-                    parsed_label = LabelParser.parse(label)
-                    output_lines.append(
-                        (
-                            f"{parsed_label['contig']}\t{parsed_label['gene_id']}\t"
-                            f"{parsed_label['gene_pos']}\t{parsed_label['locus_pos']}\t"
-                            f"{parsed_label['strand']}\t{parsed_label['full']}\t{hmm}\t{meta_str}\n"
-                            )
-                    )
-        with open(output_file, "w") as outfile:
-            outfile.write(header)
-            outfile.writelines(output_lines)
-        # sort values by gene pos and contig
-        pd.read_csv(output_file, sep="\t").sort_values(["contig", "gene_number"]).to_csv(output_file, sep="\t", index=False)
-
-    def filterHitsBySyntenyStructure(self, output_tsv: str = None,
-                                     hmm_meta: Path = None) -> dict:
+    def filterHitsBySyntenyStructure(self) -> dict:
         """
         Search for contigs that satisfy the given gene synteny structure
         @param: synteny_structure, a str describing the desired synteny structure,
@@ -243,118 +202,7 @@ class SyntenyHMMfilter():
                         matched_hit_labels[hmm].append(label)
 
                 all_matched_hits[contig] = matched_hit_labels
-
-        if output_tsv is not None:
-            self.writeSyntenyHitsToTSV(all_matched_hits, output_file=output_tsv, hmm_meta=hmm_meta)
         return all_matched_hits
-
-
-
-def filterFASTAbySyntenyStructure(synteny_structure: str,
-                                  input_fasta: Path,
-                                  input_hmms: list[Path],
-                                  hmm_meta: Path = None,
-                                #   output_dir: Path = None,
-                                #   output_prefix: str = None,
-                                  hmmer_output_dir: Path = None,
-                                  reuse_hmmer_results: bool = True,
-                                  method: str = 'hmmsearch',
-                                  additional_args: list[str] = None) -> SyntenyHits:
-    """
-    Generate protein-specific database by filtering sequence database
-    to only contain sequences which satisfy the provided (gene/hmm)
-    structure
-    
-    @Arguments:
-    additional_args: additional arguments to hmmsearch or hmmscan. Each
-    element in the list is a string with additional arguments for each 
-    input hmm (arranged in the same order), an element can also take a 
-    value of None to avoid passing additional arguments for a specific 
-    input hmm. A single string may also be passed, in which case the 
-    same additional argument is passed to hmmsearch for all input hmms
-    """
-    if hmmer_output_dir is None:
-        hmmer_output_dir = os.path.join(
-            setDefaultOutputPath(input_fasta, only_dirname=True), 'hmmer_outputs')
-    
-    # if output_prefix is None:
-    #     output_prefix = ""
-        
-    if additional_args is None:
-        additional_args = [None for _ in input_hmms]
-    
-    if type(additional_args) == str:
-        additional_args = [additional_args for _ in input_hmms]
-
-    elif type(additional_args) == list:
-        if len(additional_args) == 1:
-            additional_args = [additional_args[0] for _ in input_hmms]
-
-        if (len(additional_args) > 1) and (len(additional_args) < len(input_hmms)):
-            logger.error("Provided additional argument strings are less than the number of input hmms.")
-    else:
-        logger.error("Additional arguments must be: 1) a list[str], 2) a str, or 3) None")
-        sys.exit(1)
-    if not os.path.isdir(hmmer_output_dir):
-        os.mkdir(hmmer_output_dir)
-    
-    # if output_dir is None:
-    #     output_dir = setDefaultOutputPath(input_fasta, only_dirname=True)
-    # else:
-    #     output_dir = output_dir
-
-    # results_table = output_dir / f"{output_prefix}synteny_matched.tsv"
-
-    logger.info('Running Hmmer')
-    hmmer = HMMER(
-        input_hmms=input_hmms,
-        input_data=input_fasta,
-        hmm_output_dir=hmmer_output_dir,
-        additional_args=additional_args
-    )
-    hmm_hits = hmmer.getHMMERtables(
-        reuse_hmmer_results=reuse_hmmer_results,
-        method=method
-    )
-    logger.info('Filtering results by synteny structure')
-    syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure)
-    hits_by_contig = syntenyfilter.filterHitsBySyntenyStructure(
-        hmm_meta=hmm_meta
-        )
-    if hmm_meta is not None:
-        return SyntenyHits.fromHitsDict(hits_by_contig).addMetaToHits(hmm_meta)
-    else:
-        return SyntenyHits.fromHitsDict(hits_by_contig)
-
-def writeMatchingSequencesToFASTA(input_fasta: Path,
-                                  synteny_results: Path,
-                                  output_dir: Path,
-                                  output_prefix: str,
-                                  hmm_group_to_gene: dict = None
-                                  ) -> None:
-    """
-    Write matching sequences to FASTA files
-    """
-    SyntenyParser.parseGenesInSyntenyStructure
-    fasta = FASTA(input_fasta)
-    df = pd.read_csv(synteny_results, sep="\t")
-    hmm_groups = df.hmm.unique().tolist()
-
-    for hmm_group in hmm_groups:
-        record_ids = df[df.hmm == hmm_group].full_label.values.tolist()
-        if hmm_group_to_gene is not None:
-            gene_symbol = hmm_group_to_gene[hmm_group] if hmm_group in hmm_group_to_gene else "no_gene_symbol"
-            output_fasta = output_dir / f"{output_prefix}{gene_symbol}_{hmm_group}_hits.fasta"
-        else:
-            output_fasta = output_dir / f"{output_prefix}{hmm_group}_hits.fasta"
-        if record_ids:
-            fasta.filterByIDs(
-                record_ids=record_ids,
-                output_file=output_fasta      
-            )
-        else:
-            logger.warning(f"No record matches found in synteny structure for HMM: {hmm_group}")
-
 
 
 class SyntenyHits():
@@ -421,38 +269,100 @@ class SyntenyHits():
         """
         self._synteny_hits.to_csv(output_tsv, sep="\t", index=False)
 
-    # def writeToTSV(self, output_file: str, hmm_meta: Path = None) -> None:
-    #     """
-    #     Write hits matching synteny structure to TSV file
-    #     """
-    #     if hmm_meta is not None:
-    #         pgap = PGAP(hmm_meta)
-    #         header = (
-    #             "contig\tgene_id\tgene_number\tlocus\tstrand\tfull_label\t"
-    #             "HMM\tgene_symbol\tlabel\tproduct\tec_number\n"
-    #             )
-    #     else:
-    #         header = "contig\tgene_id\tgene_number\tlocus\tstrand\tfull_label\tHMM\n"
-    #     output_lines = []
-    #     for contig, matched_hits in self._synteny_hits.items():
-    #         for hmm, labels in matched_hits.items():
-    #             if hmm_meta is not None:
-    #                 hmm_meta_info = pgap.getMetaInfoForHMM(hmm)
-    #                 meta_str = "\t".join(
-    #                     [str(v) for k, v in hmm_meta_info.items() if k != "#ncbi_accession"]
-    #                     ).replace("nan", "")
-    #             else:
-    #                 meta_str = ""
-    #             for label in labels:
-    #                 parsed_label = LabelParser.parse(label)
-    #                 output_lines.append(
-    #                     (
-    #                         f"{parsed_label['contig']}\t{parsed_label['gene_id']}\t"
-    #                         f"{parsed_label['gene_pos']}\t{parsed_label['locus_pos']}\t"
-    #                         f"{parsed_label['strand']}\t{parsed_label['full']}\t{hmm}\t{meta_str}\n"
-    #                         )
-    #                 )
-    #     with open(output_file, "w") as outfile:
-    #         outfile.write(header)
-    #         outfile.writelines(output_lines)
-    #     pd.read_csv(output_file, sep="\t").sort_values(["contig", "gene_number"]).to_csv(output_file, sep="\t", index=False)
+    def writeHitSequencesToFASTAfiles(self, sequence_database: Path,
+                                      output_dir: Path = None,
+                                      output_prefix: str = None) -> None:
+        """
+        Write matching sequences to FASTA files
+        """
+        fasta = FASTA(sequence_database)
+        hmm_groups = self._synteny_hits.hmm.unique().tolist()
+
+        for hmm_group in hmm_groups:
+            record_ids = self._synteny_hits[
+                self._synteny_hits.hmm == hmm_group
+                ].full_label.values.tolist()
+
+            if ("gene_symbol" in self._synteny_hits.columns and 
+                "label" in self._synteny_hits.columns):
+                gene_symbol = self._synteny_hits[self._synteny_hits.hmm == hmm_group].gene_symbol.unique()[0]
+                gene_label = self._synteny_hits[self._synteny_hits.hmm == hmm_group].label.unique()[0]
+                gene_id = (
+                    gene_symbol if not pd.isna(gene_symbol)
+                    else (gene_label if not pd.isna(gene_label) else "")
+                    ) + "_"
+            else:
+                gene_id = ""
+
+            output_fasta = output_dir / f"{output_prefix}{gene_id}{hmm_group}_hits.fasta"
+            if record_ids:
+                fasta.filterByIDs(
+                    record_ids=record_ids,
+                    output_file=output_fasta      
+                )
+            else:
+                logger.warning(f"No record matches found in synteny structure for HMM: {hmm_group}")
+
+
+
+def filterFASTAbySyntenyStructure(synteny_structure: str,
+                                  input_fasta: Path,
+                                  input_hmms: list[Path],
+                                  hmm_meta: Path = None,
+                                  hmmer_output_dir: Path = None,
+                                  reuse_hmmer_results: bool = True,
+                                  method: str = 'hmmsearch',
+                                  additional_args: list[str] = None) -> SyntenyHits:
+    """
+    Generate protein-specific database by filtering sequence database
+    to only contain sequences which satisfy the provided (gene/hmm)
+    structure
+    
+    @Arguments:
+    additional_args: additional arguments to hmmsearch or hmmscan. Each
+    element in the list is a string with additional arguments for each 
+    input hmm (arranged in the same order), an element can also take a 
+    value of None to avoid passing additional arguments for a specific 
+    input hmm. A single string may also be passed, in which case the 
+    same additional argument is passed to hmmsearch for all input hmms
+    """
+    if hmmer_output_dir is None:
+        hmmer_output_dir = os.path.join(
+            setDefaultOutputPath(input_fasta, only_dirname=True), 'hmmer_outputs')
+
+    if additional_args is None:
+        additional_args = [None for _ in input_hmms]
+    
+    if type(additional_args) == str:
+        additional_args = [additional_args for _ in input_hmms]
+
+    elif type(additional_args) == list:
+        if len(additional_args) == 1:
+            additional_args = [additional_args[0] for _ in input_hmms]
+
+        if (len(additional_args) > 1) and (len(additional_args) < len(input_hmms)):
+            logger.error("Provided additional argument strings are less than the number of input hmms.")
+    else:
+        logger.error("Additional arguments must be: 1) a list[str], 2) a str, or 3) None")
+        sys.exit(1)
+    if not os.path.isdir(hmmer_output_dir):
+        os.mkdir(hmmer_output_dir)
+
+    logger.info('Running Hmmer')
+    hmmer = HMMER(
+        input_hmms=input_hmms,
+        input_data=input_fasta,
+        hmm_output_dir=hmmer_output_dir,
+        additional_args=additional_args
+    )
+    hmm_hits = hmmer.getHMMERtables(
+        reuse_hmmer_results=reuse_hmmer_results,
+        method=method
+    )
+    logger.info('Filtering results by synteny structure')
+    syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure)
+    hits_by_contig = syntenyfilter.filterHitsBySyntenyStructure()
+    if hmm_meta is not None:
+        return SyntenyHits.fromHitsDict(hits_by_contig).addMetaToHits(hmm_meta)
+    else:
+        return SyntenyHits.fromHitsDict(hits_by_contig)

@@ -72,19 +72,19 @@
 #  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
 #  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
 
-# pynteny search \
-#  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
-#  --outdir /home/robaina/Documents/Pynteny/tests/sox_results \
-#  --synteny_struc ">TIGR04485.1 0 >TIGR04488.1 0 >TIGR04490.1 0 >TIGR04484.1 0 >TIGR04486.1 0 >TIGR04555.1" \
-#  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
-#  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
+pynteny search \
+ --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
+ --outdir /home/robaina/Documents/Pynteny/tests/sox_results \
+ --synteny_struc ">TIGR04485.1 0 >TIGR04488.1 0 >TIGR04490.1 0 >TIGR04484.1 0 >TIGR04486.1 0 >TIGR04555.1" \
+ --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
+ --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv \
 
 # # narGHJI: found in SAR11 and other groups that use Nitrate as electron acceptor in OMZs
 # # Results: looks like Nocardia seriolae contains a duplicate of the entire operon (AP017900.1_MMP00066002)
-pynteny search \
- --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
- --outdir /home/robaina/Documents/Pynteny/tests/narG_results \
- --synteny_struc "narG 0 narH 0 narJ 0 narI" \
- --gene_ids \
- --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
- --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv
+# pynteny search \
+#  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
+#  --outdir /home/robaina/Documents/Pynteny/tests/narG_results \
+#  --synteny_struc "narG 0 narH 0 narJ 0 narI" \
+#  --gene_ids \
+#  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
+#  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP.tsv
