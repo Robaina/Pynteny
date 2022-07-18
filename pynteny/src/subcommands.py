@@ -49,10 +49,11 @@ def synteny_search(args):
         )
         args.synteny_struc = gene_synteny_struc
         logger.info(f"Found the following HMMs in database for given structure:\n{gene_synteny_struc}")
-
+    
+    temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
     if isTarFile(args.hmm_dir):
         logger.info("Extracting hmm files to temporary directory")
-        temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
+        # temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
         if temp_hmm_dir.exists():
             shutil.rmtree(temp_hmm_dir)
         extractTarFile(

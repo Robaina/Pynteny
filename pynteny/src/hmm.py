@@ -160,5 +160,3 @@ class PGAP:
         except:
             logger.warning(f"No metadata for HMM: {hmm_name}")
             return dict()
-
-        

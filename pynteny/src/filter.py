@@ -245,7 +245,7 @@ class SyntenyHits():
         """
         return self._synteny_hits
 
-    def addMetaToHits(self, hmm_meta: Path) -> SyntenyHits:
+    def addHMMmetaInfoToHits(self, hmm_meta: Path) -> SyntenyHits:
         """
         Add molecular metadata to synteny hits
         """
@@ -255,12 +255,17 @@ class SyntenyHits():
         pgap = PGAP(hmm_meta)
         self._synteny_hits[fields] = ""
         for i, row in self._synteny_hits.iterrows():
-            values = [
-                str(v).replace("nan", "") 
-                for k, v in pgap.getMetaInfoForHMM(row.hmm).items()
-                if k != "#ncbi_accession"
+            meta_values = [
+                [
+                    str(v).replace("nan", "") 
+                    for k, v in pgap.getMetaInfoForHMM(hmm).items()
+                    if k != "#ncbi_accession"
+                ]
+                for hmm in row.hmm.split("|")
             ]
-            self._synteny_hits.at[i, fields] = values
+            self._synteny_hits.at[
+                i, fields
+                ] = ["|".join(v) for v in zip(*meta_values)]
         return SyntenyHits(self._synteny_hits)
 
     def writeToTSV(self, output_tsv: Path) -> None:
@@ -295,11 +300,11 @@ class SyntenyHits():
                 gene_id = ""
             gene_id_str = gene_id + "_" if gene_id else ""
 
-            output_fasta = output_dir / f"{output_prefix}{gene_id_str}{hmm_group}_hits.fasta"
+            output_fasta = output_dir / f"{output_prefix}{gene_id_str.replace('|', '_')}{hmm_group.replace('|', '_')}_hits.fasta"
             if record_ids:
                 fasta.filterByIDs(
                     record_ids=record_ids,
-                    output_file=output_fasta      
+                    output_file=output_fasta
                 )
             else:
                 logger.warning(f"No record matches found in synteny structure for HMM: {hmm_group}")
@@ -364,6 +369,6 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
     syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure)
     hits_by_contig = syntenyfilter.filterHitsBySyntenyStructure()
     if hmm_meta is not None:
-        return SyntenyHits.fromHitsDict(hits_by_contig).addMetaToHits(hmm_meta)
+        return SyntenyHits.fromHitsDict(hits_by_contig).addHMMmetaInfoToHits(hmm_meta)
     else:
         return SyntenyHits.fromHitsDict(hits_by_contig)
