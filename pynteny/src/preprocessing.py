@@ -13,8 +13,8 @@ from __future__ import annotations
 import sys
 import os
 import logging
+import tempfile
 from pathlib import Path
-# from typing import Self
 
 from Bio import SeqIO
 import pyfastx
@@ -133,17 +133,13 @@ class FASTA():
         """
         if output_file is None:
             output_file = setDefaultOutputPath(self._input_file, tag="_fitered")
-        record_ids = set(record_ids)
-        fa = pyfastx.Fasta(self._input_file_str)
-        with open(output_file, 'w') as fp:
-            for record_id in record_ids:
-                try:
-                    record_obj = fa[record_id]
-                    fp.write(record_obj.raw)
-                except:
-                    pass
-        os.remove(self._input_file_str + ".fxi")
-
+        with tempfile.NamedTemporaryFile(mode="w+t") as tmp_ids:
+            tmp_ids.writelines("\n".join(record_ids))
+            tmp_ids.flush()
+            tmp_ids_path = tmp_ids.name
+            cmd_str = f"seqkit grep -i -f {tmp_ids_path} {self._input_file} -o {output_file}"
+            terminalExecute(cmd_str)
+        
     def splitByContigs(self, output_dir: Path = None) -> None:
         """
         Split large fasta file into several ones containing one contig each

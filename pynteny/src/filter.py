@@ -290,11 +290,12 @@ class SyntenyHits():
                 gene_id = (
                     gene_symbol if not pd.isna(gene_symbol)
                     else (gene_label if not pd.isna(gene_label) else "")
-                    ) + "_"
+                    )
             else:
                 gene_id = ""
+            gene_id_str = gene_id + "_" if gene_id else ""
 
-            output_fasta = output_dir / f"{output_prefix}{gene_id}{hmm_group}_hits.fasta"
+            output_fasta = output_dir / f"{output_prefix}{gene_id_str}{hmm_group}_hits.fasta"
             if record_ids:
                 fasta.filterByIDs(
                     record_ids=record_ids,

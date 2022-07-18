@@ -84,6 +84,25 @@ class PGAP:
         meta = pd.read_csv(str(meta_file), sep="\t")
         meta = meta[["#ncbi_accession", "gene_symbol", "label", "product_name", "ec_numbers"]]
         self._meta = meta
+        self._meta_file = meta_file
+
+    def removeMissingHMMsFromMetadata(self, hmm_dir: Path,
+                                      outfile: Path = None) -> None:
+        """
+        Remove HMMs from metadata that are not in HMM directory
+        """
+        if outfile is None:
+            outfile = self._meta.parent / f"{self._meta.stem}_missing_hmms.tsv"
+        hmm_file_names = [
+            hmm_file.stem.strip()
+            for hmm_file in hmm_dir.iterdir()
+            ]
+        not_found = set() 
+        for i, row in self._meta.iterrows():
+            if row["#ncbi_accession"].strip() not in hmm_file_names:
+                not_found.add(i)
+        self._meta = self._meta.drop(not_found)
+        self._meta.to_csv(outfile, sep="\t", index=False)
 
     def getHMMnamesByGeneSymbol(self, gene_id: str) -> list[str]:
         """
