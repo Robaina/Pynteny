@@ -1,4 +1,4 @@
-<img style="width: 500px;" src="pynteny_logo.png">
+<img style="width: 500px;" src="assets/pynteny_logo.png">
 
 # Synteny hmm searches made easy
 ## Installation
