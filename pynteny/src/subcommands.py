@@ -29,6 +29,7 @@ def synteny_search(args):
     Search peptide database by synteny structure containing HMMs.
     """
     config = ConfigParser.get_default_config()
+    args.synteny_struc = args.synteny_struc.replace(" |", "|").replace("| ", "|")
     if args.hmm_dir is None:
         if not config.get_field("data_downloaded"):
             logger.error("Please download hmm database first or provide path to hmm directory.")
@@ -53,7 +54,6 @@ def synteny_search(args):
     temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
     if isTarFile(args.hmm_dir):
         logger.info("Extracting hmm files to temporary directory")
-        # temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
         if temp_hmm_dir.exists():
             shutil.rmtree(temp_hmm_dir)
         extractTarFile(

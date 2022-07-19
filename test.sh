@@ -99,25 +99,30 @@
 #  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
 
 
-# # SusC SusD, Bacteroidetes, using several HMMs
-# pynteny search \
-#  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels.faa \
-#  --outdir /home/robaina/Documents/Pynteny/tests/Sus_results \
-#  --synteny_struc "(TIGR04056.1 | TIGR04057.1 |) 0 (NF033071.0 | NF019592.2 | NF024152.2 | NF024181.2 | NF025680.2)" \
-#  --hmm_dir /home/robaina/Documents/Pynteny/data/hmm_PGAP.HMM.tgz \
-#  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
+# SusC SusD, Bacteroidetes, using several HMMs
+pynteny search \
+ --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels_mmp.faa \
+ --outdir /home/robaina/Documents/Pynteny/tests/Sus_results \
+ --synteny_struc "(TIGR04056.1 | TIGR04057.1) 0 NF033071.0" \
+ --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
+ --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
+
+
+# "(TIGR04056.1 | TIGR04057.1) 0 (NF033071.0 | NF019592.2 | NF024152.2 | NF024181.2 | NF025680.2)" \
+# "(TIGR04056.1 | TIGR04057.1) 0 NF033071.0"
+
 
 # Synteny in flagellum (archea and bacteria)
 # https://www.frontiersin.org/files/Articles/126315/fmicb-06-00023-r4/image_m/fmicb-06-00023-g002.jpg
 
 
 
-pynteny search \
- --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
- --data /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
- --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results_hmms \
- --synteny_struc "<(TIGR00171.1|TIGR02084.1) 0 <(TIGR00170.1|TIGR02083.1) 1 <(NF002084.0|TIGR00973.1|TIGR00970.1)" \
---hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
+# pynteny search \
+#  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
+#  --data /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
+#  --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results_hmms \
+#  --synteny_struc "<(TIGR00171.1|TIGR02084.1) 0 <(TIGR00170.1|TIGR02083.1) 1 <(NF002084.0|TIGR00973.1|TIGR00970.1)" \
+# --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
 
 
 

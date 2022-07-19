@@ -77,20 +77,50 @@ class SyntenyHMMfilter():
             )
         self._n_hmm_groups = len(self._hmm_order_dict)
 
+    def _assignCodeToHMM(self, hmm_group_name: str) -> int:
+        hmm_group_name = str(hmm_group_name)
+        code = [
+            code for hmm_group, code in self._hmm_order_dict.items()
+            if set(hmm_group_name.split("|")).issubset(set(hmm_group.split("|")))  # if hmm_name in hmm_group
+            ]
+        if len(code) > 1:
+            logger.error(
+            f"HMM: {hmm_group_name} found in more than one hmm group in synteny structure"
+            )
+            sys.exit(1)
+        if not code:
+            logger.error(
+            f"No code found for HMM: {hmm_group_name}"
+            )
+            sys.exit(1)
+        return code[0]
+
+    def _addMetaCodesToHMMhits(self, all_hit_labels: pd.Dataframe) -> pd.Dataframe:
+        """
+        Add numeric codes for each hmm and strand, compute distance between genes
+        """
+        all_hit_labels["gene_pos_diff"] = all_hit_labels.gene_pos.diff()
+        all_hit_labels.loc[0, "gene_pos_diff"] = 1 # required for rolling (skips first nan)
+        all_hit_labels["hmm_code"] = all_hit_labels.hmm.apply(self._assignCodeToHMM)
+        all_hit_labels["strand"] = all_hit_labels.strand.apply(
+            lambda strand : -1 if strand == "neg" else (1 if strand ==  "pos" else 0)
+            )
+        return all_hit_labels
+
     def mergeHitsByHMMgroup(self, hits: pd.DataFrame):
-        g = hits.groupby(["full"]).groups
-        _, group_idxs = list(g.keys()), list(g.values())
-        for group in group_idxs:
-            hmm_names = set(hits.loc[group, "hmm"].values)   # Perhaps some hmms within groups match different sequences, in that case we won't retrieve any hits
+        groups = hits.groupby(["full_label"]).groups
+        for group_idxs in groups.values():
+            hmm_names = set(hits.loc[group_idxs, "hmm"].values)   # Perhaps some hmms within groups match different sequences, in that case we won't retrieve any hits
             candidate_hmm_group = [
                 hmm_group_str for hmm_group_str in self._parsed_structure["hmm_groups"]
                 if hmm_names.issubset(set(hmm_group_str.split("|")))
                 ]
             if candidate_hmm_group:
-                hmm_group = candidate_hmm_group[0]
+                # hmm_group = candidate_hmm_group[0]
+                hmm_group = "|".join(hmm_names)
             else:
                 hmm_group = "discard"
-            hits.loc[group, "hmm"] = hmm_group
+            hits.loc[group_idxs, "hmm"] = hmm_group
         hits = hits[hits.hmm != "discard"].drop_duplicates()
         hits.hmm = hits.hmm.apply(lambda x: str(x))
         return hits
@@ -120,37 +150,8 @@ class SyntenyHMMfilter():
         all_hit_labels.reset_index(drop=True, inplace=True)
         all_hit_labels_merged = self.mergeHitsByHMMgroup(all_hit_labels)
         all_hit_labels_merged.reset_index(drop=True, inplace=True)
-        return self._addMetaInfoToHMMhits(all_hit_labels_merged)
-    
-    def _assignCodeToHMM(self, hmm_name: str):
-        code = [
-            code for hmm_group, code in self._hmm_order_dict.items()
-            if str(hmm_name) in hmm_group
-            ]
-        if len(code) > 1:
-            logger.error(
-            f"HMM: {hmm_name} found in more than one hmm group in synteny structure"
-            )
-            sys.exit(1)
-        if not code:
-            logger.error(
-            f"No code found for HMM: {hmm_name}"
-            )
-            sys.exit(1)
-        return code[0]
+        return self._addMetaCodesToHMMhits(all_hit_labels_merged)
 
-    def _addMetaInfoToHMMhits(self, all_hit_labels: pd.Dataframe) -> pd.Dataframe:
-        """
-        Add numeric codes for each hmm and strand, compute distance between genes
-        """
-        all_hit_labels["gene_pos_diff"] = all_hit_labels.gene_pos.diff()
-        all_hit_labels.loc[0, "gene_pos_diff"] = 1 # required for rolling (skips first nan)
-        all_hit_labels["hmm_code"] = all_hit_labels.hmm.apply(self._assignCodeToHMM)
-        all_hit_labels["strand"] = all_hit_labels.strand.apply(
-            lambda strand : -1 if strand == "neg" else (1 if strand ==  "pos" else 0)
-            )
-        return all_hit_labels
-    
     def filterHitsBySyntenyStructure(self) -> dict:
         """
         Search for contigs that satisfy the given gene synteny structure
@@ -171,10 +172,11 @@ class SyntenyHMMfilter():
 
         for contig in contig_names:
 
-            matched_hit_labels = {hmm_group: [] for hmm_group in self._parsed_structure["hmm_groups"]}
+            # matched_hit_labels = {hmm_group: [] for hmm_group in self._parsed_structure["hmm_groups"]}
             contig_hits = all_hit_labels[all_hit_labels.contig == contig].reset_index(drop=True)
+            matched_hit_labels = {hmm_group: [] for hmm_group in contig_hits.hmm.unique()}
 
-            if len(contig_hits.hmm.unique()) == self._n_hmm_groups:
+            if len(contig_hits.hmm.unique()) >= self._n_hmm_groups:
                 
                 hmm_match = contig_hits.hmm_code.rolling(window=self._n_hmm_groups).apply(
                     filters.contains_hmm_pattern
@@ -198,7 +200,7 @@ class SyntenyHMMfilter():
                 
                 for i, _ in matched_rows.iterrows():
                     matched_hits = contig_hits.iloc[i - (self._n_hmm_groups - 1): i + 1, :]
-                    for label, hmm in zip((matched_hits.full.values), matched_hits.hmm):
+                    for label, hmm in zip((matched_hits.full_label.values), matched_hits.hmm):
                         matched_hit_labels[hmm].append(label)
 
                 all_matched_hits[contig] = matched_hit_labels
@@ -227,7 +229,7 @@ class SyntenyHits():
                         [
                             parsed_label['contig'], parsed_label['gene_id'],
                             parsed_label['gene_pos'], parsed_label['locus_pos'],
-                            parsed_label['strand'], parsed_label["full"], hmm
+                            parsed_label['strand'], parsed_label["full_label"], hmm
                             ]
                     )
         return pd.DataFrame(data, columns=columns).sort_values(["contig", "gene_number"])

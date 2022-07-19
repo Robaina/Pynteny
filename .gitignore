@@ -6,6 +6,8 @@ tests/
 
 dev.ipynb
 NOTES.md
+test_script.py
+all_hit_labels.csv
 
 build/
 dist/
