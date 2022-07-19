@@ -108,10 +108,6 @@ pynteny search \
  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
 
 
-# "(TIGR04056.1 | TIGR04057.1) 0 (NF033071.0 | NF019592.2 | NF024152.2 | NF024181.2 | NF025680.2)" \
-# "(TIGR04056.1 | TIGR04057.1) 0 NF033071.0"
-
-
 # Synteny in flagellum (archea and bacteria)
 # https://www.frontiersin.org/files/Articles/126315/fmicb-06-00023-r4/image_m/fmicb-06-00023-g002.jpg
 
