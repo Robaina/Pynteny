@@ -151,10 +151,12 @@ class PGAP:
         """
         Get meta info for given hmm
         """
-        meta = self._meta.dropna(subset=["#ncbi_accession"], axis=0)
+        meta = self._meta.dropna(subset=["#ncbi_accession"], axis=0).applymap(
+            lambda x: x if not pd.isna(x) else ""
+            )
         try: 
             return {
-                k: list(v.values()).pop() 
+                k: list(v.values())[0] if list(v.values())[0] else "undef"
                 for k, v in meta[meta["#ncbi_accession"] == hmm_name].to_dict().items()
                 }
         except:
