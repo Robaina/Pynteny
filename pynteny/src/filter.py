@@ -81,7 +81,7 @@ class SyntenyHMMfilter():
         hmm_group_name = str(hmm_group_name)
         code = [
             code for hmm_group, code in self._hmm_order_dict.items()
-            if set(hmm_group_name.split("|")).issubset(set(hmm_group.split("|")))  # if hmm_name in hmm_group
+            if set(hmm_group_name.split("|")).issubset(set(hmm_group.split("|")))
             ]
         if len(code) > 1:
             logger.error(
@@ -110,13 +110,12 @@ class SyntenyHMMfilter():
     def mergeHitsByHMMgroup(self, hits: pd.DataFrame):
         groups = hits.groupby(["full_label"]).groups
         for group_idxs in groups.values():
-            hmm_names = set(hits.loc[group_idxs, "hmm"].values)   # Perhaps some hmms within groups match different sequences, in that case we won't retrieve any hits
+            hmm_names = set(hits.loc[group_idxs, "hmm"].values)
             candidate_hmm_group = [
                 hmm_group_str for hmm_group_str in self._parsed_structure["hmm_groups"]
                 if hmm_names.issubset(set(hmm_group_str.split("|")))
                 ]
             if candidate_hmm_group:
-                # hmm_group = candidate_hmm_group[0]
                 hmm_group = "|".join(hmm_names)
             else:
                 hmm_group = "discard"
@@ -171,8 +170,6 @@ class SyntenyHMMfilter():
         contig_names = all_hit_labels.contig.unique()
 
         for contig in contig_names:
-
-            # matched_hit_labels = {hmm_group: [] for hmm_group in self._parsed_structure["hmm_groups"]}
             contig_hits = all_hit_labels[all_hit_labels.contig == contig].reset_index(drop=True)
             matched_hit_labels = {hmm_group: [] for hmm_group in contig_hits.hmm.unique()}
 

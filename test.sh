@@ -103,10 +103,11 @@
 pynteny search \
  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels_mmp.faa \
  --outdir /home/robaina/Documents/Pynteny/tests/Sus_results \
- --synteny_struc "(TIGR04056.1 | TIGR04057.1) 0 NF033071.0" \
+ --synteny_struc "<NF033071.0 <(TIGR04056.1 | TIGR04057.1)" \
  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
 
+# ">(TIGR04056.1 | TIGR04057.1) 0 >NF033071.0"
 
 # Synteny in flagellum (archea and bacteria)
 # https://www.frontiersin.org/files/Articles/126315/fmicb-06-00023-r4/image_m/fmicb-06-00023-g002.jpg
