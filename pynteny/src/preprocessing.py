@@ -138,7 +138,7 @@ class FASTA():
             tmp_ids.flush()
             tmp_ids_path = tmp_ids.name
             cmd_str = f"seqkit grep -i -f {tmp_ids_path} {self._input_file} -o {output_file}"
-            terminalExecute(cmd_str)
+            terminalExecute(cmd_str, suppress_shell_output=True)
         
     def splitByContigs(self, output_dir: Path = None) -> None:
         """

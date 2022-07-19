@@ -99,13 +99,13 @@
 #  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
 
 
-# SusC SusD, Bacteroidetes, using several HMMs
-pynteny search \
- --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels_mmp.faa \
- --outdir /home/robaina/Documents/Pynteny/tests/Sus_results \
- --synteny_struc "<NF033071.0 <(TIGR04056.1 | TIGR04057.1)" \
- --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
- --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
+# # SusC SusD, Bacteroidetes, using several HMMs
+# pynteny search \
+#  --data /home/robaina/Databases/MAR_database/marref_prodigal_longlabels_mmp.faa \
+#  --outdir /home/robaina/Documents/Pynteny/tests/Sus_results \
+#  --synteny_struc "<NF033071.0 <(TIGR04056.1 | TIGR04057.1)" \
+#  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
+#  --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
 
 # ">(TIGR04056.1 | TIGR04057.1) 0 >NF033071.0"
 
@@ -114,13 +114,9 @@ pynteny search \
 
 
 
-# pynteny search \
-#  --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
-#  --data /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
-#  --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results_hmms \
-#  --synteny_struc "<(TIGR00171.1|TIGR02084.1) 0 <(TIGR00170.1|TIGR02083.1) 1 <(NF002084.0|TIGR00973.1|TIGR00970.1)" \
-# --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
-
-
-
-# "<(TIGR00171.1|TIGR02084.1) 0 <(TIGR00170.1|TIGR02083.1) 1 <(NF002084.0|TIGR00973.1|TIGR00970.1)" \
+pynteny search \
+ --hmm_dir /home/robaina/Databases/hmm_PGAP/ \
+ --data /home/robaina/Documents/Pynteny/tests/MG1655.fasta \
+ --outdir /home/robaina/Documents/Pynteny/tests/MG1655_results_hmms \
+ --synteny_struc "<(TIGR00171.1|TIGR02084.1) 0 <(TIGR00170.1|TIGR02083.1) 1 <(NF002084.0|TIGR00973.1|TIGR00970.1)" \
+ --hmm_meta /home/robaina/Documents/Pynteny/data/hmm_PGAP_no_missing.tsv
