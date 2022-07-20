@@ -19,5 +19,5 @@ pynteny search \
  --outdir data/MG1655 \
  --synteny_struc "<leuD 0 <leuC 1 <leuA" --gene_ids
  
- 
+ # The command should retrieve the following synteny block:
  # "<(TIGR00171.1|TIGR02084.1) 0 <(TIGR00170.1|TIGR02083.1) 1 <(NF002084.0|TIGR00973.1|TIGR00970.1)"
