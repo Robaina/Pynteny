@@ -20,14 +20,16 @@ from pynteny.src.wrappers import runProdigal
 from pynteny.src.preprocessing import FASTA, LabelledFASTA
 
 
-logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s', level=logging.NOTSET)
-logger = logging.getLogger(__name__)
-
 
 def synteny_search(args):
     """
     Search peptide database by synteny structure containing HMMs.
     """
+    logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
+                        filename = args.logfile,
+                        filemode = "w",
+                        level=logging.NOTSET)
+    logger = logging.getLogger(__name__)
     config = ConfigParser.get_default_config()
     args.synteny_struc = args.synteny_struc.replace(" |", "|").replace("| ", "|")
     if args.hmm_dir is None:
@@ -117,6 +119,11 @@ def translate_assembly(args):
     Preprocess assembly FASTA file and translate it to protein FASTA file.
     Add positional information to sequence headers.
     """
+    logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
+                        filename = args.logfile,
+                        filemode = "w",
+                        level=logging.NOTSET)
+    logger = logging.getLogger(__name__)
     if args.processes is None:
         args.processes = os.cpu_count() - 1
 
@@ -178,6 +185,11 @@ def parse_gene_ids(args):
     """
     Convert gene symbols to hmm names.
     """
+    logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
+                        filename = args.logfile,
+                        filemode = "w",
+                        level=logging.NOTSET)
+    logger = logging.getLogger(__name__)
     gene_synteny_struc, gene_to_hmm_group = SyntenyParser.parseGenesInSyntenyStructure(
         synteny_structure=args.synteny_struc,
         hmm_meta=args.hmm_meta
@@ -188,6 +200,11 @@ def download_hmms(args):
     """
     Download HMM (PGAP) database from NCBI.
     """
+    logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
+                        filename = args.logfile,
+                        filemode = "w",
+                        level=logging.NOTSET)
+    logger = logging.getLogger(__name__)
     module_dir = Path(__file__).parent
     config_path = Path(module_dir.parent) / "config.json"
     config = ConfigParser(config_path)

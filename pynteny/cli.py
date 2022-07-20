@@ -151,6 +151,10 @@ class Pynteny():
                              metavar="",
                              required=False, help="path to hmm database metadata file"
         )
+        optional.add_argument("-l", "--log", dest="logfile", type=Path, default=None,
+                             metavar="",
+                             required=False, help="path to log file. Log not written by default."
+        )
         args = parser.parse_args(self._subcommand_args)
         sub.synteny_search(args)
     
@@ -200,6 +204,10 @@ class Pynteny():
                             default=None, required=False,
                             help=("additional arguments to prodigal provided as defined by it")
                             )
+        optional.add_argument("-l", "--log", dest="logfile", type=Path, default=None,
+                             metavar="",
+                             required=False, help="path to log file. Log not written by default."
+        )
         args = parser.parse_args(self._subcommand_args)
         sub.translate_assembly(args)
 
@@ -226,6 +234,10 @@ class Pynteny():
         )
         required.add_argument("-m", "--hmm_meta", dest="hmm_meta", type=Path, metavar="",
                              required=True, help="path to hmm database metadata file")
+        optional.add_argument("-l", "--log", dest="logfile", type=Path, default=None,
+                             metavar="",
+                             required=False, help="path to log file. Log not written by default."
+        )
         args = parser.parse_args(self._subcommand_args)
         sub.parse_gene_ids(args)
 
@@ -254,6 +266,10 @@ class Pynteny():
                             default=False, action="store_true",
                             help="unpack originally compressed database files"
                             )
+        optional.add_argument("-l", "--log", dest="logfile", type=Path, default=None,
+                             metavar="",
+                             required=False, help="path to log file. Log not written by default."
+        )
         args = parser.parse_args(self._subcommand_args)
         sub.download_hmms(args)
         
