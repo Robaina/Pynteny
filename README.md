@@ -1,5 +1,4 @@
-<img style="width: 100vw;" src="assets/pynteny_logo.png">
-<br>
+<img style="width: 100vw; height: 250px" src="assets/pynteny_logo.png">
 <br>
 
 # Synteny hmm searches made easy
