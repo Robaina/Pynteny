@@ -39,11 +39,11 @@ Pynteny currently contains two main subcommands:
 * `pynteny search`: searches for synteny blocks in a set of ORFs using HMMER and outputs the results in a tabular format. Synteny blocks are specified by strings of ordered HMM names or gene IDs with the following format:
 $$>HMM_a \;\;\; n_{ab} \;\;\; >HMM_b \;\;\; n_{bc} \;\;\; <(HMM_{c1}|HMM_{c2}|HMM_{c3}),$$ 
 
-    where $n_{ab}$ corrresponds to the maximum number of genes between $HMM_a$ and $HMM_b$. Results can be strand-specific, in that case $>$ preceding a HMM name indicates that the corresponding ORF must be located in the positive (or sense) strand. Likewise, a $<$ symbol indicates that the ORF must be located in the negative (antisense) strand. Searches can be made strand-insensitive by omitting the $>$ or $<$ symbol. 
+where $n_{ab}$ corrresponds to the maximum number of genes between $HMM_a$ and $HMM_b$. Results can be strand-specific, in that case $>$ preceding a HMM name indicates that the corresponding ORF must be located in the positive (or sense) strand. Likewise, a $<$ symbol indicates that the ORF must be located in the negative (antisense) strand. Searches can be made strand-insensitive by omitting the $>$ or $<$ symbol. 
 
-    Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them. In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.
+Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them. In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.
 
-    If the PGAP database is employed (see `pynteny download` below), synteny blocks can also be specified by gene symbols, such as $<leuD \;\;\; 0 \;\;\;<leuC \;\;\; 1 \;\;\; <leuA$. In that case, the program will try to match gene symbols to HMM names in the PGAP database previous to running the search.
+If the PGAP database is employed (see `pynteny download` below), synteny blocks can also be specified by gene symbols, such as $<leuD \;\;\; 0 \;\;\;<leuC \;\;\; 1 \;\;\; <leuA$. In that case, the program will try to match gene symbols to HMM names in the PGAP database previous to running the search.
 
 
 
