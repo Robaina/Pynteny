@@ -147,7 +147,7 @@ class Pynteny():
                                 "in argument '--hmm_meta'"
                                 )
         )
-        required.add_argument("-m", "--hmm_meta", dest="hmm_meta", type=Path, default=None,
+        optional.add_argument("-m", "--hmm_meta", dest="hmm_meta", type=Path, default=None,
                              metavar="",
                              required=False, help="path to hmm database metadata file"
         )
@@ -245,7 +245,10 @@ class Pynteny():
 
         optional.add_argument("-d", "--dir", dest="dir", type=Path, metavar="",
                              required=False, default=None,
-                             help="path to directory where to download HMM database"
+                             help=(
+                                "path to directory where to download HMM database.\n"
+                                "Defaults to pynteny installation directory."
+                                )
                              )
         optional.add_argument("-u", "--unpack", dest="unpack",
                             default=False, action="store_true",

@@ -1,15 +1,14 @@
 **/__pycache__/
-tests/
-!tests/script.sh
+my_tests/
 *.pickle
 *.tsv
 
 dev.ipynb
 NOTES.md
 test_script.py
-all_hit_labels.csv
+test_script.sh
 
 build/
 dist/
 *.egg-info
-data/
+hmm_data/
