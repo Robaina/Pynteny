@@ -15,8 +15,8 @@
 pynteny download --unpack
 
 pynteny search \
- --data data/MG1655.fasta \
- --outdir data/MG1655 \
+ --data pynteny/tests/data/MG1655.fasta \
+ --outdir pynteny/tests/MG1655/ \
  --synteny_struc "<leuD 0 <leuC 1 <leuA" --gene_ids
  
  # The command should retrieve the following synteny block:
