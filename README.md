@@ -36,7 +36,12 @@ pynteny --help
 
 Pynteny currently contains two main subcommands:
 
-* `pynteny search`: searches for synteny blocks in a set of ORFs using HMMER and outputs the results in a tabular format.
+* `pynteny search`: searches for synteny blocks in a set of ORFs using HMMER and outputs the results in a tabular format. Synteny blocks are specified by strings of ordered HMM names or gene IDs with the following format:
+
+```
+$$>HMM_a n_{ab} >HMM_b n_{bc} <HMM_c$$
+```
+
 * `pynteny preprocess`: predict ORFs with [prodigal]()and add positional information to each ORF &mdash; i.e., loci and gene number within assembled contig. Alternatively, the user can provide their own ORF annotations in GenBank format.
 * `pynteny download`: downloads the latest version of the [NCBI Prokaryotic Genome Annotation Pipeline](https://github.com/ncbi/pgap) (PGAP) HMM database. However, the user may provide their own HMM database.
 
