@@ -43,7 +43,7 @@ where $n_{ab}$ corrresponds to the maximum number of genes between $HMM_a$ and $
 
 Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them. In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.
 
-If the PGAP database is employed (see `pynteny download` below), synteny blocks can also be specified by gene symbols, such as $<leuD \;\;\; 0 \;\;\;<leuC \;\;\; 1 \;\;\; <leuA$. In that case, the program will try to match gene symbols to HMM names in the PGAP database previous to running the search.
+If the PGAP database is employed (see `pynteny download` below), synteny blocks can also be specified by gene symbols, such as $$<leuD \;\;\; 0 \;\;\;<leuC \;\;\; 1 \;\;\; <leuA.$$ In that case, the program will try to match gene symbols to HMM names in the PGAP database previous to running the search.
 
 
 
