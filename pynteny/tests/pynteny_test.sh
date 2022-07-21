@@ -12,7 +12,7 @@
 
 # rm tests/MG1655/*
 
-pynteny download --unpack
+# pynteny download --unpack
 
 pynteny search \
  --data pynteny/tests/data/MG1655.fasta \

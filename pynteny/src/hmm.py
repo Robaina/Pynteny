@@ -16,6 +16,8 @@ import pandas as pd
 from Bio import SearchIO
 
 import pynteny.src.wrappers as wrappers
+from pynteny.src.utils import isTarFile, extractTarFile, flattenDirectory
+
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +87,23 @@ class PGAP:
         meta = meta[["#ncbi_accession", "gene_symbol", "label", "product_name", "ec_numbers"]]
         self._meta = meta
         self._meta_file = meta_file
+
+    @staticmethod
+    def extractPGAPtoDirectory(pgap_tar: Path, output_dir: Path) -> None:
+        """
+        Extract PGAP hmm database (tar.gz) to given directory
+        """
+        if not isTarFile(pgap_tar):
+            logger.warning(f"{pgap_tar} is not a tar file. Skipping extraction")
+            sys.exit(1)
+        logger.info("Extracting hmm files to temporary directory")
+        extractTarFile(
+            tar_file=pgap_tar,
+            dest_dir=output_dir
+        )
+        flattenDirectory(
+            output_dir
+        )
 
     def removeMissingHMMsFromMetadata(self, hmm_dir: Path,
                                       outfile: Path = None) -> None:

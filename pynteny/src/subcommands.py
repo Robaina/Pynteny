@@ -12,9 +12,9 @@ import logging
 from pathlib import Path
 import wget
 
-from pynteny.src.utils import ConfigParser, setDefaultOutputPath, isTarFile, extractTarFile, flattenDirectory
+from pynteny.src.utils import ConfigParser, setDefaultOutputPath, isTarFile
 from pynteny.src.filter import filterFASTAbySyntenyStructure, SyntenyParser
-
+from pynteny.src.hmm import PGAP
 from pynteny.src.utils import TemporaryFilePath, parallelizeOverInputFiles, setDefaultOutputPath
 from pynteny.src.wrappers import runProdigal
 from pynteny.src.preprocessing import FASTA, LabelledFASTA
@@ -25,9 +25,15 @@ def synteny_search(args):
     """
     Search peptide database by synteny structure containing HMMs.
     """
+    if not args.outdir.exists():
+        args.outdir.mkdir()
+    if args.logfile is not None and not Path(args.logfile.parent).exists():
+        Path(args.logfile.parent).mkdir(parents=True)
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
-                        filename = args.logfile,
-                        filemode = "w",
+                        handlers=[
+                            logging.FileHandler(args.logfile),
+                            logging.StreamHandler(sys.stdout)
+                            ],
                         level=logging.NOTSET)
     logger = logging.getLogger(__name__)
     config = ConfigParser.get_default_config()
@@ -54,17 +60,10 @@ def synteny_search(args):
         logger.info(f"Found the following HMMs in database for given structure:\n{gene_synteny_struc}")
     
     temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
+    if temp_hmm_dir.exists():
+        shutil.rmtree(temp_hmm_dir)
     if isTarFile(args.hmm_dir):
-        logger.info("Extracting hmm files to temporary directory")
-        if temp_hmm_dir.exists():
-            shutil.rmtree(temp_hmm_dir)
-        extractTarFile(
-            tar_file=args.hmm_dir,
-            dest_dir=temp_hmm_dir
-        )
-        flattenDirectory(
-            temp_hmm_dir
-        )
+        PGAP.extractPGAPtoDirectory(args.hmm_dir, temp_hmm_dir)
         hmm_dir = temp_hmm_dir
     else:
         hmm_dir = args.hmm_dir
@@ -119,9 +118,15 @@ def translate_assembly(args):
     Preprocess assembly FASTA file and translate it to protein FASTA file.
     Add positional information to sequence headers.
     """
+    if not args.outdir.exists():
+        args.outdir.mkdir()
+    if args.logfile is not None and not Path(args.logfile.parent).exists():
+        Path(args.logfile.parent).mkdir(parents=True)
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
-                        filename = args.logfile,
-                        filemode = "w",
+                        handlers=[
+                            logging.FileHandler(args.logfile),
+                            logging.StreamHandler(sys.stdout)
+                            ],
                         level=logging.NOTSET)
     logger = logging.getLogger(__name__)
     if args.processes is None:
@@ -185,9 +190,13 @@ def parse_gene_ids(args):
     """
     Convert gene symbols to hmm names.
     """
+    if args.logfile is not None and not Path(args.logfile.parent).exists():
+        Path(args.logfile.parent).mkdir(parents=True)
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
-                        filename = args.logfile,
-                        filemode = "w",
+                        handlers=[
+                            logging.FileHandler(args.logfile),
+                            logging.StreamHandler(sys.stdout)
+                            ],
                         level=logging.NOTSET)
     logger = logging.getLogger(__name__)
     gene_synteny_struc, gene_to_hmm_group = SyntenyParser.parseGenesInSyntenyStructure(
@@ -200,9 +209,15 @@ def download_hmms(args):
     """
     Download HMM (PGAP) database from NCBI.
     """
+    if not args.outdir.exists():
+        args.outdir.mkdir()
+    if args.logfile is not None and not Path(args.logfile.parent).exists():
+        Path(args.logfile.parent).mkdir(parents=True)
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
-                        filename = args.logfile,
-                        filemode = "w",
+                        handlers=[
+                            logging.FileHandler(args.logfile),
+                            logging.StreamHandler(sys.stdout)
+                            ],
                         level=logging.NOTSET)
     logger = logging.getLogger(__name__)
     module_dir = Path(__file__).parent

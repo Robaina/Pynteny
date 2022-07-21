@@ -255,7 +255,7 @@ class Pynteny():
         required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
 
-        optional.add_argument("-d", "--dir", dest="dir", type=Path, metavar="",
+        optional.add_argument("-o", "--outdir", dest="outdir", type=Path, metavar="",
                              required=False, default=None,
                              help=(
                                 "path to directory where to download HMM database.\n"
