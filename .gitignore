@@ -1,7 +1,6 @@
 **/__pycache__/
 my_tests/
 *.pickle
-*.tsv
 
 dev.ipynb
 NOTES.md

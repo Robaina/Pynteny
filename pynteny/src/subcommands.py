@@ -19,7 +19,8 @@ from pynteny.src.utils import TemporaryFilePath, parallelizeOverInputFiles, setD
 from pynteny.src.wrappers import runProdigal
 from pynteny.src.preprocessing import FASTA, LabelledFASTA
 
-
+requests_logger = logging.getLogger('seqkit')
+requests_logger.setLevel(logging.ERROR)
 
 def synteny_search(args):
     """
@@ -35,7 +36,7 @@ def synteny_search(args):
                         level=logging.NOTSET)
     logger = logging.getLogger(__name__)
     config = ConfigParser.get_default_config()
-    args.synteny_struc = args.synteny_struc.replace(" |", "|").replace("| ", "|")
+    args.synteny_struc = SyntenyParser.validateStructureFormat(args.synteny_struc)
     if args.hmm_dir is None:
         if not config.get_field("data_downloaded"):
             logger.error("Please download hmm database first or provide path to hmm directory.")
@@ -77,7 +78,7 @@ def synteny_search(args):
         sys.exit(1)
 
     if args.outdir is None:
-        args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
+        args.outdir = Path(args.data.parent)
     if not args.outdir.exists():
         args.outdir.mkdir(parents=True, exist_ok=True)
     if args.hmmsearch_args is None:

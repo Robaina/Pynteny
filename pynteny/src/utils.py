@@ -114,6 +114,7 @@ class TemporaryFilePath:
         if os.path.exists(self.file_path):
             os.remove(self.file_path)
             
+
 class TemporaryDirectoryPath:
     """
     Custom context manager to create a temporary directory
@@ -135,6 +136,69 @@ class TemporaryDirectoryPath:
     def __exit__(self, exc_type, exc_val, exc_tb):
         if os.path.exists(self.dir_path):
             shutil.rmtree(self.dir_path)
+
+
+class DictMerger():
+    def __init__(self, dicts: list[dict]) -> None:
+        """
+        Toos to merge python dictionaries into a single one
+        @param
+        dicts: list of dictionaries to be merged
+        """
+        self._dict_list = dicts
+    
+    @classmethod
+    def fromPicklePaths(cls, dict_paths: list[Path]) -> DictMerger:
+        """
+        Initialize class from list of paths to dictionaries (pickle)
+        """
+        dict_list = [
+            cls.readFromPickleFile(dict_path.strip()) for dict_path in dict_paths
+        ]
+        return cls(dicts=dict_list)
+    
+    @staticmethod
+    def readFromPickleFile(path_to_file: Path = "object.pkl"):
+        """
+        Load python object from pickle file.
+        Returns python object.
+        """
+        in_file = open(path_to_file,'rb')
+        python_object = pickle.load(in_file)
+        in_file.close()
+        return python_object
+
+    @staticmethod
+    def saveToPickleFile(python_object, path_to_file: Path = "object.pkl"):
+        """
+        Save python object to pickle file
+        """
+        out_file = open(path_to_file,'wb')
+        pickle.dump(python_object, out_file)
+        out_file.close()
+
+    def merge(self, dict_prefixes: list[str] = None, save_pickle_path: Path = None) -> dict:
+        """
+        Merge dictionaries
+        @params
+        dict_prefixes: list of strings containing prefixes to be added to
+                values in each dict (optional)
+        """
+        if dict_prefixes is None:
+            dict_prefixes = ['' for _ in range(len(self._dict_list))]
+        else:
+            dict_prefixes = dict_prefixes
+
+        merged_dict =  {
+            key: prefix + value
+            for prefix, dict_object in zip(dict_prefixes, self._dict_list) 
+            for (key, value) in dict_object.items()
+            }
+
+        if save_pickle_path is not None:
+            self.saveToPickleFile(merged_dict, save_pickle_path)
+        return merged_dict
+
 
 def createTemporaryFilePath(work_dir: str = None, extension: str = None):
     """
@@ -309,63 +373,8 @@ def flattenDirectory(directory: Path) -> None:
         if dirpath != directory:
             os.rmdir(dirpath)
 
-class DictMerger():
-    def __init__(self, dicts: list[dict]) -> None:
-        """
-        Toos to merge python dictionaries into a single one
-        @param
-        dicts: list of dictionaries to be merged
-        """
-        self._dict_list = dicts
-    
-    @classmethod
-    def fromPicklePaths(cls, dict_paths: list[Path]) -> DictMerger:
-        """
-        Initialize class from list of paths to dictionaries (pickle)
-        """
-        dict_list = [
-            cls.readFromPickleFile(dict_path.strip()) for dict_path in dict_paths
-        ]
-        return cls(dicts=dict_list)
-    
-    @staticmethod
-    def readFromPickleFile(path_to_file: Path = "object.pkl"):
-        """
-        Load python object from pickle file.
-        Returns python object.
-        """
-        in_file = open(path_to_file,'rb')
-        python_object = pickle.load(in_file)
-        in_file.close()
-        return python_object
-
-    @staticmethod
-    def saveToPickleFile(python_object, path_to_file: Path = "object.pkl"):
-        """
-        Save python object to pickle file
-        """
-        out_file = open(path_to_file,'wb')
-        pickle.dump(python_object, out_file)
-        out_file.close()
-
-    def merge(self, dict_prefixes: list[str] = None, save_pickle_path: Path = None) -> dict:
-        """
-        Merge dictionaries
-        @params
-        dict_prefixes: list of strings containing prefixes to be added to
-                values in each dict (optional)
-        """
-        if dict_prefixes is None:
-            dict_prefixes = ['' for _ in range(len(self._dict_list))]
-        else:
-            dict_prefixes = dict_prefixes
-
-        merged_dict =  {
-            key: prefix + value
-            for prefix, dict_object in zip(dict_prefixes, self._dict_list) 
-            for (key, value) in dict_object.items()
-            }
-
-        if save_pickle_path is not None:
-            self.saveToPickleFile(merged_dict, save_pickle_path)
-        return merged_dict
+def isRightListNestedType(list_object: list, inner_type: type) -> bool:
+    """
+    check if all elements in list are of right type
+    """
+    return all(isinstance(x, inner_type) for x in list_object)

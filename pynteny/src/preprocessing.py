@@ -63,6 +63,17 @@ class FASTA():
         self._input_file = Path(input_file)
         self._input_file_str = self._input_file.as_posix()
 
+    @classmethod
+    def fromFASTAdirectory(cls, input_dir: Path,
+                           merged_fasta: Path = None) -> FASTA:
+        """
+        Initialize FASTA object from directory of FASTA files
+        """
+        if merged_fasta is None:
+            merged_fasta = input_dir / "merged_database.fasta"
+        FASTA.mergeFASTAs(input_dir, merged_fasta)
+        return cls(merged_fasta)
+
     @staticmethod
     def mergeFASTAs(input_dir: Path,
                     output_file: Path = None) -> None:
@@ -71,6 +82,7 @@ class FASTA():
         """
         if output_file is None:
             output_file = input_dir / "merged.fasta"
+        logger.info(f"Merging FASTA files in directory: {input_dir}")
         cmd_str = f'awk 1 * > {output_file.as_posix()}'
         terminalExecute(
             cmd_str,
@@ -162,14 +174,14 @@ class LabelledFASTA(FASTA):
     @classmethod
     def fromProdigalOutput(cls,
                            prodigal_faa: Path,
-                           output_file: Path = None):
+                           output_file: Path = None) -> LabelledFASTA:
         """
         Extract positional gene info from prodigal output and export to
         fasta file.
         """
         number_prodigal_record_fields = 9
         if output_file is None:
-            output_file = setDefaultOutputPath(prodigal_faa, tag="_longlabels")
+            output_file = Path(prodigal_faa.parent) / f"{prodigal_faa.stem}_longlabels.fasta"
         data = pyfastx.Fasta(prodigal_faa.as_posix(), build_index=False, full_name=True)
         with open(output_file, "w") as outfile:
             for record_name, record_seq in data:
@@ -187,20 +199,29 @@ class LabelledFASTA(FASTA):
         return cls(output_file)
 
     @classmethod
-    def fromGenBankFile(cls,
-                        gbk_file: Path,
+    def fromGenBankData(cls,
+                        gbk_data: Path,
                         output_file: Path = None,
-                        nucleotide: bool = False):
+                        prefix: str = None,
+                        nucleotide: bool = False) -> LabelledFASTA:
         """
         Assign gene positional info, such as contig, gene number and loci
-        to each record in database
+        to each record in genbank database and return LabelledFASTA object.
         @paramms:
+        gbk_data: path to either a gbk file or a directory containing gbk files
         nucleotide: if True then records are nucleotide sequences instead of peptides.
                     Note that this option will notably increase the computation time.
         """
+        if gbk_data.is_dir():
+            gbk_files = [gbk_data / f for f in gbk_data.listdir()]
+        else:
+            gbk_files = [gbk_data]
+        gbk_contigs = [
+            contig for gbk_file in gbk_files
+            for contig in list(SeqIO.parse(gbk_file, 'genbank'))
+            ]
         if output_file is None:
-            output_file = setDefaultOutputPath(gbk_file, extension=".fasta")
-        gbk_contigs = list(SeqIO.parse(gbk_file, 'genbank'))
+            output_file = Path(gbk_files.pop().parent) / f"{prefix}sequence_database.fasta"
         
         def get_label_str(gbk_contig, feature):
             name = feature.qualifiers["locus_tag"][0].replace('_', '.')

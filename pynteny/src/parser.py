@@ -13,6 +13,7 @@ from pathlib import Path
 import pandas as pd
 
 from pynteny.src.hmm import PGAP
+from pynteny.src.utils import isRightListNestedType
 
 logger = logging.getLogger(__name__)
 
@@ -65,6 +66,34 @@ class SyntenyParser():
     """
     Tools to parse synteny structure strings
     """
+    @staticmethod
+    def validateStructureFormat(synteny_structure: str) -> str:
+        """
+        Validate synteny structure format
+        """
+        synteny_structure = synteny_structure.replace(
+            " |", "|").replace("| ", "|").strip()
+        parsed_struc = SyntenyParser.parseSyntenyStructure(synteny_structure)
+        right_type = all(
+            (isRightListNestedType(parsed_struc["hmm_groups"], str),
+            isRightListNestedType(parsed_struc["strands"], str),
+            isRightListNestedType(parsed_struc["distances"], int))
+        )
+        right_format = (
+            len(parsed_struc["hmm_groups"]) == len(parsed_struc["strands"]) and
+            len(parsed_struc["hmm_groups"]) == (len(parsed_struc["distances"]) + 1)
+        )
+        if not right_type or not right_format:
+            logger.error(
+                (
+                    f"Invalid synteny structure format: {synteny_structure}. "
+                    "Execute pynteny search --help to see the right format."
+                    )
+            )
+            sys.exit(1)
+        else: 
+            return synteny_structure
+
     @staticmethod
     def splitStrandFromLocus(locus_str: str,
                              parsed_symbol: bool = True) -> tuple[str]:

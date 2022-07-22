@@ -1,0 +1,11 @@
+2022-07-22 13:13:59,110 | ERROR: Invalid synteny structure format: <leuD 0 <leuC <leuA.
+Executte pynteny search --help to see the right format.
+2022-07-22 13:14:56,847 | INFO: Finding matching HMMs for gene symbols
+2022-07-22 13:14:56,917 | INFO: Found the following HMMs in database for given structure:
+<(TIGR00171.1|TIGR02084.1) 0 <(TIGR00170.1|TIGR02083.1) 1 (NF002084.0|TIGR00973.1|TIGR00970.1)
+2022-07-22 13:14:56,917 | INFO: Extracting hmm files to target directory
+2022-07-22 13:15:05,334 | INFO: Searching database by synteny structure
+2022-07-22 13:15:05,334 | INFO: Running Hmmer
+2022-07-22 13:15:05,587 | INFO: Filtering results by synteny structure
+2022-07-22 13:15:05,898 | INFO: Writing matching sequences to FASTA files
+2022-07-22 13:15:06,300 | INFO: Finished!
