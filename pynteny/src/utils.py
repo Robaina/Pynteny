@@ -49,7 +49,7 @@ class ConfigParser():
                 "database_dir": "",
                 "upack_PGAP_database": False,
                 "data_downloaded": False,
-                "PGAP_file": "",
+                "PGAP_database": "",
                 "PGAP_meta_file": ""
             }
             # logger.info(f"Initializing config file at: \n{config_file}")

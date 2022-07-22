@@ -182,7 +182,7 @@ class Pynteny():
                                 )
         )
         optional.add_argument("-o", "--outdir", dest="outdir", type=Path, metavar="",
-                            help="path to output directory"
+                             default=None, help="path to output directory"
         )
         optional.add_argument("-p", "--prefix", dest="prefix", type=str,
                             default="prodigal", metavar="",

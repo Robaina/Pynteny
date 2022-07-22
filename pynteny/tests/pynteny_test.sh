@@ -12,15 +12,14 @@
 
 # rm tests/MG1655/*
 
-# pynteny download --unpack
+pynteny download --unpack
 
 pynteny search \
  --data pynteny/tests/data/MG1655.fasta \
  --outdir pynteny/tests/MG1655/ \
  --synteny_struc "<leuD 0 <leuC 1 <leuA" --gene_ids \
- --hmm_dir /home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP.HMM.tgz \
- --hmm_meta /home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP_no_missing.tsv \
  --log pynteny/tests/MG1655/log.txt
+ 
  
  # The command should retrieve the following synteny block:
  # "<(TIGR00171.1|TIGR02084.1) 0 <(TIGR00170.1|TIGR02083.1) 1 <(NF002084.0|TIGR00973.1|TIGR00970.1)"

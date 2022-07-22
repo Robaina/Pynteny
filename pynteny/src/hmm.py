@@ -8,6 +8,7 @@ Tools to parse Hmmer output and PGAP (HMM) database
 from __future__ import annotations
 import os
 import sys
+import shutil
 import logging
 from pathlib import Path
 from collections import defaultdict
@@ -16,7 +17,7 @@ import pandas as pd
 from Bio import SearchIO
 
 import pynteny.src.wrappers as wrappers
-from pynteny.src.utils import isTarFile, extractTarFile, flattenDirectory
+from pynteny.src.utils import isTarFile, extractTarFile, flattenDirectory, listTarDir
 
 
 logger = logging.getLogger(__name__)
@@ -96,7 +97,9 @@ class PGAP:
         if not isTarFile(pgap_tar):
             logger.warning(f"{pgap_tar} is not a tar file. Skipping extraction")
             sys.exit(1)
-        logger.info("Extracting hmm files to temporary directory")
+        logger.info("Extracting hmm files to target directory")
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
         extractTarFile(
             tar_file=pgap_tar,
             dest_dir=output_dir
@@ -112,10 +115,16 @@ class PGAP:
         """
         if outfile is None:
             outfile = self._meta.parent / f"{self._meta.stem}_missing_hmms.tsv"
-        hmm_file_names = [
-            hmm_file.stem.strip()
-            for hmm_file in hmm_dir.iterdir()
-            ]
+        if isTarFile(hmm_dir):
+            hmm_file_names = [
+                Path(hmm_file).stem.strip()
+                for hmm_file in listTarDir(hmm_dir)
+                ]
+        else:
+            hmm_file_names = [
+                hmm_file.stem.strip()
+                for hmm_file in hmm_dir.iterdir()
+                ]
         not_found = set() 
         for i, row in self._meta.iterrows():
             if row["#ncbi_accession"].strip() not in hmm_file_names:

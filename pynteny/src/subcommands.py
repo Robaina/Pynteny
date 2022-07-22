@@ -25,8 +25,6 @@ def synteny_search(args):
     """
     Search peptide database by synteny structure containing HMMs.
     """
-    if not args.outdir.exists():
-        args.outdir.mkdir()
     if args.logfile is not None and not Path(args.logfile.parent).exists():
         Path(args.logfile.parent).mkdir(parents=True)
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
@@ -43,7 +41,7 @@ def synteny_search(args):
             logger.error("Please download hmm database first or provide path to hmm directory.")
             sys.exit(1)
         else:
-            args.hmm_dir = Path(config.get_field("PGAP_file"))
+            args.hmm_dir = Path(config.get_field("PGAP_database"))
     if args.gene_ids:
         if args.hmm_meta is None:
             if not config.get_field("data_downloaded"):
@@ -60,8 +58,6 @@ def synteny_search(args):
         logger.info(f"Found the following HMMs in database for given structure:\n{gene_synteny_struc}")
     
     temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
-    if temp_hmm_dir.exists():
-        shutil.rmtree(temp_hmm_dir)
     if isTarFile(args.hmm_dir):
         PGAP.extractPGAPtoDirectory(args.hmm_dir, temp_hmm_dir)
         hmm_dir = temp_hmm_dir
@@ -82,8 +78,8 @@ def synteny_search(args):
 
     if args.outdir is None:
         args.outdir = setDefaultOutputPath(args.data, only_dirname=True)
-    if not os.path.isdir(args.outdir):
-        os.makedirs(args.outdir, exist_ok=True)
+    if not args.outdir.exists():
+        args.outdir.mkdir(parents=True, exist_ok=True)
     if args.hmmsearch_args is None:
         hmmsearch_args = ",".join(["None" for _ in input_hmms])
     hmmsearch_args = list(map(lambda x: x.strip(), hmmsearch_args.split(",")))
@@ -118,8 +114,10 @@ def translate_assembly(args):
     Preprocess assembly FASTA file and translate it to protein FASTA file.
     Add positional information to sequence headers.
     """
+    if args.outdir is None:
+        args.outdir = Path(args.assembly_fasta.parent)
     if not args.outdir.exists():
-        args.outdir.mkdir()
+        args.outdir.mkdir(parents=True, exist_ok=True)
     if args.logfile is not None and not Path(args.logfile.parent).exists():
         Path(args.logfile.parent).mkdir(parents=True)
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
@@ -209,10 +207,11 @@ def download_hmms(args):
     """
     Download HMM (PGAP) database from NCBI.
     """
-    if not args.outdir.exists():
-        args.outdir.mkdir()
-    if args.logfile is not None and not Path(args.logfile.parent).exists():
+    if args.logfile is None:
+        args.logfile = Path(os.devnull)
+    elif not Path(args.logfile.parent).exists():
         Path(args.logfile.parent).mkdir(parents=True)
+
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
                         handlers=[
                             logging.FileHandler(args.logfile),
@@ -223,30 +222,47 @@ def download_hmms(args):
     module_dir = Path(__file__).parent
     config_path = Path(module_dir.parent) / "config.json"
     config = ConfigParser(config_path)
-    if args.dir is None:
+    if config.get_field("data_downloaded"):
+        logger.info("PGAP database already downloaded. Skipping download")
+        sys.exit(1)
+    if args.outdir is None:
         download_dir = Path(module_dir.parent) / "data"
     else:
-        download_dir = Path(args.dir).absolute()
+        download_dir = Path(args.outdir).absolute()
     if not download_dir.exists():
         os.makedirs(download_dir, exist_ok=True)
 
-    if not config.get_field("data_downloaded"):
-        config.update_config("database_dir", download_dir.as_posix())
-        config.update_config("upack_PGAP_database", args.unpack)
+    config.update_config("database_dir", download_dir.as_posix())
+    config.update_config("upack_PGAP_database", args.unpack)
 
-        data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
-        meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
-        logger.info("Downloading PGAP database")
-        try:
-            PGAP_file = download_dir / "hmm_PGAP.HMM.tgz"
-            meta_file = download_dir / "hmm_PGAP.tsv"
-            wget.download(data_url, PGAP_file.as_posix())
-            wget.download(meta_url, meta_file.as_posix())
-            print(" \n")
-            logger.info("Database dowloaded successfully\n")
-            config.update_config("data_downloaded", True)
-            config.update_config("PGAP_file", PGAP_file.as_posix())
-            config.update_config("PGAP_meta_file",  meta_file.as_posix())
-        except Exception as e:
-            logger.exception("Failed to download PGAP database. Please check your internet connection.")
-            sys.exit(1)
+    data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
+    meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
+    logger.info("Downloading PGAP database")
+    try:
+        PGAP_file = download_dir / "hmm_PGAP.HMM.tgz"
+        meta_file = download_dir / "hmm_PGAP.tsv"
+        wget.download(data_url, PGAP_file.as_posix())
+        wget.download(meta_url, meta_file.as_posix())
+        logger.info("Database dowloaded successfully\n")
+        config.update_config("data_downloaded", True)
+        config.update_config("PGAP_database", PGAP_file.as_posix())
+        config.update_config("PGAP_meta_file",  meta_file.as_posix())
+    except Exception as e:
+        logger.exception("Failed to download PGAP database. Please check your internet connection.")
+        sys.exit(1)
+    logger.info("Removing missing entries from PGAP metadata file")
+    PGAP(meta_file).removeMissingHMMsFromMetadata(
+        PGAP_file,
+        meta_file
+    )
+    if args.unpack:
+        logger.info("Unpacking PGAP database")
+        unpacked_PGAP_dir = download_dir / "hmm_PGAP"
+        PGAP.extractPGAPtoDirectory(
+            PGAP_file,
+            output_dir=unpacked_PGAP_dir
+        )
+        os.remove(PGAP_file)
+        config.update_config("PGAP_database", unpacked_PGAP_dir.as_posix())
+        logger.info("PGAP database unpacked successfully")
+
