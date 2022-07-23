@@ -30,32 +30,35 @@ def runSeqKitNoDup(input_fasta: Path, output_fasta: Path = None,
     terminalExecute(cmd_str)
 
 def runProdigal(input_file: Path,
-                output_prefix: str = None,
-                output_dir: Path = None,
+                output_file: Path = None,
+                output_dir : Path = None,
+                output_format: str = "fasta",
                 metagenome: bool = False,
                 additional_args: str = None):
     """
     Simple CLI wrapper to prodigal
     """
     if metagenome:
-        procedure = 'meta'
+        procedure = "meta"
     else:
-        procedure = 'single'
+        procedure = "single"
     if output_dir is None:
-        output_dir = setDefaultOutputPath(input_file, only_dirname=True)
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-    if output_prefix is None:
-        output_prefix = setDefaultOutputPath(input_file, only_basename=True)
+        output_dir = Path(input_file.parent)
+    if "fasta" in output_format.lower():
+        if output_file is None:
+            output_file = output_dir / f"{input_file.stem}prodigal_output.faa"
+        out_str = f"-a {output_file}"
+    else:
+        if output_file is None:
+            output_file = output_dir / f"{input_file.stem}prodigal_output.gbk"
+        out_str = f"-o {output_file}"
     if additional_args is not None:
         args_str = additional_args
     else:
-        args_str = ''
-    output_gbk = output_dir / f"{output_prefix}.gbk"
-    output_fasta = output_dir / f"{output_prefix}.faa"
+        args_str = ""
     cmd_str = (
-        f'prodigal -i {input_file} -o {output_gbk} -p {procedure} '
-        f'-a {output_fasta} -q {args_str}'
+        f"prodigal -i {input_file} -p {procedure} "
+        f"-q {out_str} {args_str}"
         )
     terminalExecute(cmd_str, suppress_shell_output=False)
 

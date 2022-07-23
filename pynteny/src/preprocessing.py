@@ -19,8 +19,8 @@ from pathlib import Path
 from Bio import SeqIO
 import pyfastx
 
+import pynteny.src.utils as utils
 import pynteny.src.wrappers as wrappers
-from pynteny.src.utils import setDefaultOutputPath, terminalExecute
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +84,7 @@ class FASTA():
             output_file = input_dir / "merged.fasta"
         logger.info(f"Merging FASTA files in directory: {input_dir}")
         cmd_str = f'awk 1 * > {output_file.as_posix()}'
-        terminalExecute(
+        utils.terminalExecute(
             cmd_str,
             work_dir=input_dir,
             suppress_shell_output=False
@@ -98,7 +98,8 @@ class FASTA():
         Removes duplicate entries (either by sequence or ID) from fasta.
         """
         if output_file is None:
-            output_file = setDefaultOutputPath(self._input_file, '_noduplicates')
+            output_file = Path(self._input_file.parent) \
+                / f"{self._input_file.stem}_noduplicates{self._input_file.suffix}"
 
         if 'bio' in method:
             seen_seqs, seen_ids = set(), set()
@@ -122,7 +123,6 @@ class FASTA():
         """
         dirname = self._input_file.parent
         fname, ext = self._input_file.stem, self._input_file.suffix
-
         if output_file is None:
             output_file = Path(dirname) / f'{fname}_modified{ext}'
         if is_peptide:
@@ -144,13 +144,14 @@ class FASTA():
         Filter records in fasta file matching provided IDs
         """
         if output_file is None:
-            output_file = setDefaultOutputPath(self._input_file, tag="_fitered")
+            output_file = Path(self._input_file.parent) \
+                / f"{self._input_file.stem}_filtered{self._input_file.suffix}"
         with tempfile.NamedTemporaryFile(mode="w+t") as tmp_ids:
             tmp_ids.writelines("\n".join(record_ids))
             tmp_ids.flush()
             tmp_ids_path = tmp_ids.name
             cmd_str = f"seqkit grep -i -f {tmp_ids_path} {self._input_file} -o {output_file}"
-            terminalExecute(cmd_str, suppress_shell_output=True)
+            utils.terminalExecute(cmd_str, suppress_shell_output=True)
         
     def splitByContigs(self, output_dir: Path = None) -> None:
         """
@@ -256,3 +257,92 @@ class LabelledFASTA(FASTA):
                     if "cds" in feature.type.lower():
                         gene_counter = write_record(gbk_contig, feature, outfile, gene_counter)
         return cls(output_file)
+
+
+class GeneAnnotator():
+    def __init__(self, assembly_file: FASTA) -> None:
+        """
+        Run prodigal on assembly, predict ORFs
+        and extract location info.
+        """
+        self._assembly_file = assembly_file
+
+    def annotate(self, processes: int = None, metagenome: bool = True,
+                 output_file: Path = None,
+                 prodigal_args: str = None) -> LabelledFASTA:
+        """
+        Run prodigal on assembly and export single
+        fasta file with peptide ORFs predictions
+        """
+        if processes is None:
+            processes = os.cpu_count() - 1
+        with tempfile.TemporaryDirectory() as contigs_dir,\
+             tempfile.TemporaryDirectory() as prodigal_dir,\
+             tempfile.NamedTemporaryFile() as temp_fasta:
+   
+            logger.info("Running prodigal on assembly data")
+            self._assembly_file.splitByContigs(contigs_dir)
+            utils.parallelizeOverInputFiles(
+                wrappers.runProdigal, 
+                input_list=list(contigs_dir.iterdir()),
+                n_processes=processes,
+                output_dir=prodigal_dir,
+                output_format="fasta",
+                metagenome=metagenome,
+                additional_args=prodigal_args
+            )
+            LabelledFASTA.mergeFASTAs(
+                prodigal_dir,
+                output_file=temp_fasta.name
+            )
+            return LabelledFASTA.fromProdigalOutput(
+                temp_fasta.name,
+                output_file
+            )
+
+
+class Database():
+    def __init__(self, data: Path) -> None:
+        """
+        Initialize Database object.
+        @paramms:
+        """
+        self._data = data
+        if data.is_dir():
+            self._data_files = [data / f for f in data.listdir()]
+        else:
+            self._data_files = [data]
+        
+    @staticmethod
+    def is_fasta(filename):
+        if filename.exists():
+            fasta = SeqIO.parse(filename, "fasta")
+            return any(fasta)
+        else:
+            return False
+
+    @staticmethod
+    def is_gbk(filename):
+        if filename.exists():
+            gbk = SeqIO.parse(filename, "genbank")
+            return any(gbk)
+        else:
+            return False
+
+    def build(self, output_file: Path = None) -> None:
+        """
+        Build database from data files.
+        """
+        if output_file is None:
+            output_file = self._data.parent / f"{self._data.name}_labelled_peptides.faa"
+        if self.is_fasta(self._data_files[0]):
+            if self._data.is_dir():
+                assembly_fasta = FASTA.fromFASTAdirectory(self._data)
+            else:
+                assembly_fasta = FASTA(self._data)
+            labelled_database = GeneAnnotator(
+                assembly_fasta).annotate(output_file=output_file)
+        elif self.is_gbk(self._data_files[0]):
+            labelled_database = LabelledFASTA.fromGenBankData(
+                self._data, output_file=output_file)
+        return labelled_database

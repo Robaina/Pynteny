@@ -14,7 +14,6 @@ from pathlib import Path
 import pandas as pd
 
 from pynteny.src.preprocessing import FASTA
-from pynteny.src.utils import setDefaultOutputPath
 from pynteny.src.hmm import HMMER, PGAP
 from pynteny.src.parser import SyntenyParser, LabelParser
 
@@ -332,8 +331,7 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
     same additional argument is passed to hmmsearch for all input hmms
     """
     if hmmer_output_dir is None:
-        hmmer_output_dir = os.path.join(
-            setDefaultOutputPath(input_fasta, only_dirname=True), 'hmmer_outputs')
+        hmmer_output_dir = Path(input_fasta.parent) / "hmmer_outputs"
 
     if additional_args is None:
         additional_args = [None for _ in input_hmms]

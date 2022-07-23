@@ -87,6 +87,12 @@ def synteny_search(args):
     hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
     hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
     synteny_table = args.outdir / f"{args.prefix}synteny_matched.tsv"
+
+    # if args.data.is_dir():
+    #     input_files = [
+    #         file for file in args.data.iterdir()
+    #         if file.suffix == '.fasta'
+    #     ]
         
     logger.info('Searching database by synteny structure')
     synteny_hits = filterFASTAbySyntenyStructure(
@@ -133,10 +139,6 @@ def translate_assembly(args):
 
     if args.split:
         logger.info("Splitting assembly file")
-        split_dir = os.path.join(
-            setDefaultOutputPath(args.assembly_fasta, only_dirname=True),
-            f"split_{setDefaultOutputPath(args.assembly_fasta, only_basename=True)}"
-        )
         split_dir = Path(args.assembly_fasta.parent) / f"split_{args.assembly_fasta.stem}"
         os.makedirs(split_dir, exist_ok=True)
         FASTA(args.assembly_fasta).splitByContigs(
