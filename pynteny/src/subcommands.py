@@ -14,9 +14,8 @@ import wget
 
 from pynteny.src.filter import filterFASTAbySyntenyStructure, SyntenyParser
 from pynteny.src.hmm import PGAP
-from pynteny.src.utils import TemporaryFilePath, ConfigParser, isTarFile, parallelizeOverInputFiles
-from pynteny.src.wrappers import runProdigal
-from pynteny.src.preprocessing import FASTA, LabelledFASTA, Database
+from pynteny.src.utils import ConfigParser, isTarFile
+from pynteny.src.preprocessing import Database
 
 requests_logger = logging.getLogger('seqkit')
 requests_logger.setLevel(logging.ERROR)
@@ -134,79 +133,6 @@ def build_database(args):
         output_file=args.outfile,
     )
     logger.info("Database built successfully!")
-
-def translate_assembly(args):
-    """
-    Preprocess assembly FASTA file and translate it to protein FASTA file.
-    Add positional information to sequence headers.
-    """
-    if args.outdir is None:
-        args.outdir = Path(args.assembly_fasta.parent)
-    if not args.outdir.exists():
-        args.outdir.mkdir(parents=True, exist_ok=True)
-    if args.logfile is None:
-        args.logfile = Path(os.devnull)
-    elif not Path(args.logfile.parent).exists():
-        Path(args.logfile.parent).mkdir(parents=True)
-    logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
-                        handlers=[
-                            logging.FileHandler(args.logfile),
-                            logging.StreamHandler(sys.stdout)
-                            ],
-                        level=logging.NOTSET)
-    logger = logging.getLogger(__name__)
-    if args.processes is None:
-        args.processes = os.cpu_count() - 1
-
-    if args.split:
-        logger.info("Splitting assembly file")
-        split_dir = Path(args.assembly_fasta.parent) / f"split_{args.assembly_fasta.stem}"
-        os.makedirs(split_dir, exist_ok=True)
-        FASTA(args.assembly_fasta).splitByContigs(
-            output_dir=split_dir
-        )
-        input_assembly = split_dir
-    else:
-        input_assembly = args.assembly_fasta
-
-    logger.info("Running prodigal on assembly")
-    if input_assembly.is_dir():
-        split_prodigal_dir = args.outdir / "split_prodigal/"
-        os.makedirs(split_prodigal_dir, exist_ok=True)
-        parallelizeOverInputFiles(
-            runProdigal, 
-            input_list=list(input_assembly.iterdir()),
-            n_processes=args.processes,
-            output_dir=split_prodigal_dir,
-            metagenome=args.metagenome,
-            additional_args=args.prodigal_args
-        )
-        FASTA.mergeFASTAs(
-            split_prodigal_dir,
-            output_file=args.outdir / f"{args.prefix}merged.faa"
-        )
-    else:
-        runProdigal(input_assembly,
-            input_file=input_assembly,
-            output_prefix=args.prefix,
-            output_dir=args.outdir,
-            metagenome=True,
-            additional_args=None
-        )
-    shutil.rmtree(split_dir)
-    
-    logger.info("Parsing prodigal output")
-    with TemporaryFilePath() as tempfasta:
-        labelledfasta = LabelledFASTA.fromProdigalOutput(
-            prodigal_faa=args.outdir / f"{args.prefix}merged.faa",
-            output_file=Path(tempfasta)
-        )
-    labelledfasta.removeCorruptedSequences(
-        output_file=args.outdir / f"{args.prefix}positioned.faa",
-        is_peptide=True,
-        keep_stop_codon=True
-    )
-    logger.info("Finished!")
 
 def parse_gene_ids(args):
     """
