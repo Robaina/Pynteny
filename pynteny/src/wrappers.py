@@ -60,7 +60,7 @@ def runProdigal(input_file: Path,
         f"prodigal -i {input_file} -p {procedure} "
         f"-q {out_str} {args_str}"
         )
-    terminalExecute(cmd_str, suppress_shell_output=False)
+    terminalExecute(cmd_str, suppress_shell_output=True)
 
 def runHMMsearch(hmm_model: Path, input_fasta: Path,
                  output_file: Path = None,

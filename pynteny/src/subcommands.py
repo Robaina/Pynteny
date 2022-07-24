@@ -12,12 +12,11 @@ import logging
 from pathlib import Path
 import wget
 
-from pynteny.src.utils import ConfigParser, setDefaultOutputPath, isTarFile
 from pynteny.src.filter import filterFASTAbySyntenyStructure, SyntenyParser
 from pynteny.src.hmm import PGAP
-from pynteny.src.utils import TemporaryFilePath, parallelizeOverInputFiles, setDefaultOutputPath
+from pynteny.src.utils import TemporaryFilePath, ConfigParser, isTarFile, parallelizeOverInputFiles
 from pynteny.src.wrappers import runProdigal
-from pynteny.src.preprocessing import FASTA, LabelledFASTA
+from pynteny.src.preprocessing import FASTA, LabelledFASTA, Database
 
 requests_logger = logging.getLogger('seqkit')
 requests_logger.setLevel(logging.ERROR)
@@ -26,7 +25,9 @@ def synteny_search(args):
     """
     Search peptide database by synteny structure containing HMMs.
     """
-    if args.logfile is not None and not Path(args.logfile.parent).exists():
+    if args.logfile is None:
+        args.logfile = Path(os.devnull)
+    elif not Path(args.logfile.parent).exists():
         Path(args.logfile.parent).mkdir(parents=True)
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
                         handlers=[
@@ -87,13 +88,6 @@ def synteny_search(args):
     hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
     hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
     synteny_table = args.outdir / f"{args.prefix}synteny_matched.tsv"
-
-    # if args.data.is_dir():
-    #     input_files = [
-    #         file for file in args.data.iterdir()
-    #         if file.suffix == '.fasta'
-    #     ]
-        
     logger.info('Searching database by synteny structure')
     synteny_hits = filterFASTAbySyntenyStructure(
         synteny_structure=args.synteny_struc,
@@ -116,6 +110,31 @@ def synteny_search(args):
         shutil.rmtree(temp_hmm_dir)
     logger.info('Finished!')
 
+def build_database(args):
+    """
+    Build annotated peptide database from input assembly
+    or GenBank data.
+    """
+    if args.logfile is None:
+        args.logfile = Path(os.devnull)
+    elif not Path(args.logfile.parent).exists():
+        Path(args.logfile.parent).mkdir(parents=True)
+    logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
+                        handlers=[
+                            logging.FileHandler(args.logfile),
+                            logging.StreamHandler(sys.stdout)
+                            ],
+                        level=logging.NOTSET)
+    logger = logging.getLogger(__name__)
+    if args.processes is None:
+        args.processes = os.cpu_count() - 1
+    logger.info("Building annotated peptide database")
+    database = Database(args.data)
+    database.build(
+        output_file=args.outfile,
+    )
+    logger.info("Database built successfully!")
+
 def translate_assembly(args):
     """
     Preprocess assembly FASTA file and translate it to protein FASTA file.
@@ -125,7 +144,9 @@ def translate_assembly(args):
         args.outdir = Path(args.assembly_fasta.parent)
     if not args.outdir.exists():
         args.outdir.mkdir(parents=True, exist_ok=True)
-    if args.logfile is not None and not Path(args.logfile.parent).exists():
+    if args.logfile is None:
+        args.logfile = Path(os.devnull)
+    elif not Path(args.logfile.parent).exists():
         Path(args.logfile.parent).mkdir(parents=True)
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
                         handlers=[
@@ -180,18 +201,20 @@ def translate_assembly(args):
             prodigal_faa=args.outdir / f"{args.prefix}merged.faa",
             output_file=Path(tempfasta)
         )
-        labelledfasta.removeCorruptedSequences(
-            output_file=args.outdir / f"{args.prefix}positioned.faa",
-            is_peptide=True,
-            keep_stop_codon=True
-        )
+    labelledfasta.removeCorruptedSequences(
+        output_file=args.outdir / f"{args.prefix}positioned.faa",
+        is_peptide=True,
+        keep_stop_codon=True
+    )
     logger.info("Finished!")
 
 def parse_gene_ids(args):
     """
     Convert gene symbols to hmm names.
     """
-    if args.logfile is not None and not Path(args.logfile.parent).exists():
+    if args.logfile is None:
+        args.logfile = Path(os.devnull)
+    elif not Path(args.logfile.parent).exists():
         Path(args.logfile.parent).mkdir(parents=True)
     logging.basicConfig(format='%(asctime)s | %(levelname)s: %(message)s',
                         handlers=[

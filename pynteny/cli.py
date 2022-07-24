@@ -31,7 +31,7 @@ class Pynteny():
         parser.add_argument(
             help=(
                 f"search \n"
-                f"preprocess \n"
+                f"build \n"
                 f"parse \n"
                 f"download \n"
                 ),
@@ -158,14 +158,69 @@ class Pynteny():
         args = parser.parse_args(self._subcommand_args)
         sub.synteny_search(args)
     
-    def preprocess(self):
+    # def preprocess(self):
+    #     parser = argparse.ArgumentParser(
+    #         description=(
+    #             "Translate nucleotide assembly file and assign contig and gene location info \n"
+    #             "to each identified ORF (using prodigal). Label predicted ORFs according to \n"
+    #             "positional info and export a fasta file containing predicted and translated ORFs."
+    #             ),
+    #         usage=("pynteny preprocess [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
+    #         epilog="  \n",
+    #         formatter_class=argparse.RawTextHelpFormatter
+    #         )
+
+    #     optional = parser._action_groups.pop()
+    #     required = parser.add_argument_group("required arguments")
+    #     parser._action_groups.append(optional)
+
+    #     required.add_argument("-i", "--assembly_fasta", dest="assembly_fasta", type=Path,
+    #                         required=True, metavar="",
+    #                         help=(
+    #                             "path to assembly input nucleotide data. It can be a single \n"
+    #                             "FASTA file or a directory containing several FASTA files."
+    #                             )
+    #     )
+    #     optional.add_argument("-o", "--outdir", dest="outdir", type=Path, metavar="",
+    #                          default=None, help="path to output directory"
+    #     )
+    #     optional.add_argument("-p", "--prefix", dest="prefix", type=str,
+    #                         default="prodigal", metavar="",
+    #                         help="prefix to be added to output files"
+    #     )
+    #     optional.add_argument("-n", "--processes", dest="processes", type=int, metavar="",
+    #                         required=False, default=None, help=(
+    #                             "set maximum number of processes. "
+    #                             "Defaults to all but one."
+    #                             )
+    #                             )
+    #     optional.add_argument("-s", "--split_contigs", dest="split",
+    #                         default=False, action="store_true",
+    #                         help="split assembly input file into files containing one contig each")
+    #     optional.add_argument("-m", "--metagenome", dest="metagenome",
+    #                         default=False, action="store_true",
+    #                         help="treat input assembly as of type metagenome (for prodigal)")
+    #     optional.add_argument("-a", "--prodigal_args", dest="prodigal_args", type=str, metavar="",
+    #                         default=None, required=False,
+    #                         help=("additional arguments to prodigal provided as defined by it")
+    #                         )
+    #     optional.add_argument("-l", "--log", dest="logfile", type=Path, default=None,
+    #                          metavar="",
+    #                          required=False, help="path to log file. Log not written by default."
+    #     )
+    #     args = parser.parse_args(self._subcommand_args)
+    #     sub.translate_assembly(args)
+
+    def build(self):
         parser = argparse.ArgumentParser(
             description=(
                 "Translate nucleotide assembly file and assign contig and gene location info \n"
                 "to each identified ORF (using prodigal). Label predicted ORFs according to \n"
-                "positional info and export a fasta file containing predicted and translated ORFs."
+                "positional info and export a fasta file containing predicted and translated ORFs. \n"
+                "Alternatively, extract peptide sequences from GenBank file containing ORF annotations \n"
+                "and write labelled peptide sequences to a fasta file."
                 ),
-            usage=("pynteny preprocess [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
+            usage=("pynteny build [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
             epilog="  \n",
             formatter_class=argparse.RawTextHelpFormatter
             )
@@ -174,42 +229,32 @@ class Pynteny():
         required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
 
-        required.add_argument("-i", "--assembly_fasta", dest="assembly_fasta", type=Path,
+        required.add_argument("-i", "--data", dest="data", type=Path,
                             required=True, metavar="",
                             help=(
-                                "path to assembly input nucleotide data. It can be a single \n"
-                                "FASTA file or a directory containing several FASTA files."
+                                "path to assembly input nucleotide data or annotated GenBank file. \n"
+                                "It can be a single file or a directory of files (either of FASTA or GeneBank format)."
                                 )
         )
-        optional.add_argument("-o", "--outdir", dest="outdir", type=Path, metavar="",
-                             default=None, help="path to output directory"
-        )
-        optional.add_argument("-p", "--prefix", dest="prefix", type=str,
-                            default="prodigal", metavar="",
-                            help="prefix to be added to output files"
+        optional.add_argument("-o", "--outfile", dest="outfile", type=Path, metavar="",
+                             default=None, help=(
+                                "path to output (labelled peptide database) file. Defaults to \n"
+                                "file in directory of input data."
+                                )
         )
         optional.add_argument("-n", "--processes", dest="processes", type=int, metavar="",
                             required=False, default=None, help=(
                                 "set maximum number of processes. "
                                 "Defaults to all but one."
                                 )
-                                )
-        optional.add_argument("-s", "--split_contigs", dest="split",
-                            default=False, action="store_true",
-                            help="split assembly input file into files containing one contig each")
-        optional.add_argument("-m", "--metagenome", dest="metagenome",
-                            default=False, action="store_true",
-                            help="treat input assembly as of type metagenome (for prodigal)")
-        optional.add_argument("-a", "--prodigal_args", dest="prodigal_args", type=str, metavar="",
-                            default=None, required=False,
-                            help=("additional arguments to prodigal provided as defined by it")
-                            )
+        )
         optional.add_argument("-l", "--log", dest="logfile", type=Path, default=None,
                              metavar="",
                              required=False, help="path to log file. Log not written by default."
         )
         args = parser.parse_args(self._subcommand_args)
-        sub.translate_assembly(args)
+        sub.build_database(args)
+
 
     def parse(self):
         parser = argparse.ArgumentParser(

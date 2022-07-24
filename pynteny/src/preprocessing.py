@@ -63,6 +63,19 @@ class FASTA():
         self._input_file = Path(input_file)
         self._input_file_str = self._input_file.as_posix()
 
+    def setFilePath(self, new_path: Path) -> None:
+        """
+        Set new path for fasta file
+        """
+        self._input_file = Path(new_path)
+        self._input_file_str = self._input_file.as_posix()
+
+    def getFilePath(self) -> Path:
+        """
+        Get path to fasta file
+        """
+        return self._input_file
+
     @classmethod
     def fromFASTAdirectory(cls, input_dir: Path,
                            merged_fasta: Path = None) -> FASTA:
@@ -82,7 +95,7 @@ class FASTA():
         """
         if output_file is None:
             output_file = input_dir / "merged.fasta"
-        logger.info(f"Merging FASTA files in directory: {input_dir}")
+        logger.info(f"Merging FASTA files in input directory")
         cmd_str = f'awk 1 * > {output_file.as_posix()}'
         utils.terminalExecute(
             cmd_str,
@@ -113,6 +126,7 @@ class FASTA():
         else:
             wrappers.runSeqKitNoDup(input_fasta=self._input_file, output_fasta=output_file,
                                     export_duplicates=export_duplicates)
+        self.setFilePath(output_file)
 
     def removeCorruptedSequences(self,
                                  output_file: Path = None,
@@ -137,6 +151,7 @@ class FASTA():
                     record_seq = RecordSequence.removeStopCodonSignals(record_seq)
                 if isLegitSequence(record_seq):
                     outfile.write(f'>{record_name}\n{record_seq}\n')
+        self.setFilePath(output_file)
 
     def filterByIDs(self, record_ids: list,
                     output_file: Path = None) -> None:
@@ -152,6 +167,7 @@ class FASTA():
             tmp_ids_path = tmp_ids.name
             cmd_str = f"seqkit grep -i -f {tmp_ids_path} {self._input_file} -o {output_file}"
             utils.terminalExecute(cmd_str, suppress_shell_output=True)
+        self.setFilePath(output_file)
         
     def splitByContigs(self, output_dir: Path = None) -> None:
         """
@@ -159,6 +175,8 @@ class FASTA():
         """
         if output_dir is None:
             output_dir = Path(self._input_file.parent) / "split_" + self._input_file.name
+        else:
+            output_dir = Path(output_dir)
         os.makedirs(output_dir, exist_ok=True)
         contigs = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
         for contig_name, seq in contigs:
@@ -166,6 +184,21 @@ class FASTA():
             with open(outfile, "w+") as file:
                 file.write(f">{contig_name}\n")
                 file.write(seq + "\n")
+
+    def filterByMinimumLength(self, min_length: int,
+                              output_file: Path = None) -> None:
+        """
+        Filter records in fasta file by minimum length
+        """
+        if output_file is None:
+            output_file = Path(self._input_file.parent) \
+                / f"{self._input_file.stem}_minlength{self._input_file.suffix}"
+        fasta = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
+        with open(output_file, 'w') as outfile:
+            for record_name, record_seq in fasta:
+                if len(record_seq) >= min_length:
+                    outfile.write(f'>{record_name}\n{record_seq}\n')
+        self.setFilePath(output_file)
 
 
 class LabelledFASTA(FASTA):
@@ -279,7 +312,8 @@ class GeneAnnotator():
         with tempfile.TemporaryDirectory() as contigs_dir,\
              tempfile.TemporaryDirectory() as prodigal_dir,\
              tempfile.NamedTemporaryFile() as temp_fasta:
-   
+            contigs_dir = Path(contigs_dir)
+            prodigal_dir = Path(prodigal_dir)
             logger.info("Running prodigal on assembly data")
             self._assembly_file.splitByContigs(contigs_dir)
             utils.parallelizeOverInputFiles(
@@ -293,10 +327,10 @@ class GeneAnnotator():
             )
             LabelledFASTA.mergeFASTAs(
                 prodigal_dir,
-                output_file=temp_fasta.name
+                output_file=Path(temp_fasta.name)
             )
             return LabelledFASTA.fromProdigalOutput(
-                temp_fasta.name,
+                Path(temp_fasta.name),
                 output_file
             )
 
@@ -306,17 +340,23 @@ class Database():
         """
         Initialize Database object.
         @paramms:
+        data: path to either assembly fasta file (or a
+              directory containing assembly fasta files) or
+              a genbak file containing ORF annotations (or a
+              directory containing genbak files)
         """
-        self._data = data
-        if data.is_dir():
-            self._data_files = [data / f for f in data.listdir()]
+        self._data = Path(data)
+        if not self._data.exists():
+            raise FileNotFoundError(f"{self._data} does not exist")
+        if self._data.is_dir():
+            self._data_files = [self._data / f for f in self._data.listdir()]
         else:
-            self._data_files = [data]
+            self._data_files = [self._data]
         
     @staticmethod
     def is_fasta(filename):
         if filename.exists():
-            fasta = SeqIO.parse(filename, "fasta")
+            fasta = SeqIO.parse(str(filename), "fasta")
             return any(fasta)
         else:
             return False
@@ -324,18 +364,19 @@ class Database():
     @staticmethod
     def is_gbk(filename):
         if filename.exists():
-            gbk = SeqIO.parse(filename, "genbank")
+            gbk = SeqIO.parse(str(filename), "genbank")
             return any(gbk)
         else:
             return False
 
-    def build(self, output_file: Path = None) -> None:
+    def build(self, output_file: Path = None) -> LabelledFASTA:
         """
         Build database from data files.
         """
         if output_file is None:
             output_file = self._data.parent / f"{self._data.name}_labelled_peptides.faa"
         if self.is_fasta(self._data_files[0]):
+            logger.info("Translating and annotating assembly data.")
             if self._data.is_dir():
                 assembly_fasta = FASTA.fromFASTAdirectory(self._data)
             else:
@@ -343,6 +384,10 @@ class Database():
             labelled_database = GeneAnnotator(
                 assembly_fasta).annotate(output_file=output_file)
         elif self.is_gbk(self._data_files[0]):
+            logger.info("Parsing GenBank data.")
             labelled_database = LabelledFASTA.fromGenBankData(
                 self._data, output_file=output_file)
+        else:
+            logging.error(f"{self._data} is not a valid FASTA or genbank file")
+            sys.exit(1)
         return labelled_database
