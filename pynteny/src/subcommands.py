@@ -76,7 +76,6 @@ def synteny_search(args):
             "Remember to include '--gene_ids' option if you want to search by gene symbols."
             )
         sys.exit(1)
-
     if args.outdir is None:
         args.outdir = Path(args.data.parent)
     if not args.outdir.exists():
@@ -87,6 +86,7 @@ def synteny_search(args):
     hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
     hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')
     synteny_table = args.outdir / f"{args.prefix}synteny_matched.tsv"
+    
     logger.info('Searching database by synteny structure')
     synteny_hits = filterFASTAbySyntenyStructure(
         synteny_structure=args.synteny_struc,

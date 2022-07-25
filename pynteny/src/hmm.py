@@ -23,7 +23,6 @@ from pynteny.src.utils import isTarFile, extractTarFile, flattenDirectory, listT
 logger = logging.getLogger(__name__)
 
 
-
 class HMMER:
     def __init__(self, input_hmms: list[Path],
                  hmm_output_dir: Path,
