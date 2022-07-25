@@ -224,8 +224,12 @@ class Pynteny():
                                 "synteny structure containing gene symbols instead of HMMs"
                                 )
         )
-        required.add_argument("-m", "--hmm_meta", dest="hmm_meta", type=Path, metavar="",
-                             required=True, help="path to hmm database metadata file")
+        optional.add_argument("-m", "--hmm_meta", dest="hmm_meta", type=Path, metavar="",
+                             required=False, help=(
+                                "path to hmm database metadata file. If already donwloaded with \n"
+                                "pynteny downloaded, hmm meta file is retrieved from default location."
+                                )
+                                )
         optional.add_argument("-l", "--log", dest="logfile", type=Path, default=None,
                              metavar="",
                              required=False, help="path to log file. Log not written by default."

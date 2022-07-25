@@ -149,6 +149,13 @@ def parse_gene_ids(args):
                             ],
                         level=logging.NOTSET)
     logger = logging.getLogger(__name__)
+    config = ConfigParser.get_default_config()
+    if args.hmm_meta is None:
+        if not config.get_field("data_downloaded"):
+            logger.error("Please download hmm database meta file or provide path to existing one first.")
+            sys.exit(1)
+        else:
+            args.hmm_meta = Path(config.get_field("PGAP_meta_file"))
     gene_synteny_struc, gene_to_hmm_group = SyntenyParser.parseGenesInSyntenyStructure(
         synteny_structure=args.synteny_struc,
         hmm_meta=args.hmm_meta
@@ -172,8 +179,7 @@ def download_hmms(args):
                         level=logging.NOTSET)
     logger = logging.getLogger(__name__)
     module_dir = Path(__file__).parent
-    config_path = Path(module_dir.parent) / "config.json"
-    config = ConfigParser(config_path)
+    config = ConfigParser.get_default_config()
     if config.get_field("data_downloaded"):
         logger.info("PGAP database already downloaded. Skipping download")
         sys.exit(1)

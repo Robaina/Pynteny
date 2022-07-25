@@ -29,7 +29,7 @@ class ConfigParser():
     """
     def __init__(self, config_file: Path) -> None:
         self._config_file = Path(config_file)
-        self._config = self.load_config()
+        self._config = self.get_config()
     
     @classmethod
     def get_default_config(cls):
@@ -52,12 +52,11 @@ class ConfigParser():
                 "PGAP_database": "",
                 "PGAP_meta_file": ""
             }
-            # logger.info(f"Initializing config file at: \n{config_file}")
             with open(config_file, 'w') as f:
                 json.dump(config, f, indent=4)
         return config_file
     
-    def load_config(self) -> dict:
+    def get_config(self) -> dict:
         """
         load config file
         """
