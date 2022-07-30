@@ -14,8 +14,7 @@ from pynteny.src.utils import ConfigParser
 
 class Pynteny():
     """
-    Temporary fix to enable subcommands without too much
-    code rewriting. Based on:
+    Based on:
     https://selvakumar-arumugapandian.medium.com/command-line-subcommands-with-pythons-argparse-4dbac80f7110
 
     """

@@ -12,13 +12,15 @@ import logging
 from pathlib import Path
 import wget
 
-from pynteny.src.filter import filterFASTAbySyntenyStructure, SyntenyParser
+from pynteny.src.filter import SyntenyParser, filterFASTAbySyntenyStructure
 from pynteny.src.hmm import PGAP
-from pynteny.src.utils import ConfigParser, isTarFile
+from pynteny.src.utils import CommandArgs, ConfigParser, isTarFile
 from pynteny.src.preprocessing import Database
 
 requests_logger = logging.getLogger('seqkit')
 requests_logger.setLevel(logging.ERROR)
+
+
 
 def synteny_search(args):
     """
@@ -39,8 +41,9 @@ def synteny_search(args):
     args.synteny_struc = SyntenyParser.validateStructureFormat(args.synteny_struc)
     if args.hmm_dir is None:
         if not config.get_field("data_downloaded"):
-            logger.error("Please download hmm database first or provide path to hmm directory.")
-            sys.exit(1)
+            logger.warning("HMM database not found. Downloading PGAP database from NCBI")
+            down_args = CommandArgs(unpack=True, outdir=None, logfile=None)
+            download_hmms(down_args)
         else:
             args.hmm_dir = Path(config.get_field("PGAP_database"))
     if args.gene_ids:
@@ -108,6 +111,7 @@ def synteny_search(args):
     if temp_hmm_dir.exists():
         shutil.rmtree(temp_hmm_dir)
     logger.info('Finished!')
+    return synteny_hits
 
 def build_database(args):
     """

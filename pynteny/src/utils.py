@@ -23,6 +23,11 @@ from multiprocessing import Pool
 logger = logging.getLogger(__name__)
 
 
+class CommandArgs():
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+
+        
 class ConfigParser():
     """
     Base configuration class
