@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import streamlit as st
-from st_aggrid import AgGrid
+from st_aggrid import AgGrid, GridOptionsBuilder
 from PIL import Image
 
 import tkinter as tk  
@@ -13,13 +13,34 @@ from pynteny.src.subcommands import synteny_search
 
 
 
+def plot_dataframe(data: pd.DataFrame, search_state: CommandArgs) -> None:
+    # if search_state.synteny_hits is not None:
+    gb = GridOptionsBuilder.from_dataframe(data)
+    gb.configure_pagination(paginationAutoPageSize=True)
+    gb.configure_side_bar()
+    gridOptions = gb.build()
+    grid_response = AgGrid(
+        data,
+        gridOptions=gridOptions,
+        data_return_mode='AS_INPUT', 
+        update_mode='MODEL_CHANGED', 
+        fit_columns_on_grid_load=False,
+        theme='blue',
+        enable_enterprise_modules=True,
+        height=350, 
+        width='100%',
+        reload_data=True
+    )
+    return grid_response
+
+
 # Set the configs
 APP_TITLE = "Pynteny — Synteny-aware HMM searches made easy"
-icon = Image.open("assets/pynteny_logo.png")
+icon = Image.open("assets/pynteny_logo_2.png")
 
 st.set_page_config(
     page_title=APP_TITLE,
-    page_icon=Image.open("assets/pynteny_logo.png"),
+    page_icon=icon,
     layout="centered",
     initial_sidebar_state="auto",
 )
@@ -67,7 +88,7 @@ search_state = CommandArgs(
 #     return 
 
 # Set main content
-with st.expander("Select sequence data and synteny structure", expanded=True):
+with st.expander("Select sequence data and synteny structure", expanded=False):
     st.info(
         """
         Sequence data can be either:
@@ -104,18 +125,31 @@ if file_uploaded:
 
 search_state.synteny_struc = st.text_input("Enter synteny structure", "<leuD 0 <leuC 1 leuA")
 
+
 def search():
     if search_state.data is not None and search_state.data.exists():
-        search_state.synteny_hits = synteny_search(search_state).getSyntenyHits()
+        synhits = synteny_search(search_state).getSyntenyHits()
+        search_state.synteny_hits = synhits[[c for c in synhits.columns if c !="full_label"]]
         st.success("Search completed!")
     else:
         st.warning("Please upload a file")
 
     if search_state.synteny_hits is not None:
-        AgGrid(search_state.synteny_hits)
+        plot_dataframe(search_state.synteny_hits)
+
 
 
 st.button("Search!", on_click=search)
+
+
+
+
+# grid_response = plot_dataframe(search_state.synteny_hits, search_state)
+
+# if search_state.synteny_hits is not None:
+#     # AgGrid(search_state.synteny_hits)
+#     df = pd.read_csv("/home/robaina/Documents/Pynteny/test_results/synteny_matched.tsv", sep="\t")
+#     plot_dataframe(df) #search_state.synteny_hits)
 
 # synteny_hits = Path("/home/robaina/Documents/Pynteny/test_results") / "synteny_matched.tsv"
 # if synteny_hits.exists():

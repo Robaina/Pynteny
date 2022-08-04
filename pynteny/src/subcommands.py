@@ -14,7 +14,7 @@ import wget
 
 from pynteny.src.filter import SyntenyParser, filterFASTAbySyntenyStructure
 from pynteny.src.hmm import PGAP
-from pynteny.src.utils import CommandArgs, ConfigParser, isTarFile
+from pynteny.src.utils import CommandArgs, ConfigParser, isTarFile, terminalExecute
 from pynteny.src.preprocessing import Database
 
 requests_logger = logging.getLogger('seqkit')
@@ -228,3 +228,10 @@ def download_hmms(args):
         config.update_config("PGAP_database", unpacked_PGAP_dir.as_posix())
         logger.info("PGAP database unpacked successfully")
 
+def run_app():
+    """
+    Run Pynteny app through streamlit
+    """
+    app_path = Path(Path(__file__).parent) / "app.py"
+    cmd_str = f"streamlit run {app_path} --browser.gatherUsageStats False"
+    terminalExecute(cmd_str)

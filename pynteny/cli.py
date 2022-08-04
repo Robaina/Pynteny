@@ -33,6 +33,7 @@ class Pynteny():
                 f"build \n"
                 f"parse \n"
                 f"download \n"
+                f"app \n"
                 ),
             dest="subcommand",
             metavar="",
@@ -86,7 +87,7 @@ class Pynteny():
             description=(
                 "Query sequence database for HMM hits arranged in provided synteny structure."
                 ),
-            usage=("pynteny search [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
+            usage=("pynteny search [-h] [args] \n"),
             epilog="  \n",
             formatter_class=argparse.RawTextHelpFormatter
             )
@@ -166,7 +167,7 @@ class Pynteny():
                 "Alternatively, extract peptide sequences from GenBank file containing ORF annotations \n"
                 "and write labelled peptide sequences to a fasta file."
                 ),
-            usage=("pynteny build [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
+            usage=("pynteny build [-h] [args] \n"),
             epilog="  \n",
             formatter_class=argparse.RawTextHelpFormatter
             )
@@ -207,8 +208,8 @@ class Pynteny():
             description=(
                 "Translate synteny structure with gene symbols into one with\n"
                 "HMM groups, according to provided HMM database."
-                ),
-            usage=("pynteny parse [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
+                ),        
+            usage=("pynteny parse [-h] [args] \n"),
             epilog="  \n",
             formatter_class=argparse.RawTextHelpFormatter
             )
@@ -242,7 +243,7 @@ class Pynteny():
                 "Download HMM database from NCBI."
                 ),
             epilog="  \n",
-            usage=("pynteny download [-h] ̣̣̣̣̣̣̣̣̣̣̣̣[args] ̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣̣\n"),
+            usage=("pynteny download [-h] [args] \n"),
             formatter_class=argparse.RawTextHelpFormatter
             )
 
@@ -267,6 +268,24 @@ class Pynteny():
         )
         args = parser.parse_args(self._subcommand_args)
         sub.download_hmms(args)
+    
+    def app(self):
+        """
+        Run pynteny app through Streamlit
+        """
+        parser = argparse.ArgumentParser(
+            description=(
+                "Run Pynteny in web browser."
+                ),
+            epilog="  \n",
+            usage=("pynteny app [-h] \n"),
+            formatter_class=argparse.RawTextHelpFormatter
+            )
+        optional = parser._action_groups.pop()
+        required = parser.add_argument_group("required arguments")
+        parser._action_groups.append(optional)
+        args = parser.parse_args(self._subcommand_args)
+        sub.run_app()
         
 
 def main():
