@@ -8,6 +8,7 @@ Functions and classes for general purposes
 from __future__ import annotations
 import os
 import sys
+import psutil
 import logging
 import shutil
 import random
@@ -55,7 +56,8 @@ class ConfigParser():
                 "upack_PGAP_database": False,
                 "data_downloaded": False,
                 "PGAP_database": "",
-                "PGAP_meta_file": ""
+                "PGAP_meta_file": "",
+                "streamlit_process": ""
             }
             with open(config_file, 'w') as f:
                 json.dump(config, f, indent=4)
@@ -382,3 +384,19 @@ def isRightListNestedType(list_object: list, inner_type: type) -> bool:
     check if all elements in list are of right type
     """
     return all(isinstance(x, inner_type) for x in list_object)
+
+def kill_process(proc_pid):
+    process = psutil.Process(proc_pid)
+    for proc in process.children(recursive=True):
+        proc.kill()
+    process.kill()
+
+def get_pids_by_name(process_name: str) -> list:
+    """
+    Return IDs of processes with given name
+    """
+    return [
+        proc.pid 
+        for proc in psutil.process_iter() 
+        if process_name in proc.name()
+        ]

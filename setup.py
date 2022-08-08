@@ -34,6 +34,7 @@ setup(name=NAME,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
       packages=find_packages(),
+      include_package_data=True,
       install_requires=['biopython', 'pyfastx', 'pandas', 'wget'],
       entry_points ={
             'console_scripts': [

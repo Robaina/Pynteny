@@ -9,6 +9,7 @@ import os
 import sys
 import shutil
 import logging
+import subprocess
 from pathlib import Path
 import wget
 
@@ -232,6 +233,6 @@ def run_app():
     """
     Run Pynteny app through streamlit
     """
-    app_path = Path(Path(__file__).parent) / "app.py"
-    cmd_str = f"streamlit run {app_path} --browser.gatherUsageStats False"
+    app_path = Path(Path(__file__).parent) / "app" / "main_page.py"
+    cmd_str = f"streamlit run {app_path} --browser.gatherUsageStats False --server.fileWatcherType none"
     terminalExecute(cmd_str)
