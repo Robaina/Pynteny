@@ -1,4 +1,6 @@
+import pandas as pd
 import streamlit as st
+from st_aggrid import AgGrid, GridOptionsBuilder
 
 
 def set_welcome_page():
@@ -17,50 +19,29 @@ def empty_welcome_page():
     """
     st.session_state.welcome_page.empty()
 
+def close_session():
+    st.markdown("Thanks for using Pynteny!")
+    st.markdown("Please stop server by pressing control + c in terminal")
+    st.stop()
 
-def search_gui():
+def plot_dataframe(data: pd.DataFrame) -> AgGrid:
     """
-    GUI for search command
+    Plot dataframe in webpage
     """
-    with st.expander("Select sequence data and synteny structure", expanded=True):
-        st.info(
-            """
-            Sequence data can be either:
-            - nucleotide assembly data in FASTA format or
-            - a GenBank file containing sequence annotations.
-
-            **Note: This Pynteny instance is run locally, thus files are always kept in your machine.
-        """
-        )
-
-        st.info(
-            """
-            Synteny blocks are specified by strings of ordered HMM names or gene IDs with the following format:\n
-            $$\lt HMM_a \space n_{ab} \space \lt HMM_b \space n_{bc} \space \lt(HMM_{c1}|HMM_{c2}|HMM_{c3}),$$\n
-            where $n_{ab}$ corresponds to the maximum number of genes between $HMM_a$ and $HMM_b$. Results can be 
-            strand-specific, in that case $>$ preceding a HMM name indicates that the corresponding ORF must be
-            located in the positive (or sense) strand. Likewise, a $<$ symbol indicates that the ORF must be located
-            in the negative (antisense) strand. Searches can be made strand-insensitive by omitting the $>$ or $<$ symbol. 
-            Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them.
-            In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.
-            """
-        )
-
-
-def build_gui():
-    """
-    GUI for build command
-    """
-    pass
-
-def download_gui():
-    """
-    GUI for download command
-    """
-    pass
-
-def parse_gui():
-    """
-    GUI for parse command
-    """
-    pass
+    gb = GridOptionsBuilder.from_dataframe(data)
+    gb.configure_pagination(paginationAutoPageSize=True)
+    gb.configure_side_bar()
+    gridOptions = gb.build()
+    grid_response = AgGrid(
+        data,
+        gridOptions=gridOptions,
+        data_return_mode='AS_INPUT', 
+        update_mode='MODEL_CHANGED', 
+        fit_columns_on_grid_load=False,
+        theme='blue',
+        enable_enterprise_modules=True,
+        height=350, 
+        width='100%',
+        reload_data=True
+    )
+    return grid_response

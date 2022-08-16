@@ -8,14 +8,16 @@ import tkinter as tk
 from tkinter import filedialog  
 import pandas as pd
 
-import pynteny.src.app.app_helpers as app_helpers
+import pynteny.src.app.app_helpers as helpers
 from pynteny.src.utils import CommandArgs
 from pynteny.src.subcommands import synteny_search
 
 
 
-def plot_dataframe(data: pd.DataFrame, search_state: CommandArgs) -> None:
-    # if search_state.synteny_hits is not None:
+def plot_dataframe(data: pd.DataFrame) -> AgGrid:
+    """
+    Plot dataframe in webpage
+    """
     gb = GridOptionsBuilder.from_dataframe(data)
     gb.configure_pagination(paginationAutoPageSize=True)
     gb.configure_side_bar()
@@ -33,13 +35,6 @@ def plot_dataframe(data: pd.DataFrame, search_state: CommandArgs) -> None:
         reload_data=True
     )
     return grid_response
-
-
-def close_session():
-    st.markdown("Thanks for using Pynteny!")
-    st.markdown("Please stop server by pressing control + c in terminal")
-    st.stop()
-
 
 # Set the configs
 APP_TITLE = "Pynteny — Synteny-aware HMM searches made easy"
@@ -74,14 +69,14 @@ search_state = CommandArgs(
     )
 
 
-app_helpers.set_welcome_page()
+helpers.set_welcome_page()
 
 
 def parse_command():
-    app_helpers.empty_welcome_page()
+    helpers.empty_welcome_page()
 
     if st.session_state.selected_command == "Search":
-        app_helpers.search_gui()
+        helpers.search_gui()
 
 # Set the sidebar
 st.sidebar.image(
@@ -103,7 +98,7 @@ st.sidebar.markdown(
 #     "Number of seqs", min_value=1, max_value=100, value=1
 # )
 
-st.sidebar.button("Close session", key="close", on_click=close_session)
+st.sidebar.button("Close session", key="close", on_click=helpers.close_session)
 
 
 
