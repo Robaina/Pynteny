@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import filedialog  
 
 from pynteny.src.utils import CommandArgs
-from pynteny.src.subcommands import synteny_search
+from pynteny.src.subcommands import synteny_search, download_hmms, build_database
 import pynteny.src.app.app_helpers as helpers
 
 
@@ -44,7 +44,7 @@ st.markdown("Please select a command from the sidebar to get started.")
 
 
 
-# Search
+# Search side bar
 
 st.sidebar.header("Search database")
 st.sidebar.markdown("Search...")
