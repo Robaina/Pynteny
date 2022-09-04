@@ -98,6 +98,19 @@ search_state = CommandArgs(
     synteny_hits=None
     )
 
+build_state = CommandArgs(
+    data=None,
+    outfile=None,
+    processes=None,
+    logfile=None
+)
+
+download_state = CommandArgs(
+    outdir=None,
+    unpack=True,
+    logfile=None
+)
+
 if 'search_state' not in st.session_state:
     st.session_state.search_state = search_state
 
