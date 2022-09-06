@@ -6,6 +6,8 @@ dev.ipynb
 NOTES.md
 test_script.py
 test_script.sh
+meta.yaml
+build.sh
 
 build/
 dist/
