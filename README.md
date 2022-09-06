@@ -1,4 +1,4 @@
-<img style="width: 80vw; height: 150px" src="assets/logo.png">
+![logo](assets/logo.png)
 <br>
 
 # Synteny hmm searches made easy
