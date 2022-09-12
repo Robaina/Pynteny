@@ -1,7 +1,7 @@
 ![logo](assets/logo.png)
 <br>
 
-# Synteny hmm searches made easy
+# Synteny-aware hmm searches made easy
 
 [![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783)
 
@@ -48,10 +48,14 @@ $$\lt HMM_a \space n_{ab} \space \lt HMM_b \space n_{bc} \space \lt(HMM_{c1}|HMM
 
     If the PGAP database is employed (see `pynteny download` below), synteny blocks can also be specified by gene symbols, such as $$\lt leuD \space 0 \space \lt leuC \space 1 \space \lt leuA.$$ In that case, the program will try to match gene symbols to HMM names in the PGAP database previous to running the search.
 
-* `pynteny preprocess`: predict ORFs with [prodigal]()and add positional information to each ORF &mdash; i.e., loci and gene number within assembled contig. Alternatively, the user can provide their own ORF annotations in GenBank format.
+* `pynteny build`: predict ORFs with [prodigal]()and add positional information to each ORF &mdash; i.e., loci and gene number within assembled contig. Alternatively, the user can provide their own ORF annotations in GenBank format.
 * `pynteny download`: downloads the latest version of the [NCBI Prokaryotic Genome Annotation Pipeline](https://github.com/ncbi/pgap) (PGAP) HMM database. However, the user may provide their own HMM database.
 
+## Citation
 
+If you use this software, please cite it as below:
+
+Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy (Version 0.0.1). Zenodo. https://doi.org/10.5281/zenodo.7048685
 
 <br>
 <br>
