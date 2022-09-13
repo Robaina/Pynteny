@@ -1,12 +1,13 @@
+from distutils.command.build import build
 from pathlib import Path
 
 import streamlit as st
 from PIL import Image
-import tkinter as tk  
-from tkinter import filedialog  
+import tkinter as tk
+from tkinter import filedialog
 
 from pynteny.src.utils import CommandArgs
-from pynteny.src.subcommands import synteny_search, download_hmms, build_database
+from pynteny.src.subcommands import synteny_search, build_database
 import pynteny.src.app.app_helpers as helpers
 
 
@@ -18,16 +19,18 @@ def close_session():
 
 
 APP_TITLE = "Pynteny — Synteny-aware HMM searches made easy"
-icon = Image.open("assets/pynteny_logo_2.png")
+icon = Image.open("assets/logo.png")
+favicon = Image.open("assets/favicon.png")
 
 st.set_page_config(
     page_title=APP_TITLE,
-    page_icon=icon,
+    page_icon=favicon,
     layout="centered",
     initial_sidebar_state="auto",
 )
 
 
+# Side bar
 st.sidebar.image(
     icon, use_column_width=True, caption="Pynteny v0.0.1"
 )
@@ -36,53 +39,44 @@ st.sidebar.success("Select a demo above.")
 
 st.sidebar.button("Close session", key="close", on_click=close_session)
 
+st.sidebar.header("Search database")
+st.sidebar.markdown("Search...")
 
+st.sidebar.info(
+    """
+    Sequence data can be either:
+    - nucleotide assembly data in FASTA format or
+    - a GenBank file containing sequence annotations.
+
+    **Note: This Pynteny instance is run locally, thus files are always kept in your machine.
+"""
+)
+
+st.sidebar.info(
+    """
+    Synteny blocks are specified by strings of ordered HMM names or gene IDs with the following format:\n
+    $$\lt HMM_a \space n_{ab} \space \lt HMM_b \space n_{bc} \space \lt(HMM_{c1}|HMM_{c2}|HMM_{c3}),$$\n
+    where $n_{ab}$ corresponds to the maximum number of genes between $HMM_a$ and $HMM_b$. Results can be 
+    strand-specific, in that case $>$ preceding a HMM name indicates that the corresponding ORF must be
+    located in the positive (or sense) strand. Likewise, a $<$ symbol indicates that the ORF must be located
+    in the negative (antisense) strand. Searches can be made strand-insensitive by omitting the $>$ or $<$ symbol. 
+    Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them.
+    In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.
+    """
+)
+
+
+# Main page
 st.title("Pynteny — Synteny-aware HMM searches made easy")
 st.markdown("Welcome! This is a web app for the Pynteny package.")
 st.markdown("Pynteny is a Python package for synteny-aware HMM searches.")
 st.markdown("Please select a command from the sidebar to get started.")
 
 
-
-# Search side bar
-
-st.sidebar.header("Search database")
-st.sidebar.markdown("Search...")
-
 st.markdown("# Search")
-
 st.markdown(
     """Search database by synteny-aware HMMs."""
 )
-
-# st.sidebar.image(
-#     icon, use_column_width=True, caption="Pynteny v0.0.1"
-# )
-
-
-with st.expander("Select sequence data and synteny structure", expanded=True):
-    st.info(
-        """
-        Sequence data can be either:
-        - nucleotide assembly data in FASTA format or
-        - a GenBank file containing sequence annotations.
-
-        **Note: This Pynteny instance is run locally, thus files are always kept in your machine.
-    """
-    )
-
-    st.info(
-        """
-        Synteny blocks are specified by strings of ordered HMM names or gene IDs with the following format:\n
-        $$\lt HMM_a \space n_{ab} \space \lt HMM_b \space n_{bc} \space \lt(HMM_{c1}|HMM_{c2}|HMM_{c3}),$$\n
-        where $n_{ab}$ corresponds to the maximum number of genes between $HMM_a$ and $HMM_b$. Results can be 
-        strand-specific, in that case $>$ preceding a HMM name indicates that the corresponding ORF must be
-        located in the positive (or sense) strand. Likewise, a $<$ symbol indicates that the ORF must be located
-        in the negative (antisense) strand. Searches can be made strand-insensitive by omitting the $>$ or $<$ symbol. 
-        Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them.
-        In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.
-        """
-    )
 
 # State variables
 search_state = CommandArgs(
@@ -111,8 +105,10 @@ download_state = CommandArgs(
     logfile=None
 )
 
-if 'search_state' not in st.session_state:
+if "search_state" not in st.session_state:
     st.session_state.search_state = search_state
+if "build_state" not in st.session_state:
+    st.session_state.build_state = build_state
 
 def search():
     if st.session_state.search_state.data is not None and st.session_state.search_state.data.exists():
@@ -120,16 +116,32 @@ def search():
         st.session_state.search_state.synteny_hits = synhits[[c for c in synhits.columns if c !="full_label"]]
         st.success("Search completed!")
     else:
-        st.warning("Please upload a file")
+        st.warning("Please, first upload a sequence database file")
 
-file_uploaded = st.button("Upload file")
+
+with st.expander("Select sequence data", expanded=True):
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        file_uploaded = st.button("Upload file")
+    with col2:
+        database_builded = st.button("Build database")
+
 if file_uploaded:
-    root = tk.Tk()  
-    root.withdraw()  
+    root = tk.Tk()
+    root.withdraw()
     st.session_state.search_state.data = Path(filedialog.askopenfilename())
     st.info(f"Uploaded file: {st.session_state.search_state.data.name}")
+    root.destroy()
 
-st.session_state.search_state.synteny_struc = st.text_input("Enter synteny structure", "<leuD 0 <leuC 1 leuA")
+if database_builded:
+    if not file_uploaded:
+        st.warning("Please, first upload assembly data file")
+    else:
+        build_database(st.session_state.build_state)
+
+
+with st.expander("Enter synteny structure", expanded=True):
+    st.session_state.search_state.synteny_struc = st.text_input("", "<leuD 0 <leuC 1 leuA")
 
 
 st.button("Search!", on_click=search)

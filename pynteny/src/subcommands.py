@@ -9,11 +9,10 @@ import os
 import sys
 import shutil
 import logging
-import subprocess
 from pathlib import Path
 import wget
 
-from pynteny.src.filter import SyntenyParser, filterFASTAbySyntenyStructure
+from pynteny.src.filter import SyntenyHits, SyntenyParser, filterFASTAbySyntenyStructure
 from pynteny.src.hmm import PGAP
 from pynteny.src.utils import CommandArgs, ConfigParser, isTarFile, terminalExecute
 from pynteny.src.preprocessing import Database
@@ -23,7 +22,7 @@ requests_logger.setLevel(logging.ERROR)
 
 
 
-def synteny_search(args):
+def synteny_search(args) -> SyntenyHits:
     """
     Search peptide database by synteny structure containing HMMs.
     """
@@ -114,7 +113,7 @@ def synteny_search(args):
     logger.info('Finished!')
     return synteny_hits
 
-def build_database(args):
+def build_database(args) -> None:
     """
     Build annotated peptide database from input assembly
     or GenBank data.
@@ -139,7 +138,7 @@ def build_database(args):
     )
     logger.info("Database built successfully!")
 
-def parse_gene_ids(args):
+def parse_gene_ids(args) -> None:
     """
     Convert gene symbols to hmm names.
     """
@@ -167,7 +166,7 @@ def parse_gene_ids(args):
         )
     logger.info(f"Found the following HMMs in database for given structure:\{gene_synteny_struc}")
 
-def download_hmms(args):
+def download_hmms(args) -> None:
     """
     Download HMM (PGAP) database from NCBI.
     """
@@ -229,7 +228,7 @@ def download_hmms(args):
         config.update_config("PGAP_database", unpacked_PGAP_dir.as_posix())
         logger.info("PGAP database unpacked successfully")
 
-def run_app():
+def run_app() -> None:
     """
     Run Pynteny app through streamlit
     """
