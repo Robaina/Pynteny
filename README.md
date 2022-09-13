@@ -4,6 +4,7 @@
 # Synteny-aware hmm searches made easy
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Robaina/pynteny)
 ![license](https://img.shields.io/github/license/Robaina/Pynteny)
+![Contributor Covenant](https://img.shields.io/badge/Contributor%20Coventant-v2.0%20adopted-ff69b4)
 [![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783)
 
 ## What is Pynteny?
