@@ -2,7 +2,8 @@
 <br>
 
 # Synteny-aware hmm searches made easy
-
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Robaina/pynteny)
+![license](https://img.shields.io/github/license/Robaina/Pynteny)
 [![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783)
 
 Pynteny is a command-line tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in (assembled) sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/).
