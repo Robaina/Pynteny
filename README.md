@@ -36,7 +36,7 @@ python setup.py install
 Check that installation worked fine:
 
 ```bash
-pynteny --help
+pynteny tests
 ```
 
 ## Usage
