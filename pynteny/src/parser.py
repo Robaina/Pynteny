@@ -67,7 +67,16 @@ class SyntenyParser():
     Tools to parse synteny structure strings
     """
     @staticmethod
-    def validateStructureFormat(synteny_structure: str) -> str:
+    def reformatSyntenyStructure(synteny_structure: str) -> str:
+        """
+        Reformat synteny structure
+        """
+        synteny_structure = synteny_structure.replace(
+            " |", "|").replace("| ", "|").strip()
+        return synteny_structure
+
+    @staticmethod
+    def isValidStructure(synteny_structure: str) -> bool:
         """
         Validate synteny structure format
         """
@@ -83,16 +92,7 @@ class SyntenyParser():
             len(parsed_struc["hmm_groups"]) == len(parsed_struc["strands"]) and
             len(parsed_struc["hmm_groups"]) == (len(parsed_struc["distances"]) + 1)
         )
-        if not right_type or not right_format:
-            logger.error(
-                (
-                    f"Invalid synteny structure format: {synteny_structure}. "
-                    "Execute pynteny search --help to see the right format."
-                    )
-            )
-            sys.exit(1)
-        else: 
-            return synteny_structure
+        return False if (not right_type or not right_format) else True
 
     @staticmethod
     def splitStrandFromLocus(locus_str: str,

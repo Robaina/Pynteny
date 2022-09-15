@@ -38,7 +38,15 @@ def synteny_search(args) -> SyntenyHits:
                         level=logging.NOTSET)
     logger = logging.getLogger(__name__)
     config = ConfigParser.get_default_config()
-    args.synteny_struc = SyntenyParser.validateStructureFormat(args.synteny_struc)
+    args.synteny_struc = SyntenyParser.reformatSyntenyStructure(args.synteny_struc)
+    if not SyntenyParser.isValidStructure(args.synteny_struc):
+        logger.error(
+            (
+                f"Invalid synteny structure format: {args.synteny_struc}. "
+                "Execute pynteny search --help to see the right format."
+                )
+        )
+        sys.exit(1)
     if args.hmm_dir is None:
         if not config.get_field("data_downloaded"):
             logger.warning("HMM database not found. Downloading PGAP database from NCBI")
