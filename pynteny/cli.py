@@ -29,11 +29,12 @@ class Pynteny():
         parser._positionals.title = "subcommands"
         parser.add_argument(
             help=(
-                f"search \n"
-                f"build \n"
-                f"parse \n"
-                f"download \n"
-                f"app \n"
+                "search \n"
+                "build \n"
+                "parse \n"
+                "download \n"
+                "app \n"
+                "tests \n"
                 ),
             dest="subcommand",
             metavar="",
@@ -286,7 +287,25 @@ class Pynteny():
         parser._action_groups.append(optional)
         args = parser.parse_args(self._subcommand_args)
         sub.run_app()
-        
+
+    def tests(self):
+        """
+        Run pynteny unit and integration tests
+        """
+        parser = argparse.ArgumentParser(
+            description=(
+                "Run Pynteny unit and integration tests."
+                ),
+            epilog="  \n",
+            usage=("pynteny tests [-h] \n"),
+            formatter_class=argparse.RawTextHelpFormatter
+            )
+        optional = parser._action_groups.pop()
+        required = parser.add_argument_group("required arguments")
+        parser._action_groups.append(optional)
+        args = parser.parse_args(self._subcommand_args)
+        sub.run_tests()
+
 
 def main():
     pynteny = Pynteny()

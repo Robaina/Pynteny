@@ -243,3 +243,11 @@ def run_app() -> None:
     app_path = Path(Path(__file__).parent) / "app" / "main_page.py"
     cmd_str = f"streamlit run {app_path} --browser.gatherUsageStats False --server.fileWatcherType none"
     terminalExecute(cmd_str)
+
+def run_tests() -> None:
+    """
+    Run unit and integration tests
+    """
+    tests_path = Path(Path(Path(__file__).parent).parent) / "tests"
+    cmd_str = f"python -m unittest discover {tests_path}"
+    terminalExecute(cmd_str, work_dir=tests_path)

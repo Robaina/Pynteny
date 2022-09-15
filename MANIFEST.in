@@ -1,1 +1,3 @@
-include pynteny/src/app/pages/*
+include pynteny/tests/*
+include pynteny/tests/test_data/*
+include pynteny/tests/test_data/hmms/*
