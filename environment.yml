@@ -47,4 +47,3 @@ dependencies:
     - psutil==5.9.2
     - pyfastx==0.8.4
     - setuptools==62.3.4
-prefix: /home/robaina/miniconda3/envs/pynteny-test
