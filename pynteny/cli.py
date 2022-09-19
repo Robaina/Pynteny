@@ -1,16 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 import sys
 import random
 import argparse
+from importlib import metadata
 from pathlib import Path
 
 import pynteny.src.subcommands as sub
 from pynteny.src.utils import ConfigParser
 
 
+meta = metadata.metadata("pynteny")
+__version__ = meta["Version"]
+__author__ = meta["Author"]
 
 class Pynteny():
     """
@@ -39,7 +42,7 @@ class Pynteny():
             dest="subcommand",
             metavar="",
             )
-        parser.add_argument("-v","--version", help="show version and exit", action="version", version="0.0.1")
+        parser.add_argument("-v","--version", help="show version and exit", action="version", version=__version__)
         if len(sys.argv) < 2:
             parser.print_help()
             sys.exit(1)
@@ -60,7 +63,7 @@ class Pynteny():
       /____/                     /____/   
 
 """
-            "Synteny-based Hmmer searches made easy\n"
+            f"Synteny-based Hmmer searches made easy, v{__version__}\n"
             "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"
             " \n"
             )

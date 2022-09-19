@@ -1,3 +1,4 @@
+from importlib import metadata
 from pathlib import Path
 
 import streamlit as st
@@ -9,6 +10,9 @@ import pynteny.src.app.app_helpers as helpers
 from pynteny.src.app.app_helpers import Callbacks
 
 
+meta = metadata.metadata("pynteny")
+__version__ = meta["Version"]
+__author__ = meta["Author"]
 
 
 APP_TITLE = "Pynteny — Synteny-aware HMM searches made easy"
@@ -62,7 +66,7 @@ if "sequence_data_uploaded" not in st.session_state:
 
 # Side bar
 st.sidebar.image(
-    icon, use_column_width=True, caption="Pynteny v0.0.1"
+    icon, use_column_width=True, caption=f"Pynteny v{__version__}"
 )
 
 st.sidebar.success("Select a demo above.")
