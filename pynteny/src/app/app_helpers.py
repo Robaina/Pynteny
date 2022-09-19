@@ -38,7 +38,8 @@ def show_files_in_dir(directory: Path, sidebar: bool = True) -> None:
     :open_file_folder:
     :page_facing_up:
     """
-    filelist = [file.name for file in directory.iterdir()]
+    filelist = [file.name for file in directory.iterdir() if not file.name.startswith(".")]
+    filelist.sort()
     fileicons = []
     for file in filelist:
         if Path(file).suffix:
@@ -47,18 +48,12 @@ def show_files_in_dir(directory: Path, sidebar: bool = True) -> None:
             fileicons.append(":open_file_folder:")
 
     markdown_table = f"\n| :avocado: | {directory} |\n| --- | --- | "
-    # dir_df = pd.DataFrame([fileicons, filelist]).transpose()
     for icon, object in zip(fileicons, filelist):
         markdown_table += f"\n| {icon} | {object} | "
     markdown_table += "\n\n"
-    
     if sidebar:
-        # st.sidebar.write(f"Directory: {directory}")
-        # st.sidebar.table(dir_df)
         st.sidebar.markdown(markdown_table)
     else:
-        # st.write(f"Directory: {directory}")
-        # st.write(dir_df)
         st.markdown(markdown_table)
 
 def open_file_explorer() -> Path:
