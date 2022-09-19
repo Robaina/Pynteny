@@ -1,21 +1,14 @@
-from distutils.command.build import build
 from pathlib import Path
 
 import streamlit as st
 from PIL import Image
-import tkinter as tk
-from tkinter import filedialog
 
 from pynteny.src.utils import CommandArgs
 from pynteny.src.subcommands import synteny_search, build_database
 import pynteny.src.app.app_helpers as helpers
+from pynteny.src.app.app_helpers import Callbacks
 
 
-
-def close_session():
-    st.markdown("Thanks for using Pynteny!")
-    st.markdown("Please stop server by pressing control + c in terminal")
-    st.stop()
 
 
 APP_TITLE = "Pynteny — Synteny-aware HMM searches made easy"
@@ -29,6 +22,43 @@ st.set_page_config(
     initial_sidebar_state="auto",
 )
 
+# State variables
+search_state = CommandArgs(
+    data=None,
+    synteny_struc=None,
+    hmm_dir=Path("/home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP"),
+    hmm_meta=Path("/home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP_no_missing.tsv"),
+    outdir=None,
+    prefix="",
+    hmmsearch_args=None,
+    gene_ids=True,
+    logfile=None,
+    synteny_hits=None
+    )
+
+build_state = CommandArgs(
+    data=None,
+    outfile=None,
+    processes=None,
+    logfile=None
+)
+
+download_state = CommandArgs(
+    outdir=None,
+    unpack=True,
+    logfile=None
+)
+
+if "search_state" not in st.session_state:
+    st.session_state.search_state = search_state
+if "build_state" not in st.session_state:
+    st.session_state.build_state = build_state
+if "outdir" not in st.session_state:
+    st.session_state.outdir = Path.cwd()
+if "sequence_data_uploaded" not in st.session_state:
+    st.session_state.sequence_data_uploaded = False
+
+
 
 # Side bar
 st.sidebar.image(
@@ -37,7 +67,7 @@ st.sidebar.image(
 
 st.sidebar.success("Select a demo above.")
 
-st.sidebar.button("Close session", key="close", on_click=close_session)
+st.sidebar.button("Close session", key="close", on_click=Callbacks.close_session)
 
 st.sidebar.header("Search database")
 st.sidebar.markdown("Search...")
@@ -52,6 +82,15 @@ st.sidebar.info(
 """
 )
 
+
+path_selected = st.sidebar.button("Select output directory", on_click=Callbacks.updateOutdir)
+
+if st.session_state.outdir is not None:
+    files_div = st.empty()
+    with files_div.container():
+        helpers.show_files_in_dir(st.session_state.outdir, sidebar=True)
+
+st.markdown('#')
 st.sidebar.info(
     """
     Synteny blocks are specified by strings of ordered HMM names or gene IDs with the following format:\n
@@ -78,73 +117,40 @@ st.markdown(
     """Search database by synteny-aware HMMs."""
 )
 
-# State variables
-search_state = CommandArgs(
-    data=None,
-    synteny_struc=None,
-    hmm_dir=Path("/home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP"),
-    hmm_meta=Path("/home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP_no_missing.tsv"),
-    outdir=Path("/home/robaina/Documents/Pynteny/test_results"),
-    prefix="",
-    hmmsearch_args=None,
-    gene_ids=True,
-    logfile=None,
-    synteny_hits=None
-    )
-
-build_state = CommandArgs(
-    data=None,
-    outfile=None,
-    processes=None,
-    logfile=None
-)
-
-download_state = CommandArgs(
-    outdir=None,
-    unpack=True,
-    logfile=None
-)
-
-if "search_state" not in st.session_state:
-    st.session_state.search_state = search_state
-if "build_state" not in st.session_state:
-    st.session_state.build_state = build_state
-
-def search():
-    if st.session_state.search_state.data is not None and st.session_state.search_state.data.exists():
-        synhits = synteny_search(st.session_state.search_state).getSyntenyHits()
-        st.session_state.search_state.synteny_hits = synhits[[c for c in synhits.columns if c !="full_label"]]
-        st.success("Search completed!")
-    else:
-        st.warning("Please, first upload a sequence database file")
 
 
 with st.expander("Select sequence data", expanded=True):
     col1, col2 = st.columns([1, 1])
     with col1:
-        file_uploaded = st.button("Upload file")
+        file_uploaded = st.button("Upload file", on_click=Callbacks.uploadData)
     with col2:
-        database_builded = st.button("Build database")
+        database_builded = st.button("Build database", on_click=Callbacks.build)
 
-if file_uploaded:
-    root = tk.Tk()
-    root.withdraw()
-    st.session_state.search_state.data = Path(filedialog.askopenfilename())
+if st.session_state.sequence_data_uploaded:
+    # selected_path = helpers.open_file_explorer()
+    # st.session_state.search_state.data = selected_path
     st.info(f"Uploaded file: {st.session_state.search_state.data.name}")
-    root.destroy()
 
-if database_builded:
-    if not file_uploaded:
-        st.warning("Please, first upload assembly data file")
-    else:
-        build_database(st.session_state.build_state)
+# if database_builded:
+#     if not file_uploaded:
+#         st.warning("Please, first upload assembly data file")
+#     else:
+#         st.session_state.build_state.data = st.session_state.search_state.data
+#         st.session_state.build_state.outdir = st.session_state.search_state.outdir
+#         build_database(st.session_state.build_state)
 
 
 with st.expander("Enter synteny structure", expanded=True):
-    st.session_state.search_state.synteny_struc = st.text_input("", "<leuD 0 <leuC 1 leuA")
+    col1, col2 = st.columns([0.8, 0.2])
+    with col1:
+        st.session_state.search_state.synteny_struc = st.text_input("", "<leuD 0 <leuC 1 leuA")
+    with col2:
+        locus_repr = st.select_slider("", options=["Gene ID", "HMM"], value="Gene ID")
+    gene_ids = True if locus_repr == "Gene ID" else False
+    st.session_state.search_state.gene_ids = gene_ids
 
 
-st.button("Search!", on_click=search)
+st.button("Search!", on_click=Callbacks.search)
 
 plot_div = st.empty()
 if st.session_state.search_state.synteny_hits is not None:

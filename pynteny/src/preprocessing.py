@@ -374,7 +374,7 @@ class Database():
         Build database from data files.
         """
         if output_file is None:
-            output_file = self._data.parent / f"{self._data.name}_labelled_peptides.faa"
+            output_file = self._data.parent / f"{self._data.stem}_labelled.faa"
         if self.is_fasta(self._data_files[0]):
             logger.info("Translating and annotating assembly data.")
             if self._data.is_dir():
