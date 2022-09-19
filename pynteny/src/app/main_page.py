@@ -5,11 +5,11 @@ import streamlit as st
 from PIL import Image
 
 from pynteny.src.utils import CommandArgs
-from pynteny.src.subcommands import synteny_search, build_database
 import pynteny.src.app.app_helpers as helpers
 from pynteny.src.app.app_helpers import Callbacks
 
 
+parent_dir = Path(Path(__file__).parent)
 meta = metadata.metadata("pynteny")
 __version__ = meta["Version"]
 __author__ = meta["Author"]
@@ -25,6 +25,10 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="auto",
 )
+
+with open(parent_dir / "styles.css", "r") as file:
+    css_text = file.read()
+st.markdown(f"<style>{css_text}</style>", unsafe_allow_html=True)
 
 # State variables
 search_state = CommandArgs(
@@ -69,22 +73,8 @@ st.sidebar.image(
     icon, use_column_width=True, caption=f"Pynteny v{__version__}"
 )
 
-st.sidebar.success("Select a demo above.")
-
-st.sidebar.button("Close session", key="close", on_click=Callbacks.close_session)
 
 st.sidebar.header("Search database")
-st.sidebar.markdown("Search...")
-
-st.sidebar.info(
-    """
-    Sequence data can be either:
-    - nucleotide assembly data in FASTA format or
-    - a GenBank file containing sequence annotations.
-
-    **Note: This Pynteny instance is run locally, thus files are always kept in your machine.
-"""
-)
 
 
 path_selected = st.sidebar.button("Select output directory", on_click=Callbacks.updateOutdir)
@@ -94,9 +84,18 @@ if st.session_state.outdir is not None:
     with files_div.container():
         helpers.show_files_in_dir(st.session_state.outdir, sidebar=True)
 
-st.text(" ")
-with st.expander("Info", expanded=True):
-    st.sidebar.info(
+st.sidebar.text(" ")
+st.sidebar.button("Close session", key="close", on_click=Callbacks.close_session)
+
+
+# Main page
+st.title("Pynteny — Synteny-aware HMM searches made easy")
+st.markdown("Welcome! This is a web app for the Pynteny package.")
+st.markdown("Pynteny is a Python package for synteny-aware HMM searches.")
+
+
+with st.expander("Search database by synteny-aware HMMs.", expanded=True):
+    st.info(
         """
         Synteny blocks are specified by strings of ordered HMM names or gene IDs with the following format:\n
         $$\lt HMM_a \space n_{ab} \space \lt HMM_b \space n_{bc} \space \lt(HMM_{c1}|HMM_{c2}|HMM_{c3}),$$\n
@@ -106,22 +105,14 @@ with st.expander("Info", expanded=True):
         in the negative (antisense) strand. Searches can be made strand-insensitive by omitting the $>$ or $<$ symbol. 
         Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them.
         In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.
+
+        Sequence data can be either:
+        - nucleotide assembly data in FASTA format or
+        - a GenBank file containing sequence annotations.
+
+        **Note: This Pynteny instance is run locally, thus files are always kept in your machine.
         """
     )
-
-
-# Main page
-st.title("Pynteny — Synteny-aware HMM searches made easy")
-st.markdown("Welcome! This is a web app for the Pynteny package.")
-st.markdown("Pynteny is a Python package for synteny-aware HMM searches.")
-st.markdown("Please select a command from the sidebar to get started.")
-
-
-st.markdown("# Search")
-st.markdown(
-    """Search database by synteny-aware HMMs."""
-)
-
 
 
 with st.expander("Select sequence data", expanded=True):
@@ -132,17 +123,7 @@ with st.expander("Select sequence data", expanded=True):
         database_builded = st.button("Build database", on_click=Callbacks.build)
 
 if st.session_state.sequence_data_uploaded:
-    # selected_path = helpers.open_file_explorer()
-    # st.session_state.search_state.data = selected_path
     st.info(f"Uploaded file: {st.session_state.search_state.data.name}")
-
-# if database_builded:
-#     if not file_uploaded:
-#         st.warning("Please, first upload assembly data file")
-#     else:
-#         st.session_state.build_state.data = st.session_state.search_state.data
-#         st.session_state.build_state.outdir = st.session_state.search_state.outdir
-#         build_database(st.session_state.build_state)
 
 
 with st.expander("Enter synteny structure", expanded=True):

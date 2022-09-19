@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import pandas as pd
@@ -39,7 +38,7 @@ def show_files_in_dir(directory: Path, sidebar: bool = True) -> None:
     :page_facing_up:
     """
     filelist = [file.name for file in directory.iterdir() if not file.name.startswith(".")]
-    filelist.sort()
+    filelist.sort(key = lambda x: x.lower())
     fileicons = []
     for file in filelist:
         if Path(file).suffix:
@@ -51,6 +50,7 @@ def show_files_in_dir(directory: Path, sidebar: bool = True) -> None:
     for icon, object in zip(fileicons, filelist):
         markdown_table += f"\n| {icon} | {object} | "
     markdown_table += "\n\n"
+
     if sidebar:
         st.sidebar.markdown(markdown_table)
     else:

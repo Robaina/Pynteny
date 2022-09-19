@@ -1,0 +1,6 @@
+/* Override streamlit's default CSS styles */
+
+.stMarkdown {
+    max-height: 300px;
+    overflow-y: scroll;
+  }

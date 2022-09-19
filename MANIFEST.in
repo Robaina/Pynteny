@@ -1,3 +1,4 @@
 include pynteny/tests/*
 include pynteny/tests/test_data/*
 include pynteny/tests/test_data/hmms/*
+include pynteny/src/app/styles.css
