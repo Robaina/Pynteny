@@ -6,7 +6,11 @@ from tkinter import filedialog
 import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
 
-from pynteny.src.subcommands import synteny_search, build_database
+from pynteny.src.subcommands import synteny_search, build_database, download_hmms
+from pynteny.src.utils import ConfigParser
+
+
+parent_dir = Path(Path(__file__).parent)
 
 
 def set_welcome_page():
@@ -61,6 +65,7 @@ def open_file_explorer() -> Path:
     Open a file explorer and return selected path
     """
     root = tk.Tk()
+    root.geometry("700x350")
     root.withdraw()
     try:
         selected_path = Path(filedialog.askopenfilename())
@@ -74,6 +79,7 @@ def open_directory_explorer() -> Path:
     Open a explorer to select directory and return path
     """
     root = tk.Tk()
+    root.geometry("700x350")
     root.withdraw()
     try:
         selected_dir = Path(filedialog.askdirectory(master=root))
@@ -105,15 +111,37 @@ def plot_dataframe(data: pd.DataFrame) -> AgGrid:
     return grid_response
 
 
+class ExampleSearch:
+     @staticmethod
+     def setExample():
+        example_data_dir = Path(Path(parent_dir.parent).parent) / "tests"
+        # search_outdir = Path(st.session_state.outdir) / "pynteny_example"
+        # search_outdir.mkdir(parents=True, exist_ok=True)
+        st.session_state.sequence_data_uploaded = True
+        st.session_state.search_state.prefix = "example_"
+        st.session_state.search_state.data = example_data_dir / "test_data/MG1655.fasta"
+        st.session_state.search_state.hmm_dir = example_data_dir / "test_data/hmms"
+        st.session_state.search_state.hmm_meta = example_data_dir / "test_data/hmm_meta.tsv"
+        # st.session_state.outdir = search_outdir
+
 
 class Callbacks:
     @staticmethod
     def search():
+        config = ConfigParser.get_default_config()
+        if (
+            (st.session_state.search_state.hmm_dir is None) and
+            (not config.get_field("data_downloaded"))
+            ):
+            with st.spinner('Downloading HMM database, please wait...'):
+                download_hmms(st.session_state.download_state)
+            st.success("HMM database downloaded!")
         st.session_state.search_state.outdir = st.session_state.outdir
         if st.session_state.search_state.data is not None and st.session_state.search_state.data.exists():
             synhits = synteny_search(st.session_state.search_state).getSyntenyHits()
             st.session_state.search_state.synteny_hits = synhits[[c for c in synhits.columns if c !="full_label"]]
             st.success("Search completed!")
+            st.balloons()
         else:
             st.warning("Please, first upload a sequence database file")
 
@@ -135,9 +163,37 @@ class Callbacks:
         st.session_state.sequence_data_uploaded = True
 
     @staticmethod
-    def updateOutdir():
+    def updateOutputDir():
         selected_outdir = open_directory_explorer()
         st.session_state.outdir = selected_outdir
+
+    @staticmethod
+    def updateOutputPrefix():
+        st.session_state.search_state.prefix = st.session_state.prefix
+
+    @staticmethod
+    def updateOutputSubdirectory():
+        subdir = Path(st.session_state.outdir) / st.session_state.subdirectory
+        if not subdir.exists():
+            subdir.mkdir(parents=True, exist_ok=False)
+        st.session_state.search_state.outdir = subdir
+    
+    @staticmethod
+    def selectHMMdir():
+        selected_dir = open_directory_explorer()
+        st.session_state.search_state.hmm_dir = selected_dir
+        st.success(f"Selected HMM database: {selected_dir}")
+
+    @staticmethod
+    def selectHMMmeta():
+        selected_file = open_file_explorer()
+        st.session_state.search_state.hmm_meta = selected_file
+        st.success(f"Selected HMM metadata: {selected_file}")
+
+    @staticmethod
+    def setNumberOfProcesses():
+        st.session_state.build_state.processes = st.session_state.processes
+        st.session_state.search_state.processes = st.session_state.processes
 
     @staticmethod
     def close_session():

@@ -17,9 +17,9 @@ from pynteny.src.hmm import PGAP
 from pynteny.src.utils import CommandArgs, ConfigParser, isTarFile, terminalExecute
 from pynteny.src.preprocessing import Database
 
+
 requests_logger = logging.getLogger('seqkit')
 requests_logger.setLevel(logging.ERROR)
-
 
 
 def synteny_search(args) -> SyntenyHits:
@@ -107,6 +107,7 @@ def synteny_search(args) -> SyntenyHits:
         hmmer_output_dir=hmmer_output_dir,
         reuse_hmmer_results=True,
         method='hmmsearch',
+        processes=args.processes,
         additional_args=hmmsearch_args
     )
     synteny_hits.writeToTSV(synteny_table)

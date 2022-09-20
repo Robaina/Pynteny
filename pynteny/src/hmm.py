@@ -27,7 +27,8 @@ class HMMER:
     def __init__(self, input_hmms: list[Path],
                  hmm_output_dir: Path,
                  input_data: Path,
-                 additional_args: list[str]) -> None:
+                 additional_args: list[str],
+                 processes: int = None) -> None:
         """
         Run Hmmer on multiple hmms and parse output
         """
@@ -35,6 +36,7 @@ class HMMER:
         self._input_hmms = input_hmms
         self._input_fasta = input_data
         self._additional_args = additional_args
+        self._processes = processes
 
     @property
     def hmm_names(self) -> list[str]:
@@ -70,6 +72,7 @@ class HMMER:
                     input_fasta=self._input_fasta,
                     output_file=hmmer_output,
                     method=method,
+                    n_processes=self._processes,
                     additional_args=add_args
                     )
             elif reuse_hmmer_results and os.path.isfile(hmmer_output):

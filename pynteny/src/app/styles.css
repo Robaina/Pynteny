@@ -4,3 +4,15 @@
     max-height: 300px;
     overflow-y: scroll;
   }
+
+.stTextInput > label {
+  display: none;
+}
+
+.stSlider > label {
+  display: none;
+}
+
+.stSpinner {
+  padding-top: 50vh !important;
+}

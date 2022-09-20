@@ -1,3 +1,4 @@
+import os
 from importlib import metadata
 from pathlib import Path
 
@@ -6,7 +7,7 @@ from PIL import Image
 
 from pynteny.src.utils import CommandArgs
 import pynteny.src.app.app_helpers as helpers
-from pynteny.src.app.app_helpers import Callbacks
+from pynteny.src.app.app_helpers import Callbacks, ExampleSearch
 
 
 parent_dir = Path(Path(__file__).parent)
@@ -34,10 +35,11 @@ st.markdown(f"<style>{css_text}</style>", unsafe_allow_html=True)
 search_state = CommandArgs(
     data=None,
     synteny_struc=None,
-    hmm_dir=Path("/home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP"),
-    hmm_meta=Path("/home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP_no_missing.tsv"),
+    hmm_dir=None, #Path("/home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP"),
+    hmm_meta=None, #Path("/home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP_no_missing.tsv"),
     outdir=None,
     prefix="",
+    processes=None,
     hmmsearch_args=None,
     gene_ids=True,
     logfile=None,
@@ -61,12 +63,14 @@ if "search_state" not in st.session_state:
     st.session_state.search_state = search_state
 if "build_state" not in st.session_state:
     st.session_state.build_state = build_state
+if "download_state" not in st.session_state:
+    st.session_state.download_state = download_state
 if "outdir" not in st.session_state:
     st.session_state.outdir = Path.cwd()
 if "sequence_data_uploaded" not in st.session_state:
     st.session_state.sequence_data_uploaded = False
 
-
+ExampleSearch.setExample()
 
 # Side bar
 st.sidebar.image(
@@ -76,8 +80,18 @@ st.sidebar.image(
 
 st.sidebar.header("Search database")
 
-
-path_selected = st.sidebar.button("Select output directory", on_click=Callbacks.updateOutdir)
+col1, col2 = st.sidebar.columns([.6, .4])
+with col1:
+    st.button("Select output directory", on_click=Callbacks.updateOutputDir)
+    st.text_input("",
+                value="", max_chars=None,
+                key="subdirectory", on_change=Callbacks.updateOutputSubdirectory,
+                placeholder="Enter subdirectory")
+with col2:
+    st.text_input("",
+                  value="", max_chars=None,
+                  key="prefix", on_change=Callbacks.updateOutputPrefix,
+                  placeholder="Enter output prefix")
 
 if st.session_state.outdir is not None:
     files_div = st.empty()
@@ -85,6 +99,30 @@ if st.session_state.outdir is not None:
         helpers.show_files_in_dir(st.session_state.outdir, sidebar=True)
 
 st.sidebar.text(" ")
+
+with st.sidebar.container():
+    st.sidebar.markdown("Select parameters:")
+
+    # File prefix
+    # --hmmsearch_args
+    
+    st.sidebar.markdown("Select custom HMM database")
+    col1, col2 = st.sidebar.columns([1, 1])
+    with col1:
+        st.button("HMM directory", on_click=Callbacks.selectHMMdir)
+    with col2:
+        st.button("HMM metadata", on_click=Callbacks.selectHMMmeta)
+    
+    col1, col2 = st.sidebar.columns([0.4, 0.6])
+    with col1:
+        st.slider("Processes",
+                  min_value=1, max_value=os.cpu_count(),
+                  value=os.cpu_count() - 1, step=1,
+                  on_change=Callbacks.setNumberOfProcesses, key="processes"
+                  )
+
+
+
 st.sidebar.button("Close session", key="close", on_click=Callbacks.close_session)
 
 

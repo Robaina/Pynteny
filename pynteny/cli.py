@@ -132,9 +132,13 @@ class Pynteny():
         optional.add_argument("-o", "--outdir", dest="outdir", type=Path, metavar="",
                              help="path to output directory", default=None
         )
-        optional.add_argument("-p", "--prefix", dest="prefix", type=str, metavar="",
+        optional.add_argument("-x", "--prefix", dest="prefix", type=str, metavar="",
                             default="",
                             help="prefix to be added to output files"
+        )
+        optional.add_argument("-p", "--processes", dest="processes", type=int, metavar="",
+                            default=None,
+                            help="maximum number of processes available to HMMER. Defaults to all but one."
         )
         optional.add_argument("-a", "--hmmsearch_args", dest="hmmsearch_args", type=str,
                             metavar="", default=None, required=False,

@@ -316,6 +316,7 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
                                   hmmer_output_dir: Path = None,
                                   reuse_hmmer_results: bool = True,
                                   method: str = 'hmmsearch',
+                                  processes: int = None,
                                   additional_args: list[str] = None) -> SyntenyHits:
     """
     Generate protein-specific database by filtering sequence database
@@ -356,6 +357,7 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
         input_hmms=input_hmms,
         input_data=input_fasta,
         hmm_output_dir=hmmer_output_dir,
+        processes=processes,
         additional_args=additional_args
     )
     hmm_hits = hmmer.getHMMERtables(
