@@ -34,24 +34,32 @@ def close_session():
     st.markdown("Please stop server by pressing control + c in terminal")
     st.stop()
 
-def show_files_in_dir(directory: Path, sidebar: bool = True) -> None:
+def show_files_in_dir(directory: Path, sidebar: bool = False) -> None:
     """
     Show a list of files in directory
 
     :open_file_folder:
     :page_facing_up:
     """
-    filelist = [file.name for file in directory.iterdir() if not file.name.startswith(".")]
+    filelist = [
+        file.name for file in directory.iterdir() 
+        if (not file.name.startswith(".") and file.is_file())
+        ]
     filelist.sort(key = lambda x: x.lower())
-    fileicons = []
-    for file in filelist:
-        if Path(file).suffix:
-            fileicons.append(":page_facing_up:")
-        else:
-            fileicons.append(":open_file_folder:")
-
-    markdown_table = f"\n| :avocado: | {directory} |\n| --- | --- | "
-    for icon, object in zip(fileicons, filelist):
+    dirlist = [
+        file.name for file in directory.iterdir() 
+        if (not file.name.startswith(".") and file.is_dir())
+        ]
+    dirlist.sort(key = lambda x: x.lower())
+    itemlist = filelist + dirlist
+    iconlist = [":page_facing_up:" for _ in filelist] + [":open_file_folder:" for _ in dirlist]
+    # for file in filelist:
+    #     if Path(file).suffix:
+    #         fileicons.append(":page_facing_up:")
+    #     else:
+    #         fileicons.append(":open_file_folder:")
+    markdown_table = f"\n| :diamond_shape_with_a_dot_inside: | {directory} |\n| --- | --- | "
+    for icon, object in zip(iconlist, itemlist):
         markdown_table += f"\n| {icon} | {object} | "
     markdown_table += "\n\n"
 

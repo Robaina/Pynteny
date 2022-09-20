@@ -25,11 +25,29 @@ st.set_page_config(
     page_icon=favicon,
     layout="centered",
     initial_sidebar_state="auto",
+    menu_items={
+        'Get Help': None,
+        'Report a bug': None,
+        'About': (
+            "## Pynteny — Synteny-aware HMM searches made easy\n"
+            "A python tool to query sequence databases based on hmms "
+            "arranged in a synteny block. For more info visit Pynteny's "
+            "[repo](https://github.com/Robaina/Pynteny).\n"
+            "### Citation\n"
+            "If you use this software, please cite it as below:  \n"
+            " Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy (Version 0.0.1). Zenodo. https://doi.org/10.5281/zenodo.7048685 \n"
+            "### Using:\n"
+            )
+    }
 )
 
 with open(parent_dir / "styles.css", "r") as file:
     css_text = file.read()
 st.markdown(f"<style>{css_text}</style>", unsafe_allow_html=True)
+
+with open(parent_dir / "script.js", "r") as file:
+    js_text = file.read()
+st.components.v1.html(f"<script>{js_text}</script>")
 
 # State variables
 search_state = CommandArgs(
@@ -94,9 +112,9 @@ with col2:
                   placeholder="Enter output prefix")
 
 if st.session_state.outdir is not None:
-    files_div = st.empty()
+    files_div = st.sidebar.empty()
     with files_div.container():
-        helpers.show_files_in_dir(st.session_state.outdir, sidebar=True)
+        helpers.show_files_in_dir(st.session_state.outdir, sidebar=False)
 
 st.sidebar.text(" ")
 

@@ -1,9 +1,21 @@
 /* Override streamlit's default CSS styles */
 
+/* .block-container {
+  padding-top: 3rem;
+} */
 .stMarkdown {
     max-height: 300px;
     overflow-y: scroll;
   }
+
+.stMarkdown div table {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.stMarkdown h1 {
+  padding-top: 0;
+}
 
 .stTextInput > label {
   display: none;
@@ -15,4 +27,16 @@
 
 .stSpinner {
   padding-top: 50vh !important;
+}
+
+#bui-1 div .css-1uh038d {
+  display: none;
+}
+
+.element-container iframe {
+  display: none;
+}
+
+footer > a {
+  text-decoration: none;
 }
