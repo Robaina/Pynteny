@@ -80,9 +80,9 @@ st.sidebar.image(
 
 st.sidebar.header("Search database")
 
-col1, col2 = st.sidebar.columns([.6, .4])
+st.sidebar.button("Select output directory", on_click=Callbacks.updateOutputDir)
+col1, col2 = st.sidebar.columns([.5, .5])
 with col1:
-    st.button("Select output directory", on_click=Callbacks.updateOutputDir)
     st.text_input("",
                 value="", max_chars=None,
                 key="subdirectory", on_change=Callbacks.updateOutputSubdirectory,
@@ -100,20 +100,16 @@ if st.session_state.outdir is not None:
 
 st.sidebar.text(" ")
 
-with st.sidebar.container():
-    st.sidebar.markdown("Select parameters:")
+with st.sidebar.expander("Advanced parameters:", expanded=False):
 
-    # File prefix
-    # --hmmsearch_args
-    
-    st.sidebar.markdown("Select custom HMM database")
-    col1, col2 = st.sidebar.columns([1, 1])
+    st.markdown("Select custom HMM database")
+    col1, col2 = st.columns([1, 1])
     with col1:
         st.button("HMM directory", on_click=Callbacks.selectHMMdir)
     with col2:
         st.button("HMM metadata", on_click=Callbacks.selectHMMmeta)
     
-    col1, col2 = st.sidebar.columns([0.4, 0.6])
+    col1, col2 = st.columns([0.4, 0.6])
     with col1:
         st.slider("Processes",
                   min_value=1, max_value=os.cpu_count(),
@@ -132,7 +128,7 @@ st.markdown("Welcome! This is a web app for the Pynteny package.")
 st.markdown("Pynteny is a Python package for synteny-aware HMM searches.")
 
 
-with st.expander("Search database by synteny-aware HMMs.", expanded=True):
+with st.expander("Search database by synteny-aware HMMs.", expanded=False):
     st.info(
         """
         Synteny blocks are specified by strings of ordered HMM names or gene IDs with the following format:\n
