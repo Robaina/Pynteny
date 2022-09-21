@@ -92,7 +92,6 @@ class Callbacks:
         if st.session_state.search_state.data is not None and st.session_state.search_state.data.exists():
             synhits = synteny_search(st.session_state.search_state).getSyntenyHits()
             st.session_state.search_state.synteny_hits = synhits[[c for c in synhits.columns if c !="full_label"]]
-            st.success("Search completed!")
         else:
             st.warning("Please, first upload a sequence database file")
 
@@ -158,6 +157,7 @@ class Plotter:
     def plot_dataframe(data: pd.DataFrame) -> AgGrid:
         """
         Plot dataframe in webpage
+        themes: streamlit, balham, alpine, material
         """
         gb = GridOptionsBuilder.from_dataframe(data)
         gb.configure_pagination(paginationAutoPageSize=True)
@@ -169,7 +169,7 @@ class Plotter:
             data_return_mode='AS_INPUT', 
             update_mode='MODEL_CHANGED', 
             fit_columns_on_grid_load=False,
-            theme='blue',
+            theme='alpine',
             enable_enterprise_modules=True,
             height=350, 
             width='100%',

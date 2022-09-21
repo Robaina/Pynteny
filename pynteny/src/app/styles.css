@@ -33,7 +33,7 @@
   display: none;
 }
 
-.element-container iframe {
+.element-container iframe[title~="st.iframe"] {
   display: none;
 }
 
