@@ -19,9 +19,6 @@ class FileManager:
     def show_files_in_dir(directory: Path, sidebar: bool = False) -> None:
         """
         Show a list of files in directory
-
-        :open_file_folder:
-        :page_facing_up:
         """
         filelist = [
             file.name for file in directory.iterdir() 
@@ -126,7 +123,8 @@ class Callbacks:
         subdir = Path(st.session_state.outdir) / st.session_state.subdirectory
         if not subdir.exists():
             subdir.mkdir(parents=True, exist_ok=False)
-        st.session_state.search_state.outdir = subdir
+        # st.session_state.search_state.outdir = subdir
+        st.session_state.outdir = subdir
     
     @staticmethod
     def selectHMMdir():

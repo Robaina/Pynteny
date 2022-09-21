@@ -1,8 +1,5 @@
 /* Override streamlit's default CSS styles */
 
-/* .block-container {
-  padding-top: 3rem;
-} */
 .stMarkdown {
     max-height: 300px;
     overflow-y: scroll;
@@ -11,6 +8,14 @@
 .stMarkdown div table {
   margin-left: auto !important;
   margin-right: auto !important;
+}
+
+table {
+  min-height: 60px;
+}
+
+table thead, tbody tr > td:first-child {
+  background-color: rgba(0, 66, 128, 0.20);
 }
 
 .stMarkdown h1 {
@@ -29,9 +34,17 @@
   padding-top: 50vh !important;
 }
 
-#bui-1 div .css-1uh038d {
-  display: none;
+.streamlit-expanderHeader {
+  font-size: large;
 }
+
+/* .stButton button {
+    background-color: blueviolet;
+} */
+
+/* #bui-1 div .css-1uh038d {
+  display: none;
+} */
 
 .element-container iframe[title~="st.iframe"] {
   display: none;
