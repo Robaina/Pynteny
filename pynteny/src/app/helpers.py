@@ -4,6 +4,7 @@ import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
 import streamlit as st
+from PIL import Image
 from st_aggrid import AgGrid, GridOptionsBuilder
 
 from pynteny.src.subcommands import synteny_search, build_database, download_hmms
@@ -145,8 +146,14 @@ class Callbacks:
 
     @staticmethod
     def close_session():
-        st.markdown("Thanks for using Pynteny!")
-        st.markdown("Please stop server by pressing control + c in terminal")
+        icon = Image.open("assets/logo.png")
+        st.text(" ")
+        st.text(" ")
+        st.markdown("# Thanks for using")
+        st.text(" ")
+        st.image(icon)
+        st.text(" ")
+        st.markdown("### Please stop the server by pressing control + c in terminal")
         st.stop()
 
 
