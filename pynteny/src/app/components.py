@@ -63,6 +63,8 @@ class Sidebar:
                         )
         
         col1, col2 = st.sidebar.columns([1, 1])
+        with col1:
+            st.button("Restart session")
         with col2:
             st.button("Close session", key="close", on_click=Callbacks.close_session)
 

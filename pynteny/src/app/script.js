@@ -8,6 +8,18 @@ function setFooter() {
     footer.innerHTML = "< > by <a href='https://github.com/Robaina'>Semidán Robaina</a>, 2022. " + "Made with <a href='https://streamlit.io/'>Streamlit</a>.";
 }
 
+function addEventToRestartButton() {
+    let buttons = window.parent.document.getElementsByTagName("button");
+    for (let i = 0; i < buttons.length; i++){
+        let button = buttons[i];
+        if (button.innerHTML.includes("Restart")) {
+            button.addEventListener("click", function() {
+                window.parent.location.reload();}
+                )
+        }
+    }
+}
+
 function addInfoClassToExpanders() {
     /*
     Was a good idea, but streamlit seems to remake the page upon any event,
@@ -26,4 +38,4 @@ function addInfoClassToExpanders() {
 
 
 setFooter();
-// setTimeout(addInfoClassToExpanders, 1000);
+setTimeout(addEventToRestartButton, 1000);

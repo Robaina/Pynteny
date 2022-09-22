@@ -155,6 +155,10 @@ class Callbacks:
         st.text(" ")
         st.markdown("### Please stop the server by pressing control + c in terminal")
         st.stop()
+    
+    @staticmethod
+    def restart_session():
+        st.experimental_rerun()
 
 
 class Plotter:
