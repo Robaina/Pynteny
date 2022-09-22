@@ -72,12 +72,6 @@ class Mainpage:
     def show():
 
         st.title("Pynteny — Synteny-aware HMM searches made easy")
-        # with st.expander("Welcome!", expanded=False):
-        #     st.info(
-        #         """
-        #         __Note__: This Pynteny instance is run locally, thus files are always kept in your machine.
-        #         """
-        #     )
 
         with st.expander("Select sequence data", expanded=False):
             st.info(
