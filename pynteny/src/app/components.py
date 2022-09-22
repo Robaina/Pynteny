@@ -126,11 +126,9 @@ class Mainpage:
                 locus_repr = st.select_slider("", options=["Gene ID", "HMM"], value="Gene ID")
             gene_ids = True if locus_repr == "Gene ID" else False
             st.session_state.search_state.gene_ids = gene_ids
+            st.button("Search!", on_click=Callbacks.search)
         
-        
-        st.button("Search!", on_click=Callbacks.search)
-
-        plot_div = st.empty()
         if st.session_state.search_state.synteny_hits is not None:
-            with plot_div.container():
+            results_file = f"{st.session_state.search_state.prefix}synteny_matched.tsv"
+            with st.expander(f"Results ({results_file}):", expanded=True):
                 Plotter.plot_dataframe(st.session_state.search_state.synteny_hits)
