@@ -1,17 +1,15 @@
 /* Override streamlit's default CSS styles */
 
 .stMarkdown {
-    max-height: 300px;
+    max-height: 320px;
     overflow-y: scroll;
   }
 
 .stMarkdown div table {
   margin-left: auto !important;
   margin-right: auto !important;
-}
-
-table {
   min-height: 60px;
+  font-size: medium;
 }
 
 table thead, tbody tr > td:first-child {
@@ -38,16 +36,28 @@ table thead, tbody tr > td:first-child {
   font-size: large;
 }
 
-/* .stButton button {
-    background-color: blueviolet;
-} */
-
-/* #bui-1 div .css-1uh038d {
+/* .streamlit-expanderHeader[aria-expanded="true"] svg{
   display: none;
 } */
+
+.pynteny-expander-info {
+  background-color: blueviolet !important;
+}
+
+.stButton button {
+    font-size: large;
+}
 
 .element-container iframe[title~="st.iframe"] {
   display: none;
+}
+
+div[data-testid="caption"] {
+  font-size: medium;
+}
+
+footer {
+  padding-top: 0px !important;
 }
 
 footer > a {

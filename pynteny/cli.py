@@ -36,7 +36,7 @@ class Pynteny():
                 "build \n"
                 "parse \n"
                 "download \n"
-                # "app \n"
+                "app \n"
                 "tests \n"
                 ),
             dest="subcommand",

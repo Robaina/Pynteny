@@ -34,7 +34,7 @@ st.set_page_config(
             "[repo](https://github.com/Robaina/Pynteny).\n"
             "### Citation\n"
             "If you use this software, please cite it as below:  \n"
-            " Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy (Version 0.0.1). Zenodo. https://doi.org/10.5281/zenodo.7048685 \n"
+            " Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy (Version 0.0.2). Zenodo. https://doi.org/10.5281/zenodo.7048685 \n"
             "### Using:\n"
             )
     }
