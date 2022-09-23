@@ -30,7 +30,6 @@ class Sidebar:
                 with files_div.container():
                     FileManager.show_files_in_dir(st.session_state.outdir, sidebar=False)
             
-            st.text(" ")
             st.button("Select directory", on_click=Callbacks.updateOutputDir)
             col1, col2 = st.columns([.5, .5])
             with col1:
@@ -61,7 +60,7 @@ class Sidebar:
                         value=os.cpu_count() - 1, step=1,
                         on_change=Callbacks.setNumberOfProcesses, key="processes"
                         )
-        
+        st.sidebar.text(" ")
         col1, col2 = st.sidebar.columns([1, 1])
         with col1:
             st.button("Restart session")
