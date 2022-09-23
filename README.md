@@ -14,7 +14,7 @@ Pynteny is a command-line tool to search for [synteny](https://en.wikipedia.org/
 
 Get more info in the [wiki](https://github.com/Robaina/Pynteny/wiki) pages!
 
-## Installation
+## :wrench: Setup
 
 Download (or fork) repo to local directory:
 
