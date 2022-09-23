@@ -8,7 +8,7 @@
 }
 
 div[data-testid="stMarkdownContainer"]:has(table) {
-  height: 340px;
+  height: 320px;
   overflow-y: scroll;
 }
 

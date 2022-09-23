@@ -30,6 +30,7 @@ class Sidebar:
                 with files_div.container():
                     FileManager.show_files_in_dir(st.session_state.outdir, sidebar=False)
             
+            st.text(" ")
             st.button("Select directory", on_click=Callbacks.updateOutputDir)
             col1, col2 = st.columns([.5, .5])
             with col1:
