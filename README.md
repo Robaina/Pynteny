@@ -56,6 +56,9 @@ $$\lt HMM_a \space n_{ab} \space \lt HMM_b \space n_{bc} \space \lt(HMM_{c1}|HMM
 * `pynteny build`: predict ORFs with [prodigal]()and add positional information to each ORF &mdash; i.e., loci and gene number within assembled contig. Alternatively, the user can provide their own ORF annotations in GenBank format.
 * `pynteny download`: downloads the latest version of the [NCBI Prokaryotic Genome Annotation Pipeline](https://github.com/ncbi/pgap) (PGAP) HMM database. However, the user may provide their own HMM database.
 
+## Pynteny in a graphical interface
+![pynyeny-gif](.github/assets/pynteny_1.gif)
+
 ## Citation
 
 If you use this software, please cite it as below:
