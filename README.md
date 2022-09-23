@@ -8,7 +8,7 @@
 ![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 [![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783)
 
-## What is Pynteny?
+## :bulb: What is Pynteny?
 
 Pynteny is a command-line tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in (assembled) sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/).
 
@@ -42,7 +42,7 @@ Check that installation worked fine:
 pynteny tests
 ```
 
-## Usage
+## :rocket: Usage
 
 Pynteny can be run either as a command line tool or as a (locally-served) web application. To run pynteny in the command line, execute:
 
@@ -73,7 +73,7 @@ pynteny app
 </p>
 
 
-## Citation
+## :black_nib: Citation
 
 If you use this software, please cite it as below:
 
