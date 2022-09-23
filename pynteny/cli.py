@@ -26,6 +26,7 @@ class Pynteny():
         self._subcommand_args = sys.argv[2:]
         parser = argparse.ArgumentParser(
             description=(self._printLogo()),
+            usage=("pynteny <subcommand> [-h] [args] \n"),
             epilog=(self._generateCoolQuotes()),
             formatter_class=argparse.RawTextHelpFormatter
             )

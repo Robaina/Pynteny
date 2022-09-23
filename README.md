@@ -12,6 +12,8 @@
 
 Pynteny is a command-line tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in (assembled) sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/).
 
+Get more info in the [wiki](https://github.com/Robaina/Pynteny/wiki) pages!
+
 ## Installation
 
 Download (or fork) repo to local directory:
@@ -42,32 +44,30 @@ pynteny tests
 
 ## Usage
 
-Pynteny currently contains these subcommands:
+Pynteny can be run either as a command line tool or as a (locally-served) web application. To run pynteny in the command line, execute:
 
-* `pynteny search`: searches for synteny blocks in a set of ORFs using HMMER and outputs the results in a tabular format. Synteny blocks are specified by strings of ordered HMM names or gene IDs with the following format:
-$$\lt HMM_a \space n_{ab} \space \lt HMM_b \space n_{bc} \space \lt(HMM_{c1}|HMM_{c2}|HMM_{c3}),$$ 
+```bash
+conda activate pynteny
+pynteny <subcommand> <options>
+```
 
-    where $n_{ab}$ corrresponds to the maximum number of genes between $HMM_a$ and $HMM_b$. Results can be strand-specific, in that case $>$ preceding a HMM name indicates that the corresponding ORF must be located in the positive (or sense) strand. Likewise, a $<$ symbol indicates that the ORF must be located in the negative (antisense) strand. Searches can be made strand-insensitive by omitting the $>$ or $<$ symbol. 
+![pynyeny-cli](assets/pynteny_cli.png)
 
-    Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them. In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.
 
-    If the PGAP database is employed (see `pynteny download` below), synteny blocks can also be specified by gene symbols, such as $$\lt leuD \space 0 \space \lt leuC \space 1 \space \lt leuA.$$ In that case, the program will try to match gene symbols to HMM names in the PGAP database previous to running the search.
+There are a number of available subcommands, which can be explore in the [wiki](https://github.com/Robaina/Pynteny/wiki) pages.
 
-* `pynteny build`: predict ORFs with [prodigal]()and add positional information to each ORF &mdash; i.e., loci and gene number within assembled contig. Alternatively, the user can provide their own ORF annotations in GenBank format.
-* `pynteny download`: downloads the latest version of the [NCBI Prokaryotic Genome Annotation Pipeline](https://github.com/ncbi/pgap) (PGAP) HMM database. However, the user may provide their own HMM database.
 
-## Graphical interface
+Pynteny may also be used with a graphical interface (made with [Streamlit](https://streamlit.io)). The app is run on a local server in your machine, thus all files are kept locally and the app can be run without an internet connection. 
 
-Pynteny may be run from within a graphical interface made with [Streamlit](https://streamlit.io). The app is run on a local server in your machine, thus all files are kept locally and the app can run without an internet connection. 
-
-To run the app, execute the following command once pyteny has been successfully installed:
+To run the app, execute the following command once pynteny has been successfully installed:
 
 ```bash
 conda activate pynteny
 pynteny app
 ```
 
-![pynyeny-gif](assets/pynteny_1.gif)
+![pynyeny-gif](assets/pynteny_app.gif)
+
 
 ## Citation
 

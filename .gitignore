@@ -14,4 +14,4 @@ dist/
 *.egg-info
 hmm_data/
 ms/
-wiki_commands/*
+wiki/*
