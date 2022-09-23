@@ -38,6 +38,7 @@ class Pynteny():
                 "download \n"
                 "app \n"
                 "tests \n"
+                "cite \n"
                 ),
             dest="subcommand",
             metavar="",
@@ -104,13 +105,13 @@ class Pynteny():
                             metavar="", dest="synteny_struc", 
                             type=str, required=True,
                             help=(
-                                f"string displaying hmm sctructure to search for, such as: \n"
+                                f"string displaying hmm structure to search for, such as: \n"
                                 f" \n"
                                 f"'>hmm_a n_ab <hmm_b n_bc hmm_c'\n"
                                 f" \n"
                                 f"where '>' indicates a hmm target located on the positive strand, \n"
                                 f"'<' a target located on the negative strand, and n_ab cooresponds \n"
-                                f"to the maximum number of genes separating matched gene a and b. \n" 
+                                f"to the maximum number of genes separating matched genes a and b. \n" 
                                 f"Multiple hmms may be employed. \n"
                                 f"No order symbol in a hmm indicates that results should be independent \n"
                                 f"of strand location. "
@@ -312,6 +313,25 @@ class Pynteny():
         parser._action_groups.append(optional)
         args = parser.parse_args(self._subcommand_args)
         sub.run_tests()
+
+    def cite(self):
+        """
+        Print pynteny's citation string
+        """
+        parser = argparse.ArgumentParser(
+            description=(
+                "Print pynteny's citation string."
+                ),
+            epilog="  \n",
+            usage=("pynteny cite [-h] \n"),
+            formatter_class=argparse.RawTextHelpFormatter
+            )
+        optional = parser._action_groups.pop()
+        required = parser.add_argument_group("required arguments")
+        parser._action_groups.append(optional)
+        args = parser.parse_args(self._subcommand_args)
+        args.version = __version__
+        sub.get_citation(args)
 
 
 def main():

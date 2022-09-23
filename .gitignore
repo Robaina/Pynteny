@@ -14,5 +14,4 @@ dist/
 *.egg-info
 hmm_data/
 ms/
-webapp_test/
-old_steamlit_app/*
+wiki_commands/*

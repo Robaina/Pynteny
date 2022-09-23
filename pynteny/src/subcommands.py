@@ -252,3 +252,14 @@ def run_tests() -> None:
     tests_path = Path(Path(Path(__file__).parent).parent) / "tests"
     cmd_str = f"python -m unittest discover {tests_path}"
     terminalExecute(cmd_str, work_dir=tests_path)
+
+def get_citation(args) -> None:
+    """
+    Get Pynteny citation string
+    """
+    citation = (
+        "Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy"
+        f"(Version {args.version}). Zenodo. https://doi.org/10.5281/zenodo.7048685"
+    )
+    print("If you use this software, please cite it as below: ")
+    print(citation)

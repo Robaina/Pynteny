@@ -56,7 +56,17 @@ $$\lt HMM_a \space n_{ab} \space \lt HMM_b \space n_{bc} \space \lt(HMM_{c1}|HMM
 * `pynteny build`: predict ORFs with [prodigal]()and add positional information to each ORF &mdash; i.e., loci and gene number within assembled contig. Alternatively, the user can provide their own ORF annotations in GenBank format.
 * `pynteny download`: downloads the latest version of the [NCBI Prokaryotic Genome Annotation Pipeline](https://github.com/ncbi/pgap) (PGAP) HMM database. However, the user may provide their own HMM database.
 
-## Pynteny in a graphical interface
+## Graphical interface
+
+Pynteny may be run from within a graphical interface made with [Streamlit](https://streamlit.io). The app is run on a local server in your machine, thus all files are kept locally and the app can run without an internet connection. 
+
+To run the app, execute the following command once pyteny has been successfully installed:
+
+```bash
+conda activate pynteny
+pynteny app
+```
+
 ![pynyeny-gif](assets/pynteny_1.gif)
 
 ## Citation
