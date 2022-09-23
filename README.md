@@ -51,7 +51,7 @@ conda activate pynteny
 pynteny <subcommand> <options>
 ```
 
-![pynyeny-cli](assets/pynteny_cli.png)
+<img src="assets/pynteny_cli.png" alt="pynyeny-cli" style="display:block;margin-left:auto;margin-right:auto;">
 
 
 There are a number of available subcommands, which can be explore in the [wiki](https://github.com/Robaina/Pynteny/wiki) pages.
@@ -66,7 +66,7 @@ conda activate pynteny
 pynteny app
 ```
 
-![pynyeny-gif](assets/pynteny_app.gif)
+<img src="assets/pynteny_app.gif" alt="pynyeny-app" style="display:block;margin-left:auto;margin-right:auto;">
 
 
 ## Citation
