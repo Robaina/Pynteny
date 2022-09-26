@@ -342,8 +342,8 @@ class Database():
         @paramms:
         data: path to either assembly fasta file (or a
               directory containing assembly fasta files) or
-              a genbak file containing ORF annotations (or a
-              directory containing genbak files)
+              a genbank file containing ORF annotations (or a
+              directory containing genbank files)
         """
         self._data = Path(data)
         if not self._data.exists():
