@@ -10,7 +10,9 @@
 
 ## :bulb: What is Pynteny?
 
-Pynteny is a command-line tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in (assembled) sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/).
+Pynteny is Python tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/).
+
+Pynteny can be accessed through the command line or as a (locally served) web application.
 
 Get more info in the [wiki](https://github.com/Robaina/Pynteny/wiki) pages!
 
