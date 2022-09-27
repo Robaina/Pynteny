@@ -52,8 +52,8 @@ st.components.v1.html(f"<script>{js_text}</script>")
 search_state = CommandArgs(
     data=None,
     synteny_struc=None,
-    hmm_dir=Path("/home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP"),
-    hmm_meta=Path("/home/robaina/Documents/Pynteny/hmm_data/hmm_PGAP_no_missing.tsv"),
+    hmm_dir=None,
+    hmm_meta=None,
     outdir=None,
     prefix="",
     processes=None,

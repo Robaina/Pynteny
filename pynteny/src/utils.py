@@ -8,14 +8,10 @@ Functions and classes for general purposes
 from __future__ import annotations
 import os
 import sys
-# import psutil
 import logging
 import shutil
-# import random
-# import string
 import subprocess
 import tarfile
-# import pickle
 import json
 from pathlib import Path
 from functools import partial
@@ -92,140 +88,6 @@ class ConfigParser():
         return self._config[key]
 
 
-# class TemporaryFilePath:
-#     """
-#     Custom context manager to create a temporary file
-#     which is removed when exiting context manager
-#     """
-#     def __init__(self,
-#                  work_dir: str = None,
-#                  extension: str = None,
-#                  create_file: bool = False):
-#         self.work_dir = work_dir or ''
-#         self.extension = extension or ''
-#         self.create_file = create_file
-
-#     def __enter__(self):
-#         temp_id = ''.join(
-#         random.choice(string.ascii_lowercase) for i in range(10)
-#         )
-#         self.file_path = os.path.join(
-#             self.work_dir, f'temp_{temp_id}{self.extension}'
-#             )
-#         if self.create_file:
-#             os.mkdir(self.file_path)
-#         return self.file_path
-
-#     def __exit__(self, exc_type, exc_val, exc_tb):
-#         if os.path.exists(self.file_path):
-#             os.remove(self.file_path)
-            
-
-# class TemporaryDirectoryPath:
-#     """
-#     Custom context manager to create a temporary directory
-#     which is removed when exiting context manager
-#     """
-#     def __init__(self, work_dir: str = None):
-#         self.work_dir = work_dir or ''
-
-#     def __enter__(self):
-#         temp_id = ''.join(
-#         random.choice(string.ascii_lowercase) for i in range(10)
-#         )
-#         self.dir_path = os.path.join(
-#             self.work_dir, f'temp_{temp_id}/'
-#             )
-#         os.mkdir(self.dir_path)
-#         return self.dir_path
-
-#     def __exit__(self, exc_type, exc_val, exc_tb):
-#         if os.path.exists(self.dir_path):
-#             shutil.rmtree(self.dir_path)
-
-
-# class DictMerger():
-#     def __init__(self, dicts: list[dict]) -> None:
-#         """
-#         Tools to merge python dictionaries into a single one
-#         @param
-#         dicts: list of dictionaries to be merged
-#         """
-#         self._dict_list = dicts
-    
-#     @classmethod
-#     def fromPicklePaths(cls, dict_paths: list[Path]) -> DictMerger:
-#         """
-#         Initialize class from list of paths to dictionaries (pickle)
-#         """
-#         dict_list = [
-#             cls.readFromPickleFile(dict_path.strip()) for dict_path in dict_paths
-#         ]
-#         return cls(dicts=dict_list)
-    
-#     @staticmethod
-#     def readFromPickleFile(path_to_file: Path = "object.pkl"):
-#         """
-#         Load python object from pickle file.
-#         Returns python object.
-#         """
-#         in_file = open(path_to_file,'rb')
-#         python_object = pickle.load(in_file)
-#         in_file.close()
-#         return python_object
-
-#     @staticmethod
-#     def saveToPickleFile(python_object, path_to_file: Path = "object.pkl"):
-#         """
-#         Save python object to pickle file
-#         """
-#         out_file = open(path_to_file,'wb')
-#         pickle.dump(python_object, out_file)
-#         out_file.close()
-
-#     def merge(self, dict_prefixes: list[str] = None, save_pickle_path: Path = None) -> dict:
-#         """
-#         Merge dictionaries
-#         @params
-#         dict_prefixes: list of strings containing prefixes to be added to
-#                 values in each dict (optional)
-#         """
-#         if dict_prefixes is None:
-#             dict_prefixes = ['' for _ in range(len(self._dict_list))]
-#         else:
-#             dict_prefixes = dict_prefixes
-
-#         merged_dict =  {
-#             key: prefix + value
-#             for prefix, dict_object in zip(dict_prefixes, self._dict_list) 
-#             for (key, value) in dict_object.items()
-#             }
-
-#         if save_pickle_path is not None:
-#             self.saveToPickleFile(merged_dict, save_pickle_path)
-#         return merged_dict
-
-
-# def createTemporaryFilePath(work_dir: str = None, extension: str = None):
-#     """
-#     Converted into custom context manager
-#     """
-#     if work_dir is None:
-#         work_dir = ''
-#     if extension is None:
-#         extension = ''
-#     temp_id = ''.join(
-#         random.choice(string.ascii_lowercase) for i in range(10)
-#         )
-#     return os.path.join(work_dir, f'temp_{temp_id}{extension}')
-    
-# def deleteTemporaryFiles(dir_path: str) -> None:
-#     """
-#     Remove files from directory
-#     """
-#     for fname in os.listdir(dir_path):
-#         os.remove(os.path.join(dir_path, fname))
-
 def setDefaultOutputPath(input_path: Path, tag: str = None,
                          extension: str = None,
                          only_filename: bool = False,
@@ -249,24 +111,6 @@ def setDefaultOutputPath(input_path: Path, tag: str = None,
         return Path(dirname)
     else:
         return Path(os.path.abspath(os.path.join(dirname, default_file)))
-
-# def saveToPickleFile(python_object, path_to_file: Path = "object.pkl"):
-#     """
-#     Save python object to pickle file
-#     """
-#     out_file = open(path_to_file,'wb')
-#     pickle.dump(python_object, out_file)
-#     out_file.close()
-    
-# def readFromPickleFile(path_to_file: Path = "object.pkl"):
-#     """
-#     Load python object from pickle file.
-#     Returns python object.
-#     """
-#     in_file = open(path_to_file,'rb')
-#     python_object = pickle.load(in_file)
-#     in_file.close()
-#     return python_object
 
 def terminalExecute(command_str: str,
                     suppress_shell_output=False,
@@ -303,12 +147,6 @@ def parallelizeOverInputFiles(callable,
     p.close()
     p.join()
 
-# def fullPathListDir(directory: Path) -> list[Path]:
-#     """
-#     Return full path of files in provided directory
-#     """
-#     return list(directory.iterdir())
-
 def isTarFile(tar_file: Path) -> bool:
     tar_file_str = tar_file.as_posix()
     return (
@@ -343,19 +181,6 @@ def listTarDir(tar_dir: Path) -> list:
         files = tar_obj.getnames()
     return files
 
-# def easyPatternMatching(text: str, left_pattern: str, right_pattern: str = None) -> str:
-#     """
-#     Just straightforward string searchs between two patterns
-#     """
-#     idx1 = text.find(left_pattern)
-#     left_subtext = text[idx1 + len(left_pattern):]
-#     if right_pattern is not None:
-#         idx2 = left_subtext.find(right_pattern)
-#         matched_text = left_subtext[:idx2]
-#     else:
-#         matched_text = left_subtext
-#     return matched_text
-
 def flattenDirectory(directory: Path) -> None:
     """
     Flatten directory, i.e. remove all subdirectories and
@@ -384,19 +209,3 @@ def isRightListNestedType(list_object: list, inner_type: type) -> bool:
     check if all elements in list are of right type
     """
     return all(isinstance(x, inner_type) for x in list_object)
-
-# def kill_process(proc_pid):
-#     process = psutil.Process(proc_pid)
-#     for proc in process.children(recursive=True):
-#         proc.kill()
-#     process.kill()
-
-# def get_pids_by_name(process_name: str) -> list:
-#     """
-#     Return IDs of processes with given name
-#     """
-#     return [
-#         proc.pid 
-#         for proc in psutil.process_iter() 
-#         if process_name in proc.name()
-#         ]
