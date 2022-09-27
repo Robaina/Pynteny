@@ -66,6 +66,16 @@ class SyntenyHMMfilter():
 
         @param: hmm_hits, a dict of pandas DataFrames, as output by
                 parseHMMsearchOutput with keys corresponding to hmm names
+
+        @param: synteny_structure, a str describing the desired synteny structure,
+                structured as follows:
+
+                'hmm_a N_ab hmm_b'
+
+                where N_ab corresponds to the maximum number of genes separating 
+                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+                to the name of the hmm as provided in the keys of hmm_hits.
+                More than two hmms can be concatenated.
         """
         self._hmm_hits = hmm_hits
         self._hmms = list(hmm_hits.keys())
@@ -153,15 +163,6 @@ class SyntenyHMMfilter():
     def filterHitsBySyntenyStructure(self) -> dict:
         """
         Search for contigs that satisfy the given gene synteny structure
-        @param: synteny_structure, a str describing the desired synteny structure,
-                structured as follows:
-
-                'hmm_a N_ab hmm_b'
-
-                where N_ab corresponds to the maximum number of genes separating 
-                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
-                to the name of the hmm as provided in the keys of hmm_hits.
-                More than two hmms can be concatenated.
         """
         all_matched_hits = {}
         filters = SyntenyPatternFilters(self._synteny_structure)
