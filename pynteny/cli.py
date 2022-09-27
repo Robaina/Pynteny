@@ -152,7 +152,7 @@ class Pynteny():
         optional.add_argument("-g", "--gene_ids", dest="gene_ids",
                              default=False, action="store_true",
                              help=(
-                                "use gene symbols in synteny structure instead of HMM nanmes. \n"
+                                "use gene symbols in synteny structure instead of HMM names. \n"
                                 "If set, a path to the hmm database metadata file must be provided \n"
                                 "in argument '--hmm_meta'"
                                 )

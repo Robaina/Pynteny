@@ -28,7 +28,8 @@ class TestSyntenySearch(unittest.TestCase):
                 prefix="",
                 hmmsearch_args=None,
                 gene_ids=False,
-                logfile=None
+                logfile=None,
+                processes=None
                 )
             synhits = synteny_search(search_state).getSyntenyHits()
             os.remove(os.path.join(this_file_dir.parent, "config.json"))
