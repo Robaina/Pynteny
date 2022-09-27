@@ -101,6 +101,7 @@ def synteny_search(args) -> SyntenyHits:
     logger.info('Searching database by synteny structure')
     synteny_hits = filterFASTAbySyntenyStructure(
         synteny_structure=args.synteny_struc,
+        ordered=args.ordered,
         input_fasta=args.data,
         input_hmms=input_hmms,
         hmm_meta=args.hmm_meta,

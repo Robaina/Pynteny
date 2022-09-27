@@ -60,7 +60,8 @@ search_state = CommandArgs(
     hmmsearch_args=None,
     gene_ids=True,
     logfile=None,
-    synteny_hits=None
+    synteny_hits=None,
+    unordered=False
     )
 
 build_state = CommandArgs(

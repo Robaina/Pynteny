@@ -21,22 +21,44 @@ logger = logging.getLogger(__name__)
 
 
 class SyntenyPatternFilters():
-    def __init__(self, synteny_structure: str) -> None:
+    def __init__(self, synteny_structure: str, unordered: bool = False) -> None:
+        """
+        Methods to filter hmm hits in the  same contig by synteny structure
+        or collinearity. To be applied in pandas.Series.rolling.apply method.
+
+        @param: synteny_structure: string coontaining the synteny structure
+                to be searched for
+        @param: unordered, boolean, whether the HMMs should be arranged in the
+                exact same order displayed in the synteny_structure or in 
+                any order If ordered, the filters would filter collinear rather
+                than syntenic structures.
+        """
         parsed_structure = SyntenyParser.parseSyntenyStructure(synteny_structure)
         hmm_order_dict = dict(
             zip(parsed_structure["hmm_groups"], range(len(parsed_structure["hmm_groups"])))
             )
         hmm_codes = list(hmm_order_dict.values())
         self.hmm_code_order_pattern = hmm_codes
-        parsed_distances = [float("inf")] + parsed_structure["distances"]
-        self.distance_order_pattern = [dist + 1 for dist in parsed_distances]
+
+        if unordered:
+            max_distance = max(parsed_structure["distances"])
+            distances = [float("inf")] + [max_distance for _ in parsed_structure["distances"]]
+            self.distance_order_pattern = [dist + 1 for dist in distances]
+        else:
+            distances = [float("inf")] + parsed_structure["distances"]
+            self.distance_order_pattern = [dist + 1 for dist in distances]
+
         self.strand_order_pattern = list(map(
             lambda strand : -1 if strand == "neg" else (1 if strand ==  "pos" else 0),
             parsed_structure["strands"]
             ))
+        self._unordered = unordered
 
     def contains_hmm_pattern(self, data: pd.Series) -> int:
-        return 1 if data.values.tolist() == self.hmm_code_order_pattern else 0
+        if self._unordered:
+            return 1 if set(data.values) == set(self.hmm_code_order_pattern) else 0
+        else:
+            return 1 if data.values.tolist() == self.hmm_code_order_pattern else 0
 
     def contains_distance_pattern(self, data: pd.Series) -> int:
         return 1 if all(
@@ -53,14 +75,14 @@ class SyntenyPatternFilters():
                 strand_comparisons.append(data_strand == pattern_strand)
             else:
                 strand_comparisons.append(True)
-        return 1 if all(strand_comparisons) == True else 0   
+        return 1 if all(strand_comparisons) == True else 0
 
 
 class SyntenyHMMfilter():
     """
     Tools to search for synteny structures among sets of hmm models
     """
-    def __init__(self, hmm_hits: dict, synteny_structure: str) -> None:
+    def __init__(self, hmm_hits: dict, synteny_structure: str, unordered: bool = True) -> None:
         """
         Search for contigs that satisfy the given gene synteny structure
 
@@ -76,15 +98,25 @@ class SyntenyHMMfilter():
                 gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
                 to the name of the hmm as provided in the keys of hmm_hits.
                 More than two hmms can be concatenated.
+
+        @param: uordered, boolean, whether the HMMs should be arranged in the
+                exact same order displayed in the synteny_structure or in 
+                any order If ordered, the filters would filter collinear rather
+                than syntenic structures.
         """
+        self._unordered = unordered
         self._hmm_hits = hmm_hits
         self._hmms = list(hmm_hits.keys())
         self._synteny_structure = synteny_structure
         self._parsed_structure = SyntenyParser.parseSyntenyStructure(self._synteny_structure)
+        if self._unordered:
+            self._parsed_structure["strands"] = ["" for _ in self._parsed_structure["strands"]]
+            logger.warning("Disregarding strand location as unordered structured selected")
         self._hmm_order_dict = dict(
             zip(self._parsed_structure["hmm_groups"], range(len(self._parsed_structure["hmm_groups"])))
             )
         self._n_hmm_groups = len(self._hmm_order_dict)
+        self._unordered = unordered
 
     def _assignCodeToHMM(self, hmm_group_name: str) -> int:
         hmm_group_name = str(hmm_group_name)
@@ -165,7 +197,7 @@ class SyntenyHMMfilter():
         Search for contigs that satisfy the given gene synteny structure
         """
         all_matched_hits = {}
-        filters = SyntenyPatternFilters(self._synteny_structure)
+        filters = SyntenyPatternFilters(self._synteny_structure, unordered=self._unordered)
         all_hit_labels = self.getAllHMMhits()
         contig_names = all_hit_labels.contig.unique()
 
@@ -313,6 +345,7 @@ class SyntenyHits():
 def filterFASTAbySyntenyStructure(synteny_structure: str,
                                   input_fasta: Path,
                                   input_hmms: list[Path],
+                                  unordered: bool = False,
                                   hmm_meta: Path = None,
                                   hmmer_output_dir: Path = None,
                                   reuse_hmmer_results: bool = True,
@@ -324,7 +357,12 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
     to only contain sequences which satisfy the provided (gene/hmm)
     structure
     
-    @Arguments:
+    @Param
+    unordered: bool, whether HMM hits should follow the exact order
+    displayed in the synteny structure string or not, i.e., whether
+    to search for only synteny (colocation) or collinearity as well
+    (same order).
+    @Param
     additional_args: additional arguments to hmmsearch or hmmscan. Each
     element in the list is a string with additional arguments for each 
     input hmm (arranged in the same order), an element can also take a 
@@ -366,7 +404,7 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
         method=method
     )
     logger.info('Filtering results by synteny structure')
-    syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure)
+    syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure, unordered=unordered)
     hits_by_contig = syntenyfilter.filterHitsBySyntenyStructure()
     if hmm_meta is not None:
         return SyntenyHits.fromHitsDict(hits_by_contig).addHMMmetaInfoToHits(hmm_meta)
