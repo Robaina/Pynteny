@@ -2,7 +2,6 @@ import os
 from importlib import metadata
 
 import streamlit as st
-from PIL import Image
 
 from pynteny.src.app.helpers import Callbacks, FileManager, Plotter
 
@@ -10,7 +9,6 @@ from pynteny.src.app.helpers import Callbacks, FileManager, Plotter
 meta = metadata.metadata("pynteny")
 __version__ = meta["Version"]
 __author__ = meta["Author"]
-icon = Image.open("assets/logo.png")
 
 
 class Sidebar:
@@ -18,7 +16,9 @@ class Sidebar:
     def show():
 
         st.sidebar.image(
-            icon, use_column_width=True, caption=f"Synteny-aware HMM searches made easy (v{__version__})"
+            st.session_state.sidebar_icon,
+            use_column_width=True,
+            caption=f"Synteny-aware HMM searches made easy (v{__version__})"
         )
 
         st.sidebar.text(" ")

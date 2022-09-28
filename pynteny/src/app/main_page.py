@@ -5,7 +5,7 @@ import streamlit as st
 from PIL import Image
 
 from pynteny.src.utils import CommandArgs
-from pynteny.src.app.helpers import ExampleSearch, Logger
+from pynteny.src.app.helpers import ExampleSearch
 from pynteny.src.app.components import Sidebar, Mainpage
 
 
@@ -16,8 +16,9 @@ __author__ = meta["Author"]
 
 
 APP_TITLE = "Pynteny — Synteny-aware HMM searches made easy"
-icon = Image.open("assets/logo.png")
-favicon = Image.open("assets/favicon.png")
+icon = Image.open(parent_dir / "assets/img/logo.png")
+favicon = Image.open(parent_dir / "assets/img/favicon.png")
+st.session_state.sidebar_icon = icon
 
 st.set_page_config(
     page_title=APP_TITLE,
@@ -40,11 +41,11 @@ st.set_page_config(
     }
 )
 
-with open(parent_dir / "styles.css", "r") as file:
+with open(parent_dir / "assets/styles.css", "r") as file:
     css_text = file.read()
 st.markdown(f"<style>{css_text}</style>", unsafe_allow_html=True)
 
-with open(parent_dir / "script.js", "r") as file:
+with open(parent_dir / "assets/script.js", "r") as file:
     js_text = file.read()
 st.components.v1.html(f"<script>{js_text}</script>")
 

@@ -1,5 +1,5 @@
 include pynteny/tests/*
 include pynteny/tests/test_data/*
 include pynteny/tests/test_data/hmms/*
-include pynteny/src/app/styles.css
-include pynteny/src/app/script.js
+include pynteny/src/app/assets/*
+include pynteny/src/app/assets/img/*
