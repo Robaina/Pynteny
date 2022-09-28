@@ -101,6 +101,7 @@ def synteny_search(args) -> SyntenyHits:
     logger.info('Searching database by synteny structure')
     synteny_hits = filterFASTAbySyntenyStructure(
         synteny_structure=args.synteny_struc,
+        unordered=args.unordered,
         input_fasta=args.data,
         input_hmms=input_hmms,
         hmm_meta=args.hmm_meta,
@@ -241,8 +242,16 @@ def run_app() -> None:
     """
     Run Pynteny app through streamlit
     """
+    config = ConfigParser.get_default_config()
+    config_path = config.get_config_path()
+    logfile = str(Path(config_path.parent) / "streamlit.log")
+    config.update_config("streamlit_log", logfile)
     app_path = Path(Path(__file__).parent) / "app" / "main_page.py"
-    cmd_str = f"streamlit run {app_path} --browser.gatherUsageStats False --server.fileWatcherType none"
+    log_str = f"--logger.level=info 2> {logfile}"
+    cmd_str = (
+        f"streamlit run {app_path} --browser.gatherUsageStats False --server.fileWatcherType none "
+        f"{log_str}"
+        )
     terminalExecute(cmd_str)
 
 def run_tests() -> None:

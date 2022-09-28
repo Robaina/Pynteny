@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 
 import pandas as pd
@@ -90,6 +91,7 @@ class Callbacks:
         if st.session_state.search_state.data is not None and st.session_state.search_state.data.exists():
             synhits = synteny_search(st.session_state.search_state).getSyntenyHits()
             st.session_state.search_state.synteny_hits = synhits[[c for c in synhits.columns if c !="full_label"]]
+            Logger.updateLog()
         else:
             st.warning("Please, first upload a sequence database file")
 
@@ -103,6 +105,7 @@ class Callbacks:
             st.session_state.build_state.outfile = Path(st.session_state.search_state.data.parent) / f"{st.session_state.search_state.data.stem}_labelled.faa"
             st.session_state.search_state.data = st.session_state.build_state.outfile
             build_database(st.session_state.build_state)
+            Logger.updateLog()
 
     @staticmethod
     def uploadData():
@@ -145,6 +148,14 @@ class Callbacks:
         st.session_state.search_state.processes = st.session_state.processes
 
     @staticmethod
+    def selectLogPath():
+        if st.session_state.log == "Yes":
+            logfile = Path(st.session_state.outdir) / "pynteny.log"
+        else:
+            logfile = None
+        st.session_state.pynteny_log = logfile
+
+    @staticmethod
     def close_session():
         icon = Image.open("assets/logo.png")
         st.text(" ")
@@ -182,6 +193,19 @@ class Plotter:
         )
         return grid_response
 
+
+class Logger:
+    @staticmethod
+    def updateLog():
+        """
+        Update Pynteny log with Streamlit log info
+        """
+        config = ConfigParser.get_default_config()
+        streamlit_log = config.get_field("streamlit_log")
+        Callbacks.selectLogPath()
+        if st.session_state.pynteny_log is not None:
+            shutil.copy(streamlit_log, st.session_state.pynteny_log)
+        
 
 class ExampleSearch:
      @staticmethod

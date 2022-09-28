@@ -157,6 +157,14 @@ class Pynteny():
                                 "in argument '--hmm_meta'"
                                 )
         )
+        optional.add_argument("-u", "--unordered", dest="unordered",
+                             default=False, action="store_true",
+                             help=(
+                                "whether the HMMs should be arranged in the exact same order displayed \n"
+                                "in the synteny_structure or in  any order If ordered, the filters would \n"
+                                "filter collinear rather than syntenic structures."
+                                )
+        )
         optional.add_argument("-m", "--hmm_meta", dest="hmm_meta", type=Path, default=None,
                              metavar="",
                              required=False, help="path to hmm database metadata file"
