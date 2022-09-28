@@ -5,7 +5,7 @@ import streamlit as st
 from PIL import Image
 
 from pynteny.src.utils import CommandArgs
-from pynteny.src.app.helpers import ExampleSearch
+from pynteny.src.app.helpers import ExampleSearch, Logger
 from pynteny.src.app.components import Sidebar, Mainpage
 
 
@@ -87,10 +87,10 @@ if "outdir" not in st.session_state:
     st.session_state.outdir = Path.cwd()
 if "sequence_data_uploaded" not in st.session_state:
     st.session_state.sequence_data_uploaded = False
+if "pynteny_log" not in st.session_state:
+    st.session_state.pynteny_log = None
 
-
-ExampleSearch.setExample()
 
 Sidebar.show()
-
 Mainpage.show()
+ExampleSearch.setExample()

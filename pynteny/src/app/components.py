@@ -53,7 +53,7 @@ class Sidebar:
             with col2:
                 st.button("HMM metadata", on_click=Callbacks.selectHMMmeta)
             
-            col1, col2 = st.columns([0.4, 0.6])
+            col1, col2, col3 = st.columns([0.4, 0.3, 0.3])
             with col1:
                 st.markdown(("Processes:"))
                 st.slider("Processes",
@@ -61,6 +61,10 @@ class Sidebar:
                         value=os.cpu_count() - 1, step=1,
                         on_change=Callbacks.setNumberOfProcesses, key="processes"
                         )
+            with col2:
+                st.markdown(("Output log:"))
+                output_log = st.select_slider("", options=["No", "Yes"], value="Yes",
+                             on_change=Callbacks.selectLogPath, key="log")
         st.sidebar.text(" ")
         col1, col2 = st.sidebar.columns([1, 1])
         with col1:
@@ -115,13 +119,17 @@ class Mainpage:
             )
 
         with st.expander("", expanded=True):
-            col1, col2 = st.columns([0.8, 0.2])
+            col1, col2, col3 = st.columns([0.7, 0.15, 0.15])
             with col1:
                 st.session_state.search_state.synteny_struc = st.text_input("", "<leuD 0 <leuC 1 leuA")
             with col2:
                 locus_repr = st.select_slider("", options=["Gene ID", "HMM"], value="Gene ID")
+            with col3:
+                ordered_struc = st.select_slider("", options=["ordered", "unordered"], value="ordered")
             gene_ids = True if locus_repr == "Gene ID" else False
+            unordered = False if ordered_struc == "ordered" else True
             st.session_state.search_state.gene_ids = gene_ids
+            st.session_state.search_state.unordered = unordered
             st.button("Search!", on_click=Callbacks.search)
         
         if st.session_state.search_state.synteny_hits is not None:

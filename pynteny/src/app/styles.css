@@ -36,10 +36,6 @@ table thead, tbody tr > td:first-child {
   font-size: large;
 }
 
-/* .streamlit-expanderHeader[aria-expanded="true"] svg{
-  display: none;
-} */
-
 .pynteny-expander-info {
   background-color: blueviolet !important;
 }
@@ -70,5 +66,9 @@ footer > a {
 } */
 
 #bui-1 div .css-1uh038d {
+  display: none;
+}
+
+div[data-testid="stTickBar"] {
   display: none;
 }

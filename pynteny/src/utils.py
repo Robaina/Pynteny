@@ -59,6 +59,12 @@ class ConfigParser():
                 json.dump(config, f, indent=4)
         return config_file
     
+    def get_config_path(self) -> Path:
+        """
+        Show config file path
+        """
+        return self._config_file
+
     def get_config(self) -> dict:
         """
         load config file
