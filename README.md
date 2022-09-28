@@ -1,4 +1,4 @@
-![logo](assets/logo.png)
+![logo](https://user-images.githubusercontent.com/21340147/192824830-dcbe8d09-2b10-431d-bd9a-b4624192dcc9.png)
 <br>
 
 # Synteny-aware hmm searches made easy
