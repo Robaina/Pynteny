@@ -25,9 +25,9 @@ def runSeqKitNoDup(input_fasta: Path, output_fasta: Path = None,
     else:
         dup_str = ""
     cmd_str = (
-        f"seqkit rmdup {input_fasta} -s {dup_str} -o {output_fasta.as_posix()}"
+        f"seqkit rmdup {input_fasta} -s {dup_str} -o {output_fasta.as_posix()} --quiet"
     )
-    terminalExecute(cmd_str)
+    terminalExecute(cmd_str, suppress_shell_output=True)
 
 def runProdigal(input_file: Path,
                 output_file: Path = None,

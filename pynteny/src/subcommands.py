@@ -18,9 +18,6 @@ from pynteny.src.utils import CommandArgs, ConfigParser, isTarFile, terminalExec
 from pynteny.src.preprocessing import Database
 
 
-requests_logger = logging.getLogger('seqkit')
-requests_logger.setLevel(logging.ERROR)
-
 
 def synteny_search(args) -> SyntenyHits:
     """
@@ -148,7 +145,7 @@ def build_database(args) -> None:
     )
     logger.info("Database built successfully!")
 
-def parse_gene_ids(args) -> None:
+def parse_gene_ids(args) -> str:
     """
     Convert gene symbols to hmm names.
     """
@@ -174,7 +171,8 @@ def parse_gene_ids(args) -> None:
         synteny_structure=args.synteny_struc,
         hmm_meta=args.hmm_meta
         )
-    logger.info(f"Found the following HMMs in database for given structure:\{gene_synteny_struc}")
+    logger.info(f'Translated \n "{args.synteny_struc}" \n to \n "{gene_synteny_struc}" \n according to provided HMM database metadata')
+    return gene_synteny_struc
 
 def download_hmms(args) -> None:
     """
@@ -262,13 +260,15 @@ def run_tests() -> None:
     cmd_str = f"python -m unittest discover {tests_path}"
     terminalExecute(cmd_str, work_dir=tests_path)
 
-def get_citation(args) -> None:
+def get_citation(args, silent: bool = False) -> str:
     """
     Get Pynteny citation string
     """
     citation = (
-        "Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy"
+        "Semidán Robaina Estévez (2022). Pynteny: synteny-aware hmm searches made easy"
         f"(Version {args.version}). Zenodo. https://doi.org/10.5281/zenodo.7048685"
     )
-    print("If you use this software, please cite it as below: ")
-    print(citation)
+    if not silent:
+        print("If you use this software, please cite it as below: ")
+        print(citation)
+    return citation

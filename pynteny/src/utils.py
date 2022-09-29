@@ -126,13 +126,11 @@ def terminalExecute(command_str: str,
     Execute given command in terminal through Python
     """
     if suppress_shell_output:
-        stdout = subprocess.DEVNULL
-    else:
-        stdout = None
+        suppress_code = ">/dev/null 2>&1"
+        command_str = f"{command_str} {suppress_code}"
     output = subprocess.run(
         command_str, shell=True,
-        cwd=work_dir, capture_output=return_output,
-        stdout=stdout
+        cwd=work_dir, capture_output=return_output
         )
     return output
 
