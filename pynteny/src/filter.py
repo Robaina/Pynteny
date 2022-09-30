@@ -6,6 +6,7 @@ Tools to filter HMM hits by synteny structure
 """
 
 from __future__ import annotations
+import time
 import os
 import sys
 import logging
@@ -335,7 +336,9 @@ class SyntenyHits():
             if record_ids:
                 fasta.filterByIDs(
                     record_ids=record_ids,
-                    output_file=output_fasta
+                    output_file=output_fasta,
+                    point_to_new_file=False
+
                 )
             else:
                 logger.warning(f"No record matches found in synteny structure for HMM: {hmm_group}")

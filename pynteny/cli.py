@@ -146,7 +146,7 @@ class SubcommandParser():
         parser = getattr(SubcommandParser, subcommand)()
         with tempfile.NamedTemporaryFile(mode="w+") as file:
             parser.print_help(file)
-            file.read()
+            file.flush()
             with open(file.name) as help_file:
                 help_str = help_file.read()
         return help_str

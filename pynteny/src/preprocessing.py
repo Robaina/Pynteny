@@ -106,7 +106,8 @@ class FASTA():
     def removeDuplicates(self,
                          output_file: Path = None,
                          export_duplicates: bool = False,
-                         method: str = 'seqkit') -> None:
+                         method: str = 'seqkit',
+                         point_to_new_file: bool = True) -> None:
         """
         Removes duplicate entries (either by sequence or ID) from fasta.
         """
@@ -126,12 +127,14 @@ class FASTA():
         else:
             wrappers.runSeqKitNoDup(input_fasta=self._input_file, output_fasta=output_file,
                                     export_duplicates=export_duplicates)
-        self.setFilePath(output_file)
+        if point_to_new_file:
+            self.setFilePath(output_file)
 
     def removeCorruptedSequences(self,
                                  output_file: Path = None,
                                  is_peptide: bool = True,
-                                 keep_stop_codon: bool = False) -> None:
+                                 keep_stop_codon: bool = False,
+                                 point_to_new_file: bool = True) -> None:
         """
         Filter out (DNA or peptide) sequences containing illegal characters
         """
@@ -151,10 +154,12 @@ class FASTA():
                     record_seq = RecordSequence.removeStopCodonSignals(record_seq)
                 if isLegitSequence(record_seq):
                     outfile.write(f'>{record_name}\n{record_seq}\n')
-        self.setFilePath(output_file)
+        if point_to_new_file:
+            self.setFilePath(output_file)
 
     def filterByIDs(self, record_ids: list,
-                    output_file: Path = None) -> None:
+                    output_file: Path = None,
+                    point_to_new_file: bool = True) -> None:
         """
         Filter records in fasta file matching provided IDs
         """
@@ -166,8 +171,9 @@ class FASTA():
             tmp_ids.flush()
             tmp_ids_path = tmp_ids.name
             cmd_str = f"seqkit grep -i -f {tmp_ids_path} {self._input_file} -o {output_file}"
-            utils.terminalExecute(cmd_str, suppress_shell_output=True)
-        self.setFilePath(output_file)
+            utils.terminalExecute(cmd_str, suppress_shell_output=False)
+        if point_to_new_file:
+            self.setFilePath(output_file)
         
     def splitByContigs(self, output_dir: Path = None) -> None:
         """
@@ -186,7 +192,8 @@ class FASTA():
                 file.write(seq + "\n")
 
     def filterByMinimumLength(self, min_length: int,
-                              output_file: Path = None) -> None:
+                              output_file: Path = None,
+                              point_to_new_file: bool  = True) -> None:
         """
         Filter records in fasta file by minimum length
         """
@@ -198,7 +205,8 @@ class FASTA():
             for record_name, record_seq in fasta:
                 if len(record_seq) >= min_length:
                     outfile.write(f'>{record_name}\n{record_seq}\n')
-        self.setFilePath(output_file)
+        if point_to_new_file:
+            self.setFilePath(output_file)
 
 
 class LabelledFASTA(FASTA):

@@ -23,6 +23,10 @@ def synteny_search(args) -> SyntenyHits:
     """
     Search peptide database by synteny structure containing HMMs.
     """
+    logger = logging.getLogger(__name__)
+    if not Path(args.data).exists():
+        logger.error("Sequence data file does not exist")
+        sys.exit(1)
     if args.logfile is None:
         args.logfile = Path(os.devnull)
     elif not Path(args.logfile.parent).exists():
@@ -33,7 +37,6 @@ def synteny_search(args) -> SyntenyHits:
                             logging.StreamHandler(sys.stdout)
                             ],
                         level=logging.NOTSET)
-    logger = logging.getLogger(__name__)
     config = ConfigParser.get_default_config()
     args.synteny_struc = SyntenyParser.reformatSyntenyStructure(args.synteny_struc)
     if not SyntenyParser.isValidStructure(args.synteny_struc):
