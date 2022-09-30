@@ -74,7 +74,7 @@ pynteny app
    <img src="assets/pynteny_app.gif" alt="pynyeny-app">
 </p>
 
-## :notebook: :notebook_with_decorative_cover: Examples
+## :notebook_with_decorative_cover: Examples
 
 In the [examples directory](examples/), you can find a collection of Jupyter Notebooks containing workflows to demonstrate the usate of Pynteny's command line interface as well as the Python API. We invite you to explore Pynteny's web application by executing the command `pynteny app`. Find more info in the [wiki pages](https://github.com/Robaina/Pynteny/wiki).
 
