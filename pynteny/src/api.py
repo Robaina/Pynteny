@@ -10,6 +10,7 @@ from importlib import metadata
 
 from pynteny.src.utils import CommandArgs
 from pynteny.src.filter import SyntenyHits
+from pynteny.cli import SubcommandParser
 from pynteny.src.subcommands import (
     synteny_search, build_database,
     download_hmms, parse_gene_ids, get_citation
@@ -22,11 +23,10 @@ __author__ = meta["Author"]
 
 
 class Command():
-    def __init__(self, name: str = None):
+    def __init__(self):
         """
         Parent class for Pynteny command
         """
-        self_name = name
 
     def _repr_html_(self):
         """

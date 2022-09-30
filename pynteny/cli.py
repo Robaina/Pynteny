@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import annotations
 import sys
 import random
+import tempfile
 import argparse
 from importlib import metadata
 from pathlib import Path
@@ -15,15 +17,16 @@ meta = metadata.metadata("pynteny")
 __version__ = meta["Version"]
 __author__ = meta["Author"]
 
+
 class Pynteny():
     """
     Based on:
     https://selvakumar-arumugapandian.medium.com/command-line-subcommands-with-pythons-argparse-4dbac80f7110
 
     """
-    def __init__(self):
-        self._subcommand = sys.argv[1:2]
-        self._subcommand_args = sys.argv[2:]
+    def __init__(self, subcommand: str, subcommand_args: list[str]):
+        self._subcommand = subcommand
+        self._subcommand_args = subcommand_args
         parser = argparse.ArgumentParser(
             description=(self._printLogo()),
             usage=("pynteny <subcommand> [-h] [args] \n"),
@@ -87,8 +90,69 @@ class Pynteny():
     def _call_subcommand(self, subcommand_name: str) -> None: 
         subcommand = getattr(self, subcommand_name)
         subcommand()
-
+    
     def search(self):
+        parser = SubcommandParser.search()
+        args = parser.parse_args(self._subcommand_args)
+        sub.synteny_search(args)
+
+    def build(self):
+        parser = SubcommandParser.build()
+        args = parser.parse_args(self._subcommand_args)
+        sub.build_database(args)
+
+    def parse(self):
+        parser = SubcommandParser.parse()
+        args = parser.parse_args(self._subcommand_args)
+        sub.parse_gene_ids(args)
+
+    def download(self):
+        parser = SubcommandParser.download()
+        args = parser.parse_args(self._subcommand_args)
+        sub.download_hmms(args)
+    
+    def app(self):
+        """
+        Run pynteny app through Streamlit
+        """
+        parser = SubcommandParser.app()
+        args = parser.parse_args(self._subcommand_args)
+        sub.run_app()
+
+    def tests(self):
+        """
+        Run pynteny unit and integration tests
+        """
+        parser = SubcommandParser.tests()
+        args = parser.parse_args(self._subcommand_args)
+        sub.run_tests()
+
+    def cite(self):
+        """
+        Print pynteny's citation string
+        """
+        parser = SubcommandParser.cite()
+        args = parser.parse_args(self._subcommand_args)
+        args.version = __version__
+        sub.get_citation(args)
+
+
+class SubcommandParser():
+    """
+    Argparse parsers for Pynteny's subcommands
+    """
+    @staticmethod
+    def getHelpStr(subcommand: str) -> str:
+        parser = getattr(SubcommandParser, subcommand)()
+        with tempfile.NamedTemporaryFile(mode="w+") as file:
+            parser.print_help(file)
+            file.read()
+            with open(file.name) as help_file:
+                help_str = help_file.read()
+        return help_str
+
+    @staticmethod
+    def search() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(
             description=(
                 "Query sequence database for HMM hits arranged in provided synteny structure."
@@ -173,10 +237,10 @@ class Pynteny():
                              metavar="",
                              required=False, help="path to log file. Log not written by default."
         )
-        args = parser.parse_args(self._subcommand_args)
-        sub.synteny_search(args)
-
-    def build(self):
+        return parser
+    
+    @staticmethod
+    def build() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(
             description=(
                 "Translate nucleotide assembly file and assign contig and gene location info \n"
@@ -217,11 +281,10 @@ class Pynteny():
                              metavar="",
                              required=False, help="path to log file. Log not written by default."
         )
-        args = parser.parse_args(self._subcommand_args)
-        sub.build_database(args)
-
-
-    def parse(self):
+        return parser
+    
+    @staticmethod
+    def parse() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(
             description=(
                 "Translate synteny structure with gene symbols into one with\n"
@@ -252,10 +315,10 @@ class Pynteny():
                              metavar="",
                              required=False, help="path to log file. Log not written by default."
         )
-        args = parser.parse_args(self._subcommand_args)
-        sub.parse_gene_ids(args)
-
-    def download(self):
+        return parser
+    
+    @staticmethod
+    def download() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(
             description=(
                 "Download HMM database from NCBI."
@@ -284,10 +347,10 @@ class Pynteny():
                              metavar="",
                              required=False, help="path to log file. Log not written by default."
         )
-        args = parser.parse_args(self._subcommand_args)
-        sub.download_hmms(args)
+        return parser
     
-    def app(self):
+    @staticmethod
+    def app() -> argparse.ArgumentParser:
         """
         Run pynteny app through Streamlit
         """
@@ -302,10 +365,10 @@ class Pynteny():
         optional = parser._action_groups.pop()
         required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
-        args = parser.parse_args(self._subcommand_args)
-        sub.run_app()
-
-    def tests(self):
+        return parser
+    
+    @staticmethod
+    def tests() -> argparse.ArgumentParser:
         """
         Run pynteny unit and integration tests
         """
@@ -320,10 +383,10 @@ class Pynteny():
         optional = parser._action_groups.pop()
         required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
-        args = parser.parse_args(self._subcommand_args)
-        sub.run_tests()
-
-    def cite(self):
+        return parser
+    
+    @staticmethod
+    def cite() -> argparse.ArgumentParser:
         """
         Print pynteny's citation string
         """
@@ -338,13 +401,12 @@ class Pynteny():
         optional = parser._action_groups.pop()
         required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
-        args = parser.parse_args(self._subcommand_args)
-        args.version = __version__
-        sub.get_citation(args)
+        return parser
 
 
 def main():
-    pynteny = Pynteny()
+    subcommand, subcommand_args = sys.argv[1:2], sys.argv[2:]
+    pynteny = Pynteny(subcommand, subcommand_args)
     
 if __name__ == "__main__":
     main()
