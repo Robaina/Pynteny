@@ -12,7 +12,7 @@
 
 Pynteny is Python tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/).
 
-Pynteny can be accessed through the command line or as a (locally served) web application.
+Pynteny can be accessed (i) through the command line, (ii) as a Python API or (iii) as a (locally served) web application.
 
 Get more info in the [wiki](https://github.com/Robaina/Pynteny/wiki) pages!
 
@@ -74,6 +74,9 @@ pynteny app
    <img src="assets/pynteny_app.gif" alt="pynyeny-app">
 </p>
 
+## :notebook: Examples
+
+In the [examples directory](examples/), you can find a collection of Jupyter Notebooks containing workflows to demonstrate the usate of Pynteny's command line interface as well as the Python API. We invite you to explore Pynteny's web application by executing the command `pynteny app`. Find more info in the [wiki pages](https://github.com/Robaina/Pynteny/wiki).
 
 ## :black_nib: Citation
 
