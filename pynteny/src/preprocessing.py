@@ -171,7 +171,7 @@ class FASTA():
             tmp_ids.flush()
             tmp_ids_path = tmp_ids.name
             cmd_str = f"seqkit grep -i -f {tmp_ids_path} {self._input_file} -o {output_file}"
-            utils.terminalExecute(cmd_str, suppress_shell_output=False)
+            utils.terminalExecute(cmd_str, suppress_shell_output=True)
         if point_to_new_file:
             self.setFilePath(output_file)
         

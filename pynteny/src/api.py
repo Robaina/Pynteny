@@ -16,7 +16,6 @@ from pynteny.src.subcommands import (
     download_hmms, parse_gene_ids, get_citation
     )
 
-
 meta = metadata.metadata("pynteny")
 __version__ = meta["Version"]
 __author__ = meta["Author"]
@@ -82,15 +81,15 @@ class Search(Command):
         """
 
         self._args = CommandArgs(
-            data=data,
+            data=Path(data),
             synteny_struc=synteny_struc,
-            hmm_dir=hmm_dir,
-            hmm_meta=hmm_meta,
-            outdir=outdir,
+            hmm_dir=Path(hmm_dir) if hmm_dir is not None else hmm_dir,
+            hmm_meta=Path(hmm_meta) if hmm_meta is not None else hmm_meta,
+            outdir=Path(outdir) if outdir is not None else outdir,
             prefix=prefix,
             hmmsearch_args=hmmsearch_args,
             gene_ids=gene_ids,
-            logfile=logfile,
+            logfile=Path(logfile) if logfile is not None else logfile,
             processes=processes,
             unordered=unordered,
             )
@@ -118,7 +117,7 @@ class Build(Command):
     def __init__(
         self,
         data: Path,
-        outfile: Path,
+        outfile: Path = None,
         logfile: Path = None,
         processes: int = None):
 
@@ -128,11 +127,20 @@ class Build(Command):
         """
 
         self._args = CommandArgs(
-            data=data,
-            outfile=outfile,
-            logfile=logfile,
+            data=Path(data),
+            outfile=Path(outfile) if outfile is not None else outfile,
+            logfile=Path(logfile) if logfile is not None else logfile,
             processes=processes
             )
+    
+    @staticmethod
+    def getTestDataPath() -> Path:
+        """
+        Get path of test data genbank file (E. coli MG1655)
+        Published in: https://www.ncbi.nlm.nih.gov/nuccore/U00096.2
+        """
+        this_file_dir = Path(Path(__file__).parent)
+        return Path(this_file_dir.parent) / "tests" / "test_data" / "MG1655.gb"
 
     def run(self) -> None:
         """
@@ -144,8 +152,8 @@ class Build(Command):
 class Download(Command):
     def __init__(
         self,
-        outdir: Path,
-        logfile: Path,
+        outdir: Path = None,
+        logfile: Path = None,
         unpack: bool = False):
 
         """
@@ -153,8 +161,8 @@ class Download(Command):
         """
 
         self._args = CommandArgs(
-            outdir=outdir,
-            logfile=logfile,
+            outdir=Path(outdir) if outdir is not None else outdir,
+            logfile=Path(logfile) if logfile is not None else logfile,
             unpack=unpack
             )
 
