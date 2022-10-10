@@ -9,6 +9,7 @@ test_script.sh
 meta.yaml
 build.sh
 
+.vscode/
 build/
 dist/
 *.egg-info
