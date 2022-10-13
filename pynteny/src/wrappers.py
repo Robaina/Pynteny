@@ -84,18 +84,3 @@ def runHMMsearch(hmm_model: Path, input_fasta: Path,
         f'{hmm_model} {input_fasta}'
         )
     terminalExecute(cmd_str, suppress_shell_output=True)
-
-# def runHMMbuild(input_aln: Path, output_hmm: Path = None,
-#                 additional_args: str = None) -> None:
-#     """
-#     Simple CLI wrapper to hmmbuild (build HMM profile from MSA file)
-#     additional args: see hmmbuild -h
-#     """
-#     if output_hmm is None:
-#         output_hmm = setDefaultOutputPath(input_aln, extension='.hmm')
-#     if additional_args is not None:
-#         args_str = additional_args
-#     else:
-#         args_str = ''
-#     cmd_str = f'hmmbuild {args_str} {output_hmm} {input_aln}'
-#     terminalExecute(cmd_str, suppress_shell_output=False)
