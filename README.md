@@ -4,6 +4,10 @@
 # Synteny-aware hmm searches made easy
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Robaina/pynteny)
+[![Anaconda-Server Badge](https://anaconda.org/semidan.robaina/pynteny/badges/version.svg)](https://anaconda.org/semidan.robaina/pynteny)
+[![Anaconda-Server Badge](https://anaconda.org/semidan.robaina/pynteny/badges/installer/conda.svg)](https://conda.anaconda.org/semidan.robaina)
+![platforms](https://anaconda.org/semidan.robaina/pynteny/badges/platforms.svg)
+[![Anaconda-Server Badge](https://anaconda.org/semidan.robaina/pynteny/badges/latest_release_date.svg)](https://anaconda.org/semidan.robaina/pynteny)
 ![license](https://img.shields.io/github/license/Robaina/Pynteny)
 ![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 [![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783)
@@ -18,20 +22,28 @@ Get more info in the [wiki](https://github.com/Robaina/Pynteny/wiki) pages!
 
 ## :wrench: Setup
 
-Download (or fork) repo to local directory:
+Install with conda:
+
+```bash
+conda install -c semidan.robaina pynteny
+```
+
+or manually:
+
+1. Download (or fork) repo to local directory
 
 ```bash
 git clone https://github.com/Robaina/Pynteny.git
 ```
 
-cd to downloaded repo and install conda enviroment:
+2. cd to downloaded repo and install conda enviroment:
 
 ```bash
 cd Pynteny
 conda env create -f environment.yml
 ```
 
-Install pynteny in conda enviroment:
+3. Install pynteny in conda enviroment:
 
 ```bash
 conda activate pynteny
