@@ -10,6 +10,7 @@ meta.yaml
 build.sh
 
 .vscode/
+conda/
 build/
 dist/
 *.egg-info

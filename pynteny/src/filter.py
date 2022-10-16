@@ -6,7 +6,6 @@ Tools to filter HMM hits by synteny structure
 """
 
 from __future__ import annotations
-import time
 import os
 import sys
 import logging
