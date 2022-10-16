@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-from pathlib import Path
+# from pathlib import Path
 
 
-this_directory = Path(Path(__file__).parent)
-with open(this_directory / 'README.md', 'r', encoding='utf-8') as f:
-    long_description = f.read()
+# this_directory = Path(Path(__file__).parent)
+# with open(this_directory / 'README.md', 'r', encoding='utf-8') as f:
+#     long_description = f.read()
 
-DESCRIPTION = 'Multiple HMM - search via synteny structures in Python'
-LONG_DESCRIPTION = 'Multiple HMM - search via synteny structures in Python'
+DESCRIPTION = 'Synteny-aware hmm searches made easy in Python'
+LONG_DESCRIPTION = 'Synteny-aware hmm searches made easy in Python'
 LONG_DESCRIPTION_CONTENT_TYPE = 'text/markdown'
 NAME = 'pynteny'
 AUTHOR = "Semidán Robaina Estévez"
