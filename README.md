@@ -5,7 +5,6 @@
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Robaina/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/semidan.robaina/pynteny/badges/version.svg)](https://anaconda.org/semidan.robaina/pynteny)
-[![Anaconda-Server Badge](https://anaconda.org/semidan.robaina/pynteny/badges/installer/conda.svg)](https://conda.anaconda.org/semidan.robaina)
 ![platforms](https://anaconda.org/semidan.robaina/pynteny/badges/platforms.svg)
 [![Anaconda-Server Badge](https://anaconda.org/semidan.robaina/pynteny/badges/latest_release_date.svg)](https://anaconda.org/semidan.robaina/pynteny)
 ![license](https://img.shields.io/github/license/Robaina/Pynteny)
