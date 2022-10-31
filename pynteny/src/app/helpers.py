@@ -209,11 +209,12 @@ class ExampleSearch:
      @staticmethod
      def setExample():
         example_data_dir = Path(Path(parent_dir.parent).parent) / "tests"
-        # search_outdir = Path(st.session_state.outdir) / "pynteny_example"
-        # search_outdir.mkdir(parents=True, exist_ok=True)
         st.session_state.sequence_data_uploaded = True
         st.session_state.search_state.prefix = "example_"
         st.session_state.search_state.data = example_data_dir / "test_data/MG1655.fasta"
         st.session_state.search_state.hmm_dir = example_data_dir / "test_data/hmms"
         st.session_state.search_state.hmm_meta = example_data_dir / "test_data/hmm_meta.tsv"
-        # st.session_state.outdir = search_outdir
+        search_outdir = Path(st.session_state.outdir) / "pynteny_example"
+        if not st.session_state.outdir.exists():
+             search_outdir.mkdir(parents=True, exist_ok=True)
+        st.session_state.outdir = search_outdir

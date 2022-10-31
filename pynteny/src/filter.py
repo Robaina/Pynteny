@@ -294,7 +294,7 @@ class SyntenyHits():
                 ]
                 for hmm in row.hmm.split("|")
             ]
-            self._synteny_hits.at[
+            self._synteny_hits.loc[
                 i, fields
                 ] = ["|".join(v) for v in zip(*meta_values)]
         return SyntenyHits(self._synteny_hits)
