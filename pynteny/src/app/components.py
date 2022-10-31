@@ -25,7 +25,7 @@ class Sidebar:
         st.sidebar.text(" ")
 
         with st.sidebar.expander("Current output directory:", expanded=True):
-            if st.session_state.outdir is not None:
+            if (st.session_state.outdir is not None) and (st.session_state.outdir.exists()):
                 files_div = st.empty()
                 with files_div.container():
                     FileManager.show_files_in_dir(st.session_state.outdir, sidebar=False)

@@ -116,7 +116,8 @@ class Callbacks:
     @staticmethod
     def updateOutputDir():
         selected_outdir = FileManager.open_directory_explorer()
-        st.session_state.outdir = selected_outdir
+        if selected_outdir is not None:
+            st.session_state.outdir = selected_outdir
 
     @staticmethod
     def updateOutputPrefix():
