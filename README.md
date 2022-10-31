@@ -23,6 +23,14 @@ Get more info in the [wiki](https://github.com/Robaina/Pynteny/wiki) pages!
 
 Install with conda:
 
+1. Create dedicated conda environment (highly recommended)
+
+```bash
+conda create -n pynteny
+conda activate pynteny
+```
+2. Install pynteny
+
 ```bash
 conda install -c semidan.robaina pynteny
 ```
