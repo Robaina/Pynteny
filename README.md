@@ -35,28 +35,6 @@ conda activate pynteny
 conda install -c semidan.robaina pynteny
 ```
 
-or manually:
-
-1. Download (or fork) repo to local directory
-
-```bash
-git clone https://github.com/Robaina/Pynteny.git
-```
-
-2. cd to downloaded repo and install conda enviroment:
-
-```bash
-cd Pynteny
-conda env create -f environment.yml
-```
-
-3. Install pynteny in conda enviroment:
-
-```bash
-conda activate pynteny
-python setup.py install
-```
-
 Check that installation worked fine:
 
 ```bash
