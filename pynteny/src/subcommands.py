@@ -93,6 +93,8 @@ def synteny_search(args) -> SyntenyHits:
         args.outdir.mkdir(parents=True, exist_ok=True)
     if args.hmmsearch_args is None:
         hmmsearch_args = ",".join(["None" for _ in input_hmms])
+    else:
+        hmmsearch_args = args.hmmsearch_args
     hmmsearch_args = list(map(lambda x: x.strip(), hmmsearch_args.split(",")))
     hmmsearch_args = list(map(lambda x: None if x == 'None' else x, hmmsearch_args))
     hmmer_output_dir = os.path.join(args.outdir, 'hmmer_outputs/')

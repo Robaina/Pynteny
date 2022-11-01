@@ -379,10 +379,12 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
         additional_args = [None for _ in input_hmms]
     
     if type(additional_args) == str:
+        logger.warning(f"Repeating hmmsearch arg: '{additional_args}' for all HMMs")
         additional_args = [additional_args for _ in input_hmms]
 
     elif type(additional_args) == list:
         if len(additional_args) == 1:
+            logger.warning(f"Repeating hmmsearch arg: '{additional_args[0]}' for all HMMs")
             additional_args = [additional_args[0] for _ in input_hmms]
 
         if (len(additional_args) > 1) and (len(additional_args) < len(input_hmms)):
@@ -405,6 +407,15 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
         reuse_hmmer_results=reuse_hmmer_results,
         method=method
     )
+    hmms_without_hits = []
+    for hmm_name, hmmer_hits in hmm_hits.items():
+        if hmmer_hits.empty:
+            hmms_without_hits.append(hmm_name)
+    if hmms_without_hits:
+        for hmm_name in hmms_without_hits:
+            logger.error(f"No records found in database matching HMM: {hmm_name}")
+        sys.exit(1)
+
     logger.info('Filtering results by synteny structure')
     syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure, unordered=unordered)
     hits_by_contig = syntenyfilter.filterHitsBySyntenyStructure()

@@ -26,6 +26,9 @@ class Pynteny():
     """
     def __init__(self, subcommand: str, subcommand_args: list[str]):
         self._subcommand = subcommand
+        if "--hmmsearch_args" in subcommand_args:
+            hmm_arg_idx = subcommand_args.index("--hmmsearch_args") + 1
+            subcommand_args[hmm_arg_idx] = " " + subcommand_args[hmm_arg_idx]
         self._subcommand_args = subcommand_args
         parser = argparse.ArgumentParser(
             description=(self._printLogo()),
