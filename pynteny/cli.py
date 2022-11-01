@@ -232,6 +232,13 @@ class SubcommandParser():
                                 "filter collinear rather than syntenic structures."
                                 )
         )
+        optional.add_argument("-r", "--reuse", dest="reuse",
+                             default=False, action="store_true",
+                             help=(
+                                "reuse hmmsearch result table in following synteny searches. \n"
+                                "Do not delete hmmer_outputs subdirectory for this option to work."
+                                )
+        )
         optional.add_argument("-m", "--hmm_meta", dest="hmm_meta", type=Path, default=None,
                              metavar="",
                              required=False, help="path to hmm database metadata file"
