@@ -108,7 +108,7 @@ def synteny_search(args) -> SyntenyHits:
         input_hmms=input_hmms,
         hmm_meta=args.hmm_meta,
         hmmer_output_dir=hmmer_output_dir,
-        reuse_hmmer_results=True,
+        reuse_hmmer_results=args.reuse,
         method='hmmsearch',
         processes=args.processes,
         additional_args=hmmsearch_args
