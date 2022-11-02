@@ -28,6 +28,7 @@ class TestSyntenySearch(unittest.TestCase):
                 prefix="",
                 hmmsearch_args=None,
                 gene_ids=False,
+                reuse=True,
                 logfile=None,
                 processes=None,
                 unordered=False,
