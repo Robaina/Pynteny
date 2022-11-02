@@ -76,6 +76,13 @@ class SyntenyParser():
         return synteny_structure
 
     @staticmethod
+    def containsHMMgroups(synteny_structure: str) -> bool:
+        """
+        Check whether structure contains groups of gene-equivalent HMMs
+        """
+        return "|" in synteny_structure
+
+    @staticmethod
     def isValidStructure(synteny_structure: str) -> bool:
         """
         Validate synteny structure format

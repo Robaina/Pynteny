@@ -108,6 +108,7 @@ class SyntenyHMMfilter():
         self._hmm_hits = hmm_hits
         self._hmms = list(hmm_hits.keys())
         self._synteny_structure = synteny_structure
+        self._contains_hmm_groups = SyntenyParser.containsHMMgroups(self._synteny_structure)
         self._parsed_structure = SyntenyParser.parseSyntenyStructure(self._synteny_structure)
         if self._unordered:
             self._parsed_structure["strands"] = ["" for _ in self._parsed_structure["strands"]]
@@ -149,6 +150,11 @@ class SyntenyHMMfilter():
         return all_hit_labels
 
     def mergeHitsByHMMgroup(self, hits: pd.DataFrame):
+        """
+        Merge hit sequences within an HMM group representing
+        the same gene symbol. Drop duplicated hits within 
+        each HMM group.
+        """
         groups = hits.groupby(["full_label"]).groups
         for group_idxs in groups.values():
             hmm_names = set(hits.loc[group_idxs, "hmm"].values)
@@ -188,9 +194,10 @@ class SyntenyHMMfilter():
                 lambda x : len(x) >= self._n_hmm_groups
                 ).sort_values(["contig", "gene_pos"], ascending=True)
         all_hit_labels.reset_index(drop=True, inplace=True)
-        all_hit_labels_merged = self.mergeHitsByHMMgroup(all_hit_labels)
-        all_hit_labels_merged.reset_index(drop=True, inplace=True)
-        return self._addMetaCodesToHMMhits(all_hit_labels_merged)
+        if self._contains_hmm_groups:
+            all_hit_labels = self.mergeHitsByHMMgroup(all_hit_labels)
+        all_hit_labels.reset_index(drop=True, inplace=True)
+        return self._addMetaCodesToHMMhits(all_hit_labels)
 
     def filterHitsBySyntenyStructure(self) -> dict:
         """
@@ -199,6 +206,16 @@ class SyntenyHMMfilter():
         all_matched_hits = {}
         filters = SyntenyPatternFilters(self._synteny_structure, unordered=self._unordered)
         all_hit_labels = self.getAllHMMhits()
+        if all_hit_labels.full_label.duplicated().any():
+            logger.warning("At least two different HMMs produced identical sequence hits")
+        if all_hit_labels.full_label.duplicated().sum() == all_hit_labels.shape[0] / 2:
+            logger.error(
+                (
+                    "All input profile HMMs rendered identical sequence hits. "
+                    "Inspect HMMER output tables to evaluate hits."
+                    )
+                )
+            sys.exit(1)
         contig_names = all_hit_labels.contig.unique()
 
         for contig in contig_names:
