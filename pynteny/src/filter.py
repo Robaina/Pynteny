@@ -42,11 +42,14 @@ class SyntenyPatternFilters():
 
         if unordered:
             max_distance = max(parsed_structure["distances"])
-            distances = [float("inf")] + [max_distance for _ in parsed_structure["distances"]]
-            self.distance_order_pattern = [dist + 1 for dist in distances]
+            max_distances = [float("inf")] + [max_distance for _ in parsed_structure["distances"]]
         else:
-            distances = [float("inf")] + parsed_structure["distances"]
-            self.distance_order_pattern = [dist + 1 for dist in distances]
+            max_distances = [float("inf")] + parsed_structure["distances"]
+        min_distances = [-float("inf")] + [0 for _ in parsed_structure["distances"]]
+        self.distance_order_pattern = [
+            (min_dist, max_dist + 1) 
+            for min_dist, max_dist in zip(min_distances, max_distances)
+            ]
 
         self.strand_order_pattern = list(map(
             lambda strand : -1 if strand == "neg" else (1 if strand ==  "pos" else 0),
@@ -63,8 +66,8 @@ class SyntenyPatternFilters():
     def contains_distance_pattern(self, data: pd.Series) -> int:
         return 1 if all(
             [
-                (data_dist <= pattern_dist) and (data_dist > 0)
-                for data_dist, pattern_dist in zip(data.values.tolist(), self.distance_order_pattern)
+                (data_dist <= max_dist) and (data_dist > min_dist)
+                for data_dist, (min_dist, max_dist) in zip(data.values.tolist(), self.distance_order_pattern)
             ]
             ) else 0
 
@@ -243,7 +246,6 @@ class SyntenyHMMfilter():
                         (hmm_match == 1) &
                         (strand_match == 1)
                     ]
-                
                 for i, _ in matched_rows.iterrows():
                     matched_hits = contig_hits.iloc[i - (self._n_hmm_groups - 1): i + 1, :]
                     for label, hmm in zip((matched_hits.full_label.values), matched_hits.hmm):
