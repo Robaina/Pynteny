@@ -39,6 +39,10 @@ conda install -c semidan.robaina pynteny
 pynteny tests
 ```
 
+### Installing Pynteny on Windows
+
+Pynteny is designed to run on Linux machines. However, it can be installed within the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) via conda. 
+
 ## :rocket: Usage
 
 Pynteny can be run either as a command line tool or as a (locally-served) web application. To run pynteny in the command line, execute:
