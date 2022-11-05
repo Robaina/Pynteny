@@ -1,5 +1,5 @@
 ---
-title: 'Pynteny: a Python package to make synteny-aware, HMM-based sequence searches'
+title: 'Pynteny: a Python package to perform synteny-aware, profile HMM-based searches in sequence databases'
 tags:
   - Python
   - bioinformatics
