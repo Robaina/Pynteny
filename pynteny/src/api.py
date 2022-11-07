@@ -10,7 +10,6 @@ from importlib import metadata
 
 from pynteny.src.utils import CommandArgs
 from pynteny.src.filter import SyntenyHits
-from pynteny.cli import SubcommandParser
 from pynteny.src.subcommands import (
     synteny_search, build_database,
     download_hmms, parse_gene_ids, get_citation
@@ -68,6 +67,7 @@ class Search(Command):
         synteny_struc: str,
         gene_ids: bool = False,
         unordered: bool = False,
+        reuse: bool = False,
         hmm_dir: Path = None,
         hmm_meta: Path = None,
         outdir: Path = None,
@@ -92,6 +92,7 @@ class Search(Command):
             logfile=Path(logfile) if logfile is not None else logfile,
             processes=processes,
             unordered=unordered,
+            reuse=reuse
             )
 
     def parseGeneIDs(self, synteny_struc: str) -> str:
