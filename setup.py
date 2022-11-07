@@ -2,12 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-# from pathlib import Path
 
-
-# this_directory = Path(Path(__file__).parent)
-# with open(this_directory / 'README.md', 'r', encoding='utf-8') as f:
-#     long_description = f.read()
 
 DESCRIPTION = 'Synteny-aware hmm searches made easy in Python'
 LONG_DESCRIPTION = 'Synteny-aware hmm searches made easy in Python'
@@ -35,7 +30,6 @@ setup(name=NAME,
       license=LICENSE,
       packages=find_packages(),
       include_package_data=True,
-    #   install_requires=['biopython', 'pyfastx', 'pandas', 'wget'],
       entry_points ={
             'console_scripts': [
                 'pynteny = pynteny.cli:main'
