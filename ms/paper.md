@@ -12,7 +12,7 @@ authors:
     orcid: 0000-0003-0781-1677
     email: srobaina@ull.edu.es
     affiliation: 1
-  - name: José Manuel González Hernández
+  - name: José M. González
     orcid: 0000-0002-9926-3323
     email: jmglezh@ull.edu.es
     affiliation: 1

@@ -260,10 +260,10 @@ class SyntenyHits():
         """
         Class to store and manipulate synteny hits by contig
         """
-        self._synteny_hits = synteny_hits
+        self._synteny_hits = synteny_hits.drop_duplicates()
 
     @staticmethod
-    def _hitsToDataframe(hits_by_contig) -> pd.DataFrame:
+    def _hitsToDataframe(hits_by_contig: dict) -> pd.DataFrame:
         """
         Return synteny hits as a dataframe
         """
