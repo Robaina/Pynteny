@@ -228,8 +228,10 @@ class SubcommandParser():
                              default=False, action="store_true",
                              help=(
                                 "whether the HMMs should be arranged in the exact same order displayed \n"
-                                "in the synteny_structure or in  any order If ordered, the filters would \n"
-                                "filter collinear rather than syntenic structures."
+                                "in the synteny_structure or in  any order. If ordered, the filters will \n"
+                                "filter collinear rather than syntenic structures. \n"
+                                "If more than two HMMs are employed, the largest maximum distance among any \n"
+                                "pair is considered to run the search."
                                 )
         )
         optional.add_argument("-r", "--reuse", dest="reuse",
