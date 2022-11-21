@@ -43,3 +43,5 @@ Several existing tools are dedicated to the exploration, analysis, and visualiza
 # Acknowledgements
 
 We acknowledge constructive feedback from Pynteny users which has helped to improve the package. This study was funded by project PID2019-110011RB-C32 (Spanish Ministry of Science and Innovation, Spanish State Research Agency, doi: 10.13039/501100011033).
+
+# References
