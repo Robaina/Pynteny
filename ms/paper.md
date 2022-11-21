@@ -1,24 +1,24 @@
 ---
 title: 'Pynteny: a Python package to perform synteny-aware, profile HMM-based searches in sequence databases'
 tags:
-- Python
-- bioinformatics
-- HMMER
-- synteny
-- HMMs
-- sequencing
+  - Python
+  - bioinformatics
+  - HMMER
+  - synteny
+  - HMMs
+  - sequencing
 authors:
-- name: Semidán Robaina-Estévez
-orcid: 0000-0003-0781-1677
-email: srobaina@ull.edu.es
-affiliation: 1
-- name: José M. González
-orcid: 0000-0002-9926-3323
-email: jmglezh@ull.edu.es
-affiliation: 1
+  - name: Semidán Robaina-Estévez
+    orcid: 0000-0003-0781-1677
+    email: srobaina@ull.edu.es
+    affiliation: 1
+  - name: José M. González
+    orcid: 0000-0002-9926-3323
+    email: jmglezh@ull.edu.es
+    affiliation: 1
 affiliations:
-- name: Department of Microbiology. University of La Laguna. Spain.
-index: 1
+ - name: Department of Microbiology. University of La Laguna. Spain.
+   index: 1
 date: 3 November 2022
 bibliography: paper.bib
 ---
