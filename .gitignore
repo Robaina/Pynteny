@@ -9,6 +9,7 @@ test_script.sh
 meta.yaml
 build.sh
 meta_hard.yaml
+conda-lock.yml
 
 .vscode/
 conda/
