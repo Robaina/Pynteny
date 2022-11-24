@@ -96,7 +96,9 @@ class FASTA():
         if output_file is None:
             output_file = input_dir / "merged.fasta"
         logger.info(f"Merging FASTA files in input directory")
-        cmd_str = f'awk 1 * > {output_file.as_posix()}'
+        # cmd_str = f'awk 1 * > {output_file}'
+        # # cmd_str = "find . -maxdepth 1 -type f --exec cat {} + > " + f"{output_file}"
+        cmd_str = f"printf '%s\\0' * | xargs -0 cat > {output_file}"
         utils.terminalExecute(
             cmd_str,
             work_dir=input_dir,
@@ -255,13 +257,14 @@ class LabelledFASTA(FASTA):
                     Note that this option will notably increase the computation time.
         """
         if gbk_data.is_dir():
-            gbk_files = [gbk_data / f for f in gbk_data.listdir()]
+            gbk_files = [gbk_data / f for f in gbk_data.iterdir()]
         else:
             gbk_files = [gbk_data]
         gbk_contigs = [
             contig for gbk_file in gbk_files
-            for contig in list(SeqIO.parse(gbk_file, 'genbank'))
+            for contig in SeqIO.parse(gbk_file, 'genbank')
             ]
+
         if output_file is None:
             output_file = Path(gbk_files.pop().parent) / f"{prefix}sequence_database.fasta"
         
@@ -357,22 +360,22 @@ class Database():
         if not self._data.exists():
             raise FileNotFoundError(f"{self._data} does not exist")
         if self._data.is_dir():
-            self._data_files = [self._data / f for f in self._data.listdir()]
+            self._data_files = [self._data / f for f in self._data.iterdir()]
         else:
             self._data_files = [self._data]
         
     @staticmethod
-    def is_fasta(filename):
+    def is_fasta(filename: Path):
         if filename.exists():
-            fasta = SeqIO.parse(str(filename), "fasta")
+            fasta = list(SeqIO.parse(str(filename), "fasta"))
             return any(fasta)
         else:
             return False
 
     @staticmethod
-    def is_gbk(filename):
+    def is_gbk(filename: Path):
         if filename.exists():
-            gbk = SeqIO.parse(str(filename), "genbank")
+            gbk = list(SeqIO.parse(str(filename), "genbank"))
             return any(gbk)
         else:
             return False
@@ -384,11 +387,11 @@ class Database():
         if output_file is None:
             output_file = self._data.parent / f"{self._data.stem}_labelled.faa"
         if self.is_fasta(self._data_files[0]):
-            logger.info("Translating and annotating assembly data.")
             if self._data.is_dir():
                 assembly_fasta = FASTA.fromFASTAdirectory(self._data)
             else:
                 assembly_fasta = FASTA(self._data)
+            logger.info("Translating and annotating assembly data.")
             labelled_database = GeneAnnotator(
                 assembly_fasta).annotate(output_file=output_file)
         elif self.is_gbk(self._data_files[0]):

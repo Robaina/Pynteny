@@ -145,9 +145,7 @@ def build_database(args) -> None:
         args.processes = os.cpu_count() - 1
     logger.info("Building annotated peptide database")
     database = Database(args.data)
-    database.build(
-        output_file=args.outfile,
-    )
+    database.build(output_file=args.outfile)
     logger.info("Database built successfully!")
 
 def parse_gene_ids(args) -> str:
