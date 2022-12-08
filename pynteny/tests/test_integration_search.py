@@ -10,8 +10,8 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from pynteny.src.utils import CommandArgs
-from pynteny.src.subcommands import synteny_search
+from pynteny.utils import CommandArgs
+from pynteny.subcommands import synteny_search
 
 
 this_file_dir = Path(Path(__file__).parent)

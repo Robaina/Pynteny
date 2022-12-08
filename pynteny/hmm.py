@@ -16,8 +16,8 @@ from collections import defaultdict
 import pandas as pd
 from Bio import SearchIO
 
-import pynteny.src.wrappers as wrappers
-from pynteny.src.utils import isTarFile, extractTarFile, flattenDirectory, listTarDir
+import pynteny.wrappers as wrappers
+from pynteny.utils import isTarFile, extractTarFile, flattenDirectory, listTarDir
 
 
 logger = logging.getLogger(__name__)

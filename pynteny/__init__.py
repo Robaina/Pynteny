@@ -1,1 +1,1 @@
-from pynteny.src.api import *
+from pynteny.api import *

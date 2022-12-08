@@ -12,8 +12,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from pynteny.src.hmm import PGAP
-from pynteny.src.utils import isRightListNestedType
+from pynteny.hmm import PGAP
+from pynteny.utils import isRightListNestedType
 
 logger = logging.getLogger(__name__)
 

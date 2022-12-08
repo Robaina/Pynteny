@@ -6,7 +6,7 @@ Unit tests for the filter module
 """
 
 import unittest
-from pynteny.src.filter import LabelParser, SyntenyParser
+from pynteny.filter import LabelParser, SyntenyParser
 
 
 class TestLabelParser(unittest.TestCase):

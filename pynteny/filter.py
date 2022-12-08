@@ -13,9 +13,9 @@ from pathlib import Path
 
 import pandas as pd
 
-from pynteny.src.preprocessing import FASTA
-from pynteny.src.hmm import HMMER, PGAP
-from pynteny.src.parser import SyntenyParser, LabelParser
+from pynteny.preprocessing import FASTA
+from pynteny.hmm import HMMER, PGAP
+from pynteny.parser import SyntenyParser, LabelParser
 
 logger = logging.getLogger(__name__)
 

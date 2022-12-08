@@ -6,7 +6,7 @@ Unit tests for the preprocessing module
 """
 
 import unittest
-from pynteny.src.preprocessing import RecordSequence
+from pynteny.preprocessing import RecordSequence
 
 
 class TestRecordSequence(unittest.TestCase):

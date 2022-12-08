@@ -3,7 +3,7 @@ from importlib import metadata
 
 import streamlit as st
 
-from pynteny.src.app.helpers import Callbacks, FileManager, Plotter
+from pynteny.app.helpers import Callbacks, FileManager, Plotter
 
 
 meta = metadata.metadata("pynteny")

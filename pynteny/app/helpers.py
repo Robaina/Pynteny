@@ -8,8 +8,8 @@ import streamlit as st
 from st_aggrid import AgGrid, GridOptionsBuilder
 
 
-from pynteny.src.subcommands import synteny_search, build_database, download_hmms
-from pynteny.src.utils import ConfigParser
+from pynteny.subcommands import synteny_search, build_database, download_hmms
+from pynteny.utils import ConfigParser
 
 
 parent_dir = Path(Path(__file__).parent)

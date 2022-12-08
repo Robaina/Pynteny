@@ -12,10 +12,10 @@ import logging
 from pathlib import Path
 import wget
 
-from pynteny.src.filter import SyntenyHits, SyntenyParser, filterFASTAbySyntenyStructure
-from pynteny.src.hmm import PGAP
-from pynteny.src.utils import CommandArgs, ConfigParser, isTarFile, terminalExecute
-from pynteny.src.preprocessing import Database
+from pynteny.filter import SyntenyHits, SyntenyParser, filterFASTAbySyntenyStructure
+from pynteny.hmm import PGAP
+from pynteny.utils import CommandArgs, ConfigParser, isTarFile, terminalExecute
+from pynteny.preprocessing import Database
 
 
 

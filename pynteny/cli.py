@@ -9,8 +9,8 @@ import argparse
 from importlib import metadata
 from pathlib import Path
 
-import pynteny.src.subcommands as sub
-from pynteny.src.utils import ConfigParser
+import pynteny.subcommands as sub
+from pynteny.utils import ConfigParser
 
 
 meta = metadata.metadata("pynteny")

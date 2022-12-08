@@ -8,9 +8,9 @@ Classes to facilitate usage within Python scripts / Notebooks
 from pathlib import Path
 from importlib import metadata
 
-from pynteny.src.utils import CommandArgs
-from pynteny.src.filter import SyntenyHits
-from pynteny.src.subcommands import (
+from pynteny.utils import CommandArgs
+from pynteny.filter import SyntenyHits
+from pynteny.subcommands import (
     synteny_search, build_database,
     download_hmms, parse_gene_ids, get_citation
     )

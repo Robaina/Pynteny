@@ -4,9 +4,9 @@ from pathlib import Path
 import streamlit as st
 from PIL import Image
 
-from pynteny.src.utils import CommandArgs
-from pynteny.src.app.helpers import ExampleSearch
-from pynteny.src.app.components import Sidebar, Mainpage
+from pynteny.utils import CommandArgs
+from pynteny.app.helpers import ExampleSearch
+from pynteny.app.components import Sidebar, Mainpage
 
 
 parent_dir = Path(Path(__file__).parent)

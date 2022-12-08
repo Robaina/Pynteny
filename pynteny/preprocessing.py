@@ -19,8 +19,8 @@ from pathlib import Path
 from Bio import SeqIO
 import pyfastx
 
-import pynteny.src.utils as utils
-import pynteny.src.wrappers as wrappers
+import pynteny.utils as utils
+import pynteny.wrappers as wrappers
 
 logger = logging.getLogger(__name__)
 

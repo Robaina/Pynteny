@@ -8,8 +8,8 @@ Unit tests for class Database
 import unittest
 import tempfile
 from pathlib import Path
-from pynteny.src.subcommands import Database
-from pynteny.src.preprocessing import LabelledFASTA
+from pynteny.subcommands import Database
+from pynteny.preprocessing import LabelledFASTA
 
 
 this_file_dir = Path(Path(__file__).parent)
