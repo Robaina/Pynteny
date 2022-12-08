@@ -11,7 +11,6 @@ authors = [
 maintainers = [
     {name = "Semidán Robaina Estévez", email = "srobaina@ull.edu.es"},
 ]
-version = "0.0.4"
 readme = "README.md"
 requires-python = ">=3.7"
 keywords = ["synteny", "hmm", "metagenomics", "bioinformatics", "hmmer"]
@@ -22,19 +21,18 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Natural Language :: English"
 ]
-dynamic = ["version"]
+version = "0.0.4"
 
 [project.urls]
 homepage = "http://github.com/robaina/Pynteny"
 documentation = "http://github.com/robaina/Pynteny/wiki"
 repository = "http://github.com/robaina/Pynteny"
 
-[options.entry_points]
-console_scripts =
-    pynteny = pynteny.cli:main
+[project.scripts]
+pynteny = "pynteny.cli:main"
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["pynteny"]

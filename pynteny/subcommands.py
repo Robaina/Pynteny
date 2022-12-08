@@ -255,14 +255,6 @@ def run_app() -> None:
         )
     terminalExecute(cmd_str)
 
-def run_tests() -> None:
-    """
-    Run unit and integration tests
-    """
-    tests_path = Path(Path(Path(__file__).parent).parent) / "tests"
-    cmd_str = f"python -m unittest discover {tests_path}"
-    terminalExecute(cmd_str, work_dir=tests_path)
-
 def get_citation(args, silent: bool = False) -> str:
     """
     Get Pynteny citation string

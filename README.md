@@ -36,7 +36,7 @@ conda install -c semidan.robaina pynteny
 3. Check that installation worked fine:
 
 ```bash
-pynteny tests
+pynteny --help
 ```
 
 ### Installing Pynteny on Windows
