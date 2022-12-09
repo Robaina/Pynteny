@@ -11,9 +11,9 @@ nav:
         - Download: subcommands/download.md
         - App: subcommands/app.md
     - Examples:
-         - Example CLI: ../examples/example_cli.ipynb
-         - Example API: ../examples/example_api.ipynb
-         - Sus operon: ../examples/example_sus.ipynb
+         - Example CLI: examples/example_cli.ipynb
+         - Example API: examples/example_api.ipynb
+         - Sus operon: examples/example_sus.ipynb
 theme: readthedocs
 plugins:
   - mkdocs-jupyter
