@@ -30,9 +30,9 @@ Where $HMM_a$ represents the name of the HMM to be used (corresponding to the fi
 
 ## Examples
 
-There are some Jupyter notebooks with examples of how to use Pynteny's command-line interface as well as its Python API. Check them out [here](https://github.com/Robaina/Pynteny/tree/master/examples)!
+There are some Jupyter notebooks with examples of how to use Pynteny's command-line interface as well as its Python API. Check them out in the [documentation](examples) or in the [GitHub repo](https://github.com/Robaina/Pynteny/tree/master/docs/examples).
 ## Citation
 
 If you use this software, please cite it as below:
 
-Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy(Version 0.0.2). Zenodo. https://doi.org/10.5281/zenodo.7048685
+Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy(Version 0.0.4). Zenodo. https://doi.org/10.5281/zenodo.7048685

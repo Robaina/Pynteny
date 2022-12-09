@@ -15,7 +15,7 @@
 
 `Pynteny` is Python tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in (prokaryotic) sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/). By leveraging genomic context information, `Pynteny` can be employed to decrease the uncertainty of functional annotation of unlabelled sequence data due to the effect of paralogs. `Pynteny` can be accessed (i) through the command line, (ii) as a Python module or (iii) as a (locally served) web application.
 
-Get more info in the [wiki](https://github.com/Robaina/Pynteny/wiki) pages!
+Get more info in the [documentation](https://robaina.github.io/Pynteny/) pages!
 
 ## :wrench: Setup
 
@@ -57,7 +57,7 @@ pynteny <subcommand> <options>
 </p>
 
 
-There are a number of available subcommands, which can be explore in the [wiki](https://github.com/Robaina/Pynteny/wiki) pages.
+There are a number of available subcommands, which can be explored in the [documentation](https://robaina.github.io/Pynteny/) pages.
 
 
 Pynteny may also be used with a graphical interface (made with [Streamlit](https://streamlit.io)). The app is run on a local server in your machine, thus all files are kept locally and the app can be run without an internet connection. 
@@ -75,10 +75,10 @@ pynteny app
 
 ## :notebook_with_decorative_cover: Examples
 
-In the [examples directory](examples/), you can find a collection of Jupyter Notebooks containing workflows to demonstrate the usate of Pynteny's command line interface as well as the Python API. We invite you to explore Pynteny's web application by executing the command `pynteny app`. Find more info in the [wiki pages](https://github.com/Robaina/Pynteny/wiki).
+In the [examples directory](docs/examples/), you can find a collection of Jupyter Notebooks containing workflows to demonstrate the usate of Pynteny's command line interface as well as the Python API. We invite you to explore Pynteny's web application by executing the command `pynteny app`. Find more info in the [documentation](https://robaina.github.io/Pynteny/).
 
 ## :black_nib: Citation
 
 If you use this software, please cite it as below:
 
-Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy (Version 0.0.1). Zenodo. https://doi.org/10.5281/zenodo.7048685
+Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy (Version 0.0.4). Zenodo. https://doi.org/10.5281/zenodo.7048685
