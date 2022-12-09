@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Semidán Robaina" /><link rel="canonical" href="https://robaina.github.io/Pynteny/search/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Search - Pynteny</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Search";
+        var mkdocs_page_input_path = "search.md";
+        var mkdocs_page_url = "/Pynteny/search/";
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Pynteny
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Pynteny</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Search</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Robaina/Pynteny/edit/master/docs/search.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>Query sequence database for HMM hits arranged in provided synteny structure.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="language-bash">usage: pynteny search [-h] [args] 
+
+</code></pre>
+<h2 id="arguments">Arguments</h2>
+<table>
+<thead>
+<tr>
+<th align="left">short</th>
+<th align="left">long</th>
+<th align="left">default</th>
+<th align="left">help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>-h</code></td>
+<td align="left"><code>--help</code></td>
+<td align="left"></td>
+<td align="left">show this help message and exit</td>
+</tr>
+<tr>
+<td align="left"><code>-s</code></td>
+<td align="left"><code>--synteny_struc</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">string displaying hmm structure to search for, such as:    '&gt;hmm_a n_ab <hmm_b n_bc hmm_c'   where '>' indicates a hmm target located on the positive strand,  '&lt;' a target located on the negative strand, and n_ab corresponds to the maximum number of genes separating matched genes a and b.  Multiple hmms may be employed.  No order symbol in a hmm indicates that results should be independent of strand location.</td>
+</tr>
+<tr>
+<td align="left"><code>-i</code></td>
+<td align="left"><code>--data</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to peptide database</td>
+</tr>
+<tr>
+<td align="left"><code>-d</code></td>
+<td align="left"><code>--hmm_dir</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to directory containing hmm (i.e, tigrfam or pfam) models.  The directory can contain more hmm models than used in the synteny structure.  It may also be the path to a compressed (tar, tar.gz, tgz) directory.  If not provided, hmm models (PGAP database) will be downloaded from the NCBI. (if not already downloaded)</td>
+</tr>
+<tr>
+<td align="left"><code>-o</code></td>
+<td align="left"><code>--outdir</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to output directory</td>
+</tr>
+<tr>
+<td align="left"><code>-x</code></td>
+<td align="left"><code>--prefix</code></td>
+<td align="left">``</td>
+<td align="left">prefix to be added to output files</td>
+</tr>
+<tr>
+<td align="left"><code>-p</code></td>
+<td align="left"><code>--processes</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">maximum number of processes available to HMMER. Defaults to all but one.</td>
+</tr>
+<tr>
+<td align="left"><code>-a</code></td>
+<td align="left"><code>--hmmsearch_args</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">list of comma-separated additional arguments to hmmsearch for each input hmm.  A single argument may be provided, in which case the same additional argument is employed in all hmms.</td>
+</tr>
+<tr>
+<td align="left"><code>-g</code></td>
+<td align="left"><code>--gene_ids</code></td>
+<td align="left"></td>
+<td align="left">use gene symbols in synteny structure instead of HMM names.  If set, a path to the hmm database metadata file must be provided in argument '--hmm_meta'</td>
+</tr>
+<tr>
+<td align="left"><code>-u</code></td>
+<td align="left"><code>--unordered</code></td>
+<td align="left"></td>
+<td align="left">whether the HMMs should be arranged in the exact same order displayed in the synteny_structure or in any order. If ordered, the filters will filter collinear rather than syntenic structures. If more than two HMMs are employed, the largest maximum distance among any pair is considered to run the search.</td>
+</tr>
+<tr>
+<td align="left"><code>-r</code></td>
+<td align="left"><code>--reuse</code></td>
+<td align="left"></td>
+<td align="left">reuse hmmsearch result table in following synteny searches.  Do not delete hmmer_outputs subdirectory for this option to work.</td>
+</tr>
+<tr>
+<td align="left"><code>-m</code></td>
+<td align="left"><code>--hmm_meta</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to hmm database metadata file</td>
+</tr>
+<tr>
+<td align="left"><code>-l</code></td>
+<td align="left"><code>--log</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">path to log file. Log not written by default.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="description">Description</h2>
+<p>Search for synteny blocks in a set of ORFs using HMMER and outputs the results in a tabular format. Synteny blocks are specified by strings of ordered HMM names or gene IDs with the following format:</p>
+<p>$$\lt HMM_a \space n_{ab} \space \lt HMM_b \space n_{bc} \space \lt(HMM_{c1}|HMM_{c2}|HMM_{c3}),$$ </p>
+<p>where $n_{ab}$ corresponds to the maximum number of genes between $HMM_a$ and $HMM_b$. Results can be strand-specific, in that case, $&gt;$ preceding an HMM name indicates that the corresponding ORF must be located in the positive (or sense) strand. Likewise, a $&lt;$ symbol indicates that the ORF must be located in the negative (antisense) strand. Searches can be made strand-insensitive by omitting the $&gt;$ or $&lt;$ symbol. </p>
+<p>Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them. In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.</p>
+<p>If the PGAP database is employed (see <code>pynteny download</code> below), synteny blocks can also be specified by gene symbols, such as $$\lt leuD \space 0 \space \lt leuC \space 1 \space \lt leuA.$$ In that case, the program will try to match gene symbols to HMM names in the PGAP database before running the search.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Robaina/Pynteny" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
