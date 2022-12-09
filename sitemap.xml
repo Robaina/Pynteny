@@ -6,7 +6,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://robaina.github.io/Pynteny/examples/</loc>
+         <loc>https://robaina.github.io/Pynteny/examples/example_api/</loc>
+         <lastmod>2022-12-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://robaina.github.io/Pynteny/examples/example_cli/</loc>
+         <lastmod>2022-12-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://robaina.github.io/Pynteny/examples/example_sus/</loc>
          <lastmod>2022-12-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
