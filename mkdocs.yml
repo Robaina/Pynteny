@@ -10,7 +10,6 @@ nav:
         - Parse: parse.md
         - Download: download.md
         - App: app.md
-    - 
 theme: readthedocs
 # Add MathJax support:
 markdown_extensions:
