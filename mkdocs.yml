@@ -1,0 +1,7 @@
+site_name: Pynteny
+site_url: https://robaina.github.io/Pynteny
+repo_url: https://github.com/Robaina/Pynteny
+site_author: Semidán Robaina
+nav:
+    - Home: index.md
+theme: readthedocs
