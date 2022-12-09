@@ -88,8 +88,8 @@
 <p>To facilitate the construction of this database, Pynteny provides the subcommand <a href="https://github.com/Robaina/Pynteny/wiki/build"><code>pynteny build</code></a>, which takes as input a fasta file containing assembled nucleotide sequence data (or a single or a collection of genomes), such as that retrieved from MAG reconstruction pipelines.</p>
 <p>Additionally, <a href="https://github.com/Robaina/Pynteny/wiki/search"><code>pynteny search</code></a> requires either the set of profile Hidden Markov Models (HMMs) used in the provided synteny structure or a database of profile HMMs from which to retrieve the necessary HMMs. The user may provide their own set of HMMs. However, the user may also download the entire <a href="https://academic.oup.com/nar/article/49/D1/D1020/6018440">PGAP HMM database</a> through <a href="https://github.com/Robaina/Pynteny/wiki/download"><code>pynteny download</code></a>, which will take care of downloading and storing the download path for future usage (by default any time no additional HMMs are provided as an argument in <a href="https://github.com/Robaina/Pynteny/wiki/search"><code>pynteny search</code></a>).</p>
 <p>Once both the peptide database and the required HMMs are ready, the user can query the peptide database with a text string encoding the query synteny structure such as the following:</p>
-<p>$&gt;HMM_a \:\: n_{ab} \:\: &gt; (HMM_{b1} | HMM_{b2}) \:\: n_{bc} \:\: &lt; HMM_c.$</p>
-<p>Where $HMM_a$ represents the name of the HMM to be used (corresponding to the file name without the extension), $n_{ab}$ is an integer representing the maximum number of genes between HMMs a and b, &lt; and &gt; indicate the strand in which to search for the HMM pattern, antisense and sense, respectively. Note that more than one HMM can be employed for a single gene in the structure, as indicated by the HMM group $(HMM_{b1} | HMM_{b2})$ above. In these cases, <a href="https://github.com/Robaina/Pynteny/wiki/search"><code>pynteny search</code></a> will search for sequences that matched any HMM contained within the HMM group.</p>
+<p><span class="arithmatex">\(&gt;HMM_a \\:\\: n_{ab} \\:\\: &gt; (HMM_{b1} | HMM_{b2}) \\:\\: n_{bc} \\:\\: &lt; HMM_c.\)</span></p>
+<p>Where <span class="arithmatex">\(HMM_a\)</span> represents the name of the HMM to be used (corresponding to the file name without the extension), <span class="arithmatex">\(n_{ab}\)</span> is an integer representing the maximum number of genes between HMMs a and b, &lt; and &gt; indicate the strand in which to search for the HMM pattern, antisense and sense, respectively. Note that more than one HMM can be employed for a single gene in the structure, as indicated by the HMM group <span class="arithmatex">\((HMM_{b1} | HMM_{b2})\)</span> above. In these cases, <a href="https://github.com/Robaina/Pynteny/wiki/search"><code>pynteny search</code></a> will search for sequences that matched any HMM contained within the HMM group.</p>
 <h2 id="examples">Examples</h2>
 <p>There are some Jupyter notebooks with examples of how to use Pynteny's command-line interface as well as its Python API. Check them out <a href="https://github.com/Robaina/Pynteny/tree/master/examples">here</a>!</p>
 <h2 id="citation">Citation</h2>
@@ -129,6 +129,9 @@
     <script>var base_url = '.';</script>
     <script src="js/theme_extra.js" defer></script>
     <script src="js/theme.js" defer></script>
+      <script src="javascripts/mathjax.js" defer></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
       <script src="search/main.js" defer></script>
     <script defer>
         window.onload = function () {
@@ -141,5 +144,5 @@
 
 <!--
 MkDocs version : 1.4.2
-Build Date UTC : 2022-12-09 11:36:53.100625+00:00
+Build Date UTC : 2022-12-09 11:59:27.186627+00:00
 -->
