@@ -10,7 +10,13 @@ nav:
         - Parse: subcommands/parse.md
         - Download: subcommands/download.md
         - App: subcommands/app.md
+    - Examples:
+         - Example CLI: ../examples/example_cli.ipynb
+         - Example API: ../examples/example_api.ipynb
+         - Sus operon: ../examples/example_sus.ipynb
 theme: readthedocs
+plugins:
+  - mkdocs-jupyter
 # Add MathJax support:
 markdown_extensions:
   - pymdownx.arithmatex:
