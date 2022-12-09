@@ -6,32 +6,27 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://robaina.github.io/Pynteny/app/</loc>
+         <loc>https://robaina.github.io/Pynteny/subcommands/app/</loc>
          <lastmod>2022-12-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://robaina.github.io/Pynteny/build/</loc>
+         <loc>https://robaina.github.io/Pynteny/subcommands/build/</loc>
          <lastmod>2022-12-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://robaina.github.io/Pynteny/download/</loc>
+         <loc>https://robaina.github.io/Pynteny/subcommands/download/</loc>
          <lastmod>2022-12-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://robaina.github.io/Pynteny/parse/</loc>
+         <loc>https://robaina.github.io/Pynteny/subcommands/parse/</loc>
          <lastmod>2022-12-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://robaina.github.io/Pynteny/search/</loc>
-         <lastmod>2022-12-09</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://robaina.github.io/Pynteny/tests/</loc>
+         <loc>https://robaina.github.io/Pynteny/subcommands/search/</loc>
          <lastmod>2022-12-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
