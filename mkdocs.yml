@@ -5,11 +5,11 @@ site_author: Semidán Robaina
 nav:
     - Home: index.md
     - Subcommands:
-        - Search: search.md
-        - Build: build.md
-        - Parse: parse.md
-        - Download: download.md
-        - App: app.md
+        - Search: subcommands/search.md
+        - Build: subcommands/build.md
+        - Parse: subcommands/parse.md
+        - Download: subcommands/download.md
+        - App: subcommands/app.md
 theme: readthedocs
 # Add MathJax support:
 markdown_extensions:
