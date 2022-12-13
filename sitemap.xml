@@ -2,47 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://robaina.github.io/Pynteny/</loc>
-         <lastmod>2022-12-09</lastmod>
+         <lastmod>2022-12-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/Pynteny/examples/example_api/</loc>
-         <lastmod>2022-12-09</lastmod>
+         <lastmod>2022-12-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/Pynteny/examples/example_cli/</loc>
-         <lastmod>2022-12-09</lastmod>
+         <lastmod>2022-12-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/Pynteny/examples/example_sus/</loc>
-         <lastmod>2022-12-09</lastmod>
+         <lastmod>2022-12-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/Pynteny/subcommands/app/</loc>
-         <lastmod>2022-12-09</lastmod>
+         <lastmod>2022-12-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/Pynteny/subcommands/build/</loc>
-         <lastmod>2022-12-09</lastmod>
+         <lastmod>2022-12-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/Pynteny/subcommands/download/</loc>
-         <lastmod>2022-12-09</lastmod>
+         <lastmod>2022-12-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/Pynteny/subcommands/parse/</loc>
-         <lastmod>2022-12-09</lastmod>
+         <lastmod>2022-12-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://robaina.github.io/Pynteny/subcommands/search/</loc>
-         <lastmod>2022-12-09</lastmod>
+         <lastmod>2022-12-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
