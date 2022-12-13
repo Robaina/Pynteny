@@ -28,7 +28,16 @@ class SyntenyPatternFilters():
         """Initialize filter class from synteny structure.
 
         Args:
-            synteny_structure (str): synteny structure following style described in the docs.
+            synteny_structure (str): a str describing the desired synteny structure,
+                structured as follows:
+
+                '>hmm_a N_ab hmm_b bc <hmm_c'
+
+                where N_ab corresponds to the maximum number of genes separating 
+                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+                to the name of the hmm as provided in the keys of hmm_hits.
+                More than two hmms can be concatenated. Strand location may be
+                specificed by using '>' for sense and '<' for antisense. 
             unordered (bool, optional): whether the HMMs should be arranged in the
                 exact same order displayed in the synteny_structure or in 
                 any order If ordered, the filters would filter collinear rather
@@ -371,7 +380,7 @@ class SyntenyHits():
 
         Args:
             sequence_database (Path): path to the peptide or nucleotide sequence database
-              in which the synteny search was conducted.
+                in which the synteny search was conducted.
             output_dir (Path, optional): path to output directory. Defaults to None.
             output_prefix (str, optional): prefix for output files. Defaults to None.
         """

@@ -21,14 +21,14 @@ __author__ = meta["Author"]
 
 
 class Command():
+    """Parent class for Pynteny command
+    """
     def __init__(self):
-        """
-        Parent class for Pynteny command
+        """Parent class for Pynteny command
         """
 
     def _repr_html_(self):
-        """
-        This method is executed automatically by Jupyter to print html
+        """Executed by Jupyter to print Author and version in html
         """
         return """
         <table>
@@ -42,15 +42,17 @@ class Command():
                    author=__author__)
 
     def update(self, argname: str, value: str) -> None:
-        """
-        Update argument value in pynteny command
+        """Update argument value in pynteny command.
+
+        Args:
+            argname (str): argument name to be updated.
+            value (str): new argument value.
         """
         setattr(self._args, argname, value)
     
     @staticmethod
     def cite():
-        """
-        Display Pynteny citation
+        """Display Pynteny citation
         """
         args = CommandArgs(
             version=__version__,
@@ -61,6 +63,8 @@ class Command():
 
 
 class Search(Command):
+    """Search command object.
+    """
     def __init__(
         self,
         data: Path,
@@ -75,9 +79,44 @@ class Search(Command):
         hmmsearch_args: str = None,
         logfile: Path = None,
         processes: int = None):
+        """Query sequence database for HMM hits arranged in provided synteny structure.
 
-        """
-        Query sequence database for HMM hits arranged in provided synteny structure.
+        Args:
+            data (Path): path to input labelled database.
+            synteny_struc (str): a str describing the desired synteny structure,
+                structured as follows:
+
+                '>hmm_a N_ab hmm_b bc <hmm_c'
+
+                where N_ab corresponds to the maximum number of genes separating 
+                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+                to the name of the hmm as provided in the keys of hmm_hits.
+                More than two hmms can be concatenated. Strand location may be
+                specificed by using '>' for sense and '<' for antisense. 
+            gene_ids (bool, optional): whether gene symbols are used in synteny 
+                string instead of HMM names. Defaults to False.
+            unordered (bool, optional): whether the HMMs should be arranged in the
+                exact same order displayed in the synteny_structure or in 
+                any order If ordered, the filters would filter collinear rather
+                than syntenic structures. Defaults to False.
+            reuse (bool, optional): if True then HMMER3 won't be run again for HMMs already
+            searched in the same output directory. Defaults to False.
+            hmm_dir (Path, optional): path to directory containing input HMM files.
+                Defaults to None, in which case the PGAP database is downloaded if not
+                already so.
+            hmm_meta (Path, optional): path to PGAP's metadata file. Defaults to None.
+            outdir (Path, optional): path to output directory. Defaults to None.
+            prefix (str, optional): prefix of output file names. Defaults to "".
+            hmmsearch_args (str, optional): additional arguments to hmmsearch or hmmscan. Each
+                element in the list is a string with additional arguments for each 
+                input hmm (arranged in the same order), an element can also take a 
+                value of None to avoid passing additional arguments for a specific 
+                input hmm. A single string may also be passed, in which case the 
+                same additional argument is passed to hmmsearch for all input hmms.
+                Defaults to None. Defaults to None.
+            logfile (Path, optional): path to log file. Defaults to None.
+            processes (int, optional): maximum number of threads to be employed.
+                Defaults to all minus one.
         """
 
         self._args = CommandArgs(
@@ -96,9 +135,24 @@ class Search(Command):
             )
 
     def parseGeneIDs(self, synteny_struc: str) -> str:
-        """
-        Parse gene IDs in synteny structure and find corresponding HMM names
-        in provided HMM database
+        """Parse gene IDs in synteny structure and find corresponding HMM names
+        in provided HMM database.
+
+        Args:
+            synteny_struc (str): a str describing the desired synteny structure,
+                structured as follows:
+
+                '>hmm_a N_ab hmm_b bc <hmm_c'
+
+                where N_ab corresponds to the maximum number of genes separating 
+                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+                to the name of the hmm as provided in the keys of hmm_hits.
+                More than two hmms can be concatenated. Strand location may be
+                specificed by using '>' for sense and '<' for antisense. 
+
+        Returns:
+            str: parsed synteny structure in which gene symbols are replaced by 
+                 corresponding HMM names.
         """
         args = CommandArgs(
             synteny_struc=synteny_struc,
@@ -108,23 +162,28 @@ class Search(Command):
         return parse_gene_ids(args)
 
     def run(self) -> SyntenyHits:
-        """
-        Run pynteny search
+        """Run pynteny search
         """
         return synteny_search(self._args)
 
 
 class Build(Command):
+    """Build command object.
+    """
     def __init__(
         self,
         data: Path,
         outfile: Path = None,
         logfile: Path = None,
         processes: int = None):
+        """Translate nucleotide assembly file and assign contig and gene location 
+           info to each identified ORF (using prodigal).
 
-        """
-        Translate nucleotide assembly file and assign contig and gene location 
-        info to each identified ORF (using prodigal).
+        Args:
+            data (Path): _description_
+            outfile (Path, optional): _description_. Defaults to None.
+            logfile (Path, optional): _description_. Defaults to None.
+            processes (int, optional): _description_. Defaults to None.
         """
 
         self._args = CommandArgs(
@@ -136,29 +195,34 @@ class Build(Command):
     
     @staticmethod
     def getTestDataPath() -> Path:
-        """
-        Get path of test data genbank file (E. coli MG1655)
+        """Get path of test data genbank file (E. coli MG1655)
         Published in: https://www.ncbi.nlm.nih.gov/nuccore/U00096.2
         """
         this_file_dir = Path(Path(__file__).parent)
         return Path(this_file_dir.parent) / "tests" / "test_data" / "MG1655.gb"
 
     def run(self) -> None:
-        """
-        Run pynteny search
+        """Run pynteny search
         """
         return build_database(self._args)
 
 
 class Download(Command):
+    """Download HMM database from NCBI.
+    """
     def __init__(
         self,
         outdir: Path = None,
         logfile: Path = None,
         unpack: bool = False):
+        """Download HMM database from NCBI.
 
-        """
-        Download HMM database from NCBI.
+        Args:
+            outdir (Path, optional): path to ouput directory in which to store downloaded HMMs.
+                Defaults to None.
+            logfile (Path, optional): path to log file. Defaults to None.
+            unpack (bool, optional): whether to unpack downloaded file. If False, then PGAP's database
+                will be unpacked in each Pynteny session. Defaults to False.
         """
 
         self._args = CommandArgs(
@@ -168,7 +232,6 @@ class Download(Command):
             )
 
     def run(self) -> None:
-        """
-        Run pynteny download
+        """Run pynteny download
         """
         return download_hmms(self._args)
