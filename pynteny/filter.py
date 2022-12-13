@@ -451,7 +451,7 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
         hmmer_output_dir (Path, optional): output directory to store HMMER3 output files. Defaults to None.
         reuse_hmmer_results (bool, optional): if True then HMMER3 won't be run again for HMMs already
             searched in the same output directory. Defaults to True.
-        method (str, optional): whether to use 'hmmsearch' or 'hmmscan'. Defaults to 'hmmsearch'.
+        method (str, optional): select between 'hmmsearch' or 'hmmscan'. Defaults to 'hmmsearch'.
         processes (int, optional): maximum number of threads to be employed. Defaults to all minus one.
         additional_args (list[str], optional): additional arguments to hmmsearch or hmmscan. Each
             element in the list is a string with additional arguments for each 
