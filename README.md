@@ -59,6 +59,30 @@ pynteny <subcommand> <options>
 
 There are a number of available subcommands, which can be explored in the [documentation](https://robaina.github.io/Pynteny/) pages.
 
+For intance, to first download the [PGAP](https://academic.oup.com/nar/article/49/D1/D1020/6018440)'s database containing a collection of profile HMMs as well as metadata:
+
+```bash
+pynteny download --outdir data/hmms --unpack
+```
+
+Next, to build a labelled peptide database from DNA assembly data:
+
+```bash
+pynteny build \
+    --data assembly.fa \
+    --outfile labelled_peptides.faa
+
+```
+
+Finally, to search the peptide database for the syntenic structure: `>gene_A 0 >gene_B 0 >gene_C 10 <gene_C`, using the donwloaded [PGAP](https://academic.oup.com/nar/article/49/D1/D1020/6018440) database:
+
+```bash
+pynteny search \
+    --synteny_struc ">gene_A 0 >gene_B 0 >gene_C 10 <gene_C" \
+    --data labelled_peptides.faa \
+    --outdir results/ \
+    --gene_ids
+```
 
 Pynteny may also be used with a graphical interface (made with [Streamlit](https://streamlit.io)). The app is run on a local server in your machine, thus all files are kept locally and the app can be run without an internet connection. 
 

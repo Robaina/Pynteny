@@ -311,7 +311,8 @@ class GeneAnnotator():
         """
         self._assembly_file = assembly_file
 
-    def annotate(self, processes: int = None, metagenome: bool = True,
+    def annotate(self, processes: int = None,
+                 metagenome: bool = True,
                  output_file: Path = None,
                  prodigal_args: str = None) -> LabelledFASTA:
         """
