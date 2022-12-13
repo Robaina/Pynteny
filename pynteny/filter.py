@@ -21,17 +21,18 @@ logger = logging.getLogger(__name__)
 
 
 class SyntenyPatternFilters():
+    """Methods to filter hmm hits in the  same contig by synteny structure
+       or collinearity. These filters are inputs to pandas.Dataframe.rolling method.
+    """
     def __init__(self, synteny_structure: str, unordered: bool = False) -> None:
-        """
-        Methods to filter hmm hits in the  same contig by synteny structure
-        or collinearity. To be applied in pandas.Series.rolling.apply method.
+        """Initialize filter class from synteny structure.
 
-        @param: synteny_structure: string coontaining the synteny structure
-                to be searched for
-        @param: unordered, boolean, whether the HMMs should be arranged in the
+        Args:
+            synteny_structure (str): synteny structure following style described in the docs.
+            unordered (bool, optional): whether the HMMs should be arranged in the
                 exact same order displayed in the synteny_structure or in 
                 any order If ordered, the filters would filter collinear rather
-                than syntenic structures.
+                than syntenic structures. Defaults to False.
         """
         parsed_structure = SyntenyParser.parseSyntenyStructure(synteny_structure)
         hmm_order_dict = dict(
@@ -58,12 +59,28 @@ class SyntenyPatternFilters():
         self._unordered = unordered
 
     def contains_hmm_pattern(self, data: pd.Series) -> int:
+        """Check if series items contain a profile HMM
+
+        Args:
+            data (pd.Series): a series resulting from calling rolling on a pandas column.
+
+        Returns:
+            int: 1 for True 0 for False.
+        """
         if self._unordered:
             return 1 if set(data.values) == set(self.hmm_code_order_pattern) else 0
         else:
             return 1 if data.values.tolist() == self.hmm_code_order_pattern else 0
 
     def contains_distance_pattern(self, data: pd.Series) -> int:
+        """_summary_
+
+        Args:
+            data (pd.Series): _description_
+
+        Returns:
+            int: _description_
+        """
         return 1 if all(
             [
                 (data_dist <= max_dist) and (data_dist > min_dist)
@@ -72,6 +89,14 @@ class SyntenyPatternFilters():
             ) else 0
 
     def contains_strand_pattern(self, data: pd.Series) -> int:
+        """_summary_
+
+        Args:
+            data (pd.Series): _description_
+
+        Returns:
+            int: _description_
+        """
         strand_comparisons = []
         for data_strand, pattern_strand in zip(data.values, self.strand_order_pattern):
             if pattern_strand != 0:
@@ -82,30 +107,28 @@ class SyntenyPatternFilters():
 
 
 class SyntenyHMMfilter():
-    """
-    Tools to search for synteny structures among sets of hmm models
+    """Tools to search for synteny structures among sets of hmm models
     """
     def __init__(self, hmm_hits: dict, synteny_structure: str, unordered: bool = True) -> None:
-        """
-        Search for contigs that satisfy the given gene synteny structure
+        """Search for contigs that satisfy the given gene synteny structure.
 
-        @param: hmm_hits, a dict of pandas DataFrames, as output by
+        Args:
+            hmm_hits (dict): a dict of pandas DataFrames, as output by
                 parseHMMsearchOutput with keys corresponding to hmm names
-
-        @param: synteny_structure, a str describing the desired synteny structure,
+            synteny_structure (str): a str describing the desired synteny structure,
                 structured as follows:
 
-                'hmm_a N_ab hmm_b'
+                '>hmm_a N_ab hmm_b bc <hmm_c'
 
                 where N_ab corresponds to the maximum number of genes separating 
                 gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
                 to the name of the hmm as provided in the keys of hmm_hits.
-                More than two hmms can be concatenated.
-
-        @param: uordered, boolean, whether the HMMs should be arranged in the
+                More than two hmms can be concatenated. Strand location may be
+                specificed by using '>' for sense and '<' for antisense. 
+            unordered (bool, optional): whether the HMMs should be arranged in the
                 exact same order displayed in the synteny_structure or in 
                 any order If ordered, the filters would filter collinear rather
-                than syntenic structures.
+                than syntenic structures. Defaults to True.
         """
         self._unordered = unordered
         self._hmm_hits = hmm_hits
@@ -141,8 +164,7 @@ class SyntenyHMMfilter():
         return code[0]
 
     def _addMetaCodesToHMMhits(self, all_hit_labels: pd.Dataframe) -> pd.Dataframe:
-        """
-        Add numeric codes for each hmm and strand, compute distance between genes
+        """Add numeric codes for each hmm and strand, compute distance between genes
         """
         all_hit_labels["gene_pos_diff"] = all_hit_labels.gene_pos.diff()
         all_hit_labels.loc[0, "gene_pos_diff"] = 1 # required for rolling (skips first nan)
@@ -152,9 +174,8 @@ class SyntenyHMMfilter():
             )
         return all_hit_labels
 
-    def mergeHitsByHMMgroup(self, hits: pd.DataFrame):
-        """
-        Merge hit sequences within an HMM group representing
+    def _mergeHitsByHMMgroup(self, hits: pd.DataFrame):
+        """Merge hit sequences within an HMM group representing
         the same gene symbol. Drop duplicated hits within 
         each HMM group.
         """
@@ -175,8 +196,10 @@ class SyntenyHMMfilter():
         return hits
 
     def getAllHMMhits(self) -> pd.DataFrame:
-        """
-        Group and preprocess all hit labels into a single dataframe
+        """Group and preprocess all hit labels into a single dataframe.
+
+        Returns:
+            pd.DataFrame: HMMER3 hit labels matching provided HMMs.
         """
         hit_labels = {}
         labelparser = LabelParser()
@@ -198,13 +221,15 @@ class SyntenyHMMfilter():
                 ).sort_values(["contig", "gene_pos"], ascending=True)
         all_hit_labels.reset_index(drop=True, inplace=True)
         if self._contains_hmm_groups:
-            all_hit_labels = self.mergeHitsByHMMgroup(all_hit_labels)
+            all_hit_labels = self._mergeHitsByHMMgroup(all_hit_labels)
         all_hit_labels.reset_index(drop=True, inplace=True)
         return self._addMetaCodesToHMMhits(all_hit_labels)
 
     def filterHitsBySyntenyStructure(self) -> dict:
-        """
-        Search for contigs that satisfy the given gene synteny structure
+        """Search for contigs that satisfy the given gene synteny structure.
+
+        Returns:
+            dict: HMMER3 hits separated by contig.
         """
         all_matched_hits = {}
         filters = SyntenyPatternFilters(self._synteny_structure, unordered=self._unordered)
@@ -256,16 +281,17 @@ class SyntenyHMMfilter():
 
 
 class SyntenyHits():
+    """Store and manipulate synteny hits by contig
+    """
     def __init__(self, synteny_hits: pd.DataFrame) -> None:
         """
-        Class to store and manipulate synteny hits by contig
+        Initialize from synteny hits object.
         """
         self._synteny_hits = synteny_hits.drop_duplicates()
 
     @staticmethod
     def _hitsToDataframe(hits_by_contig: dict) -> pd.DataFrame:
-        """
-        Return synteny hits as a dataframe
+        """Return synteny hits as a dataframe
         """
         data = []
         columns = ["contig", "gene_id", "gene_number", "locus", "strand", "full_label", "hmm"]
@@ -284,20 +310,32 @@ class SyntenyHits():
 
     @classmethod
     def fromHitsDict(cls, hits_by_contig: dict) -> SyntenyHits:
-        """
-        Return SyntenyHits object from hits_by_contig dictionary
+        """Initialize SyntenyHits object from hits_by_contig dictionary.
+
+        Args:
+            hits_by_contig (dict): HMMER3 hit labels separated by contig name.
+
+        Returns:
+            SyntenyHits: initialized object of class SyntenyHits.
         """
         return cls(cls._hitsToDataframe(hits_by_contig))
 
     def getSyntenyHits(self) -> pd.DataFrame:
-        """
-        Return synteny hits
+        """Return synteny hits.
+
+        Returns:
+            pd.DataFrame: Synteny hits as dataframe.
         """
         return self._synteny_hits
 
     def addHMMmetaInfoToHits(self, hmm_meta: Path) -> SyntenyHits:
-        """
-        Add molecular metadata to synteny hits
+        """Add molecular metadata to synteny hits.
+
+        Args:
+            hmm_meta (Path): path to PGAP metadata file.
+
+        Returns:
+            SyntenyHits: and instance of class SyntenyHits.
         """
         fields = ["gene_symbol", "label", "product", "ec_number"]
         if all([f in self._synteny_hits.columns for f in fields]):
@@ -319,16 +357,23 @@ class SyntenyHits():
         return SyntenyHits(self._synteny_hits)
 
     def writeToTSV(self, output_tsv: Path) -> None:
-        """
-        Write synteny hits to a TSV file
+        """Write synteny hits to a TSV file.
+
+        Args:
+            output_tsv (Path): path to output tsv file.
         """
         self._synteny_hits.to_csv(output_tsv, sep="\t", index=False)
 
     def writeHitSequencesToFASTAfiles(self, sequence_database: Path,
                                       output_dir: Path = None,
                                       output_prefix: str = None) -> None:
-        """
-        Write matching sequences to FASTA files
+        """Write matching sequences to FASTA files.
+
+        Args:
+            sequence_database (Path): path to the peptide or nucleotide sequence database
+              in which the synteny search was conducted.
+            output_dir (Path, optional): path to output directory. Defaults to None.
+            output_prefix (str, optional): prefix for output files. Defaults to None.
         """
         fasta = FASTA(sequence_database)
         hmm_groups = self._synteny_hits.hmm.unique().tolist()
@@ -373,23 +418,41 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
                                   method: str = 'hmmsearch',
                                   processes: int = None,
                                   additional_args: list[str] = None) -> SyntenyHits:
-    """
-    Generate protein-specific database by filtering sequence database
-    to only contain sequences which satisfy the provided (gene/hmm)
-    structure
-    
-    @Param
-    unordered: bool, whether HMM hits should follow the exact order
-    displayed in the synteny structure string or not, i.e., whether
-    to search for only synteny (colocation) or collinearity as well
-    (same order).
-    @Param
-    additional_args: additional arguments to hmmsearch or hmmscan. Each
-    element in the list is a string with additional arguments for each 
-    input hmm (arranged in the same order), an element can also take a 
-    value of None to avoid passing additional arguments for a specific 
-    input hmm. A single string may also be passed, in which case the 
-    same additional argument is passed to hmmsearch for all input hmms
+    """Generate protein-specific database by filtering sequence database
+       to only contain sequences which satisfy the provided (gene/hmm) structure.
+
+    Args:
+        synteny_structure (str): a str describing the desired synteny structure,
+            structured as follows:
+
+            '>hmm_a N_ab hmm_b bc <hmm_c'
+
+            where N_ab corresponds to the maximum number of genes separating 
+            gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+            to the name of the hmm as provided in the keys of hmm_hits.
+            More than two hmms can be concatenated. Strand location may be
+            specificed by using '>' for sense and '<' for antisense.
+        input_fasta (Path): input fasta containing sequence database to be searched.
+        input_hmms (list[Path]): list containing paths to hmms contained in synteny structure.
+        unordered (bool, optional): whether HMM hits should follow the exact order
+            displayed in the synteny structure string or not, i.e., whether
+            to search for only synteny (colocation) or collinearity as well
+            (same order). Defaults to False.
+        hmm_meta (Path, optional): path to PGAP's metadata file. Defaults to None.
+        hmmer_output_dir (Path, optional): output directory to store HMMER3 output files. Defaults to None.
+        reuse_hmmer_results (bool, optional): if True then HMMER3 won't be run again for HMMs already
+            searched in the same output directory. Defaults to True.
+        method (str, optional): whether to use 'hmmsearch' or 'hmmscan'. Defaults to 'hmmsearch'.
+        processes (int, optional): maximum number of threads to be employed. Defaults to all minus one.
+        additional_args (list[str], optional): additional arguments to hmmsearch or hmmscan. Each
+            element in the list is a string with additional arguments for each 
+            input hmm (arranged in the same order), an element can also take a 
+            value of None to avoid passing additional arguments for a specific 
+            input hmm. A single string may also be passed, in which case the 
+            same additional argument is passed to hmmsearch for all input hmms. Defaults to None.
+
+    Returns:
+        SyntenyHits: object of class SyntenyHits containing labels matching synteny structure.
     """
     if hmmer_output_dir is None:
         hmmer_output_dir = Path(input_fasta.parent) / "hmmer_outputs"
