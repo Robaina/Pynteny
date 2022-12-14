@@ -14,9 +14,11 @@ nav:
          - Example CLI: examples/example_cli.ipynb
          - Example API: examples/example_api.ipynb
          - Sus operon: examples/example_sus.ipynb
+    - References: references.md
 theme: readthedocs
 plugins:
   - mkdocs-jupyter
+  - mkdocstrings
 # Add MathJax support:
 markdown_extensions:
   - pymdownx.arithmatex:
