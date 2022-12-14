@@ -1,0 +1,58 @@
+{% set name = "pynteny" %}
+{% set version = "0.0.4" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  git_url: "https://github.com/Robaina/Pynteny.git"
+
+build:
+  number: 10
+  
+  entry_points:
+    - pynteny = pynteny.cli:main
+
+requirements:
+
+  build:
+    - {{ compiler('c') }}
+    - python
+
+  host:
+    - python
+    - setuptools
+
+  run:
+    - python
+    - hmmer
+    - prodigal
+    - pyfastx
+    - biopython
+    - numpy
+    - pandas
+    - psutil
+    - python-wget
+    - streamlit
+    - streamlit-aggrid
+
+test:
+  imports:
+    - pynteny
+    - pynteny.src
+    - pynteny.src.app
+  commands:
+    - pynteny --help
+
+about:
+  home: "http://github.com/robaina/Pynteny"
+  license: Creative Commons Attribution 4.0 International
+  license_family: OTHER
+  license_file: 
+  summary: "Multiple HMM - search via synteny structures in Python"
+  doc_url: "http://github.com/robaina/Pynteny/wiki"
+
+extra:
+  recipe-maintainers:
+    - Robaina
