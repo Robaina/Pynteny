@@ -19,13 +19,17 @@ logger = logging.getLogger(__name__)
 
 
 class LabelParser():
-    """
-    Parse entry label to extract coded info
+    """Parse entry label to extract coded info
     """
     @staticmethod
     def parse(label: str) -> dict:
-        """
-        Parse sequence labels to obtain contig and locus info
+        """Parse sequence labels to obtain contig and locus info
+
+        Args:
+            label (str): sequence label
+
+        Returns:
+            dict: dictionary with parsed label info.
         """
         parsed_dict = {
             "full_label": label,
@@ -53,9 +57,14 @@ class LabelParser():
         return parsed_dict
     
     @staticmethod
-    def parse_from_list(labels=list) -> pd.DataFrame: 
-        """
-        Parse labels in list of labels and return DataFrame
+    def parse_from_list(labels: list[str]) -> pd.DataFrame: 
+        """Parse labels in list of labels and return DataFrame.
+
+        Args:
+            labels (list, optional): list of labels as stringgs.
+
+        Returns:
+            pd.DataFrame: Dataframe containing parsed information from labels.
         """
         return pd.DataFrame(
             [LabelParser.parse(label) for label in labels]
@@ -63,13 +72,11 @@ class LabelParser():
 
 
 class SyntenyParser():
-    """
-    Tools to parse synteny structure strings
+    """Tools to parse synteny structure strings
     """
     @staticmethod
     def reformatSyntenyStructure(synteny_structure: str) -> str:
-        """
-        Reformat synteny structure
+        """Remove illegal symbols and extra white space.
         """
         synteny_structure = synteny_structure.replace(
             " |", "|").replace("| ", "|").strip()
@@ -77,15 +84,13 @@ class SyntenyParser():
 
     @staticmethod
     def containsHMMgroups(synteny_structure: str) -> bool:
-        """
-        Check whether structure contains groups of gene-equivalent HMMs
+        """Check whether structure contains groups of gene-equivalent HMMs.
         """
         return "|" in synteny_structure
 
     @staticmethod
     def isValidStructure(synteny_structure: str) -> bool:
-        """
-        Validate synteny structure format
+        """Validate synteny structure format.
         """
         synteny_structure = synteny_structure.replace(
             " |", "|").replace("| ", "|").strip()
@@ -104,6 +109,17 @@ class SyntenyParser():
     @staticmethod
     def splitStrandFromLocus(locus_str: str,
                              parsed_symbol: bool = True) -> tuple[str]:
+        """Split strand info from locus tag / HMM model.
+
+        Args:
+            locus_str (str): a substring of a synteny structure containing 
+                a gene symbol / HMM name and strand info.
+            parsed_symbol (bool, optional): if True, strand info '>' is parsed 
+                as 'pos' and '<' as 'neg'. Defaults to True.
+
+        Returns:
+            tuple[str]: tuple with parsed strand info and gene symbol / HMM name.
+        """
         locus_str = locus_str.strip()
         if locus_str[0] == '<' or locus_str[0] == '>':
             sense = locus_str[0]
@@ -118,8 +134,7 @@ class SyntenyParser():
 
     @staticmethod
     def getHMMgroupsInStructure(synteny_structure: str) -> list[str]:
-        """
-        Get hmm names employed in synteny structure,
+        """Get hmm names employed in synteny structure,
         if more than one hmm for the same gene, return
         a list with all of them.
         """
@@ -135,8 +150,7 @@ class SyntenyParser():
 
     @staticmethod
     def getGeneSymbolsInStructure(synteny_structure: str) -> list[str]:
-        """
-        Get gene symbols employed in synteny structure
+        """Retrieve gene symbols contained in synteny structure.
         """
         links = synteny_structure.strip().split()
         if not links:
@@ -150,8 +164,7 @@ class SyntenyParser():
 
     @staticmethod
     def getAllHMMsInStructure(synteny_structure: str) -> list[str]:
-        """
-        Get hmm names employed in synteny structure,
+        """Get hmm names employed in synteny structure,
         if more than one hmm for the same gene, return
         a list with all of them.
         """
@@ -162,8 +175,16 @@ class SyntenyParser():
     @staticmethod
     def getStrandsInStructure(synteny_structure: str,
                               parsed_symbol: bool = True) -> list[str]:
-        """
-        Get strand sense list in structure
+        """Get strand sense list in structure.
+
+        Args:
+            synteny_structure (str): a synteny structure.
+            parsed_symbol (bool, optional): if True, strand info '>' is parsed 
+                as 'pos' and '<' as 'neg'. Defaults to True.
+
+        Returns:
+            list[str]: parsed synteny structure as a list of tuples containing
+                HMM name and strand info for each HMM group.
         """
         links = synteny_structure.strip().split()
         if not links:
@@ -176,8 +197,7 @@ class SyntenyParser():
 
     @staticmethod
     def getMaximumDistancesInStructure(synteny_structure: str) -> list[int]:
-        """
-        Get maximum gene distances in structure
+        """Get maximum gene distances in synteny structure.
         """
         links = synteny_structure.strip().split()
         if not links:
@@ -187,18 +207,21 @@ class SyntenyParser():
 
     @staticmethod
     def parseSyntenyStructure(synteny_structure: str) -> dict:
-        """
-        Parse synteny structure string. A synteny structure
-        is a string like the following:
+        """ Parse synteny structure string.
 
-        >hmm_a n_ab <hmm_b n_bc hmm_c
+        Args:
+            synteny_structure (str): a string like the following:
+                >hmm_a n_ab <hmm_b n_bc hmm_c
 
-        where '>' indicates a hmm target located on the positive strand,
-        '<' a target located on the negative strand, and n_ab cooresponds 
-        to the maximum number of genes separating matched gene a and b. 
-        Multiple hmms may be employed (limited by computational capabilities).
-        No order symbol in a hmm indicates that results should be independent
-        of strand location.
+                where '>' indicates a hmm target located on the positive strand,
+                '<' a target located on the negative strand, and n_ab cooresponds 
+                to the maximum number of genes separating matched gene a and b. 
+                Multiple hmms may be employed (limited by computational capabilities).
+                No order symbol in a hmm indicates that results should be independent
+                of strand location.
+
+        Returns:
+            dict: parsed synteny structure.
         """
         max_dists = SyntenyParser.getMaximumDistancesInStructure(synteny_structure)
         hmm_groups = SyntenyParser.getHMMgroupsInStructure(synteny_structure)
@@ -207,10 +230,25 @@ class SyntenyParser():
 
     @staticmethod
     def parseGenesInSyntenyStructure(synteny_structure: str, hmm_meta: Path) -> tuple[str,dict]:
-        """
-        Convert gene-based synteny structure into a HMM-based one.
+        """Convert gene-based synteny structure into a HMM-based one.
         If a gene symbol matches more than one HMM, return a HMM group
-        like: (HMM1 | HMM2 | ...)
+        like: (HMM1 | HMM2 | ...).
+
+        Args:
+            synteny_structure (str): a string like the following:
+                >hmm_a n_ab <hmm_b n_bc hmm_c
+
+                where '>' indicates a hmm target located on the positive strand,
+                '<' a target located on the negative strand, and n_ab cooresponds 
+                to the maximum number of genes separating matched gene a and b. 
+                Multiple hmms may be employed (limited by computational capabilities).
+                No order symbol in a hmm indicates that results should be independent
+                of strand location.
+            hmm_meta (Path): path to PGAP's metadata file.
+
+        Returns:
+            tuple[str,dict]: parsed synteny structure where gene symbols are replaced
+                by HMM names.
         """
         pgap = PGAP(hmm_meta)
         gene_symbols = SyntenyParser.getGeneSymbolsInStructure(

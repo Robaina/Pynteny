@@ -26,17 +26,29 @@ logger = logging.getLogger(__name__)
 
 
 class RecordSequence():
-    """
-    Tools to process nucleotide or peptide sequences
+    """Tools to process nucleotide or peptide sequences
     """
     @staticmethod
     def removeStopCodonSignals(record_seq: str) -> str:
+        """Remove stop codon signals from peptide sequence
+
+        Args:
+            record_seq (str): peptide sequence.
+
+        Returns:
+            str: a peptide sequence without stop codon symbols.
+        """
         return record_seq.replace('*', '')
     
     @staticmethod
     def isLegitPeptideSequence(record_seq: str) -> bool:
-        """
-        Assert that peptide sequence only contains valid symbols
+        """Assert that peptide sequence only contains valid symbols.
+
+        Args:
+            record_seq (str): peptide sequence.
+
+        Returns:
+            bool: whether peptide sequence only contains legit symbols.
         """
         aas = {
             'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
@@ -47,8 +59,13 @@ class RecordSequence():
     
     @staticmethod
     def isLegitDNAsequence(record_seq: str) -> bool:
-        """
-        Assert that DNA sequence only contains valid symbols
+        """Assert that DNA sequence only contains valid symbols.
+
+        Args:
+            record_seq (str): nucleotide sequence.
+
+        Returns:
+            bool: whether nucleotide sequence only contains legit symbols.
         """
         nts = {'A', 'G', 'T', 'C', 'N'}
         seq_symbols = {s.upper() for s in record_seq}
@@ -56,31 +73,45 @@ class RecordSequence():
 
 
 class FASTA():
+    """Handle and process fasta files.
+    """
     def __init__(self, input_file: Path) -> None:
-        """
-        Class to handle and process fasta files
+        """Initialize FASTA object.
+
+        Args:
+            input_file (Path): path to input fasta file.
         """
         self._input_file = Path(input_file)
         self._input_file_str = self._input_file.as_posix()
 
     def setFilePath(self, new_path: Path) -> None:
-        """
-        Set new path for fasta file
+        """Set new path to fasta file
+
+        Args:
+            new_path (Path): path to fasta file.
         """
         self._input_file = Path(new_path)
         self._input_file_str = self._input_file.as_posix()
 
     def getFilePath(self) -> Path:
-        """
-        Get path to fasta file
+        """get path to fasta file.
+
+        Returns:
+            Path: path to fasta file.
         """
         return self._input_file
 
     @classmethod
     def fromFASTAdirectory(cls, input_dir: Path,
                            merged_fasta: Path = None) -> FASTA:
-        """
-        Initialize FASTA object from directory of FASTA files
+        """Initialize FASTA class from directory of fasta files.
+
+        Args:
+            input_dir (Path): path to input directory.
+            merged_fasta (Path, optional): path to output merged fasta. Defaults to None.
+
+        Returns:
+            FASTA: an initialized instance of class FASTA.
         """
         if merged_fasta is None:
             merged_fasta = input_dir / "merged_database.fasta"
@@ -90,8 +121,11 @@ class FASTA():
     @staticmethod
     def mergeFASTAs(input_dir: Path,
                     output_file: Path = None) -> None:
-        """
-        Merge input fasta files into a single fasta
+        """Merge input fasta files into a one (multi)fasta file.
+
+        Args:
+            input_dir (Path): path to input directory
+            output_file (Path, optional): path to ouput merged fasta file. Defaults to None.
         """
         if output_file is None:
             output_file = input_dir / "merged.fasta"
@@ -110,8 +144,16 @@ class FASTA():
                          export_duplicates: bool = False,
                          method: str = 'seqkit',
                          point_to_new_file: bool = True) -> None:
-        """
-        Removes duplicate entries (either by sequence or ID) from fasta.
+        """Removes duplicate entries (either by sequence or ID) from fasta.
+
+        Args:
+            output_file (Path, optional): path to output fasta file. Defaults to None.
+            export_duplicates (bool, optional): whether duplicated records are exported to a file. Defaults to False.
+            method (str, optional): choose method to select duplicates: 'biopython' or 'seqkit'. Defaults to 'seqkit'.
+            point_to_new_file (bool, optional): whether FASTA object should point to the newly generated file. Defaults to True.
+
+        Yields:
+            None: None
         """
         if output_file is None:
             output_file = Path(self._input_file.parent) \
@@ -137,8 +179,13 @@ class FASTA():
                                  is_peptide: bool = True,
                                  keep_stop_codon: bool = False,
                                  point_to_new_file: bool = True) -> None:
-        """
-        Filter out (DNA or peptide) sequences containing illegal characters
+        """Filter out (DNA or peptide) sequences containing illegal characters.
+
+        Args:
+            output_file (Path, optional): path to output fasta file. Defaults to None.
+            is_peptide (bool, optional): select if input is a peptide sequence, otherwise taken as nucleotide. Defaults to True.
+            keep_stop_codon (bool, optional): whether to keep the stop codon in the peptide sequence. Defaults to False.
+            point_to_new_file (bool, optional): whether FASTA object should point to the newly generated file. Defaults to True.
         """
         dirname = self._input_file.parent
         fname, ext = self._input_file.stem, self._input_file.suffix
@@ -162,8 +209,12 @@ class FASTA():
     def filterByIDs(self, record_ids: list,
                     output_file: Path = None,
                     point_to_new_file: bool = True) -> None:
-        """
-        Filter records in fasta file matching provided IDs
+        """Filter records in fasta file matching provided IDs.
+
+        Args:
+            record_ids (list): list of record IDs to keep of original fasta file.
+            output_file (Path, optional): path to output filtered fasta file. Defaults to None.
+            point_to_new_file (bool, optional): whether FASTA object should point to the newly generated file. Defaults to True.
         """
         if output_file is None:
             output_file = Path(self._input_file.parent) \
@@ -178,8 +229,10 @@ class FASTA():
             self.setFilePath(output_file)
         
     def splitByContigs(self, output_dir: Path = None) -> None:
-        """
-        Split large fasta file into several ones containing one contig each
+        """Split large fasta file into several ones containing one contig each.
+
+        Args:
+            output_dir (Path, optional): _description_. Defaults to None.
         """
         if output_dir is None:
             output_dir = Path(self._input_file.parent) / "split_" + self._input_file.name
@@ -196,8 +249,12 @@ class FASTA():
     def filterByMinimumLength(self, min_length: int,
                               output_file: Path = None,
                               point_to_new_file: bool  = True) -> None:
-        """
-        Filter records in fasta file by minimum length
+        """ Filter records in fasta file by minimum length.
+
+        Args:
+            min_length (int): minimal length of sequences to be kept in filtered fasta file.
+            output_file (Path, optional): path to output filtered fasta file. Defaults to None.
+            point_to_new_file (bool, optional): whether FASTA object should point to the newly generated file. Defaults to True.
         """
         if output_file is None:
             output_file = Path(self._input_file.parent) \
@@ -212,16 +269,21 @@ class FASTA():
 
 
 class LabelledFASTA(FASTA):
-    """
-    Tools to add and parse FASTA with positional info on record tags
+    """Tools to add and parse FASTA with positional info on record tags
     """
     @classmethod
     def fromProdigalOutput(cls,
                            prodigal_faa: Path,
                            output_file: Path = None) -> LabelledFASTA:
-        """
-        Extract positional gene info from prodigal output and export to
-        fasta file.
+        """Instantiate class from prodigal output file. 
+        Extract positional gene info from prodigal output and export to fasta file.
+
+        Args:
+            prodigal_faa (Path): path to prodigal output file containing peptide sequences
+            output_file (Path, optional): path to output labelled fasta file. Defaults to None.
+
+        Returns:
+            LabelledFASTA: object containing the labelled peptide database.
         """
         number_prodigal_record_fields = 9
         if output_file is None:
@@ -248,13 +310,17 @@ class LabelledFASTA(FASTA):
                         output_file: Path = None,
                         prefix: str = None,
                         nucleotide: bool = False) -> LabelledFASTA:
-        """
-        Assign gene positional info, such as contig, gene number and loci
+        """Assign gene positional info, such as contig, gene number and loci
         to each record in genbank database and return LabelledFASTA object.
-        @paramms:
-        gbk_data: path to either a gbk file or a directory containing gbk files
-        nucleotide: if True then records are nucleotide sequences instead of peptides.
-                    Note that this option will notably increase the computation time.
+
+        Args:
+            gbk_data (Path): path to file or directory contanining genbank files
+            output_file (Path, optional): path to output labelled fasta file. Defaults to None.
+            prefix (str, optional): prefix for output file. Defaults to None.
+            nucleotide (bool, optional): whether records corresponds to nucleotide sequences instead of peptides. Defaults to False.
+
+        Returns:
+            LabelledFASTA: object containing the labelled peptide database.
         """
         if gbk_data.is_dir():
             gbk_files = [gbk_data / f for f in gbk_data.iterdir()]
@@ -304,10 +370,13 @@ class LabelledFASTA(FASTA):
 
 
 class GeneAnnotator():
+    """Run prodigal on assembly, predict ORFs and extract location info
+    """
     def __init__(self, assembly_file: FASTA) -> None:
-        """
-        Run prodigal on assembly, predict ORFs
-        and extract location info.
+        """Initialize GeneAnnotator
+
+        Args:
+            assembly_file (FASTA): path to fasta containing assembled nucleotide sequences
         """
         self._assembly_file = assembly_file
 
@@ -315,9 +384,16 @@ class GeneAnnotator():
                  metagenome: bool = True,
                  output_file: Path = None,
                  prodigal_args: str = None) -> LabelledFASTA:
-        """
-        Run prodigal on assembly and export single
-        fasta file with peptide ORFs predictions
+        """Run prodigal on assembly and export single fasta file with peptide ORFs predictions
+
+        Args:
+            processes (int, optional): maximum number of threads. Defaults to all minus one.
+            metagenome (bool, optional): whether assembled sequences correspond to metagenomic data. Defaults to True.
+            output_file (Path, optional): path to output fasta file. Defaults to None.
+            prodigal_args (str, optional): additional arguments to be passed to prodigal CLI. Defaults to None.
+
+        Returns:
+            LabelledFASTA: object containing the labelled peptide database.
         """
         if processes is None:
             processes = os.cpu_count() - 1
@@ -348,14 +424,19 @@ class GeneAnnotator():
 
 
 class Database():
+    """_Sequence database constructor
+    """
     def __init__(self, data: Path) -> None:
-        """
-        Initialize Database object.
-        @paramms:
-        data: path to either assembly fasta file (or a
-              directory containing assembly fasta files) or
-              a genbank file containing ORF annotations (or a
-              directory containing genbank files)
+        """Initialize Database object
+
+        Args:
+            data (Path): path to either assembly fasta file (or a
+                         directory containing assembly fasta files) or
+                         a genbank file containing ORF annotations (or a
+                         directory containing genbank files)
+
+        Raises:
+            FileNotFoundError: if file or directory doesn't exist
         """
         self._data = Path(data)
         if not self._data.exists():
@@ -367,6 +448,14 @@ class Database():
         
     @staticmethod
     def is_fasta(filename: Path):
+        """Check if file is in fasta format
+
+        Args:
+            filename (Path): path to input file
+
+        Returns:
+            bool: whether the file is in fasta format
+        """
         if filename.exists():
             fasta = list(SeqIO.parse(str(filename), "fasta"))
             return any(fasta)
@@ -375,6 +464,14 @@ class Database():
 
     @staticmethod
     def is_gbk(filename: Path):
+        """Check if file is in genbank format
+
+        Args:
+            filename (Path): path to input file
+
+        Returns:
+            _type_: whether the file is in genbank format
+        """
         if filename.exists():
             gbk = list(SeqIO.parse(str(filename), "genbank"))
             return any(gbk)
@@ -382,8 +479,13 @@ class Database():
             return False
 
     def build(self, output_file: Path = None) -> LabelledFASTA:
-        """
-        Build database from data files.
+        """Build database from data files.
+
+        Args:
+            output_file (Path, optional): path to output file. Defaults to None.
+
+        Returns:
+            LabelledFASTA: object containing the labelled peptide database.
         """
         if output_file is None:
             output_file = self._data.parent / f"{self._data.stem}_labelled.faa"

@@ -14,8 +14,14 @@ from pynteny.utils import terminalExecute, setDefaultOutputPath
 
 def runSeqKitNoDup(input_fasta: Path, output_fasta: Path = None,
                    export_duplicates: bool = False):
-    """
-    Simpe CLI wrapper to seqkit rmdup
+    """Simpe CLI wrapper to seqkit rmdup to remove sequence duplicates
+    in fasta file.
+
+    Args:
+        input_fasta (Path): path to input fasta.
+        output_fasta (Path, optional): path to output fasta. Defaults to None.
+        export_duplicates (bool, optional): whether to export a file containing 
+            duplicated sequences. Defaults to False.
     """
     if output_fasta is None:
         output_fasta = setDefaultOutputPath(input_fasta, tag="_no_duplicates")
@@ -35,8 +41,19 @@ def runProdigal(input_file: Path,
                 output_format: str = "fasta",
                 metagenome: bool = False,
                 additional_args: str = None):
-    """
-    Simple CLI wrapper to prodigal
+    """Simple CLI wrapper to prodigal.
+
+    Args:
+        input_file (Path): path to input fasta file with nucleotide sequences.
+        output_file (Path, optional): path to output file containing translated peptides.
+            Defaults to None.
+        output_dir (Path, optional): path to output directory (all prodigal output files).
+            Defaults to None.
+        output_format (str, optional): either 'gbk' or 'fasta'. Defaults to 'fasta'.
+        metagenome (bool, optional): whether input fasta correspond to a metagenomic sample.
+            Defaults to False.
+        additional_args (str, optional): a string containing additional arguments to prodigal.
+            Defaults to None.
     """
     if metagenome:
         procedure = "meta"
@@ -67,9 +84,16 @@ def runHMMsearch(hmm_model: Path, input_fasta: Path,
                  method: str = 'hmmsearch',
                  n_processes: int = None,
                  additional_args: str = None) -> None:
-    """
-    Simple CLI wrapper to hmmsearch or hmmscan
-    --cut_nc, --cut_ga
+    """Simple CLI wrapper to hmmsearch or hmmscan.
+
+    Args:
+        hmm_model (Path): path to profile HMM to be used.
+        input_fasta (Path): path to fasta containing sequence database to be searched.
+        output_file (Path, optional): path to prodigal output table file. Defaults to None.
+        method (str, optional): either 'hmmsearch' or 'hmmscan'. Defaults to 'hmmsearch'.
+        n_processes (int, optional): maximum number of threads. Defaults to all minus one.
+        additional_args (str, optional): a string containing additional arguments to 
+            hmmsearch/scan. Defaults to None.
     """
     if n_processes is None:
         n_processes = os.cpu_count() - 1

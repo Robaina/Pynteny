@@ -24,13 +24,28 @@ logger = logging.getLogger(__name__)
 
 
 class HMMER:
+    """Run Hmmer on multiple hmms and parse output
+    """
     def __init__(self, input_hmms: list[Path],
                  hmm_output_dir: Path,
                  input_data: Path,
                  additional_args: list[str],
                  processes: int = None) -> None:
-        """
-        Run Hmmer on multiple hmms and parse output
+        """Initialize class HMMER
+
+        Args:
+            input_hmms (list[Path]): list of paths to input HMM files.
+            hmm_output_dir (Path): path to output directory to HMMER output files.
+            input_data (Path): path to input fasta file with sequence database.
+            additional_args (list[str]): additional arguments to hmmsearch or hmmscan. Each
+                element in the list is a string with additional arguments for each 
+                input hmm (arranged in the same order), an element can also take a 
+                value of None to avoid passing additional arguments for a specific 
+                input hmm. A single string may also be passed, in which case the 
+                same additional argument is passed to hmmsearch for all input hmms. 
+                Defaults to None.
+            processes (int, optional): maximum number of threads to be employed.
+                Defaults to all minus one.
         """
         self._hmmer_output_dir = hmm_output_dir
         self._input_hmms = input_hmms
@@ -40,12 +55,22 @@ class HMMER:
 
     @property
     def hmm_names(self) -> list[str]:
+        """Get file names of input HMMs
+
+        Returns:
+            list[str]: list of file names.
+        """
         return [hmm_path.stem for hmm_path in self._input_hmms]
 
     @staticmethod
     def parseHMMsearchOutput(hmmer_output: str) -> pd.DataFrame:
-        """
-        Parse hmmsearch or hmmscan summary table output file
+        """Parse hmmsearch or hmmscan summary table output file.
+
+        Args:
+            hmmer_output (str): path to HMMER output file.
+
+        Returns:
+            pd.DataFrame: a dataframe containing parsed HMMER output.
         """
         attribs = ['id', 'bias', 'bitscore', 'description']
         hits = defaultdict(list)
@@ -58,9 +83,17 @@ class HMMER:
     
     def getHMMERtables(self,
                        reuse_hmmer_results: bool = True,
-                       method: str = None) -> dict[pd.DataFrame]:
-        """
-        Run hmmer for given hmm list
+                       method: str = "hmmsearch") -> dict[pd.DataFrame]:
+        """Run hmmer for given hmm list
+
+        Args:
+            reuse_hmmer_results (bool, optional): if True then HMMER3 won't be run
+            again for HMMs already searched in the same output directory. Defaults to True.
+            method (str, optional): select between 'hmmsearch' or 'hmmscan'.
+            Defaults to 'hmmsearch'.
+
+        Returns:
+            dict[pd.DataFrame]: dict of HMMER hits as pandas dataframes.
         """
         hmm_hits = {}
         for hmm_model, add_args in zip(self._input_hmms, self._additional_args):
@@ -82,9 +115,13 @@ class HMMER:
 
     
 class PGAP:
+    """Tools to parse PGAP hmm database metadata
+    """
     def __init__(self, meta_file: Path) -> None:
-        """
-        Tools to parse PGAP hmm database metadata
+        """Initialize class PGAP
+
+        Args:
+            meta_file (Path): path to PGAP's metadata file.
         """
         meta = pd.read_csv(str(meta_file), sep="\t")
         meta = meta[["#ncbi_accession", "gene_symbol", "label", "product_name", "ec_numbers"]]
@@ -93,8 +130,11 @@ class PGAP:
 
     @staticmethod
     def extractPGAPtoDirectory(pgap_tar: Path, output_dir: Path) -> None:
-        """
-        Extract PGAP hmm database (tar.gz) to given directory
+        """Extract PGAP hmm database (tar.gz) to given directory
+
+        Args:
+            pgap_tar (Path): path to compressed PGAP database.
+            output_dir (Path): path to output directory.
         """
         if not isTarFile(pgap_tar):
             logger.warning(f"{pgap_tar} is not a tar file. Skipping extraction")
@@ -112,8 +152,11 @@ class PGAP:
 
     def removeMissingHMMsFromMetadata(self, hmm_dir: Path,
                                       outfile: Path = None) -> None:
-        """
-        Remove HMMs from metadata that are not in HMM directory
+        """Remove HMMs from metadata that are not in HMM directory
+
+        Args:
+            hmm_dir (Path): path to directory containing PGAP database.
+            outfile (Path, optional): path to output file. Defaults to None.
         """
         if outfile is None:
             outfile = self._meta.parent / f"{self._meta.stem}_missing_hmms.tsv"
@@ -134,27 +177,37 @@ class PGAP:
         self._meta = self._meta.drop(not_found)
         self._meta.to_csv(outfile, sep="\t", index=False)
 
-    def getHMMnamesByGeneSymbol(self, gene_id: str) -> list[str]:
-        """
-        Try to retrieve HMM by its gene symbol, more
-        than one HMM may map to a single gene symbol
+    def getHMMnamesByGeneSymbol(self, gene_symbol: str) -> list[str]:
+        """Try to retrieve HMM by its gene symbol, more
+           than one HMM may map to a single gene symbol
+
+        Args:
+            gene_symbol (str): gene symbol to be searched for HMM.
+
+        Returns:
+            list[str]: list of HMM names matching gene symbol.
         """
         meta = self._meta#.dropna(subset=["gene_symbol", "label"], axis=0)
         try:
             return meta[
                 (
-                    (meta.gene_symbol == gene_id) |
+                    (meta.gene_symbol == gene_symbol) |
                     # (meta.label.str.contains(gene_id))
-                    (meta.label == gene_id)
+                    (meta.label == gene_symbol)
                     )
                 ]["#ncbi_accession"].values.tolist()
         except:
             return list()
 
     def getHMMgroupForGeneSymbol(self, gene_symbol: str) -> str:
-        """
-        Get HMMs corresponding to gene symbol in PGAP metadata.
-        If more than one HMM matching gene symbol, return a HMM group
+        """Get HMMs corresponding to gene symbol in PGAP metadata.
+           If more than one HMM matching gene symbol, return a HMM group
+
+        Args:
+            gene_symbol (str): gene symbol to be searched for HMM.
+
+        Returns:
+            str: string of HMM names (group separated by |)
         """
         hmms = self.getHMMnamesByGeneSymbol(gene_symbol)
         if not hmms:
@@ -166,8 +219,13 @@ class PGAP:
             return "|".join(hmms)
     
     def getHMMgeneID(self, hmm_name: str) -> list[str]: 
-        """
-        Get gene symbol of given hmm
+        """Get gene symbols matching given hmm.
+
+        Args:
+            hmm_name (str): query HMM name.
+
+        Returns:
+            list[str]: list of gene symbols matching given HMM.
         """
         meta = self._meta.dropna(subset=["#ncbi_accession"], axis=0)
         try:
@@ -178,8 +236,13 @@ class PGAP:
             return None
 
     def getMetaInfoForHMM(self, hmm_name: str) -> dict:
-        """
-        Get meta info for given hmm
+        """Get meta info for given hmm.
+
+        Args:
+            hmm_name (str): query HMM name.
+
+        Returns:
+            dict: metadata of provided HMM.
         """
         meta = self._meta.dropna(subset=["#ncbi_accession"], axis=0).applymap(
             lambda x: x if not pd.isna(x) else ""

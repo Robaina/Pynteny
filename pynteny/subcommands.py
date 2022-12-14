@@ -20,8 +20,13 @@ from pynteny.preprocessing import Database
 
 
 def synteny_search(args) -> SyntenyHits:
-    """
-    Search peptide database by synteny structure containing HMMs.
+    """Search peptide database by synteny structure containing HMMs.
+
+    Args:
+        args (argparse.ArgumentParser): arguments object.
+
+    Returns:
+        SyntenyHits: instance of SyntenyHits.
     """
     logger = logging.getLogger(__name__)
     if not Path(args.data).exists():
@@ -126,9 +131,11 @@ def synteny_search(args) -> SyntenyHits:
     return synteny_hits
 
 def build_database(args) -> None:
-    """
-    Build annotated peptide database from input assembly
+    """Build annotated peptide database from input assembly
     or GenBank data.
+
+    Args:
+        args (argparse.ArgumentParser): arguments object.
     """
     if args.logfile is None:
         args.logfile = Path(os.devnull)
@@ -149,8 +156,14 @@ def build_database(args) -> None:
     logger.info("Database built successfully!")
 
 def parse_gene_ids(args) -> str:
-    """
-    Convert gene symbols to hmm names.
+    """Convert gene symbols to hmm names.
+
+    Args:
+        args (argparse.ArgumentParser): arguments object.
+
+    Returns:
+        str: synteny structure where gene symbols are replaced
+            by HMM names.
     """
     if args.logfile is None:
         args.logfile = Path(os.devnull)
@@ -178,8 +191,10 @@ def parse_gene_ids(args) -> str:
     return gene_synteny_struc
 
 def download_hmms(args) -> None:
-    """
-    Download HMM (PGAP) database from NCBI.
+    """Download HMM (PGAP) database from NCBI.
+
+    Args:
+        args (argparse.ArgumentParser): arguments object.
     """
     if args.logfile is None:
         args.logfile = Path(os.devnull)
@@ -240,8 +255,7 @@ def download_hmms(args) -> None:
         logger.info("PGAP database unpacked successfully")
 
 def run_app() -> None:
-    """
-    Run Pynteny app through streamlit
+    """Run Pynteny app through streamlit
     """
     config = ConfigParser.get_default_config()
     config_path = config.get_config_path()
@@ -256,8 +270,15 @@ def run_app() -> None:
     terminalExecute(cmd_str)
 
 def get_citation(args, silent: bool = False) -> str:
-    """
-    Get Pynteny citation string
+    """Get Pynteny citation string.
+
+    Args:
+        args (argparse.ArgumentParser): arguments object.
+        silent (bool, optional): do not print to terminal.
+            Defaults to False.
+
+    Returns:
+        str: Pyntey citation text.
     """
     citation = (
         "Semidán Robaina Estévez (2022). Pynteny: synteny-aware hmm searches made easy"

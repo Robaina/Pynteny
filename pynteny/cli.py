@@ -19,12 +19,17 @@ __author__ = meta["Author"]
 
 
 class Pynteny():
-    """
-    Based on:
-    https://selvakumar-arumugapandian.medium.com/command-line-subcommands-with-pythons-argparse-4dbac80f7110
-
+    """Main command based on:
+    https://selvakumar-arumugapandian.medium.com/  \\
+    command-line-subcommands-with-pythons-argparse-4dbac80f7110
     """
     def __init__(self, subcommand: str, subcommand_args: list[str]):
+        """Initialize main command
+
+        Args:
+            subcommand (str): subcommand name
+            subcommand_args (list[str]): list of subcommand arguments and values.
+        """
         self._subcommand = subcommand
         if "--hmmsearch_args" in subcommand_args:
             hmm_arg_idx = subcommand_args.index("--hmmsearch_args") + 1
@@ -94,36 +99,42 @@ class Pynteny():
         subcommand()
     
     def search(self):
+        """Call search subcommand.
+        """
         parser = SubcommandParser.search()
         args = parser.parse_args(self._subcommand_args)
         sub.synteny_search(args)
 
     def build(self):
+        """Call build subcommand.
+        """
         parser = SubcommandParser.build()
         args = parser.parse_args(self._subcommand_args)
         sub.build_database(args)
 
     def parse(self):
+        """Call parse subcommand.
+        """
         parser = SubcommandParser.parse()
         args = parser.parse_args(self._subcommand_args)
         sub.parse_gene_ids(args)
 
     def download(self):
+        """Call download subcommand.
+        """
         parser = SubcommandParser.download()
         args = parser.parse_args(self._subcommand_args)
         sub.download_hmms(args)
     
     def app(self):
-        """
-        Run pynteny app through Streamlit
+        """Run pynteny app through Streamlit
         """
         parser = SubcommandParser.app()
         args = parser.parse_args(self._subcommand_args)
         sub.run_app()
 
     def cite(self):
-        """
-        Print pynteny's citation string
+        """Print pynteny's citation string
         """
         parser = SubcommandParser.cite()
         args = parser.parse_args(self._subcommand_args)
@@ -132,11 +143,18 @@ class Pynteny():
 
 
 class SubcommandParser():
-    """
-    Argparse parsers for Pynteny's subcommands
+    """Argparse parsers for Pynteny's subcommands
     """
     @staticmethod
     def getHelpStr(subcommand: str) -> str:
+        """Get help string for subcommand.
+
+        Args:
+            subcommand (str): subcommand name.
+
+        Returns:
+            str: help string.
+        """
         parser = getattr(SubcommandParser, subcommand)()
         with tempfile.NamedTemporaryFile(mode="w+") as file:
             parser.print_help(file)
@@ -147,6 +165,11 @@ class SubcommandParser():
 
     @staticmethod
     def search() -> argparse.ArgumentParser:
+        """Parser for the search subcommand.
+
+        Returns:
+            argparse.ArgumentParser: ArgumentParser object.
+        """
         parser = argparse.ArgumentParser(
             description=(
                 "Query sequence database for HMM hits arranged in provided synteny structure."
@@ -244,6 +267,11 @@ class SubcommandParser():
     
     @staticmethod
     def build() -> argparse.ArgumentParser:
+        """Parser for the build subcommand.
+
+        Returns:
+            argparse.ArgumentParser: ArgumentParser object.
+        """
         parser = argparse.ArgumentParser(
             description=(
                 "Translate nucleotide assembly file and assign contig and gene location info \n"
@@ -288,6 +316,11 @@ class SubcommandParser():
     
     @staticmethod
     def parse() -> argparse.ArgumentParser:
+        """Parser for the parse subcommand.
+
+        Returns:
+            argparse.ArgumentParser: ArgumentParser object.
+        """
         parser = argparse.ArgumentParser(
             description=(
                 "Translate synteny structure with gene symbols into one with\n"
@@ -322,6 +355,11 @@ class SubcommandParser():
     
     @staticmethod
     def download() -> argparse.ArgumentParser:
+        """Parser for the download subcommand.
+
+        Returns:
+            argparse.ArgumentParser: ArgumentParser object.
+        """
         parser = argparse.ArgumentParser(
             description=(
                 "Download HMM database from NCBI."
@@ -354,8 +392,10 @@ class SubcommandParser():
     
     @staticmethod
     def app() -> argparse.ArgumentParser:
-        """
-        Run pynteny app through Streamlit
+        """Parser for the app subcommand.
+
+        Returns:
+            argparse.ArgumentParser: ArgumentParser object.
         """
         parser = argparse.ArgumentParser(
             description=(
@@ -372,8 +412,10 @@ class SubcommandParser():
     
     @staticmethod
     def cite() -> argparse.ArgumentParser:
-        """
-        Print pynteny's citation string
+        """Parser for the cite subcommand.
+
+        Returns:
+            argparse.ArgumentParser: ArgumentParser object.
         """
         parser = argparse.ArgumentParser(
             description=(
