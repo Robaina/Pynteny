@@ -4,13 +4,8 @@ projects/
 
 dev.ipynb
 NOTES.md
-test_script.py
-test_script.sh
 meta.yaml
 build.sh
-meta_hard.yaml
-conda-lock.yml
-environment.yml
 MANIFEST.in
 setup.py 
 pyproject_no.toml
