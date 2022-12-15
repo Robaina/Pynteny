@@ -1,5 +1,5 @@
 {% set name = "pynteny" %}
-{% set version = "0.0.4" %}
+{% set version = "0.0.5" %}
 
 package:
   name: "{{ name|lower }}"
@@ -40,18 +40,17 @@ requirements:
 test:
   imports:
     - pynteny
-    - pynteny.src
-    - pynteny.src.app
+    - pynteny.app
   commands:
     - pynteny --help
 
 about:
   home: "http://github.com/robaina/Pynteny"
-  license: Creative Commons Attribution 4.0 International
-  license_family: OTHER
+  license: Apache-2.0 license
+  license_family: Apache
   license_file: 
   summary: "Multiple HMM - search via synteny structures in Python"
-  doc_url: "http://github.com/robaina/Pynteny/wiki"
+  doc_url: "https://robaina.github.io/Pynteny/"
 
 extra:
   recipe-maintainers:
