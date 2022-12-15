@@ -42,10 +42,6 @@ pynteny --help
 
 Pynteny is designed to run on Linux machines. However, it can be installed within the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) via conda.
 
-## :hammer: Setup for developers
-
-Pynteny depends on two packages that are not pip-installable but available in bioconda, namely [HMMER](https://github.com/EddyRivasLab/hmmer) and [Prodigal](https://github.com/hyattpd/Prodigal). Hence
-
 ## :rocket: Usage
 
 Pynteny can be run either as a command line tool or as a (locally-served) web application. To run pynteny in the command line, execute:
@@ -109,3 +105,41 @@ In the [examples directory](docs/examples/), you can find a collection of Jupyte
 If you use this software, please cite it as below:
 
 Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy (Version 0.0.4). Zenodo. https://doi.org/10.5281/zenodo.7048685
+
+## :octocat: Contributing
+
+Contributions are always welcome! If you don't know where to start, you may find an interesting [issue to work in here](https://github.com/Robaina/Pynteny/issues). Please, read our [contribution guidelines](.github/CONTRIBUTING.md) first. If you are unsure about how to set a developer environment for Pynteny, do take a look at the section below. Thanks!
+
+### Setting up a developer environment
+
+Pynteny depends on packages that are not available in pip, namely [HMMER](https://github.com/EddyRivasLab/hmmer) and [Prodigal](https://github.com/hyattpd/Prodigal). These can be installed from the bioconda channel. Hence, to setup up a developer environment for Pynteny:
+
+1. Fork and download repo, cd to downloaded directory.
+
+2. Create conda environment with required dependencies:
+
+The file `environment.yml` contains all dependencies required to build and to use Pynteny.
+
+```bash
+conda env create -n pynteny-dev -f environment.yml
+conda activate pynteny-dev
+```
+
+3. Build Pynteny wheels with poetry:
+
+```bash
+(pynteny-dev) poetry build
+```
+
+4. Install Pynteny
+
+```bash
+(pynteny-dev) pip install path/to/pynteny_wheel
+```
+
+5. Run tests
+
+```bash
+(pynteny-dev) python -m unittest discover tests
+```
+
