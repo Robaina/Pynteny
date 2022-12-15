@@ -38,15 +38,13 @@ conda install -c semidan.robaina pynteny
 ```bash
 pynteny --help
 ```
+### Installing Pynteny on Windows
+
+Pynteny is designed to run on Linux machines. However, it can be installed within the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) via conda.
 
 ## :hammer: Setup for developers
 
-Pynteny depends on two packages that are not pip-installable but available in bioconda, namely [HMMER]() and [Prodigal](). Hence
-
-
-### Installing Pynteny on Windows
-
-Pynteny is designed to run on Linux machines. However, it can be installed within the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) via conda. 
+Pynteny depends on two packages that are not pip-installable but available in bioconda, namely [HMMER](https://github.com/EddyRivasLab/hmmer) and [Prodigal](https://github.com/hyattpd/Prodigal). Hence
 
 ## :rocket: Usage
 
