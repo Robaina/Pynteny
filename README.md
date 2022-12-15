@@ -100,6 +100,22 @@ pynteny app
 
 In the [examples directory](docs/examples/), you can find a collection of Jupyter Notebooks containing workflows to demonstrate the usate of Pynteny's command line interface as well as the Python API. We invite you to explore Pynteny's web application by executing the command `pynteny app`. Find more info in the [documentation](https://robaina.github.io/Pynteny/).
 
+## :arrows_counterclockwise: Dependencies
+Pynteny would not work without these awesome projects:
+
+- [hmmer](https://github.com/EddyRivasLab/hmmer)
+- [prodigal](https://github.com/hyattpd/Prodigal)
+- [pyfastx](https://github.com/lmdu/pyfastx)
+- [biopython](https://github.com/biopython/biopython)
+- [numpy](https://github.com/numpy/numpy)
+- [pandas](https://github.com/pandas-dev/pandas)
+- [psutil](https://github.com/giampaolo/psutil)
+- [python-wget](https://anaconda.org/conda-forge/python-wget/)
+- [streamlit](https://github.com/streamlit/streamlit)
+- [streamlit-aggrid](https://github.com/PablocFonseca/streamlit-aggrid)
+
+Thanks!
+
 ## :black_nib: Citation
 
 If you use this software, please cite it as below:
