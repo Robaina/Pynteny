@@ -9,7 +9,7 @@ source:
   git_url: "https://github.com/Robaina/Pynteny.git"
 
 build:
-  number: 10
+  number: 11
   
   entry_points:
     - pynteny = pynteny.cli:main
@@ -18,17 +18,17 @@ requirements:
 
   build:
     - {{ compiler('c') }}
-    - python
+    - python =3.10
 
   host:
-    - python
+    - python =3.10
     - poetry
 
   run:
-    - python
+    - python =3.10
     - hmmer
     - prodigal
-    - pyfastx
+    - pyfastx >=0.8
     - biopython
     - numpy
     - pandas

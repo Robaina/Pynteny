@@ -1,1 +1,1 @@
-$PYTHON setup.py install
+$PYTHON poetry build
