@@ -1,0 +1,19 @@
+name: pynteny-dev
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+  - semidan.robaina
+dependencies:
+  - poetry
+  - hmmer
+  - python
+  - prodigal
+  - pyfastx
+  - biopython
+  - numpy
+  - pandas
+  - psutil
+  - python-wget
+  - streamlit
+  - streamlit-aggrid
