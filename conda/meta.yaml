@@ -46,9 +46,7 @@ test:
 
 about:
   home: "http://github.com/robaina/Pynteny"
-  license: Apache-2.0 license
-  license_family: Apache
-  license_file: 
+  license: Apache-2.0
   summary: "Multiple HMM - search via synteny structures in Python"
   doc_url: "https://robaina.github.io/Pynteny/"
 
