@@ -10,6 +10,10 @@ meta.yaml
 build.sh
 meta_hard.yaml
 conda-lock.yml
+environment.yml
+MANIFEST2.in
+setup2.py 
+pyproject_no_2.toml
 
 .vscode/
 conda/
