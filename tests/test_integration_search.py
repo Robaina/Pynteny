@@ -5,7 +5,6 @@
 Integration tests for the search subcommand
 """
 
-import os
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -34,7 +33,9 @@ class TestSyntenySearch(unittest.TestCase):
                 unordered=False,
                 )
             synhits = synteny_search(search_state).getSyntenyHits()
-            os.remove(os.path.join(this_file_dir.parent, "config.json"))
+            config = Path(this_file_dir.parent) / "config.json"
+            if config.exists():
+                config.unlink()
         hit_labels = [
             'b0071__U00096_71_78847_79453_neg',
             'b0072__U00096_72_79463_80864_neg',
