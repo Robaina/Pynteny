@@ -8,7 +8,7 @@ meta.yaml
 build.sh
 MANIFEST.in
 setup.py 
-pyproject_no.toml
+pyproject.toml
 
 .vscode/
 conda/
