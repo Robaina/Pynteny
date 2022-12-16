@@ -1,9 +1,9 @@
 name: pynteny-dev
 channels:
-  - conda-forge
-  - bioconda
   - defaults
+  - bioconda
   - semidan.robaina
+  - conda-forge
 dependencies:
   - python >= 3.10
   - poetry >= 1.3

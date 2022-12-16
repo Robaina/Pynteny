@@ -135,10 +135,10 @@ Pynteny depends on packages that are not available in pip, namely [HMMER](https:
 
 2. Create conda environment with required dependencies:
 
-The file `environment.yml` contains all dependencies required to use Pynteny.
+The file `environment.yml` contains all dependencies required to use Pynteny. Conda is very slow solving the environment. It is recommended to use [mamba](https://github.com/mamba-org/mamba) instead:
 
 ```bash
-conda env create -n pynteny-dev -f environment.yml
+mamba env create -n pynteny-dev -f environment.yml
 conda activate pynteny-dev
 ```
 
@@ -151,7 +151,7 @@ conda activate pynteny-dev
 4. Install Pynteny
 
 ```bash
-(pynteny-dev) pip install path/to/pynteny_wheel
+(pynteny-dev) pip install dist/pynteny*.whl
 ```
 
 5. Run tests
