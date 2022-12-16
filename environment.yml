@@ -5,16 +5,16 @@ channels:
   - defaults
   - semidan.robaina
 dependencies:
-  - python <= 3.10
-  - poetry
-  - pip
-  - hmmer
-  - prodigal
+  - python >= 3.10
+  - poetry >= 1.3
+  - pip >= 22.3
+  - hmmer >= 3.3
+  - prodigal >= 2.6
   - pyfastx >=0.8
-  - biopython
+  - biopython >= 1.8
   - numpy
   - pandas
-  - psutil
-  - python-wget
-  - streamlit
+  - psutil >= 5.9
+  - python-wget 
+  - streamlit=1.16
   - streamlit-aggrid
