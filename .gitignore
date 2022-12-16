@@ -11,7 +11,7 @@ setup.py
 pyproject.toml
 
 .vscode/
-conda/
+bioconda/
 build/
 dist/
 *.egg-info
