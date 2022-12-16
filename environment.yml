@@ -5,11 +5,12 @@ channels:
   - defaults
   - semidan.robaina
 dependencies:
+  - python <= 3.10
   - poetry
+  - pip
   - hmmer
-  - python
   - prodigal
-  - pyfastx
+  - pyfastx >=0.8
   - biopython
   - numpy
   - pandas

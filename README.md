@@ -134,14 +134,14 @@ Pynteny depends on packages that are not available in pip, namely [HMMER](https:
 
 2. Create conda environment with required dependencies:
 
-The file `environment.yml` contains all dependencies required to build and to use Pynteny.
+The file `environment.yml` contains all dependencies required to use Pynteny.
 
 ```bash
 conda env create -n pynteny-dev -f environment.yml
 conda activate pynteny-dev
 ```
 
-3. Build Pynteny wheels with poetry:
+3. Build package
 
 ```bash
 (pynteny-dev) poetry build

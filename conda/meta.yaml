@@ -7,10 +7,9 @@ package:
 
 source:
   url: https://github.com/Robaina/pynteny/archive/v{{ version }}.tar.gz
-  sha256: 2cbc392805d835a53dae5847f82c28c53ff8284605783975ffd073c84d949532
 
 build:
-  number: 11
+  number: 0
   entry_points:
     - pynteny = pynteny.cli:main
   script: {{ PYTHON }} -m pip install --no-deps --ignore-installed .
