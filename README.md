@@ -30,7 +30,7 @@ conda activate pynteny
 2. Install pynteny
 
 ```bash
-conda install -c semidan.robaina pynteny
+conda install -c bioconda pynteny
 ```
 
 3. Check that installation worked fine:
