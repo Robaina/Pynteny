@@ -11,6 +11,7 @@ setup.py
 pyproject.toml
 
 .vscode/
+old_configs/
 bioconda/
 build/
 dist/
