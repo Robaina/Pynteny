@@ -6,6 +6,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Robaina/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/version.svg)](https://anaconda.org/bioconda/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/platforms.svg)](https://anaconda.org/bioconda/pynteny)
+[![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/latest_release_date.svg)](https://anaconda.org/bioconda/pynteny)
 ![license](https://img.shields.io/github/license/Robaina/Pynteny)
 ![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 [![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783)
