@@ -38,4 +38,4 @@ jobs:
       - name: Build & Install Pynteny
         run: poetry build && pip install dist/pynteny*.whl
       - name: Run tests
-        run: python -m unittest discover tests
+        run: pynteny --help && python -m unittest discover tests
