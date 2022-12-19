@@ -3,9 +3,11 @@
 
 # Synteny-aware hmm searches made easy
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Robaina/pynteny)
+[![tests-pynteny](https://github.com/Robaina/Pynteny/actions/workflows/tests-pynteny.yml/badge.svg)](https://github.com/Robaina/Pynteny/actions/workflows/tests-pynteny.yml)
+[![docs](https://github.com/Robaina/Pynteny/actions/workflows/docs.yml/badge.svg)](https://github.com/Robaina/Pynteny/actions/workflows/docs.yml)
 [![Bioconda](https://img.shields.io/conda/vn/bioconda/pynteny?logo=anaconda&style=flat-square&maxAge=3600)](https://anaconda.org/bioconda/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/downloads.svg)](https://anaconda.org/bioconda/pynteny)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Robaina/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/platforms.svg)](https://anaconda.org/bioconda/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/latest_release_date.svg)](https://anaconda.org/bioconda/pynteny)
 ![license](https://img.shields.io/github/license/Robaina/Pynteny)
@@ -135,7 +137,7 @@ Pynteny depends on packages that are not available in pip, namely [HMMER](https:
 
 2. Create conda environment with required dependencies:
 
-The file `environment.yml` contains all dependencies required to use Pynteny. Conda is very slow solving the environment. It is recommended to use [mamba](https://github.com/mamba-org/mamba) instead:
+The file `envs/pynteny-dev.yml` contains all dependencies required to use Pynteny. Conda is very slow solving the environment. It is recommended to use [mamba](https://github.com/mamba-org/mamba) instead:
 
 ```bash
 mamba env create -n pynteny-dev -f envs/pynteny-dev.yml
