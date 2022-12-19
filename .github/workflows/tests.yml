@@ -5,6 +5,8 @@ on:
     paths:
       - 'envs/pynteny-dev.yml'
       - '.github/workflows/tests.yml'
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
 
