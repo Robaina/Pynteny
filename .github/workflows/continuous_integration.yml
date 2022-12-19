@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v2
       - run: pip install --upgrade pip && pip install mamba
-      - run: mamba env create -f environment.yml && conda activate pynteny-dev && poetry build && pip install dist/pynteny*.whl
+      - run: mamba env create -n "pynteny-dev" -f "environment.yml" && conda activate pynteny-dev && poetry build && pip install dist/pynteny*.whl
       - run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
       - name: Run tests
         run: python -m unittest discover tests
