@@ -4,7 +4,7 @@
 # Synteny-aware hmm searches made easy
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Robaina/pynteny)
-[![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/version.svg)](https://anaconda.org/bioconda/pynteny)
+[![Bioconda](https://img.shields.io/conda/vn/bioconda/pynteny?logo=anaconda&style=flat-square&maxAge=3600)](https://anaconda.org/bioconda/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/downloads.svg)](https://anaconda.org/bioconda/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/platforms.svg)](https://anaconda.org/bioconda/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/latest_release_date.svg)](https://anaconda.org/bioconda/pynteny)
@@ -138,7 +138,7 @@ Pynteny depends on packages that are not available in pip, namely [HMMER](https:
 The file `environment.yml` contains all dependencies required to use Pynteny. Conda is very slow solving the environment. It is recommended to use [mamba](https://github.com/mamba-org/mamba) instead:
 
 ```bash
-mamba env create -n pynteny-dev -f environment.yml
+mamba env create -n pynteny-dev -f envs/pynteny-dev.yml
 conda activate pynteny-dev
 ```
 
