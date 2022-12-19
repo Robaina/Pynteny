@@ -1,4 +1,4 @@
-name: JOSS-paper
+name: joss
 on: [push]
 
 jobs:

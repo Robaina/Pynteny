@@ -1,10 +1,10 @@
-name: tests-pynteny
+name: tests
 on:
   push:
     branches: [ main ]
     paths:
       - 'envs/pynteny-dev.yml'
-      - '.github/workflows/tests-pynteny.yml'
+      - '.github/workflows/tests.yml'
 
 jobs:
 
