@@ -26,7 +26,12 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v2
       - run: pip install --upgrade pip
-      - run: conda env create -n "pynteny-dev" -f "environment.yml" && conda activate pynteny-dev && poetry build && pip install dist/pynteny*.whl
       - run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Install mamba
+        run: curl micro.mamba.pm/install.sh | bash
+      - name: Set environment
+      - run: conda deactivate && micromamba env create -n "pynteny-dev" -f "environment.yml" && conda activate pynteny-dev
+      - name: Build & Install Pynteny
+        run: poetry build && pip install dist/pynteny*.whl
       - name: Run tests
         run: python -m unittest discover tests
