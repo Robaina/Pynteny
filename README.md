@@ -127,38 +127,5 @@ Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy
 
 ## :octocat: Contributing
 
-Contributions are always welcome! If you don't know where to start, you may find an interesting [issue to work in here](https://github.com/Robaina/Pynteny/issues). Please, read our [contribution guidelines](.github/CONTRIBUTING.md) first. If you are unsure about how to set a developer environment for Pynteny, do take a look at the section below. Thanks!
-
-### Setting up a developer environment
-
-Pynteny depends on packages that are not available in pip, namely [HMMER](https://github.com/EddyRivasLab/hmmer) and [Prodigal](https://github.com/hyattpd/Prodigal). These can be installed from the bioconda channel. Hence, to setup up a developer environment for Pynteny:
-
-1. Fork and download repo, cd to downloaded directory.
-
-2. Create conda environment with required dependencies:
-
-The file `envs/pynteny-dev.yml` contains all dependencies required to use Pynteny. Conda is very slow solving the environment. It is recommended to use [mamba](https://github.com/mamba-org/mamba) instead:
-
-```bash
-mamba env create -n pynteny-dev -f envs/pynteny-dev.yml
-conda activate pynteny-dev
-```
-
-3. Build package
-
-```bash
-(pynteny-dev) poetry build
-```
-
-4. Install Pynteny
-
-```bash
-(pynteny-dev) pip install dist/pynteny*.whl
-```
-
-5. Run tests
-
-```bash
-(pynteny-dev) python -m unittest discover tests
-```
+Contributions are always welcome! If you don't know where to start, you may find an interesting [issue to work in here](https://github.com/Robaina/Pynteny/issues). Please, read our [contribution guidelines](CONTRIBUTING.md) first.
 
