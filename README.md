@@ -15,13 +15,13 @@
 [![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783)
 
 
-## :bulb: 1. What is Pynteny?
+## 1. :bulb: What is Pynteny?
 
 `Pynteny` is Python tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in (prokaryotic) sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/). By leveraging genomic context information, `Pynteny` can be employed to decrease the uncertainty of functional annotation of unlabelled sequence data due to the effect of paralogs. `Pynteny` can be accessed (i) through the command line, (ii) as a Python module or (iii) as a (locally served) web application.
 
 Get more info in the [documentation](https://robaina.github.io/Pynteny/) pages!
 
-## :wrench: 2. Setup
+## 2. :wrench: Setup
 
 Install with conda:
 
@@ -46,7 +46,7 @@ pynteny --help
 
 Pynteny is designed to run on Linux machines. However, it can be installed within the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) via conda.
 
-## :rocket: 3. Usage
+## 3. :rocket: Usage
 
 Pynteny can be run either as a command line tool or as a (locally-served) web application. To run pynteny in the command line, execute:
 
@@ -100,11 +100,11 @@ pynteny app
    <img src="assets/pynteny_app.gif" alt="pynyeny-app">
 </p>
 
-## :notebook_with_decorative_cover: 4. Examples
+## 4. :notebook_with_decorative_cover: Examples
 
 In the [examples directory](docs/examples/), you can find a collection of Jupyter Notebooks containing workflows to demonstrate the usate of Pynteny's command line interface as well as the Python API. We invite you to explore Pynteny's web application by executing the command `pynteny app`. Find more info in the [documentation](https://robaina.github.io/Pynteny/).
 
-## :arrows_counterclockwise: 5. Dependencies
+## 5. :arrows_counterclockwise: Dependencies
 Pynteny would not work without these awesome projects:
 
 - [hmmer](https://github.com/EddyRivasLab/hmmer)
@@ -120,11 +120,11 @@ Pynteny would not work without these awesome projects:
 
 Thanks!
 
-## :octocat: 6. Contributing
+## 6. :octocat: Contributing
 
 Contributions are always welcome! If you don't know where to start, you may find an interesting [issue to work in here](https://github.com/Robaina/Pynteny/issues). Please, read our [contribution guidelines](CONTRIBUTING.md) first.
 
-## :black_nib: 7. Citation
+## 7. :black_nib: Citation
 
 If you use this software, please cite it as below:
 
