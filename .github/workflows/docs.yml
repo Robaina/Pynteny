@@ -2,6 +2,9 @@ name: docs
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
 
 jobs:
 
