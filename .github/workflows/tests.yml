@@ -5,8 +5,12 @@ on:
     paths:
       - 'envs/pynteny-dev.yml'
       - '.github/workflows/tests.yml'
+    paths-ignore:
+      - '**.md'
   pull_request:
     types: [opened, reopened]
+    paths-ignore:
+      - '**.md'
 
 jobs:
 
