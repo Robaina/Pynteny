@@ -9,16 +9,14 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from pynteny.utils import CommandArgs
-from pynteny.subcommands import synteny_search
-
+from pynteny.api import Search
 
 this_file_dir = Path(Path(__file__).parent)
 
 class TestSyntenySearch(unittest.TestCase):
     def test_search(self):
         with TemporaryDirectory() as tempdir:
-            search_state = CommandArgs(
+            search = Search(
                 data=this_file_dir / "test_data/MG1655.fasta",
                 synteny_struc="<TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1",
                 hmm_dir=this_file_dir / "test_data/hmms",
@@ -30,9 +28,9 @@ class TestSyntenySearch(unittest.TestCase):
                 reuse=True,
                 logfile=None,
                 processes=None,
-                unordered=False,
-                )
-            synhits = synteny_search(search_state).getSyntenyHits()
+                unordered=False
+            )
+            synhits = search.run().getSyntenyHits()
             config = Path(this_file_dir.parent) / "config.json"
             if config.exists():
                 config.unlink()

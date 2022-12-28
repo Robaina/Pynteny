@@ -9,6 +9,7 @@ import unittest
 import tempfile
 from pathlib import Path
 from pynteny.subcommands import Database
+from pynteny.api import Build
 from pynteny.preprocessing import LabelledFASTA
 
 
