@@ -9,6 +9,8 @@ build.sh
 MANIFEST.in
 setup.py 
 pyproject.toml
+.coverage
+coverage.xml
 
 .vscode/
 old_configs/
