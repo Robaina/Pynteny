@@ -4,6 +4,7 @@
 # Synteny-aware hmm searches made easy
 
 [![tests](https://github.com/Robaina/Pynteny/actions/workflows/tests.yml/badge.svg)](https://github.com/Robaina/Pynteny/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/Robaina/Pynteny/branch/main/graph/badge.svg?token=WDSOC220X6)](https://codecov.io/gh/Robaina/Pynteny)
 [![docs](https://github.com/Robaina/Pynteny/actions/workflows/docs.yml/badge.svg)](https://github.com/Robaina/Pynteny/actions/workflows/docs.yml)
 [![Bioconda](https://img.shields.io/conda/vn/bioconda/pynteny?logo=anaconda&style=flat-square&maxAge=3600)](https://anaconda.org/bioconda/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/downloads.svg)](https://anaconda.org/bioconda/pynteny)
