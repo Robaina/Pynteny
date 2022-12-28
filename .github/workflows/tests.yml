@@ -45,8 +45,7 @@ jobs:
         run: poetry build && pip install dist/pynteny*.whl
 
       - name: Run tests and collect coverage
-        run: pynteny --help
-        run: coverage run --omit pynteny/wrappers.py,pynteny/cli.py,pynteny/subcommands.py,pynteny/utils.py -m unittest discover tests && coverage xml
+        run: pynteny --help && coverage run --omit pynteny/wrappers.py,pynteny/cli.py,pynteny/subcommands.py,pynteny/utils.py -m unittest discover tests && coverage xml
 
       - name: Upload  coverage to Codecov
         uses: codecov/codecov-action@v3
