@@ -34,7 +34,7 @@ Unsure where to begin contributing to Pynteny? You can start by looking for issu
 
 Pynteny depends on packages that are not available in pip, namely [HMMER](https://github.com/EddyRivasLab/hmmer) and [Prodigal](https://github.com/hyattpd/Prodigal). These can be installed from the bioconda channel. Hence, to setup up a developer environment for Pynteny:
 
-1. Fork and download repo, cd to downloaded directory. You should work on the "dev" branch.
+1. Fork and download repo, cd to downloaded directory. You should create a new branch to work on your issue.
 
 2. Create conda environment with required dependencies:
 
@@ -67,9 +67,9 @@ conda activate pynteny-dev
 
 Alternatively, you can directly work on a developer environment in the browser within GitHub's codespaces. To set this environment up:
 
-1. Fork repository and go to the "dev" branch in GitHub.
+1. Fork repository and create new branch for your issue.
 
-2. Start a new Codespace for the "dev" branch. GitHub will build an environment with all required dependencies as well as pynteny the first time (it will take a couple of minutes). Pynteny will be installed in a conda environment named "pynteny-dev".
+2. Start a new Codespace for the new branch. GitHub will build an environment with all required dependencies as well as pynteny the first time (it will take a couple of minutes). Pynteny will be installed in a conda environment named "pynteny-dev".
 
 __Known issues__:
 Port forwarding within the codespace doesn't work very well for Streamlit (pynteny app). This is a [known issue](https://discuss.streamlit.io/t/how-to-make-streamlit-run-on-codespaces/24526) regarding Streamlit and Codespaces.
