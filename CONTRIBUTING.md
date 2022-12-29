@@ -30,11 +30,11 @@ Help is always needed at improving the [documentation](https://robaina.github.io
 
 Unsure where to begin contributing to Pynteny? You can start by looking for issues with the label [```good first issue```](https://github.com/Robaina/Pynteny/labels/good%20first%20issue). If you are unsure about how to set a developer environment for Pynteny, do take a look at the section below. Thanks!
 
-## Setting up a developer environment
+## Setting up a local developer environment
 
 Pynteny depends on packages that are not available in pip, namely [HMMER](https://github.com/EddyRivasLab/hmmer) and [Prodigal](https://github.com/hyattpd/Prodigal). These can be installed from the bioconda channel. Hence, to setup up a developer environment for Pynteny:
 
-1. Fork and download repo, cd to downloaded directory.
+1. Fork and download repo, cd to downloaded directory. You should work on the "dev" branch.
 
 2. Create conda environment with required dependencies:
 
@@ -62,6 +62,17 @@ conda activate pynteny-dev
 ```bash
 (pynteny-dev) python -m unittest discover tests
 ```
+
+## Using GitHub codespaces
+
+Alternatively, you can directly work on a developer environment in the browser within GitHub's codespaces. To set this environment up:
+
+1. Fork repository and go to the "dev" branch in GitHub.
+
+2. Start a new Codespace for the "dev" branch. GitHub will build an environment with all required dependencies as well as pynteny the first time (it will take a couple of minutes). Pynteny will be installed in a conda environment named "pynteny-dev".
+
+__Known issues__:
+Port forwarding within the codespace doesn't work very well for Streamlit (pynteny app). This is a [known issue](https://discuss.streamlit.io/t/how-to-make-streamlit-run-on-codespaces/24526) regarding Streamlit and Codespaces.
 
 ## Tests on push and pull request to main
 
