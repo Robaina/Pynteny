@@ -192,14 +192,6 @@ class Build(Command):
             logfile=Path(logfile) if logfile is not None else logfile,
             processes=processes
             )
-    
-    @staticmethod
-    def getTestDataPath() -> Path:
-        """Get path of test data genbank file (E. coli MG1655)
-        Published in: https://www.ncbi.nlm.nih.gov/nuccore/U00096.2
-        """
-        this_file_dir = Path(Path(__file__).parent)
-        return Path(this_file_dir.parent) / "tests" / "test_data" / "MG1655.gb"
 
     def run(self) -> None:
         """Run pynteny search
