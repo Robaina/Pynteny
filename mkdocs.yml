@@ -18,7 +18,8 @@ nav:
          - API references: references/api.md
 theme: readthedocs
 plugins:
-  - mkdocs-jupyter
+  - mkdocs-jupyter:
+      ignore: ["examples/example_api_colab.ipynb"]
   - mkdocstrings
 # Add MathJax support:
 markdown_extensions:
