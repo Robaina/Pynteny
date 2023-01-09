@@ -302,10 +302,10 @@
 <span class="normal">287</span>
 <span class="normal">288</span>
 <span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SyntenyHMMfilter</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Tools to search for synteny structures among sets of hmm models</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tools to search for synteny structures among sets of hmm models</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hmm_hits</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">synteny_structure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Search for contigs that satisfy the given gene synteny structure.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for contigs that satisfy the given gene synteny structure.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            hmm_hits (dict): a dict of pandas DataFrames, as output by</span>
@@ -359,7 +359,7 @@
         <span class="k">return</span> <span class="n">code</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_addMetaCodesToHMMhits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_hit_labels</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Dataframe</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Dataframe</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Add numeric codes for each hmm and strand, compute distance between genes</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add numeric codes for each hmm and strand, compute distance between genes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">all_hit_labels</span><span class="p">[</span><span class="s2">&quot;gene_pos_diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_hit_labels</span><span class="o">.</span><span class="n">gene_pos</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span>
         <span class="n">all_hit_labels</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;gene_pos_diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># required for rolling (skips first nan)</span>
@@ -370,7 +370,7 @@
         <span class="k">return</span> <span class="n">all_hit_labels</span>
 
     <span class="k">def</span> <span class="nf">_mergeHitsByHMMgroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hits</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Merge hit sequences within an HMM group representing</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge hit sequences within an HMM group representing</span>
 <span class="sd">        the same gene symbol. Drop duplicated hits within </span>
 <span class="sd">        each HMM group.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -391,7 +391,7 @@
         <span class="k">return</span> <span class="n">hits</span>
 
     <span class="k">def</span> <span class="nf">getAllHMMhits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Group and preprocess all hit labels into a single dataframe.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Group and preprocess all hit labels into a single dataframe.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pd.DataFrame: HMMER3 hit labels matching provided HMMs.</span>
@@ -421,7 +421,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_addMetaCodesToHMMhits</span><span class="p">(</span><span class="n">all_hit_labels</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">filterHitsBySyntenyStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Search for contigs that satisfy the given gene synteny structure.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for contigs that satisfy the given gene synteny structure.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: HMMER3 hits separated by contig.</span>
@@ -594,7 +594,7 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hmm_hits</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">synteny_structure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Search for contigs that satisfy the given gene synteny structure.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for contigs that satisfy the given gene synteny structure.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        hmm_hits (dict): a dict of pandas DataFrames, as output by</span>
@@ -721,7 +721,7 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">287</span>
 <span class="normal">288</span>
 <span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filterHitsBySyntenyStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Search for contigs that satisfy the given gene synteny structure.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for contigs that satisfy the given gene synteny structure.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dict: HMMER3 hits separated by contig.</span>
@@ -842,7 +842,7 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">getAllHMMhits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Group and preprocess all hit labels into a single dataframe.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Group and preprocess all hit labels into a single dataframe.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        pd.DataFrame: HMMER3 hit labels matching provided HMMs.</span>
@@ -1028,17 +1028,17 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">414</span>
 <span class="normal">415</span>
 <span class="normal">416</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SyntenyHits</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Store and manipulate synteny hits by contig</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Store and manipulate synteny hits by contig</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">synteny_hits</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize from synteny hits object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_synteny_hits</span> <span class="o">=</span> <span class="n">synteny_hits</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_hitsToDataframe</span><span class="p">(</span><span class="n">hits_by_contig</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return synteny hits as a dataframe</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return synteny hits as a dataframe</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;contig&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_id&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_number&quot;</span><span class="p">,</span> <span class="s2">&quot;locus&quot;</span><span class="p">,</span> <span class="s2">&quot;strand&quot;</span><span class="p">,</span> <span class="s2">&quot;full_label&quot;</span><span class="p">,</span> <span class="s2">&quot;hmm&quot;</span><span class="p">]</span>
@@ -1057,7 +1057,7 @@ than syntenic structures. Defaults to True.</p></td>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">fromHitsDict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hits_by_contig</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SyntenyHits</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Initialize SyntenyHits object from hits_by_contig dictionary.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize SyntenyHits object from hits_by_contig dictionary.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            hits_by_contig (dict): HMMER3 hit labels separated by contig name.</span>
@@ -1068,7 +1068,7 @@ than syntenic structures. Defaults to True.</p></td>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_hitsToDataframe</span><span class="p">(</span><span class="n">hits_by_contig</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">getSyntenyHits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return synteny hits.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return synteny hits.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pd.DataFrame: Synteny hits as dataframe.</span>
@@ -1076,7 +1076,7 @@ than syntenic structures. Defaults to True.</p></td>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_synteny_hits</span>
 
     <span class="k">def</span> <span class="nf">addHMMmetaInfoToHits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hmm_meta</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SyntenyHits</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Add molecular metadata to synteny hits.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add molecular metadata to synteny hits.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            hmm_meta (Path): path to PGAP metadata file.</span>
@@ -1104,7 +1104,7 @@ than syntenic structures. Defaults to True.</p></td>
         <span class="k">return</span> <span class="n">SyntenyHits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_synteny_hits</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">writeToTSV</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_tsv</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Write synteny hits to a TSV file.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write synteny hits to a TSV file.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            output_tsv (Path): path to output tsv file.</span>
@@ -1114,7 +1114,7 @@ than syntenic structures. Defaults to True.</p></td>
     <span class="k">def</span> <span class="nf">writeHitSequencesToFASTAfiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence_database</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
                                       <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                       <span class="n">output_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Write matching sequences to FASTA files.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write matching sequences to FASTA files.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            sequence_database (Path): path to the peptide or nucleotide sequence database</span>
@@ -1142,7 +1142,7 @@ than syntenic structures. Defaults to True.</p></td>
                 <span class="n">gene_id</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
             <span class="n">gene_id_str</span> <span class="o">=</span> <span class="n">gene_id</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="k">if</span> <span class="n">gene_id</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
 
-            <span class="n">output_fasta</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">output_prefix</span><span class="si">}{</span><span class="n">gene_id_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">hmm_group</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_hits.fasta&quot;</span>
+            <span class="n">output_fasta</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">output_prefix</span><span class="si">}{</span><span class="n">gene_id_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">hmm_group</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_hits.fasta&quot;</span>
             <span class="k">if</span> <span class="n">record_ids</span><span class="p">:</span>
                 <span class="n">fasta</span><span class="o">.</span><span class="n">filterByIDs</span><span class="p">(</span>
                     <span class="n">record_ids</span><span class="o">=</span><span class="n">record_ids</span><span class="p">,</span>
@@ -1188,7 +1188,7 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">297</span>
 <span class="normal">298</span>
 <span class="normal">299</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">synteny_hits</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialize from synteny hits object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_synteny_hits</span> <span class="o">=</span> <span class="n">synteny_hits</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
@@ -1283,7 +1283,7 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">364</span>
 <span class="normal">365</span>
 <span class="normal">366</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">addHMMmetaInfoToHits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hmm_meta</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SyntenyHits</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Add molecular metadata to synteny hits.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add molecular metadata to synteny hits.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        hmm_meta (Path): path to PGAP metadata file.</span>
@@ -1389,7 +1389,7 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">329</span>
 <span class="normal">330</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">fromHitsDict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hits_by_contig</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SyntenyHits</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Initialize SyntenyHits object from hits_by_contig dictionary.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize SyntenyHits object from hits_by_contig dictionary.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        hits_by_contig (dict): HMMER3 hit labels separated by contig name.</span>
@@ -1445,7 +1445,7 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">336</span>
 <span class="normal">337</span>
 <span class="normal">338</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">getSyntenyHits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return synteny hits.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return synteny hits.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        pd.DataFrame: Synteny hits as dataframe.</span>
@@ -1561,7 +1561,7 @@ in which the synteny search was conducted.</p></td>
 <span class="normal">416</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">writeHitSequencesToFASTAfiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence_database</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
                                   <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                   <span class="n">output_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Write matching sequences to FASTA files.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write matching sequences to FASTA files.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sequence_database (Path): path to the peptide or nucleotide sequence database</span>
@@ -1589,7 +1589,7 @@ in which the synteny search was conducted.</p></td>
             <span class="n">gene_id</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">gene_id_str</span> <span class="o">=</span> <span class="n">gene_id</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="k">if</span> <span class="n">gene_id</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
 
-        <span class="n">output_fasta</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">output_prefix</span><span class="si">}{</span><span class="n">gene_id_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">hmm_group</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_hits.fasta&quot;</span>
+        <span class="n">output_fasta</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">output_prefix</span><span class="si">}{</span><span class="n">gene_id_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">hmm_group</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_hits.fasta&quot;</span>
         <span class="k">if</span> <span class="n">record_ids</span><span class="p">:</span>
             <span class="n">fasta</span><span class="o">.</span><span class="n">filterByIDs</span><span class="p">(</span>
                 <span class="n">record_ids</span><span class="o">=</span><span class="n">record_ids</span><span class="p">,</span>
@@ -1652,7 +1652,7 @@ in which the synteny search was conducted.</p></td>
 <span class="normal">372</span>
 <span class="normal">373</span>
 <span class="normal">374</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">writeToTSV</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_tsv</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Write synteny hits to a TSV file.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write synteny hits to a TSV file.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        output_tsv (Path): path to output tsv file.</span>
@@ -1785,11 +1785,11 @@ or collinearity. These filters are inputs to pandas.Dataframe.rolling method.</p
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SyntenyPatternFilters</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Methods to filter hmm hits in the  same contig by synteny structure</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Methods to filter hmm hits in the  same contig by synteny structure</span>
 <span class="sd">       or collinearity. These filters are inputs to pandas.Dataframe.rolling method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">synteny_structure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Initialize filter class from synteny structure.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize filter class from synteny structure.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            synteny_structure (str): a str describing the desired synteny structure,</span>
@@ -1832,7 +1832,7 @@ or collinearity. These filters are inputs to pandas.Dataframe.rolling method.</p
         <span class="bp">self</span><span class="o">.</span><span class="n">_unordered</span> <span class="o">=</span> <span class="n">unordered</span>
 
     <span class="k">def</span> <span class="nf">contains_hmm_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Check if series items contain a profile HMM</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if series items contain a profile HMM</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            data (pd.Series): a series resulting from calling rolling on a pandas column.</span>
@@ -1846,7 +1846,7 @@ or collinearity. These filters are inputs to pandas.Dataframe.rolling method.</p
             <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="k">else</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">contains_distance_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            data (pd.Series): _description_</span>
@@ -1862,7 +1862,7 @@ or collinearity. These filters are inputs to pandas.Dataframe.rolling method.</p
             <span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">contains_strand_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;_summary_</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            data (pd.Series): _description_</span>
@@ -1994,7 +1994,7 @@ than syntenic structures. Defaults to False.</p></td>
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">synteny_structure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Initialize filter class from synteny structure.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize filter class from synteny structure.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        synteny_structure (str): a str describing the desired synteny structure,</span>
@@ -2114,7 +2114,7 @@ than syntenic structures. Defaults to False.</p></td>
 <span class="normal">96</span>
 <span class="normal">97</span>
 <span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_distance_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (pd.Series): _description_</span>
@@ -2205,7 +2205,7 @@ than syntenic structures. Defaults to False.</p></td>
 <span class="normal">80</span>
 <span class="normal">81</span>
 <span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_hmm_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Check if series items contain a profile HMM</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if series items contain a profile HMM</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (pd.Series): a series resulting from calling rolling on a pandas column.</span>
@@ -2297,7 +2297,7 @@ than syntenic structures. Defaults to False.</p></td>
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_strand_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (pd.Series): _description_</span>
@@ -2598,7 +2598,7 @@ same additional argument is passed to hmmsearch for all input hmms. Defaults to 
                                   <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;hmmsearch&#39;</span><span class="p">,</span>
                                   <span class="n">processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                   <span class="n">additional_args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SyntenyHits</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Generate protein-specific database by filtering sequence database</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate protein-specific database by filtering sequence database</span>
 <span class="sd">       to only contain sequences which satisfy the provided (gene/hmm) structure.</span>
 
 <span class="sd">    Args:</span>
