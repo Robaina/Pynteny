@@ -16,6 +16,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://robaina.github.io/Pynteny/examples/example_api_colab/</loc>
+         <lastmod>2023-01-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://robaina.github.io/Pynteny/examples/example_cli/</loc>
          <lastmod>2023-01-09</lastmod>
          <changefreq>daily</changefreq>
