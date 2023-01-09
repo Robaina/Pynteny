@@ -197,7 +197,7 @@ class FASTA():
             isLegitSequence = RecordSequence.isLegitDNAsequence
 
         fasta = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
-        with open(output_file, 'w') as outfile:
+        with open(output_file, 'w+') as outfile:
             for record_name, record_seq in fasta:
                 if is_peptide and (not keep_stop_codon):
                     record_seq = RecordSequence.removeStopCodonSignals(record_seq)
@@ -260,7 +260,7 @@ class FASTA():
             output_file = Path(self._input_file.parent) \
                 / f"{self._input_file.stem}_minlength{self._input_file.suffix}"
         fasta = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
-        with open(output_file, 'w') as outfile:
+        with open(output_file, 'w+') as outfile:
             for record_name, record_seq in fasta:
                 if len(record_seq) >= min_length:
                     outfile.write(f'>{record_name}\n{record_seq}\n')
@@ -289,7 +289,7 @@ class LabelledFASTA(FASTA):
         if output_file is None:
             output_file = Path(prodigal_faa.parent) / f"{prodigal_faa.stem}_longlabels.fasta"
         data = pyfastx.Fasta(prodigal_faa.as_posix(), build_index=False, full_name=True)
-        with open(output_file, "w") as outfile:
+        with open(output_file, "w+") as outfile:
             for record_name, record_seq in data:
                 name_list = record_name.split(" ")
                 if len(name_list) < number_prodigal_record_fields:
@@ -360,7 +360,7 @@ class LabelledFASTA(FASTA):
                     gene_counter += 1
                 return gene_counter
 
-        with open(output_file, "w") as outfile:
+        with open(output_file, "w+") as outfile:
             for gbk_contig in gbk_contigs:
                 gene_counter = 0
                 for feature in gbk_contig.features:
