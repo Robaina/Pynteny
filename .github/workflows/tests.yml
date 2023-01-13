@@ -7,10 +7,12 @@ on:
     #   - '.github/workflows/tests.yml'
     paths-ignore:
       - '**.md'
+      - '**.ipynb'
   pull_request:
     types: [opened, reopened]
     paths-ignore:
       - '**.md'
+      - '**.ipynb'
 
 jobs:
 
