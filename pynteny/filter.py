@@ -90,13 +90,14 @@ class SyntenyPatternFilters:
             return 1 if data.values.tolist() == self.hmm_code_order_pattern else 0
 
     def contains_distance_pattern(self, data: pd.Series) -> int:
-        """_summary_
+        """Check if series items satisfy the maximum distance
+           between HMM hits.
 
         Args:
-            data (pd.Series): _description_
+            data (pd.Series): a series resulting from calling rolling on a pandas column.
 
         Returns:
-            int: _description_
+            int: 1 for True 0 for False.
         """
         return (
             1
@@ -112,13 +113,14 @@ class SyntenyPatternFilters:
         )
 
     def contains_strand_pattern(self, data: pd.Series) -> int:
-        """_summary_
+        """Check if series items satisfy the strand pattern
+           between HMM hits.
 
         Args:
-            data (pd.Series): _description_
+            data (pd.Series): a series resulting from calling rolling on a pandas column.
 
         Returns:
-            int: _description_
+            int: 1 for True 0 for False.
         """
         strand_comparisons = []
         for data_strand, pattern_strand in zip(data.values, self.strand_order_pattern):
