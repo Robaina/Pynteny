@@ -154,7 +154,7 @@ class SyntenyHMMfilter:
                 specificed by using '>' for sense and '<' for antisense.
             unordered (bool, optional): whether the HMMs should be arranged in the
                 exact same order displayed in the synteny_structure or in
-                any order If ordered, the filters would filter collinear rather
+                any order. If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to True.
         """
         self._unordered = unordered
