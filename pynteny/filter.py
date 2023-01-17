@@ -20,10 +20,11 @@ from pynteny.parser import SyntenyParser, LabelParser
 logger = logging.getLogger(__name__)
 
 
-class SyntenyPatternFilters():
+class SyntenyPatternFilters:
     """Methods to filter hmm hits in the  same contig by synteny structure
-       or collinearity. These filters are inputs to pandas.Dataframe.rolling method.
+    or collinearity. These filters are inputs to pandas.Dataframe.rolling method.
     """
+
     def __init__(self, synteny_structure: str, unordered: bool = False) -> None:
         """Initialize filter class from synteny structure.
 
@@ -33,38 +34,45 @@ class SyntenyPatternFilters():
 
                 '>hmm_a N_ab hmm_b bc <hmm_c'
 
-                where N_ab corresponds to the maximum number of genes separating 
-                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+                where N_ab corresponds to the maximum number of genes separating
+                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds
                 to the name of the hmm as provided in the keys of hmm_hits.
                 More than two hmms can be concatenated. Strand location may be
-                specificed by using '>' for sense and '<' for antisense. 
+                specificed by using '>' for sense and '<' for antisense.
             unordered (bool, optional): whether the HMMs should be arranged in the
-                exact same order displayed in the synteny_structure or in 
+                exact same order displayed in the synteny_structure or in
                 any order If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to False.
         """
-        parsed_structure = SyntenyParser.parseSyntenyStructure(synteny_structure)
+        parsed_structure = SyntenyParser.parse_synteny_structure(synteny_structure)
         hmm_order_dict = dict(
-            zip(parsed_structure["hmm_groups"], range(len(parsed_structure["hmm_groups"])))
+            zip(
+                parsed_structure["hmm_groups"],
+                range(len(parsed_structure["hmm_groups"])),
             )
+        )
         hmm_codes = list(hmm_order_dict.values())
         self.hmm_code_order_pattern = hmm_codes
 
         if unordered:
             max_distance = max(parsed_structure["distances"])
-            max_distances = [float("inf")] + [max_distance for _ in parsed_structure["distances"]]
+            max_distances = [float("inf")] + [
+                max_distance for _ in parsed_structure["distances"]
+            ]
         else:
             max_distances = [float("inf")] + parsed_structure["distances"]
         min_distances = [-float("inf")] + [0 for _ in parsed_structure["distances"]]
         self.distance_order_pattern = [
-            (min_dist, max_dist + 1) 
+            (min_dist, max_dist + 1)
             for min_dist, max_dist in zip(min_distances, max_distances)
-            ]
+        ]
 
-        self.strand_order_pattern = list(map(
-            lambda strand : -1 if strand == "neg" else (1 if strand ==  "pos" else 0),
-            parsed_structure["strands"]
-            ))
+        self.strand_order_pattern = list(
+            map(
+                lambda strand: -1 if strand == "neg" else (1 if strand == "pos" else 0),
+                parsed_structure["strands"],
+            )
+        )
         self._unordered = unordered
 
     def contains_hmm_pattern(self, data: pd.Series) -> int:
@@ -90,12 +98,18 @@ class SyntenyPatternFilters():
         Returns:
             int: _description_
         """
-        return 1 if all(
-            [
-                (data_dist <= max_dist) and (data_dist > min_dist)
-                for data_dist, (min_dist, max_dist) in zip(data.values.tolist(), self.distance_order_pattern)
-            ]
-            ) else 0
+        return (
+            1
+            if all(
+                [
+                    (data_dist <= max_dist) and (data_dist > min_dist)
+                    for data_dist, (min_dist, max_dist) in zip(
+                        data.values.tolist(), self.distance_order_pattern
+                    )
+                ]
+            )
+            else 0
+        )
 
     def contains_strand_pattern(self, data: pd.Series) -> int:
         """_summary_
@@ -115,10 +129,12 @@ class SyntenyPatternFilters():
         return 1 if all(strand_comparisons) == True else 0
 
 
-class SyntenyHMMfilter():
-    """Tools to search for synteny structures among sets of hmm models
-    """
-    def __init__(self, hmm_hits: dict, synteny_structure: str, unordered: bool = True) -> None:
+class SyntenyHMMfilter:
+    """Tools to search for synteny structures among sets of hmm models"""
+
+    def __init__(
+        self, hmm_hits: dict, synteny_structure: str, unordered: bool = True
+    ) -> None:
         """Search for contigs that satisfy the given gene synteny structure.
 
         Args:
@@ -129,13 +145,13 @@ class SyntenyHMMfilter():
 
                 '>hmm_a N_ab hmm_b bc <hmm_c'
 
-                where N_ab corresponds to the maximum number of genes separating 
-                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+                where N_ab corresponds to the maximum number of genes separating
+                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds
                 to the name of the hmm as provided in the keys of hmm_hits.
                 More than two hmms can be concatenated. Strand location may be
-                specificed by using '>' for sense and '<' for antisense. 
+                specificed by using '>' for sense and '<' for antisense.
             unordered (bool, optional): whether the HMMs should be arranged in the
-                exact same order displayed in the synteny_structure or in 
+                exact same order displayed in the synteny_structure or in
                 any order If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to True.
         """
@@ -143,58 +159,70 @@ class SyntenyHMMfilter():
         self._hmm_hits = hmm_hits
         self._hmms = list(hmm_hits.keys())
         self._synteny_structure = synteny_structure
-        self._contains_hmm_groups = SyntenyParser.containsHMMgroups(self._synteny_structure)
-        self._parsed_structure = SyntenyParser.parseSyntenyStructure(self._synteny_structure)
+        self._contains_hmm_groups = SyntenyParser.contains_HMM_groups(
+            self._synteny_structure
+        )
+        self._parsed_structure = SyntenyParser.parse_synteny_structure(
+            self._synteny_structure
+        )
         if self._unordered:
-            self._parsed_structure["strands"] = ["" for _ in self._parsed_structure["strands"]]
-            logger.warning("Disregarding strand location as unordered structured selected")
-        self._hmm_order_dict = dict(
-            zip(self._parsed_structure["hmm_groups"], range(len(self._parsed_structure["hmm_groups"])))
+            self._parsed_structure["strands"] = [
+                "" for _ in self._parsed_structure["strands"]
+            ]
+            logger.warning(
+                "Disregarding strand location as unordered structured selected"
             )
+        self._hmm_order_dict = dict(
+            zip(
+                self._parsed_structure["hmm_groups"],
+                range(len(self._parsed_structure["hmm_groups"])),
+            )
+        )
         self._n_hmm_groups = len(self._hmm_order_dict)
         self._unordered = unordered
 
-    def _assignCodeToHMM(self, hmm_group_name: str) -> int:
+    def _assign_code_to_HMM(self, hmm_group_name: str) -> int:
         hmm_group_name = str(hmm_group_name)
         code = [
-            code for hmm_group, code in self._hmm_order_dict.items()
+            code
+            for hmm_group, code in self._hmm_order_dict.items()
             if set(hmm_group_name.split("|")).issubset(set(hmm_group.split("|")))
-            ]
+        ]
         if len(code) > 1:
             logger.error(
-            f"HMM: {hmm_group_name} found in more than one hmm group in synteny structure"
+                f"HMM: {hmm_group_name} found in more than one hmm group in synteny structure"
             )
             sys.exit(1)
         if not code:
-            logger.error(
-            f"No code found for HMM: {hmm_group_name}"
-            )
+            logger.error(f"No code found for HMM: {hmm_group_name}")
             sys.exit(1)
         return code[0]
 
-    def _addMetaCodesToHMMhits(self, all_hit_labels: pd.Dataframe) -> pd.Dataframe:
-        """Add numeric codes for each hmm and strand, compute distance between genes
-        """
+    def _add_meta_codes_to_HMM_hits(self, all_hit_labels: pd.Dataframe) -> pd.Dataframe:
+        """Add numeric codes for each hmm and strand, compute distance between genes"""
         all_hit_labels["gene_pos_diff"] = all_hit_labels.gene_pos.diff()
-        all_hit_labels.loc[0, "gene_pos_diff"] = 1 # required for rolling (skips first nan)
+        all_hit_labels.loc[
+            0, "gene_pos_diff"
+        ] = 1  # required for rolling (skips first nan)
         all_hit_labels["hmm_code"] = all_hit_labels.hmm.apply(self._assignCodeToHMM)
         all_hit_labels["strand"] = all_hit_labels.strand.apply(
-            lambda strand : -1 if strand == "neg" else (1 if strand ==  "pos" else 0)
-            )
+            lambda strand: -1 if strand == "neg" else (1 if strand == "pos" else 0)
+        )
         return all_hit_labels
 
-    def _mergeHitsByHMMgroup(self, hits: pd.DataFrame):
+    def _merge_hits_by_HMM_group(self, hits: pd.DataFrame):
         """Merge hit sequences within an HMM group representing
-        the same gene symbol. Drop duplicated hits within 
+        the same gene symbol. Drop duplicated hits within
         each HMM group.
         """
         groups = hits.groupby(["full_label"]).groups
         for group_idxs in groups.values():
             hmm_names = set(hits.loc[group_idxs, "hmm"].values)
             candidate_hmm_group = [
-                hmm_group_str for hmm_group_str in self._parsed_structure["hmm_groups"]
+                hmm_group_str
+                for hmm_group_str in self._parsed_structure["hmm_groups"]
                 if hmm_names.issubset(set(hmm_group_str.split("|")))
-                ]
+            ]
             if candidate_hmm_group:
                 hmm_group = "|".join(hmm_names)
             else:
@@ -204,7 +232,7 @@ class SyntenyHMMfilter():
         hits.hmm = hits.hmm.apply(lambda x: str(x))
         return hits
 
-    def getAllHMMhits(self) -> pd.DataFrame:
+    def get_all_HMM_hits(self) -> pd.DataFrame:
         """Group and preprocess all hit labels into a single dataframe.
 
         Returns:
@@ -215,83 +243,90 @@ class SyntenyHMMfilter():
         for hmm, hits in self._hmm_hits.items():
             labels = hits.id.values.tolist()
             if not labels:
-                logger.error(
-                    f'No records found in database matching HMM: {hmm}'
-                    )
+                logger.error(f"No records found in database matching HMM: {hmm}")
                 sys.exit(1)
             hit_labels[hmm] = labelparser.parse_from_list(labels)
             hit_labels[hmm]["hmm"] = hmm
         # Create single dataframe with new column corresponding to HMM and all hits
         # Remove contigs with less hits than the number of hmms in synteny structure (drop if enabling partial searching)
-        all_hit_labels = pd.concat(
-            hit_labels.values()
-            ).groupby("contig").filter(
-                lambda x : len(x) >= self._n_hmm_groups
-                ).sort_values(["contig", "gene_pos"], ascending=True)
+        all_hit_labels = (
+            pd.concat(hit_labels.values())
+            .groupby("contig")
+            .filter(lambda x: len(x) >= self._n_hmm_groups)
+            .sort_values(["contig", "gene_pos"], ascending=True)
+        )
         all_hit_labels.reset_index(drop=True, inplace=True)
         if self._contains_hmm_groups:
             all_hit_labels = self._mergeHitsByHMMgroup(all_hit_labels)
         all_hit_labels.reset_index(drop=True, inplace=True)
         return self._addMetaCodesToHMMhits(all_hit_labels)
 
-    def filterHitsBySyntenyStructure(self) -> dict:
+    def filter_hits_by_synteny_structure(self) -> dict:
         """Search for contigs that satisfy the given gene synteny structure.
 
         Returns:
             dict: HMMER3 hits separated by contig.
         """
         all_matched_hits = {}
-        filters = SyntenyPatternFilters(self._synteny_structure, unordered=self._unordered)
+        filters = SyntenyPatternFilters(
+            self._synteny_structure, unordered=self._unordered
+        )
         all_hit_labels = self.getAllHMMhits()
         if all_hit_labels.full_label.duplicated().any():
-            logger.warning("At least two different HMMs produced identical sequence hits")
+            logger.warning(
+                "At least two different HMMs produced identical sequence hits"
+            )
         if all_hit_labels.full_label.duplicated().sum() == all_hit_labels.shape[0] / 2:
             logger.error(
                 (
                     "All input profile HMMs rendered identical sequence hits. "
                     "Inspect HMMER output tables to evaluate hits."
-                    )
                 )
+            )
             sys.exit(1)
         contig_names = all_hit_labels.contig.unique()
 
         for contig in contig_names:
-            contig_hits = all_hit_labels[all_hit_labels.contig == contig].reset_index(drop=True)
-            matched_hit_labels = {hmm_group: [] for hmm_group in contig_hits.hmm.unique()}
+            contig_hits = all_hit_labels[all_hit_labels.contig == contig].reset_index(
+                drop=True
+            )
+            matched_hit_labels = {
+                hmm_group: [] for hmm_group in contig_hits.hmm.unique()
+            }
 
             if len(contig_hits.hmm.unique()) >= self._n_hmm_groups:
-                
-                hmm_match = contig_hits.hmm_code.rolling(window=self._n_hmm_groups).apply(
-                    filters.contains_hmm_pattern
-                    )
-                strand_match = contig_hits.strand.rolling(window=self._n_hmm_groups).apply(
-                    filters.contains_strand_pattern
-                    )
+
+                hmm_match = contig_hits.hmm_code.rolling(
+                    window=self._n_hmm_groups
+                ).apply(filters.contains_hmm_pattern)
+                strand_match = contig_hits.strand.rolling(
+                    window=self._n_hmm_groups
+                ).apply(filters.contains_strand_pattern)
                 if self._n_hmm_groups > 1:
                     distance_match = contig_hits.gene_pos_diff.rolling(
-                        window=self._n_hmm_groups).apply(filters.contains_distance_pattern)
+                        window=self._n_hmm_groups
+                    ).apply(filters.contains_distance_pattern)
                     matched_rows = contig_hits[
-                        (hmm_match == 1) &
-                        (strand_match == 1) &
-                        (distance_match == 1)
+                        (hmm_match == 1) & (strand_match == 1) & (distance_match == 1)
                     ]
                 else:
-                    matched_rows = contig_hits[
-                        (hmm_match == 1) &
-                        (strand_match == 1)
-                    ]
+                    matched_rows = contig_hits[(hmm_match == 1) & (strand_match == 1)]
                 for i, _ in matched_rows.iterrows():
-                    matched_hits = contig_hits.iloc[i - (self._n_hmm_groups - 1): i + 1, :]
-                    for label, hmm in zip((matched_hits.full_label.values), matched_hits.hmm):
+                    matched_hits = contig_hits.iloc[
+                        i - (self._n_hmm_groups - 1) : i + 1, :
+                    ]
+                    for label, hmm in zip(
+                        (matched_hits.full_label.values), matched_hits.hmm
+                    ):
                         matched_hit_labels[hmm].append(label)
 
                 all_matched_hits[contig] = matched_hit_labels
         return all_matched_hits
 
 
-class SyntenyHits():
-    """Store and manipulate synteny hits by contig
-    """
+class SyntenyHits:
+    """Store and manipulate synteny hits by contig"""
+
     def __init__(self, synteny_hits: pd.DataFrame) -> None:
         """
         Initialize from synteny hits object.
@@ -299,26 +334,39 @@ class SyntenyHits():
         self._synteny_hits = synteny_hits.drop_duplicates()
 
     @staticmethod
-    def _hitsToDataframe(hits_by_contig: dict) -> pd.DataFrame:
-        """Return synteny hits as a dataframe
-        """
+    def _hits_to_dataframe(hits_by_contig: dict) -> pd.DataFrame:
+        """Return synteny hits as a dataframe"""
         data = []
-        columns = ["contig", "gene_id", "gene_number", "locus", "strand", "full_label", "hmm"]
+        columns = [
+            "contig",
+            "gene_id",
+            "gene_number",
+            "locus",
+            "strand",
+            "full_label",
+            "hmm",
+        ]
         for contig, matched_hits in hits_by_contig.items():
             for hmm, labels in matched_hits.items():
                 for label in labels:
                     parsed_label = LabelParser.parse(label)
                     data.append(
                         [
-                            parsed_label['contig'], parsed_label['gene_id'],
-                            parsed_label['gene_pos'], parsed_label['locus_pos'],
-                            parsed_label['strand'], parsed_label["full_label"], hmm
-                            ]
+                            parsed_label["contig"],
+                            parsed_label["gene_id"],
+                            parsed_label["gene_pos"],
+                            parsed_label["locus_pos"],
+                            parsed_label["strand"],
+                            parsed_label["full_label"],
+                            hmm,
+                        ]
                     )
-        return pd.DataFrame(data, columns=columns).sort_values(["contig", "gene_number"])
+        return pd.DataFrame(data, columns=columns).sort_values(
+            ["contig", "gene_number"]
+        )
 
     @classmethod
-    def fromHitsDict(cls, hits_by_contig: dict) -> SyntenyHits:
+    def from_hits_dict(cls, hits_by_contig: dict) -> SyntenyHits:
         """Initialize SyntenyHits object from hits_by_contig dictionary.
 
         Args:
@@ -329,7 +377,7 @@ class SyntenyHits():
         """
         return cls(cls._hitsToDataframe(hits_by_contig))
 
-    def getSyntenyHits(self) -> pd.DataFrame:
+    def get_synteny_hits(self) -> pd.DataFrame:
         """Return synteny hits.
 
         Returns:
@@ -337,7 +385,7 @@ class SyntenyHits():
         """
         return self._synteny_hits
 
-    def addHMMmetaInfoToHits(self, hmm_meta: Path) -> SyntenyHits:
+    def add_HMM_meta_info_to_hits(self, hmm_meta: Path) -> SyntenyHits:
         """Add molecular metadata to synteny hits.
 
         Args:
@@ -354,18 +402,16 @@ class SyntenyHits():
         for i, row in self._synteny_hits.iterrows():
             meta_values = [
                 [
-                    str(v).replace("nan", "") 
-                    for k, v in pgap.getMetaInfoForHMM(hmm).items()
+                    str(v).replace("nan", "")
+                    for k, v in pgap.get_meta_info_for_HMM(hmm).items()
                     if k != "#ncbi_accession"
                 ]
                 for hmm in row.hmm.split("|")
             ]
-            self._synteny_hits.loc[
-                i, fields
-                ] = ["|".join(v) for v in zip(*meta_values)]
+            self._synteny_hits.loc[i, fields] = ["|".join(v) for v in zip(*meta_values)]
         return SyntenyHits(self._synteny_hits)
 
-    def writeToTSV(self, output_tsv: Path) -> None:
+    def write_to_TSV(self, output_tsv: Path) -> None:
         """Write synteny hits to a TSV file.
 
         Args:
@@ -373,9 +419,12 @@ class SyntenyHits():
         """
         self._synteny_hits.to_csv(output_tsv, sep="\t", index=False)
 
-    def writeHitSequencesToFASTAfiles(self, sequence_database: Path,
-                                      output_dir: Path = None,
-                                      output_prefix: str = None) -> None:
+    def write_hit_sequences_to_FASTA_files(
+        self,
+        sequence_database: Path,
+        output_dir: Path = None,
+        output_prefix: str = None,
+    ) -> None:
         """Write matching sequences to FASTA files.
 
         Args:
@@ -390,43 +439,55 @@ class SyntenyHits():
         for hmm_group in hmm_groups:
             record_ids = self._synteny_hits[
                 self._synteny_hits.hmm == hmm_group
-                ].full_label.values.tolist()
+            ].full_label.values.tolist()
 
-            if ("gene_symbol" in self._synteny_hits.columns and 
-                "label" in self._synteny_hits.columns):
-                gene_symbol = self._synteny_hits[self._synteny_hits.hmm == hmm_group].gene_symbol.unique()[0]
-                gene_label = self._synteny_hits[self._synteny_hits.hmm == hmm_group].label.unique()[0]
+            if (
+                "gene_symbol" in self._synteny_hits.columns
+                and "label" in self._synteny_hits.columns
+            ):
+                gene_symbol = self._synteny_hits[
+                    self._synteny_hits.hmm == hmm_group
+                ].gene_symbol.unique()[0]
+                gene_label = self._synteny_hits[
+                    self._synteny_hits.hmm == hmm_group
+                ].label.unique()[0]
                 gene_id = (
-                    gene_symbol if not pd.isna(gene_symbol)
+                    gene_symbol
+                    if not pd.isna(gene_symbol)
                     else (gene_label if not pd.isna(gene_label) else "")
-                    )
+                )
             else:
                 gene_id = ""
             gene_id_str = gene_id + "_" if gene_id else ""
 
-            output_fasta = output_dir / f"{output_prefix}{gene_id_str.replace('|', '_')}{hmm_group.replace('|', '_')}_hits.fasta"
+            output_fasta = (
+                output_dir
+                / f"{output_prefix}{gene_id_str.replace('|', '_')}{hmm_group.replace('|', '_')}_hits.fasta"
+            )
             if record_ids:
-                fasta.filterByIDs(
+                fasta.filter_by_IDs(
                     record_ids=record_ids,
                     output_file=output_fasta,
-                    point_to_new_file=False
-
+                    point_to_new_file=False,
                 )
             else:
-                logger.warning(f"No record matches found in synteny structure for HMM: {hmm_group}")
+                logger.warning(
+                    f"No record matches found in synteny structure for HMM: {hmm_group}"
+                )
 
 
-
-def filterFASTAbySyntenyStructure(synteny_structure: str,
-                                  input_fasta: Path,
-                                  input_hmms: list[Path],
-                                  unordered: bool = False,
-                                  hmm_meta: Path = None,
-                                  hmmer_output_dir: Path = None,
-                                  reuse_hmmer_results: bool = True,
-                                  method: str = 'hmmsearch',
-                                  processes: int = None,
-                                  additional_args: list[str] = None) -> SyntenyHits:
+def filter_FASTA_by_synteny_structure(
+    synteny_structure: str,
+    input_fasta: Path,
+    input_hmms: list[Path],
+    unordered: bool = False,
+    hmm_meta: Path = None,
+    hmmer_output_dir: Path = None,
+    reuse_hmmer_results: bool = True,
+    method: str = "hmmsearch",
+    processes: int = None,
+    additional_args: list[str] = None,
+) -> SyntenyHits:
     """Generate protein-specific database by filtering sequence database
        to only contain sequences which satisfy the provided (gene/hmm) structure.
 
@@ -436,8 +497,8 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
 
             '>hmm_a N_ab hmm_b bc <hmm_c'
 
-            where N_ab corresponds to the maximum number of genes separating 
-            gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+            where N_ab corresponds to the maximum number of genes separating
+            gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds
             to the name of the hmm as provided in the keys of hmm_hits.
             More than two hmms can be concatenated. Strand location may be
             specificed by using '>' for sense and '<' for antisense.
@@ -454,10 +515,10 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
         method (str, optional): select between 'hmmsearch' or 'hmmscan'. Defaults to 'hmmsearch'.
         processes (int, optional): maximum number of threads to be employed. Defaults to all minus one.
         additional_args (list[str], optional): additional arguments to hmmsearch or hmmscan. Each
-            element in the list is a string with additional arguments for each 
-            input hmm (arranged in the same order), an element can also take a 
-            value of None to avoid passing additional arguments for a specific 
-            input hmm. A single string may also be passed, in which case the 
+            element in the list is a string with additional arguments for each
+            input hmm (arranged in the same order), an element can also take a
+            value of None to avoid passing additional arguments for a specific
+            input hmm. A single string may also be passed, in which case the
             same additional argument is passed to hmmsearch for all input hmms. Defaults to None.
 
     Returns:
@@ -468,35 +529,40 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
 
     if additional_args is None:
         additional_args = [None for _ in input_hmms]
-    
+
     if type(additional_args) == str:
         logger.warning(f"Repeating hmmsearch arg: '{additional_args}' for all HMMs")
         additional_args = [additional_args for _ in input_hmms]
 
     elif type(additional_args) == list:
         if len(additional_args) == 1:
-            logger.warning(f"Repeating hmmsearch arg: '{additional_args[0]}' for all HMMs")
+            logger.warning(
+                f"Repeating hmmsearch arg: '{additional_args[0]}' for all HMMs"
+            )
             additional_args = [additional_args[0] for _ in input_hmms]
 
         if (len(additional_args) > 1) and (len(additional_args) < len(input_hmms)):
-            logger.error("Provided additional argument strings are less than the number of input hmms.")
+            logger.error(
+                "Provided additional argument strings are less than the number of input hmms."
+            )
     else:
-        logger.error("Additional arguments must be: 1) a list[str], 2) a str, or 3) None")
+        logger.error(
+            "Additional arguments must be: 1) a list[str], 2) a str, or 3) None"
+        )
         sys.exit(1)
     if not os.path.isdir(hmmer_output_dir):
         os.mkdir(hmmer_output_dir)
 
-    logger.info('Running Hmmer')
+    logger.info("Running Hmmer")
     hmmer = HMMER(
         input_hmms=input_hmms,
         input_data=input_fasta,
         hmm_output_dir=hmmer_output_dir,
         processes=processes,
-        additional_args=additional_args
+        additional_args=additional_args,
     )
-    hmm_hits = hmmer.getHMMERtables(
-        reuse_hmmer_results=reuse_hmmer_results,
-        method=method
+    hmm_hits = hmmer.get_HMMER_tables(
+        reuse_hmmer_results=reuse_hmmer_results, method=method
     )
     hmms_without_hits = []
     for hmm_name, hmmer_hits in hmm_hits.items():
@@ -507,7 +573,7 @@ def filterFASTAbySyntenyStructure(synteny_structure: str,
             logger.error(f"No records found in database matching HMM: {hmm_name}")
         sys.exit(1)
 
-    logger.info('Filtering results by synteny structure')
+    logger.info("Filtering results by synteny structure")
     syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure, unordered=unordered)
     hits_by_contig = syntenyfilter.filterHitsBySyntenyStructure()
     if hmm_meta is not None:

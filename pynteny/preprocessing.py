@@ -25,11 +25,11 @@ import pynteny.wrappers as wrappers
 logger = logging.getLogger(__name__)
 
 
-class RecordSequence():
-    """Tools to process nucleotide or peptide sequences
-    """
+class RecordSequence:
+    """Tools to process nucleotide or peptide sequences"""
+
     @staticmethod
-    def removeStopCodonSignals(record_seq: str) -> str:
+    def remove_stop_sodon_signals(record_seq: str) -> str:
         """Remove stop codon signals from peptide sequence
 
         Args:
@@ -38,10 +38,10 @@ class RecordSequence():
         Returns:
             str: a peptide sequence without stop codon symbols.
         """
-        return record_seq.replace('*', '')
-    
+        return record_seq.replace("*", "")
+
     @staticmethod
-    def isLegitPeptideSequence(record_seq: str) -> bool:
+    def is_legit_peptide_sequence(record_seq: str) -> bool:
         """Assert that peptide sequence only contains valid symbols.
 
         Args:
@@ -51,14 +51,33 @@ class RecordSequence():
             bool: whether peptide sequence only contains legit symbols.
         """
         aas = {
-            'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L',
-            'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y', '*'
+            "A",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H",
+            "I",
+            "K",
+            "L",
+            "M",
+            "N",
+            "P",
+            "Q",
+            "R",
+            "S",
+            "T",
+            "V",
+            "W",
+            "Y",
+            "*",
         }
         seq_symbols = {s.upper() for s in record_seq}
         return seq_symbols.issubset(aas)
-    
+
     @staticmethod
-    def isLegitDNAsequence(record_seq: str) -> bool:
+    def is_legit_DNA_sequence(record_seq: str) -> bool:
         """Assert that DNA sequence only contains valid symbols.
 
         Args:
@@ -67,14 +86,14 @@ class RecordSequence():
         Returns:
             bool: whether nucleotide sequence only contains legit symbols.
         """
-        nts = {'A', 'G', 'T', 'C', 'N'}
+        nts = {"A", "G", "T", "C", "N"}
         seq_symbols = {s.upper() for s in record_seq}
         return seq_symbols.issubset(nts)
 
 
-class FASTA():
-    """Handle and process fasta files.
-    """
+class FASTA:
+    """Handle and process fasta files."""
+
     def __init__(self, input_file: Path) -> None:
         """Initialize FASTA object.
 
@@ -84,7 +103,7 @@ class FASTA():
         self._input_file = Path(input_file)
         self._input_file_str = self._input_file.as_posix()
 
-    def setFilePath(self, new_path: Path) -> None:
+    def set_file_path(self, new_path: Path) -> None:
         """Set new path to fasta file
 
         Args:
@@ -93,7 +112,7 @@ class FASTA():
         self._input_file = Path(new_path)
         self._input_file_str = self._input_file.as_posix()
 
-    def getFilePath(self) -> Path:
+    def get_file_path(self) -> Path:
         """get path to fasta file.
 
         Returns:
@@ -102,8 +121,7 @@ class FASTA():
         return self._input_file
 
     @classmethod
-    def fromFASTAdirectory(cls, input_dir: Path,
-                           merged_fasta: Path = None) -> FASTA:
+    def from_FASTA_directory(cls, input_dir: Path, merged_fasta: Path = None) -> FASTA:
         """Initialize FASTA class from directory of fasta files.
 
         Args:
@@ -115,12 +133,11 @@ class FASTA():
         """
         if merged_fasta is None:
             merged_fasta = input_dir / "merged_database.fasta"
-        FASTA.mergeFASTAs(input_dir, merged_fasta)
+        FASTA.merge(input_dir, merged_fasta)
         return cls(merged_fasta)
 
     @staticmethod
-    def mergeFASTAs(input_dir: Path,
-                    output_file: Path = None) -> None:
+    def merge(input_dir: Path, output_file: Path = None) -> None:
         """Merge input fasta files into a one (multi)fasta file.
 
         Args:
@@ -133,17 +150,15 @@ class FASTA():
         # cmd_str = f'awk 1 * > {output_file}'
         # # cmd_str = "find . -maxdepth 1 -type f --exec cat {} + > " + f"{output_file}"
         cmd_str = f"printf '%s\\0' * | xargs -0 cat > {output_file}"
-        utils.terminalExecute(
-            cmd_str,
-            work_dir=input_dir,
-            suppress_shell_output=False
-            )
-  
-    def removeDuplicates(self,
-                         output_file: Path = None,
-                         export_duplicates: bool = False,
-                         method: str = 'seqkit',
-                         point_to_new_file: bool = True) -> None:
+        utils.terminal_execute(cmd_str, work_dir=input_dir, suppress_shell_output=False)
+
+    def remove_duplicates(
+        self,
+        output_file: Path = None,
+        export_duplicates: bool = False,
+        method: str = "seqkit",
+        point_to_new_file: bool = True,
+    ) -> None:
         """Removes duplicate entries (either by sequence or ID) from fasta.
 
         Args:
@@ -156,29 +171,38 @@ class FASTA():
             None: None
         """
         if output_file is None:
-            output_file = Path(self._input_file.parent) \
+            output_file = (
+                Path(self._input_file.parent)
                 / f"{self._input_file.stem}_noduplicates{self._input_file.suffix}"
+            )
 
-        if 'bio' in method:
+        if "bio" in method:
             seen_seqs, seen_ids = set(), set()
+
             def unique_records():
-                for record in SeqIO.parse(self._input_file, 'fasta'):  
+                for record in SeqIO.parse(self._input_file, "fasta"):
                     if (record.seq not in seen_seqs) and (record.id not in seen_ids):
                         seen_seqs.add(record.seq)
                         seen_ids.add(record.id)
                         yield record
-            SeqIO.write(unique_records(), output_file, 'fasta')
-        else:
-            wrappers.runSeqKitNoDup(input_fasta=self._input_file, output_fasta=output_file,
-                                    export_duplicates=export_duplicates)
-        if point_to_new_file:
-            self.setFilePath(output_file)
 
-    def removeCorruptedSequences(self,
-                                 output_file: Path = None,
-                                 is_peptide: bool = True,
-                                 keep_stop_codon: bool = False,
-                                 point_to_new_file: bool = True) -> None:
+            SeqIO.write(unique_records(), output_file, "fasta")
+        else:
+            wrappers.run_seqkit_nodup(
+                input_fasta=self._input_file,
+                output_fasta=output_file,
+                export_duplicates=export_duplicates,
+            )
+        if point_to_new_file:
+            self.set_file_path(output_file)
+
+    def remove_corrupted_sequences(
+        self,
+        output_file: Path = None,
+        is_peptide: bool = True,
+        keep_stop_codon: bool = False,
+        point_to_new_file: bool = True,
+    ) -> None:
         """Filter out (DNA or peptide) sequences containing illegal characters.
 
         Args:
@@ -190,25 +214,25 @@ class FASTA():
         dirname = self._input_file.parent
         fname, ext = self._input_file.stem, self._input_file.suffix
         if output_file is None:
-            output_file = Path(dirname) / f'{fname}_modified{ext}'
+            output_file = Path(dirname) / f"{fname}_modified{ext}"
         if is_peptide:
-            isLegitSequence = RecordSequence.isLegitPeptideSequence
+            isLegitSequence = RecordSequence.is_legit_peptide_sequence
         else:
-            isLegitSequence = RecordSequence.isLegitDNAsequence
+            isLegitSequence = RecordSequence.is_legit_DNA_sequence
 
         fasta = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
-        with open(output_file, 'w+') as outfile:
+        with open(output_file, "w+") as outfile:
             for record_name, record_seq in fasta:
                 if is_peptide and (not keep_stop_codon):
-                    record_seq = RecordSequence.removeStopCodonSignals(record_seq)
+                    record_seq = RecordSequence.remove_stop_sodon_signals(record_seq)
                 if isLegitSequence(record_seq):
-                    outfile.write(f'>{record_name}\n{record_seq}\n')
+                    outfile.write(f">{record_name}\n{record_seq}\n")
         if point_to_new_file:
-            self.setFilePath(output_file)
+            self.set_file_path(output_file)
 
-    def filterByIDs(self, record_ids: list,
-                    output_file: Path = None,
-                    point_to_new_file: bool = True) -> None:
+    def filter_by_IDs(
+        self, record_ids: list, output_file: Path = None, point_to_new_file: bool = True
+    ) -> None:
         """Filter records in fasta file matching provided IDs.
 
         Args:
@@ -217,39 +241,47 @@ class FASTA():
             point_to_new_file (bool, optional): whether FASTA object should point to the newly generated file. Defaults to True.
         """
         if output_file is None:
-            output_file = Path(self._input_file.parent) \
+            output_file = (
+                Path(self._input_file.parent)
                 / f"{self._input_file.stem}_filtered{self._input_file.suffix}"
+            )
         with tempfile.NamedTemporaryFile(mode="w+t") as tmp_ids:
             tmp_ids.writelines("\n".join(record_ids))
             tmp_ids.flush()
             tmp_ids_path = tmp_ids.name
-            cmd_str = f"seqkit grep -i -f {tmp_ids_path} {self._input_file} -o {output_file}"
-            utils.terminalExecute(cmd_str, suppress_shell_output=True)
+            cmd_str = (
+                f"seqkit grep -i -f {tmp_ids_path} {self._input_file} -o {output_file}"
+            )
+            utils.terminal_execute(cmd_str, suppress_shell_output=True)
         if point_to_new_file:
-            self.setFilePath(output_file)
-        
-    def splitByContigs(self, output_dir: Path = None) -> None:
+            self.set_file_path(output_file)
+
+    def split_by_Contigs(self, output_dir: Path = None) -> None:
         """Split large fasta file into several ones containing one contig each.
 
         Args:
             output_dir (Path, optional): _description_. Defaults to None.
         """
         if output_dir is None:
-            output_dir = Path(self._input_file.parent) / "split_" + self._input_file.name
+            output_dir = (
+                Path(self._input_file.parent) / "split_" + self._input_file.name
+            )
         else:
             output_dir = Path(output_dir)
         os.makedirs(output_dir, exist_ok=True)
         contigs = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
         for contig_name, seq in contigs:
-            outfile = output_dir / f"{contig_name.split(' ')[0]}{self._input_file.suffix}"
+            outfile = (
+                output_dir / f"{contig_name.split(' ')[0]}{self._input_file.suffix}"
+            )
             with open(outfile, "w+") as file:
                 file.write(f">{contig_name}\n")
                 file.write(seq + "\n")
 
-    def filterByMinimumLength(self, min_length: int,
-                              output_file: Path = None,
-                              point_to_new_file: bool  = True) -> None:
-        """ Filter records in fasta file by minimum length.
+    def filter_by_minimum_length(
+        self, min_length: int, output_file: Path = None, point_to_new_file: bool = True
+    ) -> None:
+        """Filter records in fasta file by minimum length.
 
         Args:
             min_length (int): minimal length of sequences to be kept in filtered fasta file.
@@ -257,25 +289,27 @@ class FASTA():
             point_to_new_file (bool, optional): whether FASTA object should point to the newly generated file. Defaults to True.
         """
         if output_file is None:
-            output_file = Path(self._input_file.parent) \
+            output_file = (
+                Path(self._input_file.parent)
                 / f"{self._input_file.stem}_minlength{self._input_file.suffix}"
+            )
         fasta = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
-        with open(output_file, 'w+') as outfile:
+        with open(output_file, "w+") as outfile:
             for record_name, record_seq in fasta:
                 if len(record_seq) >= min_length:
-                    outfile.write(f'>{record_name}\n{record_seq}\n')
+                    outfile.write(f">{record_name}\n{record_seq}\n")
         if point_to_new_file:
-            self.setFilePath(output_file)
+            self.set_file_path(output_file)
 
 
 class LabelledFASTA(FASTA):
-    """Tools to add and parse FASTA with positional info on record tags
-    """
+    """Tools to add and parse FASTA with positional info on record tags"""
+
     @classmethod
-    def fromProdigalOutput(cls,
-                           prodigal_faa: Path,
-                           output_file: Path = None) -> LabelledFASTA:
-        """Instantiate class from prodigal output file. 
+    def from_prodigal_output(
+        cls, prodigal_faa: Path, output_file: Path = None
+    ) -> LabelledFASTA:
+        """Instantiate class from prodigal output file.
         Extract positional gene info from prodigal output and export to fasta file.
 
         Args:
@@ -287,29 +321,39 @@ class LabelledFASTA(FASTA):
         """
         number_prodigal_record_fields = 9
         if output_file is None:
-            output_file = Path(prodigal_faa.parent) / f"{prodigal_faa.stem}_longlabels.fasta"
+            output_file = (
+                Path(prodigal_faa.parent) / f"{prodigal_faa.stem}_longlabels.fasta"
+            )
         data = pyfastx.Fasta(prodigal_faa.as_posix(), build_index=False, full_name=True)
         with open(output_file, "w+") as outfile:
             for record_name, record_seq in data:
                 name_list = record_name.split(" ")
                 if len(name_list) < number_prodigal_record_fields:
-                    logger.error(f"Invalid prodigal header format for record: {record_name}")
+                    logger.error(
+                        f"Invalid prodigal header format for record: {record_name}"
+                    )
                     sys.exit(1)
                 contig = "_".join(name_list[0].split("_")[:-1])
                 gene_number = name_list[0].split("_")[-1]
                 start, end = name_list[2], name_list[4]
-                strand = "pos" if name_list[6] == "1" else ("neg" if name_list[6] == "-1" else "")
+                strand = (
+                    "pos"
+                    if name_list[6] == "1"
+                    else ("neg" if name_list[6] == "-1" else "")
+                )
                 header = f">{contig}_{gene_number}__{contig}_{gene_number}_{start}_{end}_{strand}"
                 outfile.write(header + "\n")
                 outfile.write(record_seq + "\n")
         return cls(output_file)
 
     @classmethod
-    def fromGenBankData(cls,
-                        gbk_data: Path,
-                        output_file: Path = None,
-                        prefix: str = None,
-                        nucleotide: bool = False) -> LabelledFASTA:
+    def from_genbank(
+        cls,
+        gbk_data: Path,
+        output_file: Path = None,
+        prefix: str = None,
+        nucleotide: bool = False,
+    ) -> LabelledFASTA:
         """Assign gene positional info, such as contig, gene number and loci
         to each record in genbank database and return LabelledFASTA object.
 
@@ -327,22 +371,30 @@ class LabelledFASTA(FASTA):
         else:
             gbk_files = [gbk_data]
         gbk_contigs = [
-            contig for gbk_file in gbk_files
-            for contig in SeqIO.parse(gbk_file, 'genbank')
-            ]
+            contig
+            for gbk_file in gbk_files
+            for contig in SeqIO.parse(gbk_file, "genbank")
+        ]
 
         if output_file is None:
-            output_file = Path(gbk_files.pop().parent) / f"{prefix}sequence_database.fasta"
-        
+            output_file = (
+                Path(gbk_files.pop().parent) / f"{prefix}sequence_database.fasta"
+            )
+
         def get_label_str(gbk_contig, feature):
-            name = feature.qualifiers["locus_tag"][0].replace('_', '.')
-            start, end, strand = str(feature.location.start), str(feature.location.end), feature.location.strand
+            name = feature.qualifiers["locus_tag"][0].replace("_", ".")
+            start, end, strand = (
+                str(feature.location.start),
+                str(feature.location.end),
+                feature.location.strand,
+            )
             start = start.replace(">", "").replace("<", "")
             end = end.replace(">", "").replace("<", "")
             strand_sense = "neg" if strand == -1 else ("pos" if strand == 1 else "")
             return f">{name}__{gbk_contig.name.replace('_', '')}_{gene_counter}_{start}_{end}_{strand_sense}\n"
 
         if nucleotide:
+
             def write_record(gbk_contig, feature, outfile, gene_counter):
                 header = get_label_str(gbk_contig, feature)
                 sequence = str(feature.extract(gbk_contig).seq)
@@ -350,7 +402,9 @@ class LabelledFASTA(FASTA):
                 outfile.write(sequence + "\n")
                 gene_counter += 1
                 return gene_counter
+
         else:
+
             def write_record(gbk_contig, feature, outfile, gene_counter):
                 if "translation" in feature.qualifiers:
                     header = get_label_str(gbk_contig, feature)
@@ -365,13 +419,15 @@ class LabelledFASTA(FASTA):
                 gene_counter = 0
                 for feature in gbk_contig.features:
                     if "cds" in feature.type.lower():
-                        gene_counter = write_record(gbk_contig, feature, outfile, gene_counter)
+                        gene_counter = write_record(
+                            gbk_contig, feature, outfile, gene_counter
+                        )
         return cls(output_file)
 
 
-class GeneAnnotator():
-    """Run prodigal on assembly, predict ORFs and extract location info
-    """
+class GeneAnnotator:
+    """Run prodigal on assembly, predict ORFs and extract location info"""
+
     def __init__(self, assembly_file: FASTA) -> None:
         """Initialize GeneAnnotator
 
@@ -380,10 +436,13 @@ class GeneAnnotator():
         """
         self._assembly_file = assembly_file
 
-    def annotate(self, processes: int = None,
-                 metagenome: bool = True,
-                 output_file: Path = None,
-                 prodigal_args: str = None) -> LabelledFASTA:
+    def annotate(
+        self,
+        processes: int = None,
+        metagenome: bool = True,
+        output_file: Path = None,
+        prodigal_args: str = None,
+    ) -> LabelledFASTA:
         """Run prodigal on assembly and export single fasta file with peptide ORFs predictions
 
         Args:
@@ -397,35 +456,29 @@ class GeneAnnotator():
         """
         if processes is None:
             processes = os.cpu_count() - 1
-        with tempfile.TemporaryDirectory() as contigs_dir,\
-             tempfile.TemporaryDirectory() as prodigal_dir,\
-             tempfile.NamedTemporaryFile() as temp_fasta:
+        with tempfile.TemporaryDirectory() as contigs_dir, tempfile.TemporaryDirectory() as prodigal_dir, tempfile.NamedTemporaryFile() as temp_fasta:
             contigs_dir = Path(contigs_dir)
             prodigal_dir = Path(prodigal_dir)
             logger.info("Running prodigal on assembly data")
-            self._assembly_file.splitByContigs(contigs_dir)
-            utils.parallelizeOverInputFiles(
-                wrappers.runProdigal, 
+            self._assembly_file.split_by_Contigs(contigs_dir)
+            utils.parallelize_over_input_files(
+                wrappers.run_prodigal,
                 input_list=list(contigs_dir.iterdir()),
                 n_processes=processes,
                 output_dir=prodigal_dir,
                 output_format="fasta",
                 metagenome=metagenome,
-                additional_args=prodigal_args
+                additional_args=prodigal_args,
             )
-            LabelledFASTA.mergeFASTAs(
-                prodigal_dir,
-                output_file=Path(temp_fasta.name)
-            )
-            return LabelledFASTA.fromProdigalOutput(
-                Path(temp_fasta.name),
-                output_file
+            LabelledFASTA.merge(prodigal_dir, output_file=Path(temp_fasta.name))
+            return LabelledFASTA.from_prodigal_output(
+                Path(temp_fasta.name), output_file
             )
 
 
-class Database():
-    """_Sequence database constructor
-    """
+class Database:
+    """_Sequence database constructor"""
+
     def __init__(self, data: Path) -> None:
         """Initialize Database object
 
@@ -445,7 +498,7 @@ class Database():
             self._data_files = [self._data / f for f in self._data.iterdir()]
         else:
             self._data_files = [self._data]
-        
+
     @staticmethod
     def is_fasta(filename: Path):
         """Check if file is in fasta format
@@ -491,16 +544,18 @@ class Database():
             output_file = self._data.parent / f"{self._data.stem}_labelled.faa"
         if self.is_fasta(self._data_files[0]):
             if self._data.is_dir():
-                assembly_fasta = FASTA.fromFASTAdirectory(self._data)
+                assembly_fasta = FASTA.from_FASTA_directory(self._data)
             else:
                 assembly_fasta = FASTA(self._data)
             logger.info("Translating and annotating assembly data.")
-            labelled_database = GeneAnnotator(
-                assembly_fasta).annotate(output_file=output_file)
+            labelled_database = GeneAnnotator(assembly_fasta).annotate(
+                output_file=output_file
+            )
         elif self.is_gbk(self._data_files[0]):
             logger.info("Parsing GenBank data.")
-            labelled_database = LabelledFASTA.fromGenBankData(
-                self._data, output_file=output_file)
+            labelled_database = LabelledFASTA.from_genbank(
+                self._data, output_file=output_file
+            )
         else:
             logging.error(f"{self._data} is not a valid FASTA or genbank file")
             sys.exit(1)

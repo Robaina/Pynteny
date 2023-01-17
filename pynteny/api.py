@@ -11,25 +11,26 @@ from importlib import metadata
 from pynteny.utils import CommandArgs
 from pynteny.filter import SyntenyHits
 from pynteny.subcommands import (
-    synteny_search, build_database,
-    download_hmms, parse_gene_ids, get_citation
-    )
+    synteny_search,
+    build_database,
+    download_hmms,
+    parse_gene_ids,
+    get_citation,
+)
 
 meta = metadata.metadata("pynteny")
 __version__ = meta["Version"]
 __author__ = meta["Author"]
 
 
-class Command():
-    """Parent class for Pynteny command
-    """
+class Command:
+    """Parent class for Pynteny command"""
+
     def __init__(self):
-        """Parent class for Pynteny command
-        """
+        """Parent class for Pynteny command"""
 
     def _repr_html_(self):
-        """Executed by Jupyter to print Author and version in html
-        """
+        """Executed by Jupyter to print Author and version in html"""
         return """
         <table>
             <tr>
@@ -38,8 +39,9 @@ class Command():
                 <td><strong>Author</strong></td><td>{author}</td>
             </tr>
         </table>
-        """.format(version=__version__,
-                   author=__author__)
+        """.format(
+            version=__version__, author=__author__
+        )
 
     def update(self, argname: str, value: str) -> None:
         """Update argument value in pynteny command.
@@ -49,22 +51,18 @@ class Command():
             value (str): new argument value.
         """
         setattr(self._args, argname, value)
-    
+
     @staticmethod
     def cite():
-        """Display Pynteny citation
-        """
-        args = CommandArgs(
-            version=__version__,
-            author=__author__
-            )
+        """Display Pynteny citation"""
+        args = CommandArgs(version=__version__, author=__author__)
         citation = get_citation(args, silent=True)
         print(citation)
 
 
 class Search(Command):
-    """Search command object.
-    """
+    """Search command object."""
+
     def __init__(
         self,
         data: Path,
@@ -78,7 +76,8 @@ class Search(Command):
         prefix: str = "",
         hmmsearch_args: str = None,
         logfile: Path = None,
-        processes: int = None):
+        processes: int = None,
+    ):
         """Query sequence database for HMM hits arranged in provided synteny structure.
 
         Args:
@@ -88,15 +87,15 @@ class Search(Command):
 
                 '>hmm_a N_ab hmm_b bc <hmm_c'
 
-                where N_ab corresponds to the maximum number of genes separating 
-                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+                where N_ab corresponds to the maximum number of genes separating
+                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds
                 to the name of the hmm as provided in the keys of hmm_hits.
                 More than two hmms can be concatenated. Strand location may be
-                specificed by using '>' for sense and '<' for antisense. 
-            gene_ids (bool, optional): whether gene symbols are used in synteny 
+                specificed by using '>' for sense and '<' for antisense.
+            gene_ids (bool, optional): whether gene symbols are used in synteny
                 string instead of HMM names. Defaults to False.
             unordered (bool, optional): whether the HMMs should be arranged in the
-                exact same order displayed in the synteny_structure or in 
+                exact same order displayed in the synteny_structure or in
                 any order If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to False.
             reuse (bool, optional): if True then HMMER3 won't be run again for HMMs already
@@ -108,10 +107,10 @@ class Search(Command):
             outdir (Path, optional): path to output directory. Defaults to None.
             prefix (str, optional): prefix of output file names. Defaults to "".
             hmmsearch_args (str, optional): additional arguments to hmmsearch or hmmscan. Each
-                element in the list is a string with additional arguments for each 
-                input hmm (arranged in the same order), an element can also take a 
-                value of None to avoid passing additional arguments for a specific 
-                input hmm. A single string may also be passed, in which case the 
+                element in the list is a string with additional arguments for each
+                input hmm (arranged in the same order), an element can also take a
+                value of None to avoid passing additional arguments for a specific
+                input hmm. A single string may also be passed, in which case the
                 same additional argument is passed to hmmsearch for all input hmms.
                 Defaults to None. Defaults to None.
             logfile (Path, optional): path to log file. Defaults to None.
@@ -131,10 +130,10 @@ class Search(Command):
             logfile=Path(logfile) if logfile is not None else logfile,
             processes=processes,
             unordered=unordered,
-            reuse=reuse
-            )
+            reuse=reuse,
+        )
 
-    def parseGeneIDs(self, synteny_struc: str) -> str:
+    def parse_genes(self, synteny_struc: str) -> str:
         """Parse gene IDs in synteny structure and find corresponding HMM names
         in provided HMM database.
 
@@ -144,39 +143,39 @@ class Search(Command):
 
                 '>hmm_a N_ab hmm_b bc <hmm_c'
 
-                where N_ab corresponds to the maximum number of genes separating 
-                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds 
+                where N_ab corresponds to the maximum number of genes separating
+                gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds
                 to the name of the hmm as provided in the keys of hmm_hits.
                 More than two hmms can be concatenated. Strand location may be
-                specificed by using '>' for sense and '<' for antisense. 
+                specificed by using '>' for sense and '<' for antisense.
 
         Returns:
-            str: parsed synteny structure in which gene symbols are replaced by 
+            str: parsed synteny structure in which gene symbols are replaced by
                  corresponding HMM names.
         """
         args = CommandArgs(
             synteny_struc=synteny_struc,
             hmm_meta=self._args.hmm_meta,
-            logfile=self._args.logfile
+            logfile=self._args.logfile,
         )
         return parse_gene_ids(args)
 
     def run(self) -> SyntenyHits:
-        """Run pynteny search
-        """
+        """Run pynteny search"""
         return synteny_search(self._args)
 
 
 class Build(Command):
-    """Build command object.
-    """
+    """Build command object."""
+
     def __init__(
         self,
         data: Path,
         outfile: Path = None,
         logfile: Path = None,
-        processes: int = None):
-        """Translate nucleotide assembly file and assign contig and gene location 
+        processes: int = None,
+    ):
+        """Translate nucleotide assembly file and assign contig and gene location
            info to each identified ORF (using prodigal).
 
         Args:
@@ -190,23 +189,18 @@ class Build(Command):
             data=Path(data),
             outfile=Path(outfile) if outfile is not None else outfile,
             logfile=Path(logfile) if logfile is not None else logfile,
-            processes=processes
-            )
+            processes=processes,
+        )
 
     def run(self) -> None:
-        """Run pynteny search
-        """
+        """Run pynteny search"""
         return build_database(self._args)
 
 
 class Download(Command):
-    """Download HMM database from NCBI.
-    """
-    def __init__(
-        self,
-        outdir: Path = None,
-        logfile: Path = None,
-        unpack: bool = False):
+    """Download HMM database from NCBI."""
+
+    def __init__(self, outdir: Path = None, logfile: Path = None, unpack: bool = False):
         """Download HMM database from NCBI.
 
         Args:
@@ -220,10 +214,9 @@ class Download(Command):
         self._args = CommandArgs(
             outdir=Path(outdir) if outdir is not None else outdir,
             logfile=Path(logfile) if logfile is not None else logfile,
-            unpack=unpack
-            )
+            unpack=unpack,
+        )
 
     def run(self) -> None:
-        """Run pynteny download
-        """
+        """Run pynteny download"""
         return download_hmms(self._args)

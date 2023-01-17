@@ -20,26 +20,25 @@ from multiprocessing import Pool
 logger = logging.getLogger(__name__)
 
 
-class CommandArgs():
-    """Base class to hold command line arguments.
-    """
+class CommandArgs:
+    """Base class to hold command line arguments."""
+
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
-        
-class ConfigParser():
-    """Handle Pynteny configuration file.
-    """
+
+class ConfigParser:
+    """Handle Pynteny configuration file."""
+
     def __init__(self, config_file: Path) -> None:
         self._config_file = Path(config_file)
         self._config = self.get_config()
-    
+
     @classmethod
     def get_default_config(cls):
-        """Initialize ConfigParser with default config file.
-        """
+        """Initialize ConfigParser with default config file."""
         return cls(cls.initialize_config_file())
-    
+
     @staticmethod
     def initialize_config_file() -> Path:
         """Initialize empty config file.
@@ -55,15 +54,14 @@ class ConfigParser():
                 "data_downloaded": False,
                 "PGAP_database": "",
                 "PGAP_meta_file": "",
-                "streamlit_process": ""
+                "streamlit_process": "",
             }
-            with open(config_file, 'w') as f:
+            with open(config_file, "w") as f:
                 json.dump(config, f, indent=4)
         return config_file
-    
+
     def get_config_path(self) -> Path:
-        """Show config file path.
-        """
+        """Show config file path."""
         return self._config_file
 
     def get_config(self) -> dict:
@@ -72,14 +70,13 @@ class ConfigParser():
         Returns:
             dict: dict containing fields and values of config file.
         """
-        with open(self._config_file, 'r') as file:
+        with open(self._config_file, "r") as file:
             config = json.loads(file.read())
         return config
 
     def write_config(self) -> None:
-        """Write config dict to file.
-        """
-        with open(self._config_file, 'w') as f:
+        """Write config dict to file."""
+        with open(self._config_file, "w") as f:
             json.dump(self._config, f, indent=4)
 
     def update_config(self, key: str, value: str) -> None:
@@ -104,11 +101,14 @@ class ConfigParser():
         return self._config[key]
 
 
-def setDefaultOutputPath(input_path: Path, tag: str = None,
-                         extension: str = None,
-                         only_filename: bool = False,
-                         only_basename: bool = False,
-                         only_dirname: bool = False) -> Path:
+def set_default_output_path(
+    input_path: Path,
+    tag: str = None,
+    extension: str = None,
+    only_filename: bool = False,
+    only_basename: bool = False,
+    only_dirname: bool = False,
+) -> Path:
     """Utility function to generate a default path to output file
     or directory based on an input file name and path.
 
@@ -128,8 +128,8 @@ def setDefaultOutputPath(input_path: Path, tag: str = None,
     if extension is None:
         extension = ext
     if tag is None:
-        tag = ''
-    default_file = f'{fname}{tag}{extension}'
+        tag = ""
+    default_file = f"{fname}{tag}{extension}"
     if only_basename:
         return Path(fname)
     if only_filename:
@@ -139,10 +139,13 @@ def setDefaultOutputPath(input_path: Path, tag: str = None,
     else:
         return Path(os.path.abspath(os.path.join(dirname, default_file)))
 
-def terminalExecute(command_str: str,
-                    suppress_shell_output=False,
-                    work_dir: Path = None,
-                    return_output=False) -> subprocess.STDOUT:
+
+def terminal_execute(
+    command_str: str,
+    suppress_shell_output=False,
+    work_dir: Path = None,
+    return_output=False,
+) -> subprocess.STDOUT:
     """Execute given command in terminal through Python.
 
     Args:
@@ -158,16 +161,15 @@ def terminalExecute(command_str: str,
         suppress_code = ">/dev/null 2>&1"
         command_str = f"{command_str} {suppress_code}"
     output = subprocess.run(
-        command_str, shell=True,
-        cwd=work_dir, capture_output=return_output
-        )
+        command_str, shell=True, cwd=work_dir, capture_output=return_output
+    )
     return output
 
-def parallelizeOverInputFiles(callable,
-                              input_list: list,
-                              n_processes: int = None,
-                              **callable_kwargs) -> None: 
-    """Parallelize callable over a set of input objects using a pool 
+
+def parallelize_over_input_files(
+    callable, input_list: list, n_processes: int = None, **callable_kwargs
+) -> None:
+    """Parallelize callable over a set of input objects using a pool
     of workers. Inputs in input list are passed to the first argument
     of the callable. Additional callable named arguments may be passed.
 
@@ -184,7 +186,8 @@ def parallelizeOverInputFiles(callable,
     p.close()
     p.join()
 
-def isTarFile(tar_file: Path) -> bool:
+
+def is_tar_file(tar_file: Path) -> bool:
     """Check whether file is tar-compressed.
 
     Args:
@@ -195,34 +198,38 @@ def isTarFile(tar_file: Path) -> bool:
     """
     tar_file_str = tar_file.as_posix()
     return (
-        (tar_file_str.endswith('tar.gz')) or 
-        (tar_file_str.endswith('tgz')) or
-        (tar_file_str.endswith('tar'))
-        )
+        (tar_file_str.endswith("tar.gz"))
+        or (tar_file_str.endswith("tgz"))
+        or (tar_file_str.endswith("tar"))
+    )
 
-def extractTarFile(tar_file: Path, dest_dir: Path = None) -> None:
+
+def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
     """Extract tar or tar.gz files to dest_dir.
 
     Args:
         tar_file (Path): path to tar file.
-        dest_dir (Path, optional): path to destination directory 
+        dest_dir (Path, optional): path to destination directory
             to store the uncompressed file. Defaults to None.
     """
     if dest_dir is None:
-        dest_dir = '.'
-    if (tar_file.as_posix().endswith('tar.gz')) or (tar_file.as_posix().endswith('tgz')):
-        tar = tarfile.open(tar_file, 'r:gz')
+        dest_dir = "."
+    if (tar_file.as_posix().endswith("tar.gz")) or (
+        tar_file.as_posix().endswith("tgz")
+    ):
+        tar = tarfile.open(tar_file, "r:gz")
         tar.extractall(path=dest_dir)
         tar.close()
-    elif tar_file.as_posix().endswith('tar'):
-        tar = tarfile.open(tar_file, 'r:')
+    elif tar_file.as_posix().endswith("tar"):
+        tar = tarfile.open(tar_file, "r:")
         tar.extractall(path=dest_dir)
         tar.close()
     else:
         logger.error("Input is not a tar file")
         sys.exit(1)
 
-def listTarDir(tar_dir: Path) -> list:
+
+def list_tar_dir(tar_dir: Path) -> list:
     """List files within tar or tar.gz directory.
 
     Args:
@@ -231,11 +238,12 @@ def listTarDir(tar_dir: Path) -> list:
     Returns:
         list: list of tar files.
     """
-    with tarfile.open(tar_dir, 'r') as tar_obj:
+    with tarfile.open(tar_dir, "r") as tar_obj:
         files = tar_obj.getnames()
     return files
 
-def flattenDirectory(directory: Path) -> None:
+
+def flatten_directory(directory: Path) -> None:
     """Flatten directory, i.e. remove all subdirectories and
     copy all files to the top level directory.
 
@@ -260,7 +268,8 @@ def flattenDirectory(directory: Path) -> None:
         if dirpath != directory:
             os.rmdir(dirpath)
 
-def isRightListNestedType(list_object: list, inner_type: type) -> bool:
+
+def is_right_list_nested_type(list_object: list, inner_type: type) -> bool:
     """Check if all elements in list are of the same type.
 
     Args:
