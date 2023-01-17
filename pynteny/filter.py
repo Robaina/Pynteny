@@ -575,8 +575,10 @@ def filter_FASTA_by_synteny_structure(
 
     logger.info("Filtering results by synteny structure")
     syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure, unordered=unordered)
-    hits_by_contig = syntenyfilter.filterHitsBySyntenyStructure()
+    hits_by_contig = syntenyfilter.filter_hits_by_synteny_structure()
     if hmm_meta is not None:
-        return SyntenyHits.fromHitsDict(hits_by_contig).addHMMmetaInfoToHits(hmm_meta)
+        return SyntenyHits.from_hits_dict(hits_by_contig).add_HMM_meta_info_to_hits(
+            hmm_meta
+        )
     else:
-        return SyntenyHits.fromHitsDict(hits_by_contig)
+        return SyntenyHits.from_hits_dict(hits_by_contig)
