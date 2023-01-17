@@ -26,9 +26,9 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="auto",
     menu_items={
-        'Get Help': None,
-        'Report a bug': None,
-        'About': (
+        "Get Help": None,
+        "Report a bug": None,
+        "About": (
             "## Pynteny — Synteny-aware HMM searches made easy\n"
             "A python tool to query sequence databases based on hmms "
             "arranged in a synteny block. For more info visit Pynteny's "
@@ -37,8 +37,8 @@ st.set_page_config(
             "If you use this software, please cite it as below:  \n"
             " Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy (Version 0.0.2). Zenodo. https://doi.org/10.5281/zenodo.7048685 \n"
             "### Using:\n"
-            )
-    }
+        ),
+    },
 )
 
 with open(parent_dir / "assets/styles.css", "r") as file:
@@ -62,21 +62,12 @@ search_state = CommandArgs(
     gene_ids=True,
     logfile=None,
     synteny_hits=None,
-    unordered=False
-    )
-
-build_state = CommandArgs(
-    data=None,
-    outfile=None,
-    processes=None,
-    logfile=None
+    unordered=False,
 )
 
-download_state = CommandArgs(
-    outdir=None,
-    unpack=True,
-    logfile=None
-)
+build_state = CommandArgs(data=None, outfile=None, processes=None, logfile=None)
+
+download_state = CommandArgs(outdir=None, unpack=True, logfile=None)
 
 if "search_state" not in st.session_state:
     st.session_state.search_state = search_state
@@ -94,4 +85,4 @@ if "pynteny_log" not in st.session_state:
 
 Sidebar.show()
 Mainpage.show()
-ExampleSearch.setExample()
+ExampleSearch.set_example()
