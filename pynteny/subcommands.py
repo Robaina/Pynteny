@@ -125,9 +125,9 @@ def synteny_search(args) -> SyntenyHits:
         processes=args.processes,
         additional_args=hmmsearch_args,
     )
-    synteny_hits.writeToTSV(synteny_table)
+    synteny_hits.write_to_TSV(synteny_table)
     logger.info("Writing matching sequences to FASTA files")
-    synteny_hits.writeHitSequencesToFASTAfiles(
+    synteny_hits.write_hit_sequences_to_FASTA_files(
         sequence_database=args.data, output_dir=args.outdir, output_prefix=args.prefix
     )
     if temp_hmm_dir.exists():

@@ -206,7 +206,7 @@ class SyntenyHMMfilter:
         all_hit_labels.loc[
             0, "gene_pos_diff"
         ] = 1  # required for rolling (skips first nan)
-        all_hit_labels["hmm_code"] = all_hit_labels.hmm.apply(self._assignCodeToHMM)
+        all_hit_labels["hmm_code"] = all_hit_labels.hmm.apply(self._assign_code_to_HMM)
         all_hit_labels["strand"] = all_hit_labels.strand.apply(
             lambda strand: -1 if strand == "neg" else (1 if strand == "pos" else 0)
         )
@@ -273,7 +273,7 @@ class SyntenyHMMfilter:
         filters = SyntenyPatternFilters(
             self._synteny_structure, unordered=self._unordered
         )
-        all_hit_labels = self.getAllHMMhits()
+        all_hit_labels = self.get_all_HMM_hits()
         if all_hit_labels.full_label.duplicated().any():
             logger.warning(
                 "At least two different HMMs produced identical sequence hits"
