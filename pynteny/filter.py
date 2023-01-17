@@ -259,9 +259,9 @@ class SyntenyHMMfilter:
         )
         all_hit_labels.reset_index(drop=True, inplace=True)
         if self._contains_hmm_groups:
-            all_hit_labels = self._mergeHitsByHMMgroup(all_hit_labels)
+            all_hit_labels = self._merge_hits_by_HMM_group(all_hit_labels)
         all_hit_labels.reset_index(drop=True, inplace=True)
-        return self._addMetaCodesToHMMhits(all_hit_labels)
+        return self._add_meta_codes_to_HMM_hits(all_hit_labels)
 
     def filter_hits_by_synteny_structure(self) -> dict:
         """Search for contigs that satisfy the given gene synteny structure.
@@ -377,7 +377,7 @@ class SyntenyHits:
         Returns:
             SyntenyHits: initialized object of class SyntenyHits.
         """
-        return cls(cls._hitsToDataframe(hits_by_contig))
+        return cls(cls._hits_to_dataframe(hits_by_contig))
 
     def get_synteny_hits(self) -> pd.DataFrame:
         """Return synteny hits.
