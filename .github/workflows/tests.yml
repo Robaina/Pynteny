@@ -34,7 +34,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: create environment with mamba
+      - name: create environment
         uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.8
@@ -50,5 +50,5 @@ jobs:
       - name: Run tests and collect coverage
         run: pynteny --help && coverage run --omit pynteny/wrappers.py,pynteny/cli.py,pynteny/subcommands.py,pynteny/utils.py -m unittest discover tests && coverage xml
 
-      - name: Upload  coverage to Codecov
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

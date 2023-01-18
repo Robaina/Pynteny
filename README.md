@@ -3,14 +3,17 @@
 
 # Synteny-aware hmm searches made easy
 
+![python](https://img.shields.io/badge/Python-3.8%2B-blue)
 [![tests](https://github.com/Robaina/Pynteny/actions/workflows/tests.yml/badge.svg)](https://github.com/Robaina/Pynteny/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/Robaina/Pynteny/branch/main/graph/badge.svg?token=WDSOC220X6)](https://codecov.io/gh/Robaina/Pynteny)
 [![docs](https://github.com/Robaina/Pynteny/actions/workflows/docs.yml/badge.svg)](https://github.com/Robaina/Pynteny/actions/workflows/docs.yml)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Bioconda](https://img.shields.io/conda/vn/bioconda/pynteny?logo=anaconda&style=flat-square&maxAge=3600)](https://anaconda.org/bioconda/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/downloads.svg)](https://anaconda.org/bioconda/pynteny)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Robaina/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/platforms.svg)](https://anaconda.org/bioconda/pynteny)
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/latest_release_date.svg)](https://anaconda.org/bioconda/pynteny)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 ![license](https://img.shields.io/github/license/Robaina/Pynteny)
 ![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 [![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783)
