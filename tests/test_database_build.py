@@ -23,9 +23,19 @@ class TestDatabase(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as outfile:
             labelled_database = database.build(output_file=outfile.name)
             self.assertIsInstance(
-                labelled_database, 
-                LabelledFASTA, 
-                "Failed to build database from assembly data")
+                labelled_database,
+                LabelledFASTA,
+                "Failed to build database from assembly data",
+            )
+
+    def test_build(self):
+        with tempfile.NamedTemporaryFile() as outfile:
+            labelled_database = Build(
+                data=Path(this_file_dir / "test_data/test_assembly"),
+                outfile=outfile.name,
+                logfile=None,
+            ).run()
+
     def test_build_gbk(self):
         data = Path(this_file_dir / "test_data/MG1655.gb")
         database = Database(data)
@@ -34,4 +44,5 @@ class TestDatabase(unittest.TestCase):
             self.assertIsInstance(
                 labelled_database,
                 LabelledFASTA,
-                "Failed to build database from GenBank data")
+                "Failed to build database from GenBank data",
+            )

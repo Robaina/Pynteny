@@ -6,7 +6,11 @@ Unit tests for the filter module
 """
 
 import unittest
+from pathlib import Path
 from pynteny.filter import LabelParser, SyntenyParser
+
+
+this_file_dir = Path(Path(__file__).parent)
 
 
 class TestLabelParser(unittest.TestCase):
@@ -60,6 +64,17 @@ class TestSyntenyParser(unittest.TestCase):
             SyntenyParser.get_maximum_distances_in_structure(self.syn_struct),
             [0, 1],
             "Failed to retrieve max ORF distances correctly",
+        )
+
+    def test_parse_genes_in_synteny_structure(self):
+        meta = Path(this_file_dir / "test_data/hmm_meta.tsv")
+        parsed_struct, hmm_groups = SyntenyParser.parse_genes_in_synteny_structure(
+            synteny_structure="<leuD 0 <leuC 1 <leuA", hmm_meta=meta
+        )
+        self.assertEqual(
+            parsed_struct,
+            "<TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1",
+            "Failed to parse gene symbols in synteny structure",
         )
 
 
