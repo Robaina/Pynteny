@@ -256,7 +256,7 @@ class FASTA:
         if point_to_new_file:
             self.set_file_path(output_file)
 
-    def split_by_Contigs(self, output_dir: Path = None) -> None:
+    def split_by_contigs(self, output_dir: Path = None) -> None:
         """Split large fasta file into several ones containing one contig each.
 
         Args:
@@ -460,7 +460,7 @@ class GeneAnnotator:
             contigs_dir = Path(contigs_dir)
             prodigal_dir = Path(prodigal_dir)
             logger.info("Running prodigal on assembly data")
-            self._assembly_file.split_by_Contigs(contigs_dir)
+            self._assembly_file.split_by_contigs(contigs_dir)
             utils.parallelize_over_input_files(
                 wrappers.run_prodigal,
                 input_list=list(contigs_dir.iterdir()),
