@@ -77,6 +77,12 @@ class TestSyntenyParser(unittest.TestCase):
             "Failed to parse gene symbols in synteny structure",
         )
 
+    def test_parse_synteny_structure(self):
+        parsed_struct = SyntenyParser.parse_synteny_structure("<leuD 0 <leuC 1 <leuA")
+        self.assertEqual(
+            parsed_struct["distances"], [0, 1], "Failed to parse synteny structure"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
