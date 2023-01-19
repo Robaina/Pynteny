@@ -26,12 +26,18 @@ class TestPGAP(unittest.TestCase):
             original_labels, new_labels, "Failed to remove missing HMMs from metadata"
         )
 
-    def get_HMM_group_for_gene_symbol(self):
-        with tempfile.NamedTemporaryFile() as tmp:
-            pgap = PGAP(this_file_dir / "test_data/hmm_meta.tsv")
-            hmm_group = pgap.get_HMM_group_for_gene_symbol("leuD")
+    def test_get_HMM_group_for_gene_symbol(self):
+        pgap = PGAP(this_file_dir / "test_data/hmm_meta.tsv")
+        hmm_group = pgap.get_HMM_group_for_gene_symbol("leuD")
         self.assertEqual(
             hmm_group, "TIGR00171.1", "Failed to retrieve HMM group from gene symbol"
+        )
+
+    def test_get_meta_info_for_HMM(self):
+        pgap = PGAP(this_file_dir / "test_data/hmm_meta.tsv")
+        meta = pgap.get_meta_info_for_HMM("TIGR00170.1")
+        self.assertEqual(
+            meta["label"], "leuC", "Failed to retrieve meta info for HMM name"
         )
 
 
