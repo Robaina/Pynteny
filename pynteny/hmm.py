@@ -31,9 +31,9 @@ class HMMER:
         input_hmms: list[Path],
         hmm_output_dir: Path,
         input_data: Path,
-        additional_args: list[str],
+        additional_args: list[str] = None,
         processes: int = None,
-    ) -> None:
+    ):
         """Initialize class HMMER
 
         Args:
@@ -50,6 +50,8 @@ class HMMER:
             processes (int, optional): maximum number of threads to be employed.
                 Defaults to all minus one.
         """
+        if additional_args is None:
+            additional_args = [None for _ in range(len(input_hmms))]
         self._hmmer_output_dir = hmm_output_dir
         self._input_hmms = input_hmms
         self._input_fasta = input_data
@@ -122,7 +124,7 @@ class HMMER:
 class PGAP:
     """Tools to parse PGAP hmm database metadata"""
 
-    def __init__(self, meta_file: Path) -> None:
+    def __init__(self, meta_file: Path):
         """Initialize class PGAP
 
         Args:
@@ -176,7 +178,7 @@ class PGAP:
         self._meta = self._meta.drop(not_found)
         self._meta.to_csv(outfile, sep="\t", index=False)
 
-    def get_HMM_names_by_fene_symbol(self, gene_symbol: str) -> list[str]:
+    def get_HMM_names_by_gene_symbol(self, gene_symbol: str) -> list[str]:
         """Try to retrieve HMM by its gene symbol, more
            than one HMM may map to a single gene symbol
 
@@ -209,7 +211,7 @@ class PGAP:
         Returns:
             str: string of HMM names (group separated by |)
         """
-        hmms = self.get_HMM_names_by_fene_symbol(gene_symbol)
+        hmms = self.get_HMM_names_by_gene_symbol(gene_symbol)
         if not hmms:
             logger.error(f"No HMM found for gene {gene_symbol}")
             sys.exit(1)

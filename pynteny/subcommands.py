@@ -133,6 +133,7 @@ def synteny_search(args) -> SyntenyHits:
     if temp_hmm_dir.exists():
         shutil.rmtree(temp_hmm_dir)
     logger.info("Finished!")
+    logging.shutdown()
     return synteny_hits
 
 
@@ -159,6 +160,7 @@ def build_database(args) -> None:
     database = Database(args.data)
     database.build(output_file=args.outfile)
     logger.info("Database built successfully!")
+    logging.shutdown()
 
 
 def parse_gene_ids(args) -> str:
@@ -199,6 +201,7 @@ def parse_gene_ids(args) -> str:
     logger.info(
         f'Translated \n "{args.synteny_struc}" \n to \n "{gene_synteny_struc}" \n according to provided HMM database metadata'
     )
+    logging.shutdown()
     return gene_synteny_struc
 
 
@@ -260,6 +263,7 @@ def download_hmms(args) -> None:
         os.remove(PGAP_file)
         config.update_config("PGAP_database", unpacked_PGAP_dir.as_posix())
         logger.info("PGAP database unpacked successfully")
+    logging.shutdown()
 
 
 def run_app() -> None:
