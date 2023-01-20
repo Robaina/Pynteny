@@ -31,7 +31,11 @@ class TestSyntenySearch(unittest.TestCase):
                 processes=None,
                 unordered=False,
             )
-            synhits = search.run().get_synteny_hits()
+            hmm_meta = this_file_dir / "test_data/hmm_meta.tsv"
+            synhits = search.run()
+            # synhits_df = synhits.get_synteny_hits()
+            synhits = synhits.add_HMM_meta_info_to_hits(hmm_meta)
+            synhits_df = synhits.get_synteny_hits()
             config = Path(this_file_dir.parent) / "config.json"
             if config.exists():
                 config.unlink()
@@ -41,7 +45,7 @@ class TestSyntenySearch(unittest.TestCase):
             "b0074__U00096_74_81957_83529_neg",
         ]
         self.assertListEqual(
-            synhits.full_label.values.tolist(),
+            synhits_df.full_label.values.tolist(),
             hit_labels,
             "Failed finding synteny hits",
         )

@@ -2,3 +2,4 @@
 TIGR00170.1	TIGR00170	leuC	560.25	560.25	466	equivalog_domain	Y	Y	N	3-isopropylmalate dehydratase large subunit	leuC	4.2.1.33	GO:0003861,GO:0009098,GO:0009316		131567.0	cellular organisms	no rank	38458	JCVI	3-isopropylmalate dehydratase, large subunit
 TIGR00171.1	TIGR00171	leuD	116.25	116.25	188	equivalog_domain	Y	Y	N	3-isopropylmalate dehydratase small subunit	leuD	4.2.1.33	GO:0003861,GO:0009098,GO:0009316		131567.0	cellular organisms	no rank	33829	JCVI	3-isopropylmalate dehydratase, small subunit
 TIGR00973.1	TIGR00973	leuA	598.7	598.7	494	equivalog	Y	Y	N	2-isopropylmalate synthase	leuA	2.3.3.13	GO:0003852,GO:0009098		131567.0	cellular organisms	no rank	20500	JCVI	2-isopropylmalate synthase
+TIGR00973.1	TIGR00973	leuC	598.7	598.7	494	equivalog	Y	Y	N	2-isopropylmalate synthase_fake	leuC	4.2.1.33	GO:0003852,GO:0009098		131567.0	cellular organisms	no rank	20500	JCVI	2-isopropylmalate synthase_fake

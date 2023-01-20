@@ -40,6 +40,11 @@ class TestPGAP(unittest.TestCase):
             meta["label"], "leuC", "Failed to retrieve meta info for HMM name"
         )
 
+    def test_get_HMM_gene_ID(self):
+        pgap = PGAP(this_file_dir / "test_data/hmm_meta.tsv")
+        gene_id = pgap.get_HMM_gene_ID("TIGR00170.1")[0]
+        self.assertEqual(gene_id, "leuC", "Failed to retrieve gene id from HMM name")
+
 
 class TestHMMER(unittest.TestCase):
     def test_get_HMMER_tables(self):
@@ -51,7 +56,7 @@ class TestHMMER(unittest.TestCase):
                 input_data=this_file_dir / "test_data/MG1655.fasta",
                 additional_args=[None for _ in range(len(input_hmms))],
             )
-            hits = hmmer.get_HMMER_tables()
+            hits = hmmer.get_HMMER_tables(reuse_hmmer_results=True)
             self.assertGreaterEqual(
                 list(hits.values())[0].shape[0], 1, "Failed to retrieve HMMER hits"
             )
