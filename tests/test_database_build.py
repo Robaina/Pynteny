@@ -13,7 +13,7 @@ from pynteny.api import Build
 from pynteny.preprocessing import LabelledFASTA
 
 
-this_file_dir = Path(Path(__file__).parent)
+this_file_dir = Path(__file__).parent
 
 
 class TestDatabase(unittest.TestCase):

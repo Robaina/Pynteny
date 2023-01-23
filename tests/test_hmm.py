@@ -10,7 +10,7 @@ from pathlib import Path
 import pandas as pd
 from pynteny.hmm import PGAP, HMMER
 
-this_file_dir = Path(Path(__file__).parent)
+this_file_dir = Path(__file__).parent
 
 
 class TestPGAP(unittest.TestCase):

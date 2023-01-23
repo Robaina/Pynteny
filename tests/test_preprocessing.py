@@ -10,7 +10,7 @@ import tempfile
 from pathlib import Path
 from pynteny.preprocessing import RecordSequence, FASTA, LabelledFASTA
 
-this_file_dir = Path(Path(__file__).parent)
+this_file_dir = Path(__file__).parent
 
 
 class TestRecordSequence(unittest.TestCase):

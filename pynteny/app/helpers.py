@@ -12,7 +12,7 @@ from pynteny.subcommands import synteny_search, build_database, download_hmms
 from pynteny.utils import ConfigParser
 
 
-parent_dir = Path(Path(__file__).parent)
+parent_dir = Path(__file__).parent
 
 
 class FileManager:
