@@ -24,3 +24,4 @@ wiki/*
 examples/data/*
 examples/example_cli/*
 examples/example_api/*
+pyopensci_reviews/*
