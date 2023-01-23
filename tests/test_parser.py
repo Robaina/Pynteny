@@ -10,7 +10,7 @@ from pathlib import Path
 from pynteny.filter import LabelParser, SyntenyParser
 
 
-this_file_dir = Path(Path(__file__).parent)
+this_file_dir = Path(__file__).parent
 
 
 class TestLabelParser(unittest.TestCase):

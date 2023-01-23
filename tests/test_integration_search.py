@@ -11,7 +11,7 @@ from tempfile import TemporaryDirectory
 
 from pynteny.api import Search
 
-this_file_dir = Path(Path(__file__).parent)
+this_file_dir = Path(__file__).parent
 
 
 class TestSyntenySearch(unittest.TestCase):

@@ -9,7 +9,7 @@ from pynteny.app.helpers import ExampleSearch
 from pynteny.app.components import Sidebar, Mainpage
 
 
-parent_dir = Path(Path(__file__).parent)
+parent_dir = Path(__file__).parent
 meta = metadata.metadata("pynteny")
 __version__ = meta["Version"]
 __author__ = meta["Author"]

@@ -46,7 +46,7 @@ class ConfigParser:
         Returns:
             Path: path to generated config file.
         """
-        config_file = Path(Path(Path(__file__).parent).parent) / "config.json"
+        config_file = Path(__file__).parent.parent / "config.json"
         if not config_file.exists():
             config = {
                 "database_dir": "",

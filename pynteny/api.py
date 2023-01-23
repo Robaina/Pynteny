@@ -24,10 +24,11 @@ __author__ = meta["Author"]
 
 
 class Command:
-    """Parent class for Pynteny command"""
+    """
+    Parent class for Pynteny command
 
-    def __init__(self):
-        """Parent class for Pynteny command"""
+    args: CommandArgs
+    """
 
     def _repr_html_(self):
         """Executed by Jupyter to print Author and version in html"""

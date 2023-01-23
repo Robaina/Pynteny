@@ -272,7 +272,7 @@ def run_app() -> None:
     config_path = config.get_config_path()
     logfile = str(Path(config_path.parent) / "streamlit.log")
     config.update_config("streamlit_log", logfile)
-    app_path = Path(Path(__file__).parent) / "app" / "main_page.py"
+    app_path = Path(__file__).parent / "app" / "main_page.py"
     log_str = f"--logger.level=info 2> {logfile}"
     cmd_str = (
         f"streamlit run {app_path} --browser.gatherUsageStats False --server.fileWatcherType none "
