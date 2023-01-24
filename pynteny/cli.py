@@ -458,7 +458,7 @@ class SubcommandParser:
         )
 
         optional = parser._action_groups.pop()
-        required = parser.add_argument_group("required arguments")
+        # required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
 
         optional.add_argument(
