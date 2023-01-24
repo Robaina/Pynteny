@@ -103,9 +103,8 @@ class HMMER:
         hmm_hits = {}
         for hmm_model, add_args in zip(self._input_hmms, self._additional_args):
             hmm_name = hmm_model.stem
-            hmmer_output = Path(
-                os.path.join(self._hmmer_output_dir, f"hmmer_output_{hmm_name}.txt")
-            )
+            hmmer_output = Path(self._hmmer_output_dir) / f"hmmer_output_{hmm_name}.txt"
+
             if not (reuse_hmmer_results and os.path.isfile(hmmer_output)):
                 wrappers.run_HMM_search(
                     hmm_model=hmm_model,
@@ -130,10 +129,20 @@ class PGAP:
         Args:
             meta_file (Path): path to PGAP's metadata file.
         """
-        meta = pd.read_csv(str(meta_file), sep="\t")
-        meta = meta[
-            ["#ncbi_accession", "gene_symbol", "label", "product_name", "ec_numbers"]
-        ]
+        meta = pd.read_csv(
+            str(meta_file),
+            sep="\t",
+            usecols=[
+                "#ncbi_accession",
+                "gene_symbol",
+                "label",
+                "product_name",
+                "ec_numbers",
+            ],
+        )
+        # meta = meta[
+        #     ["#ncbi_accession", "gene_symbol", "label", "product_name", "ec_numbers"]
+        # ]
         self._meta = meta
         self._meta_file = meta_file
 
@@ -189,17 +198,14 @@ class PGAP:
             list[str]: list of HMM names matching gene symbol.
         """
         meta = self._meta  # .dropna(subset=["gene_symbol", "label"], axis=0)
-        try:
-            return meta[
-                (
-                    (meta.gene_symbol == gene_symbol)
-                    |
-                    # (meta.label.str.contains(gene_id))
-                    (meta.label == gene_symbol)
-                )
-            ]["#ncbi_accession"].values.tolist()
-        except:
-            return list()
+        return meta[
+            (
+                (meta.gene_symbol == gene_symbol)
+                |
+                # (meta.label.str.contains(gene_id))
+                (meta.label == gene_symbol)
+            )
+        ]["#ncbi_accession"].values.tolist()
 
     def get_HMM_group_for_gene_symbol(self, gene_symbol: str) -> str:
         """Get HMMs corresponding to gene symbol in PGAP metadata.
@@ -230,12 +236,7 @@ class PGAP:
             list[str]: list of gene symbols matching given HMM.
         """
         meta = self._meta.dropna(subset=["#ncbi_accession"], axis=0)
-        try:
-            return meta[meta["#ncbi_accession"] == hmm_name][
-                "gene_symbol"
-            ].values.tolist()
-        except:
-            return None
+        return meta[meta["#ncbi_accession"] == hmm_name]["gene_symbol"].values.tolist()
 
     def get_meta_info_for_HMM(self, hmm_name: str) -> dict:
         """Get meta info for given hmm.
@@ -249,11 +250,10 @@ class PGAP:
         meta = self._meta.dropna(subset=["#ncbi_accession"], axis=0).applymap(
             lambda x: x if not pd.isna(x) else ""
         )
-        try:
-            return {
-                k: list(v.values())[0] if list(v.values())[0] else "undef"
-                for k, v in meta[meta["#ncbi_accession"] == hmm_name].to_dict().items()
-            }
-        except:
+        metadata = {
+            k: list(v.values())[0] if list(v.values())[0] else "undef"
+            for k, v in meta[meta["#ncbi_accession"] == hmm_name].to_dict().items()
+        }
+        if not metadata:
             logger.warning(f"No metadata for HMM: {hmm_name}")
-            return dict()
+        return metadata

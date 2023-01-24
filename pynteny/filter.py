@@ -38,20 +38,14 @@ class SyntenyPatternFilters:
                 gene found by hmm_a and gene found by hmm_b, and hmm_ corresponds
                 to the name of the hmm as provided in the keys of hmm_hits.
                 More than two hmms can be concatenated. Strand location may be
-                specificed by using '>' for sense and '<' for antisense.
+                specified by using '>' for sense and '<' for antisense.
             unordered (bool, optional): whether the HMMs should be arranged in the
                 exact same order displayed in the synteny_structure or in
-                any order If ordered, the filters would filter collinear rather
+                any order. If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to False.
         """
         parsed_structure = SyntenyParser.parse_synteny_structure(synteny_structure)
-        hmm_order_dict = dict(
-            zip(
-                parsed_structure["hmm_groups"],
-                range(len(parsed_structure["hmm_groups"])),
-            )
-        )
-        hmm_codes = list(hmm_order_dict.values())
+        hmm_codes = list(range(len(parsed_structure["hmm_groups"])))
         self.hmm_code_order_pattern = hmm_codes
 
         if unordered:
@@ -128,7 +122,7 @@ class SyntenyPatternFilters:
                 strand_comparisons.append(data_strand == pattern_strand)
             else:
                 strand_comparisons.append(True)
-        return 1 if all(strand_comparisons) == True else 0
+        return 1 if all(strand_comparisons) else 0
 
 
 class SyntenyHMMfilter:
@@ -257,10 +251,10 @@ class SyntenyHMMfilter:
             .filter(lambda x: len(x) >= self._n_hmm_groups)
             .sort_values(["contig", "gene_pos"], ascending=True)
         )
-        all_hit_labels.reset_index(drop=True, inplace=True)
+        all_hit_labels = all_hit_labels.reset_index(drop=True)
         if self._contains_hmm_groups:
             all_hit_labels = self._merge_hits_by_HMM_group(all_hit_labels)
-        all_hit_labels.reset_index(drop=True, inplace=True)
+        all_hit_labels = all_hit_labels.reset_index(drop=True)
         return self._add_meta_codes_to_HMM_hits(all_hit_labels)
 
     def filter_hits_by_synteny_structure(self) -> dict:
@@ -296,7 +290,7 @@ class SyntenyHMMfilter:
                 hmm_group: [] for hmm_group in contig_hits.hmm.unique()
             }
 
-            if len(contig_hits.hmm.unique()) >= self._n_hmm_groups:
+            if contig_hits.hmm.nunique() >= self._n_hmm_groups:
 
                 hmm_match = contig_hits.hmm_code.rolling(
                     window=self._n_hmm_groups
@@ -313,7 +307,7 @@ class SyntenyHMMfilter:
                     ]
                 else:
                     matched_rows = contig_hits[(hmm_match == 1) & (strand_match == 1)]
-                for i, _ in matched_rows.iterrows():
+                for i in matched_rows.index:
                     matched_hits = contig_hits.iloc[
                         i - (self._n_hmm_groups - 1) : i + 1, :
                     ]
@@ -379,7 +373,8 @@ class SyntenyHits:
         """
         return cls(cls._hits_to_dataframe(hits_by_contig))
 
-    def get_synteny_hits(self) -> pd.DataFrame:
+    @property
+    def hits(self) -> pd.DataFrame:
         """Return synteny hits.
 
         Returns:
@@ -401,14 +396,17 @@ class SyntenyHits:
             return self._synteny_hits
         pgap = PGAP(hmm_meta)
         self._synteny_hits[fields] = ""
-        for i, row in self._synteny_hits.iterrows():
+        # for i, row in self._synteny_hits.iterrows():
+        for row in self._synteny_hits.itertuples():
+            i = getattr(row, "Index")
+            hmm_group = getattr(row, "hmm")
             meta_values = [
                 [
                     str(v).replace("nan", "")
                     for k, v in pgap.get_meta_info_for_HMM(hmm).items()
                     if k != "#ncbi_accession"
                 ]
-                for hmm in row.hmm.split("|")
+                for hmm in hmm_group.split("|")  # row.hmm.split("|")
             ]
             self._synteny_hits.loc[i, fields] = ["|".join(v) for v in zip(*meta_values)]
         return SyntenyHits(self._synteny_hits)
@@ -532,11 +530,13 @@ def filter_FASTA_by_synteny_structure(
     if additional_args is None:
         additional_args = [None for _ in input_hmms]
 
-    if type(additional_args) == str:
+    # if type(additional_args) == str:
+    if isinstance(additional_args, str):
         logger.warning(f"Repeating hmmsearch arg: '{additional_args}' for all HMMs")
         additional_args = [additional_args for _ in input_hmms]
 
-    elif type(additional_args) == list:
+    # elif type(additional_args) == list:
+    elif isinstance(additional_args, list):
         if len(additional_args) == 1:
             logger.warning(
                 f"Repeating hmmsearch arg: '{additional_args[0]}' for all HMMs"
