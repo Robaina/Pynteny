@@ -58,7 +58,7 @@ class TestFASTA(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as tmp:
             fasta.remove_duplicates(output_file=Path(tmp.name))
             self.assertEqual(
-                fasta.get_file_path(),
+                fasta.file_path,
                 Path(tmp.name),
                 "Failed to remove duplicates in FASTA",
             )
@@ -68,7 +68,7 @@ class TestFASTA(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as tmp:
             fasta.remove_corrupted_sequences(output_file=Path(tmp.name))
             self.assertEqual(
-                fasta.get_file_path(),
+                fasta.file_path,
                 Path(tmp.name),
                 "Failed to remove corrupted sequences in FASTA",
             )
@@ -80,7 +80,7 @@ class TestFASTA(unittest.TestCase):
                 record_ids=["b0001__U00096_0_189_255_pos"], output_file=Path(tmp.name)
             )
             self.assertEqual(
-                fasta.get_file_path(),
+                fasta.file_path,
                 Path(tmp.name),
                 "Failed to filter records by ID in FASTA",
             )
@@ -90,7 +90,7 @@ class TestFASTA(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as tmp:
             fasta.filter_by_minimum_length(min_length=50, output_file=Path(tmp.name))
             self.assertEqual(
-                fasta.get_file_path(),
+                fasta.file_path,
                 Path(tmp.name),
                 "Failed to filter FASTA by length",
             )
