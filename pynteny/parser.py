@@ -39,21 +39,26 @@ class LabelParser:
             "locus_pos": None,
             "strand": "",
         }
-        try:
-            entry = label.split("__")[0]
-            meta = label.split("__")[1]
-            strand = meta.split("_")[-1]
-            locus_pos = tuple([int(pos) for pos in meta.split("_")[-3:-1]])
-            gene_pos = int(meta.split("_")[-4])
-            contig = "_".join(meta.split("_")[:-4])
 
-            parsed_dict["gene_id"] = entry
-            parsed_dict["contig"] = contig
-            parsed_dict["gene_pos"] = gene_pos
-            parsed_dict["locus_pos"] = locus_pos
-            parsed_dict["strand"] = strand
-        except Exception:
-            pass
+        if label.count("__") > 1:
+            logger.error("Invalid format of record label string")
+            sys.exit(1)
+
+        entry = label.split("__")[0]
+        meta = label.split("__")[1]
+        meta_items = meta.split("_")
+
+        strand = meta_items[-1]
+        locus_pos = tuple([int(pos) for pos in meta_items[-3:-1]])
+        gene_pos = int(meta_items[-4])
+        contig = "_".join(meta_items[:-4])
+
+        parsed_dict["gene_id"] = entry
+        parsed_dict["contig"] = contig
+        parsed_dict["gene_pos"] = gene_pos
+        parsed_dict["locus_pos"] = locus_pos
+        parsed_dict["strand"] = strand
+
         return parsed_dict
 
     @staticmethod
@@ -107,7 +112,7 @@ class SyntenyParser:
     @staticmethod
     def split_strand_from_locus(
         locus_str: str, parsed_symbol: bool = True
-    ) -> tuple[str]:
+    ) -> tuple[str, ...]:
         """Split strand info from locus tag / HMM model.
 
         Args:
@@ -117,7 +122,7 @@ class SyntenyParser:
                 as 'pos' and '<' as 'neg'. Defaults to True.
 
         Returns:
-            tuple[str]: tuple with parsed strand info and gene symbol / HMM name.
+            tuple[str, ...]: tuple with parsed strand info and gene symbol / HMM name.
         """
         locus_str = locus_str.strip()
         if locus_str[0] == "<" or locus_str[0] == ">":
