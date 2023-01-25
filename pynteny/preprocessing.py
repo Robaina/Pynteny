@@ -10,13 +10,14 @@ Tools to preprocess sequence databases
 """
 
 from __future__ import annotations
+from typing import TextIO
 import sys
 import os
 import logging
 import tempfile
 from pathlib import Path
 
-from Bio import SeqIO
+from Bio import SeqIO, SeqRecord, SeqFeature
 import pyfastx
 
 import pynteny.utils as utils
@@ -156,7 +157,6 @@ class FASTA:
         self,
         output_file: Path = None,
         export_duplicates: bool = False,
-        method: str = "seqkit",
         point_to_new_file: bool = True,
     ) -> None:
         """Removes duplicate entries (either by sequence or ID) from fasta.
@@ -164,7 +164,6 @@ class FASTA:
         Args:
             output_file (Path, optional): path to output fasta file. Defaults to None.
             export_duplicates (bool, optional): whether duplicated records are exported to a file. Defaults to False.
-            method (str, optional): choose method to select duplicates: 'biopython' or 'seqkit'. Defaults to 'seqkit'.
             point_to_new_file (bool, optional): whether FASTA object should point to the newly generated file. Defaults to True.
 
         Yields:
@@ -175,24 +174,11 @@ class FASTA:
                 Path(self._input_file.parent)
                 / f"{self._input_file.stem}_noduplicates{self._input_file.suffix}"
             )
-
-        if "bio" in method:
-            seen_seqs, seen_ids = set(), set()
-
-            def unique_records():
-                for record in SeqIO.parse(self._input_file, "fasta"):
-                    if (record.seq not in seen_seqs) and (record.id not in seen_ids):
-                        seen_seqs.add(record.seq)
-                        seen_ids.add(record.id)
-                        yield record
-
-            SeqIO.write(unique_records(), output_file, "fasta")
-        else:
-            wrappers.run_seqkit_nodup(
-                input_fasta=self._input_file,
-                output_fasta=output_file,
-                export_duplicates=export_duplicates,
-            )
+        wrappers.run_seqkit_nodup(
+            input_fasta=self._input_file,
+            output_fasta=output_file,
+            export_duplicates=export_duplicates,
+        )
         if point_to_new_file:
             self.set_file_path(output_file)
 
@@ -381,48 +367,50 @@ class LabelledFASTA(FASTA):
                 Path(gbk_files.pop().parent) / f"{prefix}sequence_database.fasta"
             )
 
-        def get_label_str(gbk_contig, feature):
-            name = feature.qualifiers["locus_tag"][0].replace("_", ".")
-            start, end, strand = (
-                str(feature.location.start),
-                str(feature.location.end),
-                feature.location.strand,
-            )
-            start = start.replace(">", "").replace("<", "")
-            end = end.replace(">", "").replace("<", "")
-            strand_sense = "neg" if strand == -1 else ("pos" if strand == 1 else "")
-            return f">{name}__{gbk_contig.name.replace('_', '')}_{gene_counter}_{start}_{end}_{strand_sense}\n"
-
-        if nucleotide:
-
-            def write_record(gbk_contig, feature, outfile, gene_counter):
-                header = get_label_str(gbk_contig, feature)
-                sequence = str(feature.extract(gbk_contig).seq)
-                outfile.write(header)
-                outfile.write(sequence + "\n")
-                gene_counter += 1
-                return gene_counter
-
-        else:
-
-            def write_record(gbk_contig, feature, outfile, gene_counter):
-                if "translation" in feature.qualifiers:
-                    header = get_label_str(gbk_contig, feature)
-                    sequence = feature.qualifiers["translation"][0]
-                    outfile.write(header)
-                    outfile.write(sequence + "\n")
-                    gene_counter += 1
-                return gene_counter
-
         with open(output_file, "w+") as outfile:
             for gbk_contig in gbk_contigs:
                 gene_counter = 0
                 for feature in gbk_contig.features:
                     if "cds" in feature.type.lower():
-                        gene_counter = write_record(
-                            gbk_contig, feature, outfile, gene_counter
+                        gene_counter = cls.write_record(
+                            gbk_contig, feature, outfile, gene_counter, nucleotide
                         )
         return cls(output_file)
+
+    @staticmethod
+    def get_label_str(
+        gbk_contig: SeqRecord, feature: SeqFeature, gene_counter: int
+    ) -> str:
+        name = feature.qualifiers["locus_tag"][0].replace("_", ".")
+        start, end, strand = (
+            str(feature.location.start),
+            str(feature.location.end),
+            feature.location.strand,
+        )
+        start = start.replace(">", "").replace("<", "")
+        end = end.replace(">", "").replace("<", "")
+        strand_sense = "neg" if strand == -1 else ("pos" if strand == 1 else "")
+        return f">{name}__{gbk_contig.name.replace('_', '')}_{gene_counter}_{start}_{end}_{strand_sense}\n"
+
+    @staticmethod
+    def write_record(
+        gbk_contig: SeqRecord,
+        feature: SeqFeature,
+        outfile: TextIO,
+        gene_counter: int,
+        nucleotide: bool = False,
+    ) -> int:
+        header = LabelledFASTA.get_label_str(gbk_contig, feature, gene_counter)
+        if (not nucleotide) and ("translation" in feature.qualifiers):
+            sequence = feature.qualifiers["translation"][0]
+        elif nucleotide:
+            sequence = str(feature.extract(gbk_contig).seq)
+        else:
+            return gene_counter
+        outfile.write(header)
+        outfile.write(sequence + "\n")
+        gene_counter += 1
+        return gene_counter
 
 
 class GeneAnnotator:
