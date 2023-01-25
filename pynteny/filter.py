@@ -291,6 +291,7 @@ class SyntenyHMMfilter:
             }
 
             if contig_hits.hmm.nunique() >= self._n_hmm_groups:
+
                 hmm_match = contig_hits.hmm_code.rolling(
                     window=self._n_hmm_groups
                 ).apply(filters.contains_hmm_pattern)
