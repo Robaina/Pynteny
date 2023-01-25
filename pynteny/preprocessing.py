@@ -416,41 +416,6 @@ class LabelledFASTA(FASTA):
         gene_counter += 1
         return gene_counter
 
-    @staticmethod
-    def get_label_str(
-        gbk_contig: SeqRecord, feature: SeqFeature, gene_counter: int
-    ) -> str:
-        name = feature.qualifiers["locus_tag"][0].replace("_", ".")
-        start, end, strand = (
-            str(feature.location.start),
-            str(feature.location.end),
-            feature.location.strand,
-        )
-        start = start.replace(">", "").replace("<", "")
-        end = end.replace(">", "").replace("<", "")
-        strand_sense = "neg" if strand == -1 else ("pos" if strand == 1 else "")
-        return f">{name}__{gbk_contig.name.replace('_', '')}_{gene_counter}_{start}_{end}_{strand_sense}\n"
-
-    @staticmethod
-    def write_record(
-        gbk_contig: SeqRecord,
-        feature: SeqFeature,
-        outfile: TextIO,
-        gene_counter: int,
-        nucleotide: bool = False,
-    ) -> int:
-        header = LabelledFASTA.get_label_str(gbk_contig, feature, gene_counter)
-        if (not nucleotide) and ("translation" in feature.qualifiers):
-            sequence = feature.qualifiers["translation"][0]
-        elif nucleotide:
-            sequence = str(feature.extract(gbk_contig).seq)
-        else:
-            return gene_counter
-        outfile.write(header)
-        outfile.write(sequence + "\n")
-        gene_counter += 1
-        return gene_counter
-
 
 class GeneAnnotator:
     """Run prodigal on assembly, predict ORFs and extract location info"""
