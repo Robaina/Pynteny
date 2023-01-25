@@ -26,70 +26,66 @@ import pynteny.wrappers as wrappers
 logger = logging.getLogger(__name__)
 
 
-class RecordSequence:
-    """Tools to process nucleotide or peptide sequences"""
+def remove_stop_sodon_signals(record_seq: str) -> str:
+    """Remove stop codon signals from peptide sequence
 
-    @staticmethod
-    def remove_stop_sodon_signals(record_seq: str) -> str:
-        """Remove stop codon signals from peptide sequence
+    Args:
+        record_seq (str): peptide sequence.
 
-        Args:
-            record_seq (str): peptide sequence.
+    Returns:
+        str: a peptide sequence without stop codon symbols.
+    """
+    return record_seq.replace("*", "")
 
-        Returns:
-            str: a peptide sequence without stop codon symbols.
-        """
-        return record_seq.replace("*", "")
 
-    @staticmethod
-    def is_legit_peptide_sequence(record_seq: str) -> bool:
-        """Assert that peptide sequence only contains valid symbols.
+def is_legit_peptide_sequence(record_seq: str) -> bool:
+    """Assert that peptide sequence only contains valid symbols.
 
-        Args:
-            record_seq (str): peptide sequence.
+    Args:
+        record_seq (str): peptide sequence.
 
-        Returns:
-            bool: whether peptide sequence only contains legit symbols.
-        """
-        aas = {
-            "A",
-            "C",
-            "D",
-            "E",
-            "F",
-            "G",
-            "H",
-            "I",
-            "K",
-            "L",
-            "M",
-            "N",
-            "P",
-            "Q",
-            "R",
-            "S",
-            "T",
-            "V",
-            "W",
-            "Y",
-            "*",
-        }
-        seq_symbols = {s.upper() for s in record_seq}
-        return seq_symbols.issubset(aas)
+    Returns:
+        bool: whether peptide sequence only contains legit symbols.
+    """
+    aas = {
+        "A",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "K",
+        "L",
+        "M",
+        "N",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "V",
+        "W",
+        "Y",
+        "*",
+    }
+    seq_symbols = {s.upper() for s in record_seq}
+    return seq_symbols.issubset(aas)
 
-    @staticmethod
-    def is_legit_DNA_sequence(record_seq: str) -> bool:
-        """Assert that DNA sequence only contains valid symbols.
 
-        Args:
-            record_seq (str): nucleotide sequence.
+def is_legit_DNA_sequence(record_seq: str) -> bool:
+    """Assert that DNA sequence only contains valid symbols.
 
-        Returns:
-            bool: whether nucleotide sequence only contains legit symbols.
-        """
-        nts = {"A", "G", "T", "C", "N"}
-        seq_symbols = {s.upper() for s in record_seq}
-        return seq_symbols.issubset(nts)
+    Args:
+        record_seq (str): nucleotide sequence.
+
+    Returns:
+        bool: whether nucleotide sequence only contains legit symbols.
+    """
+    nts = {"A", "G", "T", "C", "N"}
+    seq_symbols = {s.upper() for s in record_seq}
+    return seq_symbols.issubset(nts)
 
 
 class FASTA:
@@ -200,9 +196,9 @@ class FASTA:
         if output_file is None:
             output_file = Path(dirname) / f"{fname}_modified{ext}"
         if is_peptide:
-            isLegitSequence = RecordSequence.is_legit_peptide_sequence
+            isLegitSequence = is_legit_peptide_sequence
         else:
-            isLegitSequence = RecordSequence.is_legit_DNA_sequence
+            isLegitSequence = is_legit_DNA_sequence
 
         fasta = pyfastx.Fasta(
             self.file_path.as_posix(), build_index=False, full_name=True
@@ -210,7 +206,7 @@ class FASTA:
         with open(output_file, "w+") as outfile:
             for record_name, record_seq in fasta:
                 if is_peptide and (not keep_stop_codon):
-                    record_seq = RecordSequence.remove_stop_sodon_signals(record_seq)
+                    record_seq = remove_stop_sodon_signals(record_seq)
                 if isLegitSequence(record_seq):
                     outfile.write(f">{record_name}\n{record_seq}\n")
         if point_to_new_file:
