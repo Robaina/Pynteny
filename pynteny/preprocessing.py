@@ -428,6 +428,27 @@ class LabelledFASTA(FASTA):
                         )
         return cls(output_file)
 
+    def get_label_str(self, gbk_contig, feature, gene_counter):
+        name = feature.qualifiers["locus_tag"][0].replace("_", ".")
+        start, end, strand = (
+            str(feature.location.start),
+            str(feature.location.end),
+            feature.location.strand,
+        )
+        start = start.replace(">", "").replace("<", "")
+        end = end.replace(">", "").replace("<", "")
+        strand_sense = "neg" if strand == -1 else ("pos" if strand == 1 else "")
+        return f">{name}__{gbk_contig.name.replace('_', '')}_{gene_counter}_{start}_{end}_{strand_sense}\n"
+
+    def write_record(self, gbk_contig, feature, outfile, gene_counter):
+        if "translation" in feature.qualifiers:
+            header = self.get_label_str(gbk_contig, feature)
+            sequence = feature.qualifiers["translation"][0]
+            outfile.write(header)
+            outfile.write(sequence + "\n")
+            gene_counter += 1
+        return gene_counter
+
 
 class GeneAnnotator:
     """Run prodigal on assembly, predict ORFs and extract location info"""
