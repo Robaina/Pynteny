@@ -5,8 +5,8 @@ import streamlit as st
 from PIL import Image
 
 from pynteny.utils import CommandArgs
-from pynteny.app.helpers import ExampleSearch
-from pynteny.app.components import Sidebar, Mainpage
+from pynteny.app.helpers import set_example
+from pynteny.app.components import show_sidebar, show_mainpage
 
 
 parent_dir = Path(__file__).parent
@@ -83,6 +83,6 @@ if "pynteny_log" not in st.session_state:
     st.session_state.pynteny_log = None
 
 
-Sidebar.show()
-Mainpage.show()
-ExampleSearch.set_example()
+show_sidebar()
+show_mainpage()
+set_example()

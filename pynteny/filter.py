@@ -15,7 +15,8 @@ import pandas as pd
 
 from pynteny.preprocessing import FASTA
 from pynteny.hmm import HMMER, PGAP
-from pynteny.parser import SyntenyParser, LabelParser
+import pynteny.parsers.labelparser as labelparser
+import pynteny.parsers.syntenyparser as syntenyparser
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +45,7 @@ class SyntenyPatternFilters:
                 any order. If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to False.
         """
-        parsed_structure = SyntenyParser.parse_synteny_structure(synteny_structure)
+        parsed_structure = syntenyparser.parse_synteny_structure(synteny_structure)
         hmm_codes = list(range(len(parsed_structure["hmm_groups"])))
         self.hmm_code_order_pattern = hmm_codes
 
@@ -155,10 +156,10 @@ class SyntenyHMMfilter:
         self._hmm_hits = hmm_hits
         self._hmms = list(hmm_hits.keys())
         self._synteny_structure = synteny_structure
-        self._contains_hmm_groups = SyntenyParser.contains_HMM_groups(
+        self._contains_hmm_groups = syntenyparser.contains_HMM_groups(
             self._synteny_structure
         )
-        self._parsed_structure = SyntenyParser.parse_synteny_structure(
+        self._parsed_structure = syntenyparser.parse_synteny_structure(
             self._synteny_structure
         )
         if self._unordered:
@@ -235,7 +236,6 @@ class SyntenyHMMfilter:
             pd.DataFrame: HMMER3 hit labels matching provided HMMs.
         """
         hit_labels = {}
-        labelparser = LabelParser()
         for hmm, hits in self._hmm_hits.items():
             labels = hits.id.values.tolist()
             if not labels:
@@ -345,7 +345,7 @@ class SyntenyHits:
         for contig, matched_hits in hits_by_contig.items():
             for hmm, labels in matched_hits.items():
                 for label in labels:
-                    parsed_label = LabelParser.parse(label)
+                    parsed_label = labelparser.parse(label)
                     data.append(
                         [
                             parsed_label["contig"],

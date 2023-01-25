@@ -8,7 +8,12 @@ Unit tests for the preprocessing module
 import unittest
 import tempfile
 from pathlib import Path
-from pynteny.preprocessing import RecordSequence, FASTA, LabelledFASTA
+from pynteny.preprocessing import (
+    FASTA,
+    LabelledFASTA,
+    is_legit_DNA_sequence,
+    is_legit_peptide_sequence,
+)
 
 this_file_dir = Path(__file__).parent
 
@@ -18,11 +23,11 @@ class TestRecordSequence(unittest.TestCase):
         good_seq = "MSSLRQIAFYGKGGIGKSTTSQNTLAALVEMGQKILIVGCDPKADSTRLILNTKMQDTVL"
         bad_seq = "XXXXXXXXX12GKGGIGKSTTSQNTLAALVEMGQKILIVGCDPKADSTRLILNTKMQDTVL"
         self.assertTrue(
-            RecordSequence.is_legit_peptide_sequence(good_seq),
+            is_legit_peptide_sequence(good_seq),
             "Failed to assert peptide sequence",
         )
         self.assertFalse(
-            RecordSequence.is_legit_peptide_sequence(bad_seq),
+            is_legit_peptide_sequence(bad_seq),
             "Failed to assert peptide sequence",
         )
 
@@ -30,11 +35,11 @@ class TestRecordSequence(unittest.TestCase):
         good_seq = "ACATCGTTTCCCCTGTTTCCACAAGACCTACTACGGCTGTTTTCGTAGTTCTTTTAAGAG"
         bad_seq = "XXXXX12XXXCCCTGTTTCCACAAGACCTACTACGGCTGTTTTCGTAGTTCTTTTAAGAG"
         self.assertTrue(
-            RecordSequence.is_legit_DNA_sequence(good_seq),
+            is_legit_DNA_sequence(good_seq),
             "Failed to assert nucleotide sequence",
         )
         self.assertFalse(
-            RecordSequence.is_legit_DNA_sequence(bad_seq),
+            is_legit_DNA_sequence(bad_seq),
             "Failed to assert nucleotide sequence",
         )
 
