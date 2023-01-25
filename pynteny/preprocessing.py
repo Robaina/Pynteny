@@ -381,7 +381,10 @@ class LabelledFASTA(FASTA):
                         )
         return cls(output_file)
 
-    def get_label_str(self, gbk_contig, feature, gene_counter):
+    @staticmethod
+    def get_label_str(
+        gbk_contig: SeqRecord, feature: SeqFeature, gene_counter: int
+    ) -> str:
         name = feature.qualifiers["locus_tag"][0].replace("_", ".")
         start, end, strand = (
             str(feature.location.start),
@@ -393,13 +396,24 @@ class LabelledFASTA(FASTA):
         strand_sense = "neg" if strand == -1 else ("pos" if strand == 1 else "")
         return f">{name}__{gbk_contig.name.replace('_', '')}_{gene_counter}_{start}_{end}_{strand_sense}\n"
 
-    def write_record(self, gbk_contig, feature, outfile, gene_counter):
-        if "translation" in feature.qualifiers:
-            header = self.get_label_str(gbk_contig, feature)
+    @staticmethod
+    def write_record(
+        gbk_contig: SeqRecord,
+        feature: SeqFeature,
+        outfile: TextIO,
+        gene_counter: int,
+        nucleotide: bool = False,
+    ) -> int:
+        header = LabelledFASTA.get_label_str(gbk_contig, feature, gene_counter)
+        if (not nucleotide) and ("translation" in feature.qualifiers):
             sequence = feature.qualifiers["translation"][0]
-            outfile.write(header)
-            outfile.write(sequence + "\n")
-            gene_counter += 1
+        elif nucleotide:
+            sequence = str(feature.extract(gbk_contig).seq)
+        else:
+            return gene_counter
+        outfile.write(header)
+        outfile.write(sequence + "\n")
+        gene_counter += 1
         return gene_counter
 
     @staticmethod
