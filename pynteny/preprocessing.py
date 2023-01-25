@@ -102,24 +102,22 @@ class FASTA:
             input_file (Path): path to input fasta file.
         """
         self._input_file = Path(input_file)
-        self._input_file_str = self._input_file.as_posix()
 
-    def set_file_path(self, new_path: Path) -> None:
+    @property
+    def file_path(self) -> Path:
         """Set new path to fasta file
 
         Args:
-            new_path (Path): path to fasta file.
-        """
-        self._input_file = Path(new_path)
-        self._input_file_str = self._input_file.as_posix()
-
-    def get_file_path(self) -> Path:
-        """get path to fasta file.
+            new_path (Path, optional): path to fasta file. Defaults to None.
 
         Returns:
             Path: path to fasta file.
         """
         return self._input_file
+
+    @file_path.setter
+    def file_path(self, new_path: Path) -> None:
+        self._input_file = Path(new_path)
 
     @classmethod
     def from_FASTA_directory(cls, input_dir: Path, merged_fasta: Path = None) -> FASTA:
@@ -180,7 +178,7 @@ class FASTA:
             export_duplicates=export_duplicates,
         )
         if point_to_new_file:
-            self.set_file_path(output_file)
+            self.file_path = output_file
 
     def remove_corrupted_sequences(
         self,
@@ -206,7 +204,9 @@ class FASTA:
         else:
             isLegitSequence = RecordSequence.is_legit_DNA_sequence
 
-        fasta = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
+        fasta = pyfastx.Fasta(
+            self.file_path.as_posix(), build_index=False, full_name=True
+        )
         with open(output_file, "w+") as outfile:
             for record_name, record_seq in fasta:
                 if is_peptide and (not keep_stop_codon):
@@ -214,7 +214,7 @@ class FASTA:
                 if isLegitSequence(record_seq):
                     outfile.write(f">{record_name}\n{record_seq}\n")
         if point_to_new_file:
-            self.set_file_path(output_file)
+            self.file_path = output_file
 
     def filter_by_IDs(
         self, record_ids: list, output_file: Path = None, point_to_new_file: bool = True
@@ -240,7 +240,7 @@ class FASTA:
             )
             utils.terminal_execute(cmd_str, suppress_shell_output=True)
         if point_to_new_file:
-            self.set_file_path(output_file)
+            self.file_path = output_file
 
     def split_by_contigs(self, output_dir: Path = None) -> None:
         """Split large fasta file into several ones containing one contig each.
@@ -255,7 +255,9 @@ class FASTA:
         else:
             output_dir = Path(output_dir)
         os.makedirs(output_dir, exist_ok=True)
-        contigs = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
+        contigs = pyfastx.Fasta(
+            self.file_path.as_posix(), build_index=False, full_name=True
+        )
         for contig_name, seq in contigs:
             outfile = (
                 output_dir / f"{contig_name.split(' ')[0]}{self._input_file.suffix}"
@@ -279,13 +281,15 @@ class FASTA:
                 Path(self._input_file.parent)
                 / f"{self._input_file.stem}_minlength{self._input_file.suffix}"
             )
-        fasta = pyfastx.Fasta(self._input_file_str, build_index=False, full_name=True)
+        fasta = pyfastx.Fasta(
+            self.file_path.as_posix(), build_index=False, full_name=True
+        )
         with open(output_file, "w+") as outfile:
             for record_name, record_seq in fasta:
                 if len(record_seq) >= min_length:
                     outfile.write(f">{record_name}\n{record_seq}\n")
         if point_to_new_file:
-            self.set_file_path(output_file)
+            self.file_path = output_file
 
 
 class LabelledFASTA(FASTA):

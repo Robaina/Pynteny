@@ -11,7 +11,7 @@ from tempfile import TemporaryDirectory
 
 from pynteny.api import Search
 
-this_file_dir = Path(Path(__file__).parent)
+this_file_dir = Path(__file__).parent
 
 
 class TestSyntenySearch(unittest.TestCase):
@@ -33,9 +33,9 @@ class TestSyntenySearch(unittest.TestCase):
             )
             hmm_meta = this_file_dir / "test_data/hmm_meta.tsv"
             synhits = search.run()
-            # synhits_df = synhits.get_synteny_hits()
+            # synhits_df = synhits.hits
             synhits = synhits.add_HMM_meta_info_to_hits(hmm_meta)
-            synhits_df = synhits.get_synteny_hits()
+            synhits_df = synhits.hits
             config = Path(this_file_dir.parent) / "config.json"
             if config.exists():
                 config.unlink()
