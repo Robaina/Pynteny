@@ -7,7 +7,9 @@ Unit tests for the filter module
 
 import unittest
 from pathlib import Path
-from pynteny.filter import LabelParser, SyntenyParser
+
+import pynteny.parsers.labelparser as labelparser
+import pynteny.parsers.syntenyparser as syntenyparser
 
 
 this_file_dir = Path(__file__).parent
@@ -18,7 +20,7 @@ class TestLabelParser(unittest.TestCase):
         label = (
             "Afifella_marina_BN_126_MMP03080610__FMVW01000002.1_552_0584494_0585393_pos"
         )
-        parsed_dict = LabelParser.parse(label)
+        parsed_dict = labelparser.parse(label)
         self.assertDictEqual(
             parsed_dict,
             {
@@ -38,19 +40,19 @@ class TestSyntenyParser(unittest.TestCase):
 
     def test_is_valid_structure(self):
         self.assertTrue(
-            SyntenyParser.is_valid_structure(self.syn_struct),
+            syntenyparser.is_valid_structure(self.syn_struct),
             "Failed to assess correct synteny structure format",
         )
 
     def test_split_strand_from_locus(self):
         locus_str = "<TIGR00171.1"
         self.assertEqual(
-            SyntenyParser.split_strand_from_locus(locus_str), ("neg", "TIGR00171.1")
+            syntenyparser.split_strand_from_locus(locus_str), ("neg", "TIGR00171.1")
         )
 
     def test_get_HMM_groups_in_structure(self):
         self.assertEqual(
-            SyntenyParser.get_HMM_groups_in_structure(self.syn_struct),
+            syntenyparser.get_HMM_groups_in_structure(self.syn_struct),
             [
                 "TIGR00171.1|TIGR02084.1",
                 "TIGR00170.1|TIGR02083.1",
@@ -61,14 +63,14 @@ class TestSyntenyParser(unittest.TestCase):
 
     def test_get_maximum_distances_in_structure(self):
         self.assertEqual(
-            SyntenyParser.get_maximum_distances_in_structure(self.syn_struct),
+            syntenyparser.get_maximum_distances_in_structure(self.syn_struct),
             [0, 1],
             "Failed to retrieve max ORF distances correctly",
         )
 
     def test_parse_genes_in_synteny_structure(self):
         meta = Path(this_file_dir / "test_data/hmm_meta.tsv")
-        parsed_struct, hmm_groups = SyntenyParser.parse_genes_in_synteny_structure(
+        parsed_struct, hmm_groups = syntenyparser.parse_genes_in_synteny_structure(
             synteny_structure="<leuD 0 <leuC 1 <leuA", hmm_meta=meta
         )
         self.assertEqual(
@@ -78,7 +80,7 @@ class TestSyntenyParser(unittest.TestCase):
         )
 
     def test_parse_synteny_structure(self):
-        parsed_struct = SyntenyParser.parse_synteny_structure("<leuD 0 <leuC 1 <leuA")
+        parsed_struct = syntenyparser.parse_synteny_structure("<leuD 0 <leuC 1 <leuA")
         self.assertEqual(
             parsed_struct["distances"], [0, 1], "Failed to parse synteny structure"
         )

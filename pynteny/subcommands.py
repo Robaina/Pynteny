@@ -12,8 +12,9 @@ import logging
 from pathlib import Path
 import wget
 
-from pynteny.filter import SyntenyHits, SyntenyParser, filter_FASTA_by_synteny_structure
+from pynteny.filter import SyntenyHits, filter_FASTA_by_synteny_structure
 from pynteny.hmm import PGAP
+import pynteny.parsers.syntenyparser as syntenyparser
 from pynteny.utils import CommandArgs, ConfigParser, is_tar_file, terminal_execute
 from pynteny.preprocessing import Database
 
@@ -55,8 +56,8 @@ def synteny_search(args) -> SyntenyHits:
         sys.exit(1)
 
     config = ConfigParser.get_default_config()
-    args.synteny_struc = SyntenyParser.reformat_synteny_structure(args.synteny_struc)
-    if not SyntenyParser.is_valid_structure(args.synteny_struc):
+    args.synteny_struc = syntenyparser.reformat_synteny_structure(args.synteny_struc)
+    if not syntenyparser.is_valid_structure(args.synteny_struc):
         logger.error(
             (
                 f"Invalid synteny structure format: {args.synteny_struc}. "
@@ -86,7 +87,7 @@ def synteny_search(args) -> SyntenyHits:
         (
             gene_synteny_struc,
             gene_to_hmm_group,
-        ) = SyntenyParser.parse_genes_in_synteny_structure(
+        ) = syntenyparser.parse_genes_in_synteny_structure(
             synteny_structure=args.synteny_struc, hmm_meta=args.hmm_meta
         )
         args.synteny_struc = gene_synteny_struc
@@ -101,7 +102,7 @@ def synteny_search(args) -> SyntenyHits:
     else:
         hmm_dir = args.hmm_dir
 
-    hmm_names = SyntenyParser.get_all_HMMs_in_structure(args.synteny_struc)
+    hmm_names = syntenyparser.get_all_HMMs_in_structure(args.synteny_struc)
     input_hmms = [
         file
         for file in hmm_dir.iterdir()
@@ -192,7 +193,7 @@ def parse_gene_ids(args) -> str:
     (
         gene_synteny_struc,
         gene_to_hmm_group,
-    ) = SyntenyParser.parse_genes_in_synteny_structure(
+    ) = syntenyparser.parse_genes_in_synteny_structure(
         synteny_structure=args.synteny_struc, hmm_meta=args.hmm_meta
     )
     logger.info(
