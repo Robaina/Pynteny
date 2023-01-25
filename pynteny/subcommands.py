@@ -18,19 +18,15 @@ from pynteny.utils import CommandArgs, ConfigParser, is_tar_file, terminal_execu
 from pynteny.preprocessing import Database
 
 
-def synteny_search(args) -> SyntenyHits:
-    """Search peptide database by synteny structure containing HMMs.
+def init_logger(args) -> logging.Logger:
+    """Initialize logger object
 
     Args:
-        args (argparse.ArgumentParser): arguments object.
+        args (_type_): command arguments object
 
     Returns:
-        SyntenyHits: instance of SyntenyHits.
+        logging.Logger: initialized logger object
     """
-    logger = logging.getLogger(__name__)
-    if not Path(args.data).exists():
-        logger.error("Sequence data file does not exist")
-        sys.exit(1)
     if args.logfile is None:
         args.logfile = Path(os.devnull)
     elif not Path(args.logfile.parent).exists():
@@ -40,6 +36,24 @@ def synteny_search(args) -> SyntenyHits:
         handlers=[logging.FileHandler(args.logfile), logging.StreamHandler(sys.stdout)],
         level=logging.NOTSET,
     )
+    logger = logging.getLogger(__name__)
+    return logger
+
+
+def synteny_search(args) -> SyntenyHits:
+    """Search peptide database by synteny structure containing HMMs.
+
+    Args:
+        args (argparse.ArgumentParser): arguments object.
+
+    Returns:
+        SyntenyHits: instance of SyntenyHits.
+    """
+    logger = init_logger(args)
+    if not Path(args.data).exists():
+        logger.error("Sequence data file does not exist")
+        sys.exit(1)
+
     config = ConfigParser.get_default_config()
     args.synteny_struc = SyntenyParser.reformat_synteny_structure(args.synteny_struc)
     if not SyntenyParser.is_valid_structure(args.synteny_struc):
@@ -144,16 +158,8 @@ def build_database(args) -> None:
     Args:
         args (argparse.ArgumentParser): arguments object.
     """
-    if args.logfile is None:
-        args.logfile = Path(os.devnull)
-    elif not Path(args.logfile.parent).exists():
-        Path(args.logfile.parent).mkdir(parents=True)
-    logging.basicConfig(
-        format="%(asctime)s | %(levelname)s: %(message)s",
-        handlers=[logging.FileHandler(args.logfile), logging.StreamHandler(sys.stdout)],
-        level=logging.NOTSET,
-    )
-    logger = logging.getLogger(__name__)
+    logger = init_logger(args)
+
     if args.processes is None:
         args.processes = os.cpu_count() - 1
     logger.info("Building annotated peptide database")
@@ -173,16 +179,7 @@ def parse_gene_ids(args) -> str:
         str: synteny structure where gene symbols are replaced
             by HMM names.
     """
-    if args.logfile is None:
-        args.logfile = Path(os.devnull)
-    elif not Path(args.logfile.parent).exists():
-        Path(args.logfile.parent).mkdir(parents=True)
-    logging.basicConfig(
-        format="%(asctime)s | %(levelname)s: %(message)s",
-        handlers=[logging.FileHandler(args.logfile), logging.StreamHandler(sys.stdout)],
-        level=logging.NOTSET,
-    )
-    logger = logging.getLogger(__name__)
+    logger = init_logger(args)
     config = ConfigParser.get_default_config()
     if args.hmm_meta is None:
         if not config.get_field("data_downloaded"):
@@ -211,17 +208,7 @@ def download_hmms(args) -> None:
     Args:
         args (argparse.ArgumentParser): arguments object.
     """
-    if args.logfile is None:
-        args.logfile = Path(os.devnull)
-    elif not Path(args.logfile.parent).exists():
-        Path(args.logfile.parent).mkdir(parents=True)
-
-    logging.basicConfig(
-        format="%(asctime)s | %(levelname)s: %(message)s",
-        handlers=[logging.FileHandler(args.logfile), logging.StreamHandler(sys.stdout)],
-        level=logging.NOTSET,
-    )
-    logger = logging.getLogger(__name__)
+    logger = init_logger(args)
     module_dir = Path(__file__).parent
     config = ConfigParser.get_default_config()
     if config.get_field("data_downloaded"):
