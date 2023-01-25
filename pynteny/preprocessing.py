@@ -157,7 +157,6 @@ class FASTA:
         self,
         output_file: Path = None,
         export_duplicates: bool = False,
-        method: str = "seqkit",
         point_to_new_file: bool = True,
     ) -> None:
         """Removes duplicate entries (either by sequence or ID) from fasta.
@@ -165,7 +164,6 @@ class FASTA:
         Args:
             output_file (Path, optional): path to output fasta file. Defaults to None.
             export_duplicates (bool, optional): whether duplicated records are exported to a file. Defaults to False.
-            method (str, optional): choose method to select duplicates: 'biopython' or 'seqkit'. Defaults to 'seqkit'.
             point_to_new_file (bool, optional): whether FASTA object should point to the newly generated file. Defaults to True.
 
         Yields:
@@ -176,24 +174,11 @@ class FASTA:
                 Path(self._input_file.parent)
                 / f"{self._input_file.stem}_noduplicates{self._input_file.suffix}"
             )
-
-        if "bio" in method:
-            seen_seqs, seen_ids = set(), set()
-
-            def unique_records():
-                for record in SeqIO.parse(self._input_file, "fasta"):
-                    if (record.seq not in seen_seqs) and (record.id not in seen_ids):
-                        seen_seqs.add(record.seq)
-                        seen_ids.add(record.id)
-                        yield record
-
-            SeqIO.write(unique_records(), output_file, "fasta")
-        else:
-            wrappers.run_seqkit_nodup(
-                input_fasta=self._input_file,
-                output_fasta=output_file,
-                export_duplicates=export_duplicates,
-            )
+        wrappers.run_seqkit_nodup(
+            input_fasta=self._input_file,
+            output_fasta=output_file,
+            export_duplicates=export_duplicates,
+        )
         if point_to_new_file:
             self.set_file_path(output_file)
 
