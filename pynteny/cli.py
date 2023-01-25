@@ -89,7 +89,7 @@ class Pynteny:
             "One does not simply walk into Mordor (J.R.R. Tolkien)",
             "Damn, looks like a rainy day, let's do bioiformatics! (SR)",
         ]
-        return f"{random.choice(quotes)}\n" " "
+        return f"{random.choice(quotes)}\n"
 
     def _call_subcommand(self, subcommand_name: str) -> None:
         subcommand = getattr(self, subcommand_name)
@@ -182,16 +182,16 @@ class SubcommandParser:
             type=str,
             required=True,
             help=(
-                f"string displaying hmm structure to search for, such as: \n"
-                f" \n"
-                f"'>hmm_a n_ab <hmm_b n_bc hmm_c'\n"
-                f" \n"
-                f"where '>' indicates a hmm target located on the positive strand, \n"
-                f"'<' a target located on the negative strand, and n_ab cooresponds \n"
-                f"to the maximum number of genes separating matched genes a and b. \n"
-                f"Multiple hmms may be employed. \n"
-                f"No order symbol in a hmm indicates that results should be independent \n"
-                f"of strand location. "
+                "string displaying hmm structure to search for, such as: \n"
+                " \n"
+                "'>hmm_a n_ab <hmm_b n_bc hmm_c'\n"
+                " \n"
+                "where '>' indicates a hmm target located on the positive strand, \n"
+                "'<' a target located on the negative strand, and n_ab cooresponds \n"
+                "to the maximum number of genes separating matched genes a and b. \n"
+                "Multiple hmms may be employed. \n"
+                "No order symbol in a hmm indicates that results should be independent \n"
+                "of strand location. "
             ),
         )
         required.add_argument(
