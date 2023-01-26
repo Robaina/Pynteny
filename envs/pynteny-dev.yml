@@ -19,3 +19,9 @@ dependencies:
   - python-wget 
   - streamlit=1.16
   - streamlit-aggrid
+  - pip:
+    - mkdocs
+    - mkdocs-gen-files
+    - pymdown-extensions
+    - mkdocs-jupyter
+    - mkdocstrings[python]
