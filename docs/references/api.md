@@ -11,10 +11,10 @@
 ::: pynteny.hmm
 
 ## Module labelparser
-::: pynteny.parser.labelparser
+::: pynteny.parsers.labelparser
 
 ## Module syntenyparser
-::: pynteny.parser.syntenyparser
+::: pynteny.parsers.syntenyparser
 
 ## Module cli
 ::: pynteny.cli
