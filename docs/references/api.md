@@ -1,4 +1,4 @@
-## API module
+## Module api
 ::: pynteny.api
 
 ## Module filter
