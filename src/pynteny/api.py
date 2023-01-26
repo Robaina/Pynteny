@@ -27,7 +27,8 @@ class Command:
     """
     Parent class for Pynteny command
 
-    args: CommandArgs
+    Args:
+        CommandArgs
     """
 
     def _repr_html_(self):
@@ -100,7 +101,7 @@ class Search(Command):
                 any order If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to False.
             reuse (bool, optional): if True then HMMER3 won't be run again for HMMs already
-            searched in the same output directory. Defaults to False.
+                searched in the same output directory. Defaults to False.
             hmm_dir (Path, optional): path to directory containing input HMM files.
                 Defaults to None, in which case the PGAP database is downloaded if not
                 already so.
