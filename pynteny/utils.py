@@ -8,6 +8,7 @@ Functions and classes for general purposes
 from __future__ import annotations
 import os
 import sys
+import wget
 import logging
 import shutil
 import subprocess
@@ -185,6 +186,16 @@ def parallelize_over_input_files(
     p.map(partial(callable, **callable_kwargs), input_list)
     p.close()
     p.join()
+
+
+def download_file(url: str, output_file: Path) -> None:
+    """Download file from url
+
+    Args:
+        url (str): url where file to be downloaded
+        output_file (Path): path to downloaded file
+    """
+    wget.download(url, output_file.as_posix())
 
 
 def is_tar_file(tar_file: Path) -> bool:

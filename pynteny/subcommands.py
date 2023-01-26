@@ -10,12 +10,17 @@ import sys
 import shutil
 import logging
 from pathlib import Path
-import wget
 
 from pynteny.filter import SyntenyHits, filter_FASTA_by_synteny_structure
 from pynteny.hmm import PGAP
 import pynteny.parsers.syntenyparser as syntenyparser
-from pynteny.utils import CommandArgs, ConfigParser, is_tar_file, terminal_execute
+from pynteny.utils import (
+    CommandArgs,
+    ConfigParser,
+    is_tar_file,
+    terminal_execute,
+    download_file,
+)
 from pynteny.preprocessing import Database
 
 
@@ -212,7 +217,7 @@ def download_hmms(args) -> None:
     logger = init_logger(args)
     module_dir = Path(__file__).parent
     config = ConfigParser.get_default_config()
-    if config.get_field("data_downloaded"):
+    if (config.get_field("data_downloaded")) and (not args.force):
         logger.info("PGAP database already downloaded. Skipping download")
         sys.exit(1)
     if args.outdir is None:
@@ -231,8 +236,8 @@ def download_hmms(args) -> None:
     try:
         PGAP_file = download_dir / "hmm_PGAP.HMM.tgz"
         meta_file = download_dir / "hmm_PGAP.tsv"
-        wget.download(data_url, PGAP_file.as_posix())
-        wget.download(meta_url, meta_file.as_posix())
+        download_file(data_url, PGAP_file)
+        download_file(meta_url, meta_file)
         logger.info("Database dowloaded successfully\n")
         config.update_config("data_downloaded", True)
         config.update_config("PGAP_database", PGAP_file.as_posix())
