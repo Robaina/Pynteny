@@ -81,7 +81,18 @@ The documentation is formed by a series of markdown files located in directory [
 This means that, to modify the [API reference](https://robaina.github.io/Pynteny/references/api/), all you need to do is to modify the docstring directly in the source file where the definion/class is located. And, to update the documentation pages, you just have to update the corresponding markdown file in the [docs](https://github.com/Robaina/Pynteny/tree/main/docs) directory. Note that, if you need to change the documentation structure (e.g., add or new pages),you would need to tell mkdocs about this change through its [configuration file](https://github.com/Robaina/Pynteny/blob/main/mkdocs.yml). Or just open an issue and ask for help!
 
 When all the changes are ready to deploy, just open a pull request. After reviewing and merging the changes, the documentation will be automatically deployed.
+Run the documentation locally with:
 
+## Building the documentation
+
+The documentation is formed by a series of markdown files located in directory [docs](https://github.com/Robaina/Pynteny/tree/main/docs). This repo uses [mkdocs](https://www.mkdocs.org/) to automatically generate documentation pages from markdown files. Also, [MathJax](https://github.com/mathjax/MathJax) syntax is allowed!
+
+This means that, to modify the [API reference](https://robaina.github.io/Pynteny/references/api/), all you need to do is to modify the docstring directly in the source file where the definion/class is located. And, to update the documentation pages, you just have to update the corresponding markdown file in the [docs](https://github.com/Robaina/Pynteny/tree/main/docs) directory. Note that, if you need to change the documentation structure (e.g., add or new pages),you would need to tell mkdocs about this change through its [configuration file](https://github.com/Robaina/Pynteny/blob/main/mkdocs.yml). Or just open an issue and ask for help!
+
+When all the changes are ready to deploy, just open a pull request. After reviewing and merging the changes, the documentation will be automatically deployed.
+Run the documentation locally with:
+
+> mkdocs serve
 ## Building the documentation
 
 The documentation is formed by a series of markdown files located in directory [docs](https://github.com/Robaina/Pynteny/tree/main/docs). This repo uses [mkdocs](https://www.mkdocs.org/) to automatically generate documentation pages from markdown files. Also, [MathJax](https://github.com/mathjax/MathJax) syntax is allowed!
