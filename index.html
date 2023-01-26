@@ -40,6 +40,8 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#installing-pynteny-on-windows">Installing Pynteny on Windows</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -104,6 +106,26 @@
 <li><a href="subcommands/parse/">parse</a></li>
 <li><a href="subcommands/app/">app</a></li>
 </ul>
+<h2 id="setup">Setup</h2>
+<p>Install with conda:</p>
+<ol>
+<li>Create dedicated conda environment (highly recommended)</li>
+</ol>
+<pre><code class="language-bash">conda create -n pynteny
+conda activate pynteny
+</code></pre>
+<ol>
+<li>Install pynteny</li>
+</ol>
+<pre><code class="language-bash">conda install -c bioconda pynteny
+</code></pre>
+<ol>
+<li>Check that installation worked fine:</li>
+</ol>
+<pre><code class="language-bash">pynteny --help
+</code></pre>
+<h3 id="installing-pynteny-on-windows">Installing Pynteny on Windows</h3>
+<p>Pynteny is designed to run on Linux machines. However, it can be installed within the <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows Subsystem for Linux</a> via conda.</p>
 <h2 id="general-usage">General usage</h2>
 <p>Pynteny's main subcommand, <a href="subcommands/search/"><code>pynteny search</code></a>, requires a peptide (ORF) sequence database in fasta format in which record labels contain positional information of each sequence with respect to their contig of origin. Additionally, labels must follow the following format:</p>
 <pre><code>&lt;genome ID&gt;_&lt;contig ID&gt;_&lt;gene position&gt;_&lt;locus start&gt;_&lt;locus end&gt;_&lt;strand&gt;
@@ -113,8 +135,15 @@
 <p>Once both the peptide database and the required HMMs are ready, the user can query the peptide database with a text string encoding the query synteny structure such as the following:</p>
 <p><span class="arithmatex">\(&gt;HMM_a \:\: n_{ab} \:\: &gt; (HMM_{b1} | HMM_{b2}) \:\: n_{bc} \:\: &lt; HMM_c.\)</span></p>
 <p>Where <span class="arithmatex">\(HMM_a\)</span> represents the name of the HMM to be used (corresponding to the file name without the extension), <span class="arithmatex">\(n_{ab}\)</span> is an integer representing the maximum number of genes between HMMs a and b, &lt; and &gt; indicate the strand in which to search for the HMM pattern, antisense and sense, respectively. Note that more than one HMM can be employed for a single gene in the structure, as indicated by the HMM group <span class="arithmatex">\((HMM_{b1} | HMM_{b2})\)</span> above. In these cases, <a href="subcommands/search/"><code>pynteny search</code></a> will search for sequences that matched any HMM contained within the HMM group.</p>
-<h2 id="examples">Examples</h2>
-<p>There are some Jupyter notebooks with examples of how to use Pynteny's command-line interface as well as its Python API. Check them out here in the examples section or in the <a href="https://github.com/Robaina/Pynteny/tree/master/docs/examples">GitHub repo</a>.</p>
+<h2 id="getting-started-and-examples">Getting started and Examples</h2>
+<p>Here are some Jupyter Notebooks with examples to show how Pynteny works.</p>
+<p><a href="https://colab.research.google.com/github/Robaina/Pynteny/blob/main/docs/examples/example_api_colab.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+* <a href="https://robaina.github.io/Pynteny/examples/example_api/">Pynteny API</a>
+* <a href="https://robaina.github.io/Pynteny/examples/example_cli/">Pynteny CLI</a>
+* <a href="https://robaina.github.io/Pynteny/examples/example_sus/">Sus operon</a></p>
+<p>You can find more notebooks in the <a href="docs/examples/">examples directory</a>. We invite you to explore Pynteny's web application by executing the command <code>pynteny app</code>. Find more info in the <a href="https://robaina.github.io/Pynteny/">documentation</a>.</p>
+<h2 id="contributing">Contributing</h2>
+<p>Contributions are always welcome! If you don't know where to start, you may find an interesting <a href="https://github.com/Robaina/Pynteny/issues">issue to work in here</a>. Please, read our <a href="https://github.com/Robaina/Pynteny/blob/main/CONTRIBUTING.md">contribution guidelines</a> first.</p>
 <h2 id="citation">Citation</h2>
 <p>If you use this software, please cite it as below:</p>
 <p>Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy(Version 0.0.4). Zenodo. https://doi.org/10.5281/zenodo.7048685</p>
@@ -171,5 +200,5 @@
 
 <!--
 MkDocs version : 1.4.2
-Build Date UTC : 2023-01-13 10:32:31.422519+00:00
+Build Date UTC : 2023-01-26 17:09:48.750018+00:00
 -->
