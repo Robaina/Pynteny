@@ -93,9 +93,8 @@ class HMMER:
 
         Args:
             reuse_hmmer_results (bool, optional): if True then HMMER3 won't be run
-            again for HMMs already searched in the same output directory. Defaults to True.
-            method (str, optional): select between 'hmmsearch' or 'hmmscan'.
-            Defaults to 'hmmsearch'.
+                again for HMMs already searched in the same output directory. Defaults to True.
+            method (str, optional): select between 'hmmsearch' or 'hmmscan'. Defaults to 'hmmsearch'.
 
         Returns:
             dict[pd.DataFrame]: dict of HMMER hits as pandas dataframes.
