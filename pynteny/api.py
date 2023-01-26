@@ -27,7 +27,8 @@ class Command:
     """
     Parent class for Pynteny command
 
-    args: CommandArgs
+    Args:
+        CommandArgs
     """
 
     def _repr_html_(self):
@@ -100,7 +101,7 @@ class Search(Command):
                 any order If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to False.
             reuse (bool, optional): if True then HMMER3 won't be run again for HMMs already
-            searched in the same output directory. Defaults to False.
+                searched in the same output directory. Defaults to False.
             hmm_dir (Path, optional): path to directory containing input HMM files.
                 Defaults to None, in which case the PGAP database is downloaded if not
                 already so.
@@ -201,20 +202,28 @@ class Build(Command):
 class Download(Command):
     """Download HMM database from NCBI."""
 
-    def __init__(self, outdir: Path = None, logfile: Path = None, unpack: bool = False):
+    def __init__(
+        self,
+        outdir: Path = None,
+        logfile: Path = None,
+        force: bool = False,
+        unpack: bool = False,
+    ):
         """Download HMM database from NCBI.
 
         Args:
             outdir (Path, optional): path to ouput directory in which to store downloaded HMMs.
                 Defaults to None.
             logfile (Path, optional): path to log file. Defaults to None.
-            unpack (bool, optional): whether to unpack downloaded file. If False, then PGAP's database
+            force (bool, optional): force-download database again if already downloaded.
+            unpack (bool, optional): whether to unpack downloaded file. If False, then PGAP's database.
                 will be unpacked in each Pynteny session. Defaults to False.
         """
 
         self._args = CommandArgs(
             outdir=Path(outdir) if outdir is not None else outdir,
             logfile=Path(logfile) if logfile is not None else logfile,
+            force=force,
             unpack=unpack,
         )
 
