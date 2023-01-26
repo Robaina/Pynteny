@@ -488,7 +488,7 @@ class Database:
             self._data_files = [self._data]
 
     @staticmethod
-    def is_fasta(filename: Path):
+    def is_fasta(filename: Path) -> bool:
         """Check if file is in fasta format
 
         Args:
@@ -504,14 +504,14 @@ class Database:
             return False
 
     @staticmethod
-    def is_gbk(filename: Path):
+    def is_gbk(filename: Path) -> bool:
         """Check if file is in genbank format
 
         Args:
             filename (Path): path to input file
 
         Returns:
-            _type_: whether the file is in genbank format
+            _bool: whether the file is in genbank format
         """
         if filename.exists():
             gbk = list(SeqIO.parse(str(filename), "genbank"))
