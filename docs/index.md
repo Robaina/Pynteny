@@ -10,6 +10,31 @@ These are the available subcommands, run as ```pynteny <subcommand> <options>```
 - [parse](subcommands/parse.md)
 - [app](subcommands/app.md)
 
+## Setup
+
+Install with conda:
+
+1. Create dedicated conda environment (highly recommended)
+
+```bash
+conda create -n pynteny
+conda activate pynteny
+```
+2. Install pynteny
+
+```bash
+conda install -c bioconda pynteny
+```
+
+3. Check that installation worked fine:
+
+```bash
+pynteny --help
+```
+### Installing Pynteny on Windows
+
+Pynteny is designed to run on Linux machines. However, it can be installed within the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) via conda.
+
 ## General usage
 
 Pynteny's main subcommand, [`pynteny search`](subcommands/search.md), requires a peptide (ORF) sequence database in fasta format in which record labels contain positional information of each sequence with respect to their contig of origin. Additionally, labels must follow the following format:
@@ -28,9 +53,21 @@ $>HMM_a \:\: n_{ab} \:\: > (HMM_{b1} | HMM_{b2}) \:\: n_{bc} \:\: < HMM_c.$
 
 Where $HMM_a$ represents the name of the HMM to be used (corresponding to the file name without the extension), $n_{ab}$ is an integer representing the maximum number of genes between HMMs a and b, < and > indicate the strand in which to search for the HMM pattern, antisense and sense, respectively. Note that more than one HMM can be employed for a single gene in the structure, as indicated by the HMM group $(HMM_{b1} | HMM_{b2})$ above. In these cases, [`pynteny search`](subcommands/search.md) will search for sequences that matched any HMM contained within the HMM group.
 
-## Examples
+## Getting started and Examples
 
-There are some Jupyter notebooks with examples of how to use Pynteny's command-line interface as well as its Python API. Check them out here in the examples section or in the [GitHub repo](https://github.com/Robaina/Pynteny/tree/master/docs/examples).
+Here are some Jupyter Notebooks with examples to show how Pynteny works.
+
+<a href="https://colab.research.google.com/github/Robaina/Pynteny/blob/main/docs/examples/example_api_colab.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+* [Pynteny API](https://robaina.github.io/Pynteny/examples/example_api/)
+* [Pynteny CLI](https://robaina.github.io/Pynteny/examples/example_cli/)
+* [Sus operon](https://robaina.github.io/Pynteny/examples/example_sus/)
+
+You can find more notebooks in the [examples directory](docs/examples/). We invite you to explore Pynteny's web application by executing the command `pynteny app`. Find more info in the [documentation](https://robaina.github.io/Pynteny/).
+
+## Contributing
+
+Contributions are always welcome! If you don't know where to start, you may find an interesting [issue to work in here](https://github.com/Robaina/Pynteny/issues). Please, read our [contribution guidelines](https://github.com/Robaina/Pynteny/blob/main/CONTRIBUTING.md) first.
+
 ## Citation
 
 If you use this software, please cite it as below:
