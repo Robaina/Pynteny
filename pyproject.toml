@@ -20,9 +20,12 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Natural Language :: English"
 ]
+packages = [
+    { include = "pynteny", from = "src" },
+]
 include = [
-    "pynteny/app/assets/*",
-    "pynteny/app/assets/img/*"
+    "src/pynteny/app/assets/*",
+    "src/pynteny/app/assets/img/*"
 ]
 [tool.poetry.dependencies]
 python = "^3.8"

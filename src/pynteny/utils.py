@@ -207,7 +207,7 @@ def is_tar_file(tar_file: Path) -> bool:
     Returns:
         bool: whether file is compressed or not.
     """
-    return tarfile.is_tarfile(tar_file)
+    return Path(tar_file).is_file() and tarfile.is_tarfile(tar_file)
 
 
 def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
