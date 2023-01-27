@@ -221,7 +221,7 @@ def download_hmms(args) -> None:
         logger.info("PGAP database already downloaded. Skipping download")
         sys.exit(1)
     if args.outdir is None:
-        download_dir = Path(module_dir.parent) / "data"
+        download_dir = module_dir / "data"
     else:
         download_dir = Path(args.outdir).absolute()
     if not download_dir.exists():
