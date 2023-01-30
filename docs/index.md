@@ -45,9 +45,9 @@ Pynteny's main subcommand, [`pynteny search`](subcommands/search.md), requires a
 
 To facilitate the construction of this database, Pynteny provides the subcommand [`pynteny build`](subcommands/build.md), which takes as input a fasta file containing assembled nucleotide sequence data (or a single or a collection of genomes), such as that retrieved from MAG reconstruction pipelines.
 
-Additionally, [`pynteny search`](subcommands/search.md) requires either the set of profile Hidden Markov Models (HMMs) used in the provided synteny structure or a database of profile HMMs from which to retrieve the necessary HMMs. The user may provide their own set of HMMs. However, the user may also download the entire [PGAP HMM database](https://academic.oup.com/nar/article/49/D1/D1020/6018440) through [`pynteny download`](subcommands/download.md), which will take care of downloading and storing the download path for future usage (by default any time no additional HMMs are provided as an argument in [`pynteny search`](subcommands/search.md)).
+Additionally, [`pynteny search`](subcommands/search.md) requires either the set of profile Hidden Markov Models (HMMs) used in the provided synteny structure or a database of profile HMMs from which to retrieve the necessary HMMs. The user may provide their own set of HMMs. However, you may also download the entire [PGAP HMM database](https://academic.oup.com/nar/article/49/D1/D1020/6018440) through [`pynteny download`](subcommands/download.md), which will take care of downloading and storing the download path for future usage (by default any time no additional HMMs are provided as an argument in [`pynteny search`](subcommands/search.md)).
 
-Once both the peptide database and the required HMMs are ready, the user can query the peptide database with a text string encoding the query synteny structure such as the following:
+Once both the peptide database and the required HMMs are ready, you can query the peptide database with a text string encoding the query synteny structure such as the following:
 
 $>HMM_a \:\: n_{ab} \:\: > (HMM_{b1} | HMM_{b2}) \:\: n_{bc} \:\: < HMM_c.$
 
