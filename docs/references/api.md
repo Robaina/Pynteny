@@ -1,29 +1,29 @@
 ## Module api
-::: pynteny.api
+::: src.pynteny.api
 
 ## Module filter
-::: pynteny.filter
+::: src.pynteny.filter
 
 ## Module preprocessing
-::: pynteny.preprocessing
+::: src.pynteny.preprocessing
 
 ## Module hmm
-::: pynteny.hmm
+::: src.pynteny.hmm
 
 ## Module labelparser
-::: pynteny.parsers.labelparser
+::: src.pynteny.parsers.labelparser
 
 ## Module syntenyparser
-::: pynteny.parsers.syntenyparser
+::: src.pynteny.parsers.syntenyparser
 
 ## Module cli
-::: pynteny.cli
+::: src.pynteny.cli
 
 ## Module subcommands
-::: pynteny.subcommands
+::: src.pynteny.subcommands
 
 ## Module utils
-::: pynteny.utils
+::: src.pynteny.utils
 
 ## Module wrappers
-::: pynteny.wrappers
+::: src.pynteny.wrappers
