@@ -458,10 +458,10 @@ class SubcommandParser:
         )
 
         optional = parser._action_groups.pop()
-        # required = parser.add_argument_group("required arguments")
+        required = parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
 
-        optional.add_argument(
+        required.add_argument(
             "-o",
             "--outdir",
             dest="outdir",
@@ -470,8 +470,10 @@ class SubcommandParser:
             required=False,
             default=None,
             help=(
-                "path to directory where to download HMM database.\n"
-                "Defaults to pynteny installation directory."
+                "path to directory where to download HMM database. \n"
+                "Note, if database is relocated after download, Pynteny won't be able to find it automatically, \n"
+                "You can either: delete and download again in the new location or manually indicate database and \n"
+                "meta file location in Pynteny search."
             ),
         )
         optional.add_argument(
