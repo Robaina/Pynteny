@@ -11,8 +11,9 @@ usage: pynteny download [-h] [args]
 |short|long|default|help|
 | :--- | :--- | :--- | :--- |
 |`-h`|`--help`||show this help message and exit|
-|`-o`|`--outdir`|`None`|path to the directory where to download HMM database. Defaults to pynteny's installation directory.|
+|`-o`|`--outdir`|`None`|path to the directory where to download HMM database.|
 |`-u`|`--unpack`||unpack originally compressed database files|
+|`-f`|`--force` ||force-download database again if already downloaded.|
 |`-l`|`--log`|`None`|path to log file. Log not written by default.|
 
 ## Description
