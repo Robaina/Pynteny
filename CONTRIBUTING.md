@@ -85,6 +85,7 @@ When all the changes are ready to deploy, just open a pull request. After review
 Run the documentation locally with:
 
 > mkdocs serve
+
 ## Tests on push and pull request to main
 
 Pynteny's repo contains a [GitHub Action](https://github.com/features/actions) to perform build and integration tests which is triggered automatically on push and pull request events to the main brach. Currently the tests include building and installing Pynteny in Ubuntu and MacOS and running the [test](tests) suit.
