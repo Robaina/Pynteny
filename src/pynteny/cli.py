@@ -483,6 +483,14 @@ class SubcommandParser:
             help="unpack originally compressed database files",
         )
         optional.add_argument(
+            "-f",
+            "--force",
+            dest="force",
+            default=False,
+            action="store_true",
+            help="force-download database again if already downloaded",
+        )
+        optional.add_argument(
             "-l",
             "--log",
             dest="logfile",

@@ -8,6 +8,7 @@ Functions and classes for general purposes
 from __future__ import annotations
 import os
 import sys
+import wget
 import logging
 import shutil
 import subprocess
@@ -46,7 +47,7 @@ class ConfigParser:
         Returns:
             Path: path to generated config file.
         """
-        config_file = Path(__file__).parent.parent / "config.json"
+        config_file = Path(__file__).parent / "config.json"
         if not config_file.exists():
             config = {
                 "database_dir": "",
@@ -187,6 +188,16 @@ def parallelize_over_input_files(
     p.join()
 
 
+def download_file(url: str, output_file: Path) -> None:
+    """Download file from url
+
+    Args:
+        url (str): url where file to be downloaded
+        output_file (Path): path to downloaded file
+    """
+    wget.download(url, output_file.as_posix())
+
+
 def is_tar_file(tar_file: Path) -> bool:
     """Check whether file is tar-compressed.
 
@@ -196,12 +207,7 @@ def is_tar_file(tar_file: Path) -> bool:
     Returns:
         bool: whether file is compressed or not.
     """
-    tar_file_str = tar_file.as_posix()
-    return (
-        (tar_file_str.endswith("tar.gz"))
-        or (tar_file_str.endswith("tgz"))
-        or (tar_file_str.endswith("tar"))
-    )
+    return Path(tar_file).is_file() and tarfile.is_tarfile(tar_file)
 
 
 def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:

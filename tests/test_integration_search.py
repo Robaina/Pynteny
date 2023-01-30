@@ -11,16 +11,16 @@ from tempfile import TemporaryDirectory
 
 from pynteny.api import Search
 
-this_file_dir = Path(__file__).parent
+tests_dir = Path(__file__).parent
 
 
 class TestSyntenySearch(unittest.TestCase):
     def test_search(self):
         with TemporaryDirectory() as tempdir:
             search = Search(
-                data=this_file_dir / "test_data/MG1655.fasta",
+                data=tests_dir / "test_data/MG1655.fasta",
                 synteny_struc="<TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1",
-                hmm_dir=this_file_dir / "test_data/hmms",
+                hmm_dir=tests_dir / "test_data/hmms",
                 hmm_meta=None,
                 outdir=Path(tempdir),
                 prefix="",
@@ -31,12 +31,11 @@ class TestSyntenySearch(unittest.TestCase):
                 processes=None,
                 unordered=False,
             )
-            hmm_meta = this_file_dir / "test_data/hmm_meta.tsv"
+            hmm_meta = tests_dir / "test_data/hmm_meta.tsv"
             synhits = search.run()
-            # synhits_df = synhits.hits
             synhits = synhits.add_HMM_meta_info_to_hits(hmm_meta)
             synhits_df = synhits.hits
-            config = Path(this_file_dir.parent) / "config.json"
+            config = Path(tests_dir.parent) / "config.json"
             if config.exists():
                 config.unlink()
         hit_labels = [
