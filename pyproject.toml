@@ -25,7 +25,8 @@ packages = [
 ]
 include = [
     "src/pynteny/app/assets/*",
-    "src/pynteny/app/assets/img/*"
+    "src/pynteny/app/assets/img/*",
+    "src/pynteny/config.json"
 ]
 [tool.poetry.dependencies]
 python = "^3.8"
