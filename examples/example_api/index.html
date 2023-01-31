@@ -1205,6 +1205,50 @@ from pynteny import Search, Build, Download</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Let's now create a directory to store results</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-2">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;example_api/data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div id="cell-2" class="clipboard-copy-txt">Path("example_api/data").mkdir(exist_ok=False, parents=True)</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="download-pgap-profile-hmm-database">Download PGAP profile HMM database<a class="anchor-link" href="#download-pgap-profile-hmm-database">&#182;</a></h2><p>Pynteny downloads the <a href="https://academic.oup.com/nar/article/49/D1/D1020/6018440">PGAP</a>'s profile HMM database by default from the NCBI webpage when no path to a HMM database is provided. However, we can also manually download PGAP's database within Python through the class <code>Download</code>, which will unzip and store files in the specified output directory. The metadata file will be parsed and filtered to remove HMM entries that are not available in the downloaded database (this is to avoid possible downstream errors). Here is how you would run it:</p>
 
 </div>
@@ -1221,7 +1265,7 @@ from pynteny import Search, Build, Download</div>
         
         <div class="CodeMirror cm-s-jupyter">
         <div class="zeroclipboard-container">
-            <clipboard-copy for="cell-2">
+            <clipboard-copy for="cell-3">
             <div>
                 <span class="notice" hidden>Copied!</span>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
@@ -1237,7 +1281,7 @@ from pynteny import Search, Build, Download</div>
     <span class="n">unpack</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
-<div id="cell-2" class="clipboard-copy-txt"># Optional if PGAP's database has already been downloaded by Pynteny
+<div id="cell-3" class="clipboard-copy-txt"># Optional if PGAP's database has already been downloaded by Pynteny
 Download(
     outdir="example_api/data/hmms",
     unpack=True
@@ -1262,7 +1306,7 @@ Download(
 
 <pre><code>&lt;genome ID&gt;__&lt;contig ID&gt;_&lt;gene position&gt;_&lt;locus start&gt;_&lt;locus end&gt;_&lt;strand&gt;</code></pre>
 <p>where gene position, locus start, and locus end are taken with respect to the contig.</p>
-<p><strong>NOTE</strong>: To follow this example, you don't need to download <em>E. coli's</em> genome, since it has been already downloaded during Pynteny's installation. But, if you still want to download it, you can get it <a href="https://www.ncbi.nlm.nih.gov/nuccore/U00096.2">here</a>.</p>
+<p><strong>NOTE</strong>: You'll need <em>E. coli's</em> genome to follow this example. It's already downloaded in the repo (<code>tests/test_data/MG1655.gb</code>), but you can also download it <a href="https://www.ncbi.nlm.nih.gov/nuccore/U00096.2">here</a>.</p>
 
 </div>
 </div>
@@ -1273,12 +1317,12 @@ Download(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
         
         
         <div class="CodeMirror cm-s-jupyter">
         <div class="zeroclipboard-container">
-            <clipboard-copy for="cell-3">
+            <clipboard-copy for="cell-4">
             <div>
                 <span class="notice" hidden>Copied!</span>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
@@ -1289,13 +1333,13 @@ Download(
             </clipboard-copy>
         </div>
             <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">Build</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="s2">&quot;example/data/MG1655.gb&quot;</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="s2">&quot;../../tests/test_data/MG1655.gb&quot;</span><span class="p">,</span>
     <span class="n">outfile</span><span class="o">=</span><span class="s2">&quot;example_api/data/labelled_MG1655.fasta&quot;</span><span class="p">,</span>
     <span class="n">logfile</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
-<div id="cell-3" class="clipboard-copy-txt">Build(
-    data="example/data/MG1655.gb",
+<div id="cell-4" class="clipboard-copy-txt">Build(
+    data="../../tests/test_data/MG1655.gb",
     outfile="example_api/data/labelled_MG1655.fasta",
     logfile=None
 ).run()</div>
@@ -1320,9 +1364,9 @@ Download(
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>2022-10-04 12:02:20,103 | INFO: Building annotated peptide database
-2022-10-04 12:02:20,735 | INFO: Parsing GenBank data.
-2022-10-04 12:02:21,295 | INFO: Database built successfully!
+<pre>2023-01-31 10:14:01,795 | INFO: Building annotated peptide database
+2023-01-31 10:14:02,289 | INFO: Parsing GenBank data.
+2023-01-31 10:14:02,705 | INFO: Database built successfully!
 </pre>
 </div>
 </div>
@@ -1368,7 +1412,7 @@ Download(
         
         <div class="CodeMirror cm-s-jupyter">
         <div class="zeroclipboard-container">
-            <clipboard-copy for="cell-4">
+            <clipboard-copy for="cell-5">
             <div>
                 <span class="notice" hidden>Copied!</span>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
@@ -1393,7 +1437,7 @@ Download(
     <span class="n">unordered</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
-<div id="cell-4" class="clipboard-copy-txt"># Initialize class
+<div id="cell-5" class="clipboard-copy-txt"># Initialize class
 search = Search(
     data="example_api/data/labelled_MG1655.fasta",
     synteny_struc="<leuD 0 <leuC 1 <leuA",
@@ -1426,7 +1470,7 @@ search = Search(
         
         <div class="CodeMirror cm-s-jupyter">
         <div class="zeroclipboard-container">
-            <clipboard-copy for="cell-5">
+            <clipboard-copy for="cell-6">
             <div>
                 <span class="notice" hidden>Copied!</span>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
@@ -1439,7 +1483,7 @@ search = Search(
             <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Parse gene IDs in synteny structure according to PGAP HMM database metadata</span>
 <span class="n">parsed_struc</span> <span class="o">=</span> <span class="n">search</span><span class="o">.</span><span class="n">parseGeneIDs</span><span class="p">(</span><span class="n">synteny_struc</span><span class="o">=</span><span class="s2">&quot;&lt;leuD 0 &lt;leuC 1 &lt;leuA&quot;</span><span class="p">)</span>
 </pre></div>
-<div id="cell-5" class="clipboard-copy-txt"># Parse gene IDs in synteny structure according to PGAP HMM database metadata
+<div id="cell-6" class="clipboard-copy-txt"># Parse gene IDs in synteny structure according to PGAP HMM database metadata
 parsed_struc = search.parseGeneIDs(synteny_struc="<leuD 0 <leuC 1 <leuA")</div>
     
         </div>
@@ -1505,7 +1549,7 @@ parsed_struc = search.parseGeneIDs(synteny_struc="<leuD 0 <leuC 1 <leuA")</div>
         
         <div class="CodeMirror cm-s-jupyter">
         <div class="zeroclipboard-container">
-            <clipboard-copy for="cell-6">
+            <clipboard-copy for="cell-7">
             <div>
                 <span class="notice" hidden>Copied!</span>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
@@ -1521,7 +1565,7 @@ parsed_struc = search.parseGeneIDs(synteny_struc="<leuD 0 <leuC 1 <leuA")</div>
 
 <span class="n">synhits_df</span><span class="p">:</span> <span class="n">DataFrame</span> <span class="o">=</span> <span class="n">synhits</span><span class="o">.</span><span class="n">getSyntenyHits</span><span class="p">()</span>
 </pre></div>
-<div id="cell-6" class="clipboard-copy-txt"># Update parsed synteny structure and Rrun Pynteny search
+<div id="cell-7" class="clipboard-copy-txt"># Update parsed synteny structure and Rrun Pynteny search
 search.update("synteny_struc", parsed_struc)
 synhits: SyntenyHits = search.run()
 
@@ -1588,7 +1632,7 @@ synhits_df: DataFrame = synhits.getSyntenyHits()</div>
         
         <div class="CodeMirror cm-s-jupyter">
         <div class="zeroclipboard-container">
-            <clipboard-copy for="cell-7">
+            <clipboard-copy for="cell-8">
             <div>
                 <span class="notice" hidden>Copied!</span>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
@@ -1600,7 +1644,7 @@ synhits_df: DataFrame = synhits.getSyntenyHits()</div>
         </div>
             <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">synhits_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
-<div id="cell-7" class="clipboard-copy-txt">synhits_df.head()</div>
+<div id="cell-8" class="clipboard-copy-txt">synhits_df.head()</div>
     
         </div>
     </div>
@@ -1745,7 +1789,7 @@ synhits_df: DataFrame = synhits.getSyntenyHits()</div>
         
         <div class="CodeMirror cm-s-jupyter">
         <div class="zeroclipboard-container">
-            <clipboard-copy for="cell-8">
+            <clipboard-copy for="cell-9">
             <div>
                 <span class="notice" hidden>Copied!</span>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
@@ -1757,7 +1801,7 @@ synhits_df: DataFrame = synhits.getSyntenyHits()</div>
         </div>
             <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">Search</span><span class="o">.</span><span class="n">cite</span><span class="p">()</span>
 </pre></div>
-<div id="cell-8" class="clipboard-copy-txt">Search.cite()</div>
+<div id="cell-9" class="clipboard-copy-txt">Search.cite()</div>
     
         </div>
     </div>
