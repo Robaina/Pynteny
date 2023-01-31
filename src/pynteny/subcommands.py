@@ -10,6 +10,8 @@ import sys
 import shutil
 import logging
 from pathlib import Path
+from typing import Union
+from argparse import ArgumentParser
 
 from pynteny.filter import SyntenyHits, filter_FASTA_by_synteny_structure
 from pynteny.hmm import PGAP
@@ -24,7 +26,7 @@ from pynteny.utils import (
 from pynteny.preprocessing import Database
 
 
-def init_logger(args) -> logging.Logger:
+def init_logger(args: Union[CommandArgs, ArgumentParser]) -> logging.Logger:
     """Initialize logger object
 
     Args:
@@ -46,7 +48,7 @@ def init_logger(args) -> logging.Logger:
     return logger
 
 
-def synteny_search(args) -> SyntenyHits:
+def synteny_search(args: Union[CommandArgs, ArgumentParser]) -> SyntenyHits:
     """Search peptide database by synteny structure containing HMMs.
 
     Args:
@@ -157,7 +159,7 @@ def synteny_search(args) -> SyntenyHits:
     return synteny_hits
 
 
-def build_database(args) -> None:
+def build_database(args: Union[CommandArgs, ArgumentParser]) -> None:
     """Build annotated peptide database from input assembly
     or GenBank data.
 
@@ -175,7 +177,7 @@ def build_database(args) -> None:
     logging.shutdown()
 
 
-def parse_gene_ids(args) -> str:
+def parse_gene_ids(args: Union[CommandArgs, ArgumentParser]) -> str:
     """Convert gene symbols to hmm names.
 
     Args:
@@ -208,7 +210,7 @@ def parse_gene_ids(args) -> str:
     return gene_synteny_struc
 
 
-def download_hmms(args) -> None:
+def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
     """Download HMM (PGAP) database from NCBI.
 
     Args:
@@ -275,7 +277,7 @@ def run_app() -> None:
     terminal_execute(cmd_str)
 
 
-def get_citation(args, silent: bool = False) -> str:
+def get_citation(args: Union[CommandArgs, ArgumentParser], silent: bool = False) -> str:
     """Get Pynteny citation string.
 
     Args:
