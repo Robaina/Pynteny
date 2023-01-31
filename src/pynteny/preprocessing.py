@@ -203,7 +203,7 @@ class FASTA:
         fasta = pyfastx.Fasta(
             self.file_path.as_posix(), build_index=False, full_name=True
         )
-        with open(output_file, "w+") as outfile:
+        with open(output_file, "w+", encoding="UTF-8") as outfile:
             for record_name, record_seq in fasta:
                 if is_peptide and (not keep_stop_codon):
                     record_seq = remove_stop_sodon_signals(record_seq)
@@ -255,12 +255,12 @@ class FASTA:
             self.file_path.as_posix(), build_index=False, full_name=True
         )
         for contig_name, seq in contigs:
-            outfile = (
+            output_file = (
                 output_dir / f"{contig_name.split(' ')[0]}{self._input_file.suffix}"
             )
-            with open(outfile, "w+") as file:
-                file.write(f">{contig_name}\n")
-                file.write(seq + "\n")
+            with open(output_file, "w+", encoding="UTF-8") as outfile:
+                outfile.write(f">{contig_name}\n")
+                outfile.write(seq + "\n")
 
     def filter_by_minimum_length(
         self, min_length: int, output_file: Path = None, point_to_new_file: bool = True
@@ -280,7 +280,7 @@ class FASTA:
         fasta = pyfastx.Fasta(
             self.file_path.as_posix(), build_index=False, full_name=True
         )
-        with open(output_file, "w+") as outfile:
+        with open(output_file, "w+", encoding="UTF-8") as outfile:
             for record_name, record_seq in fasta:
                 if len(record_seq) >= min_length:
                     outfile.write(f">{record_name}\n{record_seq}\n")
@@ -311,7 +311,7 @@ class LabelledFASTA(FASTA):
                 Path(prodigal_faa.parent) / f"{prodigal_faa.stem}_longlabels.fasta"
             )
         data = pyfastx.Fasta(prodigal_faa.as_posix(), build_index=False, full_name=True)
-        with open(output_file, "w+") as outfile:
+        with open(output_file, "w+", encoding="UTF-8") as outfile:
             for record_name, record_seq in data:
                 name_list = record_name.split(" ")
                 if len(name_list) < number_prodigal_record_fields:
@@ -367,7 +367,7 @@ class LabelledFASTA(FASTA):
                 Path(gbk_files.pop().parent) / f"{prefix}sequence_database.fasta"
             )
 
-        with open(output_file, "w+") as outfile:
+        with open(output_file, "w+", encoding="UTF-8") as outfile:
             for gbk_contig in gbk_contigs:
                 gene_counter = 0
                 for feature in gbk_contig.features:

@@ -68,7 +68,7 @@ class HMMER:
         return [hmm_path.stem for hmm_path in self._input_hmms]
 
     @staticmethod
-    def parse_HMM_search_output(hmmer_output: str) -> pd.DataFrame:
+    def parse_HMM_search_output(hmmer_output: Path) -> pd.DataFrame:
         """Parse hmmsearch or hmmscan summary table output file.
 
         Args:
@@ -79,7 +79,7 @@ class HMMER:
         """
         attribs = ["id", "bias", "bitscore", "description"]
         hits = defaultdict(list)
-        with open(hmmer_output) as handle:
+        with open(hmmer_output, encoding="UTF-8") as handle:
             for queryresult in SearchIO.parse(handle, "hmmer3-tab"):
                 for hit in queryresult.hits:
                     for attrib in attribs:

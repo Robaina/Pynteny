@@ -57,7 +57,7 @@ class ConfigParser:
                 "PGAP_meta_file": "",
                 "streamlit_process": "",
             }
-            with open(config_file, "w") as f:
+            with open(config_file, "w", encoding="UTF-8") as f:
                 json.dump(config, f, indent=4)
         return config_file
 
@@ -71,13 +71,13 @@ class ConfigParser:
         Returns:
             dict: dict containing fields and values of config file.
         """
-        with open(self._config_file, "r") as file:
+        with open(self._config_file, "r", encoding="UTF-8") as file:
             config = json.loads(file.read())
         return config
 
     def write_config(self) -> None:
         """Write config dict to file."""
-        with open(self._config_file, "w") as f:
+        with open(self._config_file, "w", encoding="UTF-8") as f:
             json.dump(self._config, f, indent=4)
 
     def update_config(self, key: str, value: str) -> None:
