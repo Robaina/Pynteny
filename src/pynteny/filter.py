@@ -396,19 +396,18 @@ class SyntenyHits:
             return self._synteny_hits
         pgap = PGAP(hmm_meta)
         self._synteny_hits[fields] = ""
-        # for i, row in self._synteny_hits.iterrows():
         for row in self._synteny_hits.itertuples():
-            i = getattr(row, "Index")
-            hmm_group = getattr(row, "hmm")
             meta_values = [
                 [
                     str(v).replace("nan", "")
                     for k, v in pgap.get_meta_info_for_HMM(hmm).items()
                     if k != "#ncbi_accession"
                 ]
-                for hmm in hmm_group.split("|")  # row.hmm.split("|")
+                for hmm in row.hmm.split("|")
             ]
-            self._synteny_hits.loc[i, fields] = ["|".join(v) for v in zip(*meta_values)]
+            self._synteny_hits.loc[row.Index, fields] = [
+                "|".join(v) for v in zip(*meta_values)
+            ]
         return SyntenyHits(self._synteny_hits)
 
     def write_to_TSV(self, output_tsv: Path) -> None:

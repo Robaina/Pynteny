@@ -150,7 +150,7 @@ class SubcommandParser:
         with tempfile.NamedTemporaryFile(mode="w+") as file:
             parser.print_help(file)
             file.flush()
-            with open(file.name) as help_file:
+            with open(file.name, encoding="UTF-8") as help_file:
                 help_str = help_file.read()
         return help_str
 

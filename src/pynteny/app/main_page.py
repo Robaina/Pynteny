@@ -41,11 +41,11 @@ st.set_page_config(
     },
 )
 
-with open(parent_dir / "assets/styles.css", "r") as file:
+with open(parent_dir / "assets/styles.css", "r", encoding="UTF-8") as file:
     css_text = file.read()
 st.markdown(f"<style>{css_text}</style>", unsafe_allow_html=True)
 
-with open(parent_dir / "assets/script.js", "r") as file:
+with open(parent_dir / "assets/script.js", "r", encoding="UTF-8") as file:
     js_text = file.read()
 st.components.v1.html(f"<script>{js_text}</script>")
 
