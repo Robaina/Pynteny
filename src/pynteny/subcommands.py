@@ -30,7 +30,7 @@ def init_logger(args: Union[CommandArgs, ArgumentParser]) -> logging.Logger:
     """Initialize logger object
 
     Args:
-        args (_type_): command arguments object
+        args (Union[CommandArgs, ArgumentParser]): arguments object
 
     Returns:
         logging.Logger: initialized logger object
@@ -52,7 +52,7 @@ def synteny_search(args: Union[CommandArgs, ArgumentParser]) -> SyntenyHits:
     """Search peptide database by synteny structure containing HMMs.
 
     Args:
-        args (argparse.ArgumentParser): arguments object.
+        args (Union[CommandArgs, ArgumentParser]): arguments object.
 
     Returns:
         SyntenyHits: instance of SyntenyHits.
@@ -164,7 +164,7 @@ def build_database(args: Union[CommandArgs, ArgumentParser]) -> None:
     or GenBank data.
 
     Args:
-        args (argparse.ArgumentParser): arguments object.
+        args (Union[CommandArgs, ArgumentParser]): arguments object.
     """
     logger = init_logger(args)
 
@@ -181,7 +181,7 @@ def parse_gene_ids(args: Union[CommandArgs, ArgumentParser]) -> str:
     """Convert gene symbols to hmm names.
 
     Args:
-        args (argparse.ArgumentParser): arguments object.
+        args (Union[CommandArgs, ArgumentParser]): arguments object.
 
     Returns:
         str: synteny structure where gene symbols are replaced
@@ -214,7 +214,7 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
     """Download HMM (PGAP) database from NCBI.
 
     Args:
-        args (argparse.ArgumentParser): arguments object.
+        args (Union[CommandArgs, ArgumentParser]): arguments object.
     """
     logger = init_logger(args)
     module_dir = Path(__file__).parent
