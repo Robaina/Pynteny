@@ -3,10 +3,9 @@ from importlib import metadata
 
 import streamlit as st
 
-from pynteny.app.helpers import plot_dataframe
 import pynteny.app.callbacks as callbacks
 import pynteny.app.filemanager as filemanager
-
+from pynteny.app.helpers import plot_dataframe
 
 meta = metadata.metadata("pynteny")
 __version__ = meta["Version"]
@@ -73,7 +72,7 @@ def show_sidebar():
             )
         with col2:
             st.markdown(("Output log:"))
-            output_log = st.select_slider(
+            st.select_slider(
                 "",
                 options=["No", "Yes"],
                 value="Yes",

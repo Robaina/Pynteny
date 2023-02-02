@@ -4,11 +4,13 @@
 """
 Unit tests for the filter module
 """
-import unittest
 import tempfile
+import unittest
 from pathlib import Path
+
 import pandas as pd
-from pynteny.hmm import PGAP, HMMER
+
+from pynteny.hmm import HMMER, PGAP
 
 this_file_dir = Path(__file__).parent
 

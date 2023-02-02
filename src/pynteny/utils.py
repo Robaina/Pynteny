@@ -6,17 +6,19 @@ Functions and classes for general purposes
 """
 
 from __future__ import annotations
-import os
-import sys
-import wget
+
+import json
 import logging
+import os
 import shutil
 import subprocess
+import sys
 import tarfile
-import json
-from pathlib import Path
 from functools import partial
 from multiprocessing import Pool
+from pathlib import Path
+
+import wget
 
 logger = logging.getLogger(__name__)
 

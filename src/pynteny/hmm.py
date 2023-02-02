@@ -6,19 +6,19 @@ Tools to parse Hmmer output and PGAP (HMM) database
 """
 
 from __future__ import annotations
-import os
-import sys
-import shutil
+
 import logging
-from pathlib import Path
+import os
+import shutil
+import sys
 from collections import defaultdict
+from pathlib import Path
 
 import pandas as pd
 from Bio import SearchIO
 
 import pynteny.wrappers as wrappers
-from pynteny.utils import is_tar_file, extract_tar_file, flatten_directory, list_tar_dir
-
+from pynteny.utils import extract_tar_file, flatten_directory, is_tar_file, list_tar_dir
 
 logger = logging.getLogger(__name__)
 

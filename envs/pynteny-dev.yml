@@ -8,6 +8,7 @@ dependencies:
   - python >= 3.8
   - poetry >= 1.3
   - coverage
+  - black
   - pip
   - hmmer >= 3.3
   - prodigal >= 2.6
@@ -16,7 +17,7 @@ dependencies:
   - numpy
   - pandas
   - psutil >= 5.9
-  - python-wget 
+  - python-wget
   - streamlit=1.16
   - streamlit-aggrid
   - pip:
@@ -25,3 +26,4 @@ dependencies:
     - pymdown-extensions
     - mkdocs-jupyter
     - mkdocstrings[python]
+    - ruff

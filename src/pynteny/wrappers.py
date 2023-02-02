@@ -8,7 +8,7 @@ Simple CLI wrappers to several tools
 import os
 from pathlib import Path
 
-from pynteny.utils import terminal_execute, set_default_output_path
+from pynteny.utils import set_default_output_path, terminal_execute
 
 
 def run_seqkit_nodup(

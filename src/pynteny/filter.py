@@ -6,17 +6,18 @@ Tools to filter HMM hits by synteny structure
 """
 
 from __future__ import annotations
+
+import logging
 import os
 import sys
-import logging
 from pathlib import Path
 
 import pandas as pd
 
-from pynteny.preprocessing import FASTA
-from pynteny.hmm import HMMER, PGAP
 import pynteny.parsers.labelparser as labelparser
 import pynteny.parsers.syntenyparser as syntenyparser
+from pynteny.hmm import HMMER, PGAP
+from pynteny.preprocessing import FASTA
 
 logger = logging.getLogger(__name__)
 

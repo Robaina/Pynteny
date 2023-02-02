@@ -5,18 +5,18 @@
 Classes to facilitate usage within Python scripts / Notebooks
 """
 
-from pathlib import Path
 from importlib import metadata
+from pathlib import Path
 
-from pynteny.utils import CommandArgs
 from pynteny.filter import SyntenyHits
 from pynteny.subcommands import (
-    synteny_search,
     build_database,
     download_hmms,
-    parse_gene_ids,
     get_citation,
+    parse_gene_ids,
+    synteny_search,
 )
+from pynteny.utils import CommandArgs
 
 meta = metadata.metadata("pynteny")
 __version__ = meta["Version"]

@@ -5,12 +5,12 @@
 
 import shutil
 from pathlib import Path
+
 import streamlit as st
 
 import pynteny.app.filemanager as filemanager
-from pynteny.subcommands import synteny_search, build_database, download_hmms
+from pynteny.subcommands import build_database, download_hmms, synteny_search
 from pynteny.utils import ConfigParser
-
 
 parent_dir = Path(__file__).parent
 

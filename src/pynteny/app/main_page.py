@@ -4,10 +4,9 @@ from pathlib import Path
 import streamlit as st
 from PIL import Image
 
-from pynteny.utils import CommandArgs
+from pynteny.app.components import show_mainpage, show_sidebar
 from pynteny.app.helpers import set_example
-from pynteny.app.components import show_sidebar, show_mainpage
-
+from pynteny.utils import CommandArgs
 
 parent_dir = Path(__file__).parent
 meta = metadata.metadata("pynteny")

@@ -10,15 +10,16 @@ Tools to preprocess sequence databases
 """
 
 from __future__ import annotations
-from typing import TextIO
-import sys
-import os
+
 import logging
+import os
+import sys
 import tempfile
 from pathlib import Path
+from typing import TextIO
 
-from Bio import SeqIO, SeqRecord, SeqFeature
 import pyfastx
+from Bio import SeqFeature, SeqIO, SeqRecord
 
 import pynteny.utils as utils
 import pynteny.wrappers as wrappers
@@ -141,7 +142,7 @@ class FASTA:
         """
         if output_file is None:
             output_file = input_dir / "merged.fasta"
-        logger.info(f"Merging FASTA files in input directory")
+        logger.info("Merging FASTA files in input directory")
         # cmd_str = f'awk 1 * > {output_file}'
         # # cmd_str = "find . -maxdepth 1 -type f --exec cat {} + > " + f"{output_file}"
         cmd_str = f"printf '%s\\0' * | xargs -0 cat > {output_file}"

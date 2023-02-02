@@ -11,7 +11,6 @@ from pathlib import Path
 import pynteny.parsers.labelparser as labelparser
 import pynteny.parsers.syntenyparser as syntenyparser
 
-
 this_file_dir = Path(__file__).parent
 
 

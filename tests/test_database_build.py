@@ -5,13 +5,13 @@
 Unit tests for class Database
 """
 
-import unittest
 import tempfile
+import unittest
 from pathlib import Path
-from pynteny.subcommands import Database
+
 from pynteny.api import Build
 from pynteny.preprocessing import LabelledFASTA
-
+from pynteny.subcommands import Database
 
 this_file_dir = Path(__file__).parent
 
@@ -30,7 +30,7 @@ class TestDatabase(unittest.TestCase):
 
     def test_build(self):
         with tempfile.NamedTemporaryFile() as outfile:
-            labelled_database = Build(
+            Build(
                 data=Path(this_file_dir / "test_data/test_assembly"),
                 outfile=outfile.name,
                 logfile=None,
