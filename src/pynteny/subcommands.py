@@ -217,7 +217,6 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
         args (Union[CommandArgs, ArgumentParser]): arguments object.
     """
     logger = init_logger(args)
-    Path(__file__).parent
     config = ConfigParser.get_default_config()
     if (config.get_field("data_downloaded")) and (not args.force):
         logger.info("PGAP database already downloaded. Skipping download")
