@@ -543,7 +543,7 @@ class SubcommandParser:
 
 def main():
     subcommand, subcommand_args = sys.argv[1:2], sys.argv[2:]
-    pynteny = Pynteny(subcommand, subcommand_args)
+    Pynteny(subcommand, subcommand_args)
 
 
 if __name__ == "__main__":
