@@ -122,7 +122,7 @@ class Pynteny:
     def app(self):
         """Run pynteny app through Streamlit"""
         parser = SubcommandParser.app()
-        args = parser.parse_args(self._subcommand_args)
+        parser.parse_args(self._subcommand_args)
         sub.run_app()
 
     def cite(self):
