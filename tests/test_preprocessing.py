@@ -5,9 +5,10 @@
 Unit tests for the preprocessing module
 """
 
-import unittest
 import tempfile
+import unittest
 from pathlib import Path
+
 from pynteny.preprocessing import (
     FASTA,
     LabelledFASTA,

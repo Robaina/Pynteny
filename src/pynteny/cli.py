@@ -2,16 +2,16 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import annotations
-import sys
-import random
-import tempfile
+
 import argparse
+import random
+import sys
+import tempfile
 from importlib import metadata
 from pathlib import Path
 
 import pynteny.subcommands as sub
 from pynteny.utils import ConfigParser
-
 
 meta = metadata.metadata("pynteny")
 __version__ = meta["Version"]
@@ -122,7 +122,7 @@ class Pynteny:
     def app(self):
         """Run pynteny app through Streamlit"""
         parser = SubcommandParser.app()
-        args = parser.parse_args(self._subcommand_args)
+        parser.parse_args(self._subcommand_args)
         sub.run_app()
 
     def cite(self):
@@ -518,7 +518,7 @@ class SubcommandParser:
             formatter_class=argparse.RawTextHelpFormatter,
         )
         optional = parser._action_groups.pop()
-        required = parser.add_argument_group("required arguments")
+        parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
         return parser
 
@@ -536,14 +536,14 @@ class SubcommandParser:
             formatter_class=argparse.RawTextHelpFormatter,
         )
         optional = parser._action_groups.pop()
-        required = parser.add_argument_group("required arguments")
+        parser.add_argument_group("required arguments")
         parser._action_groups.append(optional)
         return parser
 
 
 def main():
     subcommand, subcommand_args = sys.argv[1:2], sys.argv[2:]
-    pynteny = Pynteny(subcommand, subcommand_args)
+    Pynteny(subcommand, subcommand_args)
 
 
 if __name__ == "__main__":

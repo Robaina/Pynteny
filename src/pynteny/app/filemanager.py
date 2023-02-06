@@ -3,12 +3,11 @@
 
 """Tools to handle files in Streamlit App"""
 
-from pathlib import Path
-
 import tkinter as tk
+from pathlib import Path
 from tkinter import filedialog
-import streamlit as st
 
+import streamlit as st
 
 parent_dir = Path(__file__).parent
 
@@ -56,7 +55,7 @@ def open_file_explorer() -> Path:
     root.withdraw()
     try:
         selected_path = Path(filedialog.askopenfilename())
-    except:
+    except Exception:
         selected_path = None
     root.destroy()
     return selected_path
@@ -71,7 +70,7 @@ def open_directory_explorer() -> Path:
     root.withdraw()
     try:
         selected_dir = Path(filedialog.askdirectory(master=root))
-    except:
+    except Exception:
         selected_dir = None
     root.destroy()
     return selected_dir

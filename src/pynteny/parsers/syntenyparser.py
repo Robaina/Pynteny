@@ -6,11 +6,10 @@ Tools to parse synteny structure strings
 """
 
 from __future__ import annotations
-import sys
-import logging
-from pathlib import Path
 
-import pandas as pd
+import logging
+import sys
+from pathlib import Path
 
 from pynteny.hmm import PGAP
 from pynteny.utils import is_right_list_nested_type

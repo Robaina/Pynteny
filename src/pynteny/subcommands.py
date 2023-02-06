@@ -5,25 +5,25 @@
 Functions containing CLI subcommands
 """
 
-import os
-import sys
-import shutil
 import logging
+import os
+import shutil
+import sys
+from argparse import ArgumentParser
 from pathlib import Path
 from typing import Union
-from argparse import ArgumentParser
 
+import pynteny.parsers.syntenyparser as syntenyparser
 from pynteny.filter import SyntenyHits, filter_FASTA_by_synteny_structure
 from pynteny.hmm import PGAP
-import pynteny.parsers.syntenyparser as syntenyparser
+from pynteny.preprocessing import Database
 from pynteny.utils import (
     CommandArgs,
     ConfigParser,
+    download_file,
     is_tar_file,
     terminal_execute,
-    download_file,
 )
-from pynteny.preprocessing import Database
 
 
 def init_logger(args: Union[CommandArgs, ArgumentParser]) -> logging.Logger:
@@ -217,7 +217,6 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
         args (Union[CommandArgs, ArgumentParser]): arguments object.
     """
     logger = init_logger(args)
-    module_dir = Path(__file__).parent
     config = ConfigParser.get_default_config()
     if (config.get_field("data_downloaded")) and (not args.force):
         logger.info("PGAP database already downloaded. Skipping download")
@@ -245,7 +244,7 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
         config.update_config("data_downloaded", True)
         config.update_config("PGAP_database", PGAP_file.as_posix())
         config.update_config("PGAP_meta_file", meta_file.as_posix())
-    except Exception as e:
+    except Exception:
         logger.exception(
             "Failed to download PGAP database. Please check your internet connection."
         )

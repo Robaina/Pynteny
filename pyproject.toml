@@ -32,3 +32,21 @@ include = [
 python = "^3.8"
 [tool.poetry.scripts]
 pynteny = "pynteny.cli:main"
+
+[tool.ruff]
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+]
+ignore = [
+    "E501", # line too long, handled by black
+    "B008", # do not perform function calls in argument defaults
+    "C901", # mccabe complexity
+    "E999", # match statement is not yet supported
+    "W605", # ASCII art, verbatim text
+]
+
+[tool.ruff.isort]
+known-first-party = ["pynteny"]

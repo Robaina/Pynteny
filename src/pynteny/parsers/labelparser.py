@@ -6,10 +6,10 @@ Tools to parse record labels to extract coded info
 """
 
 from __future__ import annotations
+
 import logging
 
 import pandas as pd
-
 
 logger = logging.getLogger(__name__)
 

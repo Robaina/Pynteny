@@ -3,10 +3,9 @@ from importlib import metadata
 
 import streamlit as st
 
-from pynteny.app.helpers import plot_dataframe
 import pynteny.app.callbacks as callbacks
 import pynteny.app.filemanager as filemanager
-
+from pynteny.app.helpers import plot_dataframe
 
 meta = metadata.metadata("pynteny")
 __version__ = meta["Version"]
@@ -14,7 +13,6 @@ __author__ = meta["Author"]
 
 
 def show_sidebar():
-
     st.sidebar.image(
         st.session_state.sidebar_icon,
         use_column_width=True,
@@ -53,7 +51,6 @@ def show_sidebar():
             )
 
     with st.sidebar.expander("Advanced parameters:", expanded=False):
-
         st.markdown("Select custom HMM database")
         col1, col2 = st.columns([1, 1])
         with col1:
@@ -75,7 +72,7 @@ def show_sidebar():
             )
         with col2:
             st.markdown(("Output log:"))
-            output_log = st.select_slider(
+            st.select_slider(
                 "",
                 options=["No", "Yes"],
                 value="Yes",
@@ -91,7 +88,6 @@ def show_sidebar():
 
 
 def show_mainpage():
-
     st.title("Pynteny — Synteny-aware HMM searches made easy")
 
     with st.expander("Select sequence data", expanded=False):
