@@ -1481,10 +1481,10 @@ search = Search(
             </clipboard-copy>
         </div>
             <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Parse gene IDs in synteny structure according to PGAP HMM database metadata</span>
-<span class="n">parsed_struc</span> <span class="o">=</span> <span class="n">search</span><span class="o">.</span><span class="n">parseGeneIDs</span><span class="p">(</span><span class="n">synteny_struc</span><span class="o">=</span><span class="s2">&quot;&lt;leuD 0 &lt;leuC 1 &lt;leuA&quot;</span><span class="p">)</span>
+<span class="n">parsed_struc</span> <span class="o">=</span> <span class="n">search</span><span class="o">.</span><span class="n">parse_genes</span><span class="p">(</span><span class="n">synteny_struc</span><span class="o">=</span><span class="s2">&quot;&lt;leuD 0 &lt;leuC 1 &lt;leuA&quot;</span><span class="p">)</span>
 </pre></div>
 <div id="cell-6" class="clipboard-copy-txt"># Parse gene IDs in synteny structure according to PGAP HMM database metadata
-parsed_struc = search.parseGeneIDs(synteny_struc="<leuD 0 <leuC 1 <leuA")</div>
+parsed_struc = search.parse_genes(synteny_struc="<leuD 0 <leuC 1 <leuA")</div>
     
         </div>
     </div>
@@ -1563,13 +1563,13 @@ parsed_struc = search.parseGeneIDs(synteny_struc="<leuD 0 <leuC 1 <leuA")</div>
 <span class="n">search</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;synteny_struc&quot;</span><span class="p">,</span> <span class="n">parsed_struc</span><span class="p">)</span>
 <span class="n">synhits</span><span class="p">:</span> <span class="n">SyntenyHits</span> <span class="o">=</span> <span class="n">search</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 
-<span class="n">synhits_df</span><span class="p">:</span> <span class="n">DataFrame</span> <span class="o">=</span> <span class="n">synhits</span><span class="o">.</span><span class="n">getSyntenyHits</span><span class="p">()</span>
+<span class="n">synhits_df</span><span class="p">:</span> <span class="n">DataFrame</span> <span class="o">=</span> <span class="n">synhits</span><span class="o">.</span><span class="n">hits</span>
 </pre></div>
 <div id="cell-7" class="clipboard-copy-txt"># Update parsed synteny structure and Rrun Pynteny search
 search.update("synteny_struc", parsed_struc)
 synhits: SyntenyHits = search.run()
 
-synhits_df: DataFrame = synhits.getSyntenyHits()</div>
+synhits_df: DataFrame = synhits.hits</div>
     
         </div>
     </div>
