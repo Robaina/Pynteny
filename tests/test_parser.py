@@ -74,7 +74,7 @@ class TestSyntenyParser(unittest.TestCase):
         )
         self.assertEqual(
             parsed_struct,
-            " <TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1",
+            "<TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1",
             "Failed to parse gene symbols in synteny structure",
         )
 
