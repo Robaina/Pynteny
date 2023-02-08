@@ -391,6 +391,7 @@ class SyntenyHits:
         Returns:
             SyntenyHits: and instance of class SyntenyHits.
         """
+        hmm_meta = Path(hmm_meta)
         fields = ["gene_symbol", "label", "product", "ec_number"]
         if all([f in self._synteny_hits.columns for f in fields]):
             return self._synteny_hits
@@ -416,12 +417,13 @@ class SyntenyHits:
         Args:
             output_tsv (Path): path to output tsv file.
         """
+        output_tsv = Path(output_tsv)
         self._synteny_hits.to_csv(output_tsv, sep="\t", index=False)
 
     def write_hit_sequences_to_FASTA_files(
         self,
         sequence_database: Path,
-        output_dir: Path = None,
+        output_dir: Path,
         output_prefix: str = None,
     ) -> None:
         """Write matching sequences to FASTA files.
@@ -429,9 +431,11 @@ class SyntenyHits:
         Args:
             sequence_database (Path): path to the peptide or nucleotide sequence database
                 in which the synteny search was conducted.
-            output_dir (Path, optional): path to output directory. Defaults to None.
+            output_dir (Path): path to output directory.
             output_prefix (str, optional): prefix for output files. Defaults to None.
         """
+        sequence_database = Path(sequence_database)
+        output_dir = Path(output_dir)
         fasta = FASTA(sequence_database)
         hmm_groups = self._synteny_hits.hmm.unique().tolist()
 
@@ -523,8 +527,11 @@ def filter_FASTA_by_synteny_structure(
     Returns:
         SyntenyHits: object of class SyntenyHits containing labels matching synteny structure.
     """
+    input_fasta = Path(input_fasta)
     if hmmer_output_dir is None:
         hmmer_output_dir = Path(input_fasta.parent) / "hmmer_outputs"
+    else:
+        hmmer_output_dir = Path(hmmer_output_dir)
 
     if additional_args is None:
         additional_args = [None for _ in input_hmms]

@@ -20,7 +20,7 @@ class TestPGAP(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as tmp:
             pgap = PGAP(this_file_dir / "test_data/hmm_meta.tsv")
             pgap.remove_missing_HMMs_from_metadata(
-                this_file_dir / "test_data/hmms", tmp
+                this_file_dir / "test_data/hmms", tmp.name
             )
             new_labels = pd.read_csv(tmp.name, sep="\t").label.values.tolist()
             original_labels = pgap._meta.label.values.tolist()

@@ -204,7 +204,7 @@ class Download(Command):
 
     def __init__(
         self,
-        outdir: Path = None,
+        outdir: Path,
         logfile: Path = None,
         force: bool = False,
         unpack: bool = False,
@@ -212,8 +212,7 @@ class Download(Command):
         """Download HMM database from NCBI.
 
         Args:
-            outdir (Path, optional): path to ouput directory in which to store downloaded HMMs.
-                Defaults to None.
+            outdir (Path): path to ouput directory in which to store downloaded HMMs.
             logfile (Path, optional): path to log file. Defaults to None.
             force (bool, optional): force-download database again if already downloaded.
             unpack (bool, optional): whether to unpack downloaded file. If False, then PGAP's database.
@@ -221,7 +220,7 @@ class Download(Command):
         """
 
         self._args = CommandArgs(
-            outdir=Path(outdir) if outdir is not None else outdir,
+            outdir=Path(outdir),
             logfile=Path(logfile) if logfile is not None else logfile,
             force=force,
             unpack=unpack,

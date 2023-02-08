@@ -181,7 +181,7 @@ def parse_genes_in_synteny_structure(
         tuple[str,dict]: parsed synteny structure where gene symbols are replaced
             by HMM names.
     """
-    pgap = PGAP(hmm_meta)
+    pgap = PGAP(Path(hmm_meta))
     gene_symbols = get_gene_symbols_in_structure(synteny_structure)
     strand_locs = get_strands_in_structure(synteny_structure, parsed_symbol=False)
     gene_dists = get_maximum_distances_in_structure(synteny_structure)

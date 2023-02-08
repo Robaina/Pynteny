@@ -127,8 +127,11 @@ class FASTA:
         Returns:
             FASTA: an initialized instance of class FASTA.
         """
+        input_dir = Path(input_dir)
         if merged_fasta is None:
             merged_fasta = input_dir / "merged_database.fasta"
+        else:
+            merged_fasta = Path(merged_fasta)
         FASTA.merge(input_dir, merged_fasta)
         return cls(merged_fasta)
 
@@ -140,8 +143,11 @@ class FASTA:
             input_dir (Path): path to input directory
             output_file (Path, optional): path to ouput merged fasta file. Defaults to None.
         """
+        input_dir = Path(input_dir)
         if output_file is None:
             output_file = input_dir / "merged.fasta"
+        else:
+            output_file = Path(output_file)
         logger.info("Merging FASTA files in input directory")
         # cmd_str = f'awk 1 * > {output_file}'
         # # cmd_str = "find . -maxdepth 1 -type f --exec cat {} + > " + f"{output_file}"
@@ -169,6 +175,8 @@ class FASTA:
                 Path(self._input_file.parent)
                 / f"{self._input_file.stem}_noduplicates{self._input_file.suffix}"
             )
+        else:
+            output_file = Path(output_file)
         wrappers.run_seqkit_nodup(
             input_fasta=self._input_file,
             output_fasta=output_file,
@@ -196,6 +204,8 @@ class FASTA:
         fname, ext = self._input_file.stem, self._input_file.suffix
         if output_file is None:
             output_file = Path(dirname) / f"{fname}_modified{ext}"
+        else:
+            output_file = Path(output_file)
         if is_peptide:
             isLegitSequence = is_legit_peptide_sequence
         else:
@@ -228,6 +238,8 @@ class FASTA:
                 Path(self._input_file.parent)
                 / f"{self._input_file.stem}_filtered{self._input_file.suffix}"
             )
+        else:
+            output_file = Path(output_file)
         with tempfile.NamedTemporaryFile(mode="w+t") as tmp_ids:
             tmp_ids.writelines("\n".join(record_ids))
             tmp_ids.flush()
@@ -278,6 +290,8 @@ class FASTA:
                 Path(self._input_file.parent)
                 / f"{self._input_file.stem}_minlength{self._input_file.suffix}"
             )
+        else:
+            output_file = Path(output_file)
         fasta = pyfastx.Fasta(
             self.file_path.as_posix(), build_index=False, full_name=True
         )
@@ -307,10 +321,11 @@ class LabelledFASTA(FASTA):
             LabelledFASTA: object containing the labelled peptide database.
         """
         number_prodigal_record_fields = 9
+        prodigal_faa = Path(prodigal_faa)
         if output_file is None:
-            output_file = (
-                Path(prodigal_faa.parent) / f"{prodigal_faa.stem}_longlabels.fasta"
-            )
+            output_file = prodigal_faa.parent / f"{prodigal_faa.stem}_longlabels.fasta"
+        else:
+            output_file = Path(output_file)
         data = pyfastx.Fasta(prodigal_faa.as_posix(), build_index=False, full_name=True)
         with open(output_file, "w+", encoding="UTF-8") as outfile:
             for record_name, record_seq in data:
@@ -353,6 +368,7 @@ class LabelledFASTA(FASTA):
         Returns:
             LabelledFASTA: object containing the labelled peptide database.
         """
+        gbk_data = Path(gbk_data)
         if gbk_data.is_dir():
             gbk_files = [gbk_data / f for f in gbk_data.iterdir()]
         else:
@@ -367,6 +383,8 @@ class LabelledFASTA(FASTA):
             output_file = (
                 Path(gbk_files.pop().parent) / f"{prefix}sequence_database.fasta"
             )
+        else:
+            output_file = Path(output_file)
 
         with open(output_file, "w+", encoding="UTF-8") as outfile:
             for gbk_contig in gbk_contigs:
@@ -397,7 +415,7 @@ class LabelledFASTA(FASTA):
     def write_record(
         gbk_contig: SeqRecord,
         feature: SeqFeature,
-        outfile: TextIO,
+        output_file: TextIO,
         gene_counter: int,
         nucleotide: bool = False,
     ) -> int:
@@ -408,8 +426,8 @@ class LabelledFASTA(FASTA):
             sequence = str(feature.extract(gbk_contig).seq)
         else:
             return gene_counter
-        outfile.write(header)
-        outfile.write(sequence + "\n")
+        output_file.write(header)
+        output_file.write(sequence + "\n")
         gene_counter += 1
         return gene_counter
 
@@ -421,7 +439,7 @@ class GeneAnnotator:
         """Initialize GeneAnnotator
 
         Args:
-            assembly_file (FASTA): path to fasta containing assembled nucleotide sequences
+            assembly_file (FASTA): path to fasta object containing assembled nucleotide sequences
         """
         self._assembly_file = assembly_file
 
@@ -445,6 +463,13 @@ class GeneAnnotator:
         """
         if processes is None:
             processes = os.cpu_count() - 1
+        if output_file is None:
+            output_file = (
+                self._assembly_file.file_path.parent
+                / f"{self._assembly_file.file_path.stem}_annotated.faa"
+            )
+        else:
+            output_file = Path(output_file)
         with tempfile.TemporaryDirectory() as contigs_dir, tempfile.TemporaryDirectory() as prodigal_dir, tempfile.NamedTemporaryFile() as temp_fasta:
             contigs_dir = Path(contigs_dir)
             prodigal_dir = Path(prodigal_dir)
@@ -498,6 +523,7 @@ class Database:
         Returns:
             bool: whether the file is in fasta format
         """
+        filename = Path(filename)
         if filename.exists():
             fasta = list(SeqIO.parse(str(filename), "fasta"))
             return any(fasta)
@@ -514,6 +540,7 @@ class Database:
         Returns:
             _bool: whether the file is in genbank format
         """
+        filename = Path(filename)
         if filename.exists():
             gbk = list(SeqIO.parse(str(filename), "genbank"))
             return any(gbk)
@@ -531,6 +558,8 @@ class Database:
         """
         if output_file is None:
             output_file = self._data.parent / f"{self._data.stem}_labelled.faa"
+        else:
+            output_file = Path(output_file)
         if self.is_fasta(self._data_files[0]):
             if self._data.is_dir():
                 assembly_fasta = FASTA.from_FASTA_directory(self._data)
