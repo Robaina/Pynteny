@@ -7,11 +7,11 @@ Unit tests for class Database
 
 import tempfile
 import unittest
+import shutil
 from pathlib import Path
 
 from pynteny.api import Build
-from pynteny.preprocessing import LabelledFASTA
-from pynteny.subcommands import Database
+from pynteny.preprocessing import LabelledFASTA, Database
 
 this_file_dir = Path(__file__).parent
 
@@ -21,7 +21,9 @@ class TestDatabase(unittest.TestCase):
         data = Path(this_file_dir / "test_data/test_assembly")
         database = Database(data)
         with tempfile.NamedTemporaryFile() as outfile:
-            labelled_database = database.build(output_file=outfile.name)
+            labelled_database = database.build(
+                seq_prefix="test", output_file=outfile.name
+            )
             self.assertIsInstance(
                 labelled_database,
                 LabelledFASTA,
@@ -40,7 +42,10 @@ class TestDatabase(unittest.TestCase):
         data = Path(this_file_dir / "test_data/MG1655.gb")
         database = Database(data)
         with tempfile.NamedTemporaryFile() as outfile:
-            labelled_database = database.build(output_file=outfile.name)
+            labelled_database = database.build(
+                seq_prefix="test", output_file=outfile.name
+            )
+            shutil.copy(outfile.name, "test.fasta")
             self.assertIsInstance(
                 labelled_database,
                 LabelledFASTA,

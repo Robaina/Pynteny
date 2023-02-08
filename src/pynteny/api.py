@@ -173,6 +173,7 @@ class Build(Command):
     def __init__(
         self,
         data: Path,
+        prefix: str = None,
         outfile: Path = None,
         logfile: Path = None,
         processes: int = None,
@@ -189,6 +190,7 @@ class Build(Command):
 
         self._args = CommandArgs(
             data=Path(data),
+            prefix=prefix if prefix is not None else prefix,
             outfile=Path(outfile) if outfile is not None else outfile,
             logfile=Path(logfile) if logfile is not None else logfile,
             processes=processes,

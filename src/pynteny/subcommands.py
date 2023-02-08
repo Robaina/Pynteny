@@ -167,12 +167,11 @@ def build_database(args: Union[CommandArgs, ArgumentParser]) -> None:
         args (Union[CommandArgs, ArgumentParser]): arguments object.
     """
     logger = init_logger(args)
-
     if args.processes is None:
         args.processes = os.cpu_count() - 1
     logger.info("Building annotated peptide database")
     database = Database(args.data)
-    database.build(output_file=args.outfile)
+    database.build(seq_prefix=args.prefix, output_file=args.outfile)
     logger.info("Database built successfully!")
     logging.shutdown()
 

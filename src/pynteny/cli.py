@@ -356,6 +356,18 @@ class SubcommandParser:
             ),
         )
         optional.add_argument(
+            "-p",
+            "--prefix",
+            dest="prefix",
+            type=str,
+            metavar="",
+            default=None,
+            help=(
+                "prefix to be added to each sequence obtained from original \n"
+                "input assembly or GeneBank file: e.g. genome accession."
+            ),
+        )
+        optional.add_argument(
             "-o",
             "--outfile",
             dest="outfile",

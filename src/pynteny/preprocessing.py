@@ -302,6 +302,33 @@ class FASTA:
         if point_to_new_file:
             self.file_path = output_file
 
+    def add_prefix_to_records(
+        self, prefix: str, output_file: Path = None, point_to_new_file: bool = True
+    ) -> None:
+        """Add prefix to sequence records in FASTA
+
+        Args:
+            prefix (str): prefix to be added.
+            output_file (Path, optional): path to output filtered fasta file. Defaults to None.
+            point_to_new_file (bool, optional): whether FASTA object should point to the newly generated file. Defaults to True.
+        """
+        if output_file is None:
+            output_file = (
+                Path(self._input_file.parent)
+                / f"{self._input_file.stem}_prefixed{self._input_file.suffix}"
+            )
+        else:
+            output_file = Path(output_file)
+        fasta = pyfastx.Fasta(
+            self.file_path.as_posix(), build_index=False, full_name=True
+        )
+        prefix = prefix.strip("_")
+        with open(output_file, "w+", encoding="UTF-8") as outfile:
+            for record_name, record_seq in fasta:
+                outfile.write(f">{prefix}_{record_name}\n{record_seq}\n")
+        if point_to_new_file:
+            self.file_path = output_file
+
 
 class LabelledFASTA(FASTA):
     """Tools to add and parse FASTA with positional info on record tags"""
@@ -547,10 +574,12 @@ class Database:
         else:
             return False
 
-    def build(self, output_file: Path = None) -> LabelledFASTA:
+    def build(self, seq_prefix: str = None, output_file: Path = None) -> LabelledFASTA:
         """Build database from data files.
 
         Args:
+            prefix (str, optionall): prefix to be added to each sequence in database.
+                Defaults to "".
             output_file (Path, optional): path to output file. Defaults to None.
 
         Returns:
@@ -577,4 +606,7 @@ class Database:
         else:
             logging.error(f"{self._data} is not a valid FASTA or genbank file")
             sys.exit(1)
+        if seq_prefix is not None:
+            labelled_database.add_prefix_to_records(seq_prefix, output_file)
+            labelled_database = LabelledFASTA(labelled_database.file_path)
         return labelled_database
