@@ -16,6 +16,7 @@ def show_files_in_dir(directory: Path, sidebar: bool = False) -> None:
     """
     Show a list of files in directory
     """
+    directory = Path(directory)
     filelist = [
         file.name
         for file in directory.iterdir()

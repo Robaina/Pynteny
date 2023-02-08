@@ -23,8 +23,11 @@ def run_seqkit_nodup(
         export_duplicates (bool, optional): whether to export a file containing
             duplicated sequences. Defaults to False.
     """
+    input_fasta = Path(input_fasta)
     if output_fasta is None:
         output_fasta = set_default_output_path(input_fasta, tag="_no_duplicates")
+    else:
+        output_fasta = Path(output_fasta)
     if export_duplicates:
         dup_file = set_default_output_path(
             input_fasta, tag="_duplicates", extension=".txt"
@@ -60,12 +63,15 @@ def run_prodigal(
         additional_args (str, optional): a string containing additional arguments to prodigal.
             Defaults to None.
     """
+    input_file = Path(input_file)
     if metagenome:
         procedure = "meta"
     else:
         procedure = "single"
     if output_dir is None:
         output_dir = Path(input_file.parent)
+    else:
+        output_dir = Path(output_dir)
     if "fasta" in output_format.lower():
         if output_file is None:
             output_file = output_dir / f"{input_file.stem}prodigal_output.faa"
@@ -74,6 +80,7 @@ def run_prodigal(
         if output_file is None:
             output_file = output_dir / f"{input_file.stem}prodigal_output.gbk"
         out_str = f"-o {output_file}"
+    output_file = Path(output_file)
     if additional_args is not None:
         args_str = additional_args
     else:

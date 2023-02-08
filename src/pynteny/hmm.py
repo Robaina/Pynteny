@@ -52,9 +52,9 @@ class HMMER:
         """
         if additional_args is None:
             additional_args = [None for _ in range(len(input_hmms))]
-        self._hmmer_output_dir = hmm_output_dir
-        self._input_hmms = input_hmms
-        self._input_fasta = input_data
+        self._hmmer_output_dir = Path(hmm_output_dir)
+        self._input_hmms = [Path(hmm) for hmm in input_hmms]
+        self._input_fasta = Path(input_data)
         self._additional_args = additional_args
         self._processes = processes
 
@@ -77,6 +77,7 @@ class HMMER:
         Returns:
             pd.DataFrame: a dataframe containing parsed HMMER output.
         """
+        hmmer_output = Path(hmmer_output)
         attribs = ["id", "bias", "bitscore", "description"]
         hits = defaultdict(list)
         with open(hmmer_output, encoding="UTF-8") as handle:
@@ -128,6 +129,7 @@ class PGAP:
         Args:
             meta_file (Path): path to PGAP's metadata file.
         """
+        meta_file = Path(meta_file)
         meta = pd.read_csv(
             str(meta_file),
             sep="\t",
@@ -153,17 +155,19 @@ class PGAP:
             pgap_tar (Path): path to compressed PGAP database.
             output_dir (Path): path to output directory.
         """
+        pgap_tar = Path(pgap_tar)
         if not is_tar_file(pgap_tar):
             logger.warning(f"{pgap_tar} is not a tar file. Skipping extraction")
             sys.exit(1)
         logger.info("Extracting hmm files to target directory")
+        output_dir = Path(output_dir)
         if output_dir.exists():
             shutil.rmtree(output_dir)
         extract_tar_file(tar_file=pgap_tar, dest_dir=output_dir)
         flatten_directory(output_dir)
 
     def remove_missing_HMMs_from_metadata(
-        self, hmm_dir: Path, outfile: Path = None
+        self, hmm_dir: Path, output_file: Path = None
     ) -> None:
         """Remove HMMs from metadata that are not in HMM directory
 
@@ -171,8 +175,11 @@ class PGAP:
             hmm_dir (Path): path to directory containing PGAP database.
             outfile (Path, optional): path to output file. Defaults to None.
         """
-        if outfile is None:
-            outfile = self._meta.parent / f"{self._meta.stem}_missing_hmms.tsv"
+        hmm_dir = Path(hmm_dir)
+        if output_file is None:
+            output_file = self._meta.parent / f"{self._meta.stem}_missing_hmms.tsv"
+        else:
+            output_file = Path(output_file)
         if is_tar_file(hmm_dir):
             hmm_file_names = [
                 Path(hmm_file).stem.strip() for hmm_file in list_tar_dir(hmm_dir)
@@ -184,7 +191,7 @@ class PGAP:
             if row["#ncbi_accession"].strip() not in hmm_file_names:
                 not_found.add(i)
         self._meta = self._meta.drop(not_found)
-        self._meta.to_csv(outfile, sep="\t", index=False)
+        self._meta.to_csv(output_file, sep="\t", index=False)
 
     def get_HMM_names_by_gene_symbol(self, gene_symbol: str) -> list[str]:
         """Try to retrieve HMM by its gene symbol, more

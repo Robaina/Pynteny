@@ -126,6 +126,7 @@ def set_default_output_path(
     Returns:
         Path: a path or name to a default output file.
     """
+    input_path = Path(input_path)
     dirname = input_path.parent
     fname, ext = input_path.stem, input_path.suffix
     if extension is None:
@@ -197,6 +198,7 @@ def download_file(url: str, output_file: Path) -> None:
         url (str): url where file to be downloaded
         output_file (Path): path to downloaded file
     """
+    output_file = Path(output_file)
     wget.download(url, output_file.as_posix())
 
 
@@ -209,7 +211,8 @@ def is_tar_file(tar_file: Path) -> bool:
     Returns:
         bool: whether file is compressed or not.
     """
-    return Path(tar_file).is_file() and tarfile.is_tarfile(tar_file)
+    tar_file = Path(tar_file)
+    return tar_file.is_file() and tarfile.is_tarfile(tar_file.as_posix())
 
 
 def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
@@ -220,6 +223,7 @@ def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
         dest_dir (Path, optional): path to destination directory
             to store the uncompressed file. Defaults to None.
     """
+    tar_file = Path(tar_file)
     if dest_dir is None:
         dest_dir = "."
     if (tar_file.as_posix().endswith("tar.gz")) or (
@@ -246,6 +250,7 @@ def list_tar_dir(tar_dir: Path) -> list:
     Returns:
         list: list of tar files.
     """
+    tar_dir = Path(tar_dir)
     with tarfile.open(tar_dir, "r") as tar_obj:
         files = tar_obj.getnames()
     return files
@@ -258,6 +263,7 @@ def flatten_directory(directory: Path) -> None:
     Args:
         directory (Path): path to directory.
     """
+    directory = Path(directory)
     directory = directory.as_posix()
     for dirpath, _, filenames in os.walk(directory, topdown=False):
         for filename in filenames:
