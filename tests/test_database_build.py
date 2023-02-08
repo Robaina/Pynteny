@@ -7,7 +7,6 @@ Unit tests for class Database
 
 import tempfile
 import unittest
-import shutil
 from pathlib import Path
 
 from pynteny.api import Build
@@ -45,7 +44,6 @@ class TestDatabase(unittest.TestCase):
             labelled_database = database.build(
                 seq_prefix="test", output_file=outfile.name
             )
-            shutil.copy(outfile.name, "test.fasta")
             self.assertIsInstance(
                 labelled_database,
                 LabelledFASTA,
