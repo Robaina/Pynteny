@@ -10,7 +10,7 @@ import unittest
 from pathlib import Path
 
 from pynteny.api import Build
-from pynteny.preprocessing import LabelledFASTA, Database
+from pynteny.preprocessing import Database, LabelledFASTA
 
 this_file_dir = Path(__file__).parent
 
