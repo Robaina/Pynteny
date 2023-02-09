@@ -56,6 +56,12 @@ Pynteny is designed to run on Linux machines. However, it can be installed withi
 
 ## 3. :rocket: Usage
 
+Consider the following toy example of a syntenic block:
+
+![synteny example](assets/synteny_example.png)
+
+Here, we are interested in four genes which colocate according to the pattern above: genes A-C show consecutive locations in the positive strand, followed by three (untargeted) genes and followed by gene D, which is located in the negative strand.
+
 Pynteny can be run either as a command line tool or as a (locally-served) web application. To run pynteny in the command line, execute:
 
 ```bash
@@ -85,11 +91,11 @@ pynteny build \
 
 ```
 
-Finally, to search the peptide database for the syntenic structure: `>gene_A 0 >gene_B 0 >gene_C 10 <gene_C`, using the donwloaded [PGAP](https://academic.oup.com/nar/article/49/D1/D1020/6018440) database:
+Finally, to search the peptide database for the syntenic structure displayed above: `>gene_A 0 >gene_B 0 >gene_C 3 <gene_D`, using the donwloaded [PGAP](https://academic.oup.com/nar/article/49/D1/D1020/6018440) database:
 
 ```bash
 pynteny search \
-    --synteny_struc ">gene_A 0 >gene_B 0 >gene_C 10 <gene_C" \
+    --synteny_struc ">gene_A 0 >gene_B 0 >gene_C 3 <gene_D" \
     --data labelled_peptides.faa \
     --outdir results/ \
     --gene_ids
