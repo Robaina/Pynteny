@@ -31,7 +31,7 @@ class Pynteny:
             subcommand (str): subcommand name
             subcommand_args (list[str]): list of subcommand arguments and values.
         """
-        self._subcommand = subcommand.strip()
+        self._subcommand = subcommand
         if "--hmmsearch_args" in subcommand_args:
             hmm_arg_idx = subcommand_args.index("--hmmsearch_args") + 1
             subcommand_args[hmm_arg_idx] = " " + subcommand_args[hmm_arg_idx]
@@ -58,7 +58,7 @@ class Pynteny:
         if len(sys.argv) < 2:
             parser.print_help()
             sys.exit(1)
-        args = parser.parse_args([self._subcommand])
+        args = parser.parse_args(self._subcommand)
         input_subcommand = getattr(args, "subcommand")
         ConfigParser.initialize_config_file()
         self._call_subcommand(subcommand_name=input_subcommand)
