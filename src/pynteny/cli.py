@@ -201,7 +201,12 @@ class SubcommandParser:
             metavar="",
             type=Path,
             required=True,
-            help="path to peptide database",
+            help=(
+                "path to fasta file containing peptide database. \n"
+                "Record labels must follow the format specified in docs \n"
+                "(see section: General Usage). Pynteny build subcommand exports \n"
+                "the generated database in the correct format"
+            ),
         )
         optional.add_argument(
             "-d",
