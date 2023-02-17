@@ -172,7 +172,7 @@ class FASTA:
             input_dir (Path): path to input directory.
             merged_fasta (Path, optional): path to output merged fasta. Defaults to None.
             prepend_file_name (bool, optional): whether to add file name as genome ID to
-            each record in the result merged fasta file.
+                each record in the result merged fasta file.
 
         Returns:
             FASTA: an initialized instance of class FASTA.
@@ -413,6 +413,7 @@ class LabelledFASTA(FASTA):
         output_file: Path = None,
         prefix: str = None,
         nucleotide: bool = False,
+        prepend_file_name: bool = False,
     ) -> LabelledFASTA:
         """Assign gene positional info, such as contig, gene number and loci
         to each record in genbank database and return LabelledFASTA object.
@@ -422,7 +423,8 @@ class LabelledFASTA(FASTA):
             output_file (Path, optional): path to output labelled fasta file. Defaults to None.
             prefix (str, optional): prefix for output file. Defaults to None.
             nucleotide (bool, optional): whether records corresponds to nucleotide sequences instead of peptides. Defaults to False.
-
+            prepend_file_name (bool, optional): whether to add file name as genome ID to
+                each record in the result merged fasta file.
         Returns:
             LabelledFASTA: object containing the labelled peptide database.
         """
@@ -431,26 +433,34 @@ class LabelledFASTA(FASTA):
             gbk_files = [gbk_data / f for f in gbk_data.iterdir()]
         else:
             gbk_files = [gbk_data]
+        gbk_name = (
+            lambda gbk_file: gbk_file.stem
+            if prepend_file_name
+            else lambda gbk_file: None
+        )
         gbk_contigs = [
-            contig
+            (gbk_name(gbk_file), contig)
             for gbk_file in gbk_files
             for contig in SeqIO.parse(gbk_file, "genbank")
         ]
 
         if output_file is None:
-            output_file = (
-                Path(gbk_files.pop().parent) / f"{prefix}sequence_database.fasta"
-            )
+            output_file = Path(gbk_files[0].parent) / f"{prefix}sequence_database.fasta"
         else:
             output_file = Path(output_file)
 
         with open(output_file, "w+", encoding="UTF-8") as outfile:
-            for gbk_contig in gbk_contigs:
+            for gbk_file_name, gbk_contig in gbk_contigs:
                 gene_counter = 0
                 for feature in gbk_contig.features:
                     if "cds" in feature.type.lower():
                         gene_counter = cls.write_record(
-                            gbk_contig, feature, outfile, gene_counter, nucleotide
+                            gbk_contig,
+                            feature,
+                            outfile,
+                            gene_counter,
+                            gbk_file_name,
+                            nucleotide,
                         )
         return cls(output_file)
 
@@ -475,9 +485,12 @@ class LabelledFASTA(FASTA):
         feature: SeqFeature,
         output_file: TextIO,
         gene_counter: int,
+        prefix: str = None,
         nucleotide: bool = False,
     ) -> int:
         header = LabelledFASTA.get_label_str(gbk_contig, feature, gene_counter)
+        if prefix is not None:
+            header = f"{prefix}_{header}"
         if (not nucleotide) and ("translation" in feature.qualifiers):
             sequence = feature.qualifiers["translation"][0]
         elif nucleotide:
@@ -618,6 +631,8 @@ class Database:
         Args:
             prefix (str, optionall): prefix to be added to each sequence in database.
                 Defaults to "".
+            prepend_file_name (bool, optional): whether to add file name as genome ID to
+                each record in the result merged fasta file.
             output_file (Path, optional): path to output file. Defaults to None.
 
         Returns:
@@ -641,7 +656,7 @@ class Database:
         elif self.is_gbk(self._data_files[0]):
             logger.info("Parsing GenBank data.")
             labelled_database = LabelledFASTA.from_genbank(
-                self._data, output_file=output_file
+                self._data, output_file=output_file, prepend_file_name=prepend_file_name
             )
         else:
             logging.error(f"{self._data} is not a valid FASTA or genbank file")
