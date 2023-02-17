@@ -441,7 +441,7 @@ class LabelledFASTA(FASTA):
 
         else:
 
-            def gbk_name():
+            def gbk_name(gbk_file):
                 return
 
         gbk_contigs = [
@@ -649,16 +649,19 @@ class Database:
         else:
             output_file = Path(output_file)
         if self.is_fasta(self._data_files[0]):
-            if self._data.is_dir():
-                assembly_fasta = FASTA.from_FASTA_directory(
-                    self._data, prepend_file_name=prepend_file_name
+            with tempfile.NamedTemporaryFile() as tmpmerge:
+                if self._data.is_dir():
+                    assembly_fasta = FASTA.from_FASTA_directory(
+                        self._data,
+                        merged_fasta=Path(tmpmerge.name),
+                        prepend_file_name=prepend_file_name,
+                    )
+                else:
+                    assembly_fasta = FASTA(self._data)
+                logger.info("Translating and annotating assembly data.")
+                labelled_database = GeneAnnotator(assembly_fasta).annotate(
+                    output_file=output_file
                 )
-            else:
-                assembly_fasta = FASTA(self._data)
-            logger.info("Translating and annotating assembly data.")
-            labelled_database = GeneAnnotator(assembly_fasta).annotate(
-                output_file=output_file
-            )
         elif self.is_gbk(self._data_files[0]):
             logger.info("Parsing GenBank data.")
             labelled_database = LabelledFASTA.from_genbank(
