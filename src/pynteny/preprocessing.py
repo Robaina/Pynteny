@@ -433,11 +433,17 @@ class LabelledFASTA(FASTA):
             gbk_files = [gbk_data / f for f in gbk_data.iterdir()]
         else:
             gbk_files = [gbk_data]
-        gbk_name = (
-            lambda gbk_file: gbk_file.stem
-            if prepend_file_name
-            else lambda gbk_file: None
-        )
+
+        if prepend_file_name:
+
+            def gbk_name(gbk_file):
+                return gbk_file.stem
+
+        else:
+
+            def gbk_name():
+                return
+
         gbk_contigs = [
             (gbk_name(gbk_file), contig)
             for gbk_file in gbk_files
