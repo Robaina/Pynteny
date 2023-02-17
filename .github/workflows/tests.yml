@@ -9,7 +9,7 @@ on:
       - '**.md'
       - '**.ipynb'
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, edited]
     paths-ignore:
       - '**.md'
       - '**.ipynb'
