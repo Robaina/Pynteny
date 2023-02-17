@@ -54,7 +54,7 @@ class TestLabelledFASTA(unittest.TestCase):
             self.assertIsInstance(
                 labelled_FASTA,
                 LabelledFASTA,
-                "Failed to contruct labelled FASTA from GeneBank file",
+                "Failed to construct labelled FASTA from GeneBank file",
             )
 
 

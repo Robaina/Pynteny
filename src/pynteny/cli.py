@@ -357,7 +357,9 @@ class SubcommandParser:
             metavar="",
             help=(
                 "path to assembly input nucleotide data or annotated GenBank file. \n"
-                "It can be a single file or a directory of files (either of FASTA or GeneBank format)."
+                "It can be a single file or a directory of files (either of FASTA or GeneBank format). \n"
+                "If a directory, file name is prepended to the label of each translated peptide \n"
+                "originally coming from that file (i.e., to track the genome of origin)"
             ),
         )
         optional.add_argument(

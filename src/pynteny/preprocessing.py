@@ -89,6 +89,52 @@ def is_legit_DNA_sequence(record_seq: str) -> bool:
     return seq_symbols.issubset(nts)
 
 
+class FASTAmerger:
+    def __init__(self, input_dir: Path):
+        self.input_dir = Path(input_dir)
+
+    def prepend_filename_to_record_names(self, output_dir: Path) -> None:
+        """Prepend file name to each record label in fasta file
+
+        Args:
+            output_dir (Path): _description_
+        """
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        for file in self.input_dir.iterdir():
+            fasta = pyfastx.Fasta(file.as_posix(), build_index=False, full_name=True)
+            new_file_content = [
+                f">{file.stem}_{record_name}\n{record_seq}\n"
+                for record_name, record_seq in fasta
+            ]
+            with open(output_dir / file.name, "w+", encoding="UTF-8") as outfile:
+                outfile.writelines(new_file_content)
+
+    def merge(self, output_file: Path = None, prepend_file_name: bool = False) -> None:
+        """Merge input fasta files into a one (multi)fasta file.
+
+        Args:
+            output_file (Path, optional): path to ouput merged fasta file. Defaults to None.
+            prepend_file_name (bool, optional): whether to add file name as genome ID to
+            each record in the result merged fasta file.
+
+        """
+        if output_file is None:
+            output_file = self.input_dir / "merged.fasta"
+        else:
+            output_file = Path(output_file)
+        logger.info("Merging FASTA files in input directory")
+        # cmd_str = f'awk 1 * > {output_file}'
+        # # cmd_str = "find . -maxdepth 1 -type f --exec cat {} + > " + f"{output_file}"
+        cmd_str = f"printf '%s\\0' * | xargs -0 cat > {output_file}"
+        if prepend_file_name:
+            with tempfile.TemporaryDirectory() as tempdir:
+                self.prepend_filename_to_record_names(output_dir=tempdir)
+                utils.terminal_execute(cmd_str, work_dir=tempdir)
+        else:
+            utils.terminal_execute(cmd_str, work_dir=self.input_dir)
+
+
 class FASTA:
     """Handle and process fasta files."""
 
@@ -117,12 +163,16 @@ class FASTA:
         self._input_file = Path(new_path)
 
     @classmethod
-    def from_FASTA_directory(cls, input_dir: Path, merged_fasta: Path = None) -> FASTA:
+    def from_FASTA_directory(
+        cls, input_dir: Path, merged_fasta: Path = None, prepend_file_name: bool = False
+    ) -> FASTA:
         """Initialize FASTA class from directory of fasta files.
 
         Args:
             input_dir (Path): path to input directory.
             merged_fasta (Path, optional): path to output merged fasta. Defaults to None.
+            prepend_file_name (bool, optional): whether to add file name as genome ID to
+                each record in the result merged fasta file.
 
         Returns:
             FASTA: an initialized instance of class FASTA.
@@ -132,27 +182,8 @@ class FASTA:
             merged_fasta = input_dir / "merged_database.fasta"
         else:
             merged_fasta = Path(merged_fasta)
-        FASTA.merge(input_dir, merged_fasta)
+        FASTAmerger(input_dir).merge(merged_fasta, prepend_file_name)
         return cls(merged_fasta)
-
-    @staticmethod
-    def merge(input_dir: Path, output_file: Path = None) -> None:
-        """Merge input fasta files into a one (multi)fasta file.
-
-        Args:
-            input_dir (Path): path to input directory
-            output_file (Path, optional): path to ouput merged fasta file. Defaults to None.
-        """
-        input_dir = Path(input_dir)
-        if output_file is None:
-            output_file = input_dir / "merged.fasta"
-        else:
-            output_file = Path(output_file)
-        logger.info("Merging FASTA files in input directory")
-        # cmd_str = f'awk 1 * > {output_file}'
-        # # cmd_str = "find . -maxdepth 1 -type f --exec cat {} + > " + f"{output_file}"
-        cmd_str = f"printf '%s\\0' * | xargs -0 cat > {output_file}"
-        utils.terminal_execute(cmd_str, work_dir=input_dir, suppress_shell_output=False)
 
     def remove_duplicates(
         self,
@@ -382,6 +413,7 @@ class LabelledFASTA(FASTA):
         output_file: Path = None,
         prefix: str = None,
         nucleotide: bool = False,
+        prepend_file_name: bool = False,
     ) -> LabelledFASTA:
         """Assign gene positional info, such as contig, gene number and loci
         to each record in genbank database and return LabelledFASTA object.
@@ -391,7 +423,8 @@ class LabelledFASTA(FASTA):
             output_file (Path, optional): path to output labelled fasta file. Defaults to None.
             prefix (str, optional): prefix for output file. Defaults to None.
             nucleotide (bool, optional): whether records corresponds to nucleotide sequences instead of peptides. Defaults to False.
-
+            prepend_file_name (bool, optional): whether to add file name as genome ID to
+                each record in the result merged fasta file.
         Returns:
             LabelledFASTA: object containing the labelled peptide database.
         """
@@ -400,26 +433,40 @@ class LabelledFASTA(FASTA):
             gbk_files = [gbk_data / f for f in gbk_data.iterdir()]
         else:
             gbk_files = [gbk_data]
+
+        if prepend_file_name:
+
+            def gbk_name(gbk_file):
+                return gbk_file.stem
+
+        else:
+
+            def gbk_name(gbk_file):
+                return
+
         gbk_contigs = [
-            contig
+            (gbk_name(gbk_file), contig)
             for gbk_file in gbk_files
             for contig in SeqIO.parse(gbk_file, "genbank")
         ]
 
         if output_file is None:
-            output_file = (
-                Path(gbk_files.pop().parent) / f"{prefix}sequence_database.fasta"
-            )
+            output_file = Path(gbk_files[0].parent) / f"{prefix}sequence_database.fasta"
         else:
             output_file = Path(output_file)
 
         with open(output_file, "w+", encoding="UTF-8") as outfile:
-            for gbk_contig in gbk_contigs:
+            for gbk_file_name, gbk_contig in gbk_contigs:
                 gene_counter = 0
                 for feature in gbk_contig.features:
                     if "cds" in feature.type.lower():
                         gene_counter = cls.write_record(
-                            gbk_contig, feature, outfile, gene_counter, nucleotide
+                            gbk_contig,
+                            feature,
+                            outfile,
+                            gene_counter,
+                            gbk_file_name,
+                            nucleotide,
                         )
         return cls(output_file)
 
@@ -444,9 +491,12 @@ class LabelledFASTA(FASTA):
         feature: SeqFeature,
         output_file: TextIO,
         gene_counter: int,
+        prefix: str = None,
         nucleotide: bool = False,
     ) -> int:
         header = LabelledFASTA.get_label_str(gbk_contig, feature, gene_counter)
+        if prefix is not None:
+            header = f"{prefix}_{header}"
         if (not nucleotide) and ("translation" in feature.qualifiers):
             sequence = feature.qualifiers["translation"][0]
         elif nucleotide:
@@ -462,13 +512,13 @@ class LabelledFASTA(FASTA):
 class GeneAnnotator:
     """Run prodigal on assembly, predict ORFs and extract location info"""
 
-    def __init__(self, assembly_file: FASTA) -> None:
+    def __init__(self, assembly: FASTA) -> None:
         """Initialize GeneAnnotator
 
         Args:
-            assembly_file (FASTA): path to fasta object containing assembled nucleotide sequences
+            assembly_file (FASTA): fasta object containing assembled nucleotide sequences
         """
-        self._assembly_file = assembly_file
+        self._assembly = assembly
 
     def annotate(
         self,
@@ -492,8 +542,8 @@ class GeneAnnotator:
             processes = os.cpu_count() - 1
         if output_file is None:
             output_file = (
-                self._assembly_file.file_path.parent
-                / f"{self._assembly_file.file_path.stem}_annotated.faa"
+                self._assembly.file_path.parent
+                / f"{self._assembly.file_path.stem}_annotated.faa"
             )
         else:
             output_file = Path(output_file)
@@ -501,7 +551,7 @@ class GeneAnnotator:
             contigs_dir = Path(contigs_dir)
             prodigal_dir = Path(prodigal_dir)
             logger.info("Running prodigal on assembly data")
-            self._assembly_file.split_by_contigs(contigs_dir)
+            self._assembly.split_by_contigs(contigs_dir)
             utils.parallelize_over_input_files(
                 wrappers.run_prodigal,
                 input_list=list(contigs_dir.iterdir()),
@@ -511,7 +561,9 @@ class GeneAnnotator:
                 metagenome=metagenome,
                 additional_args=prodigal_args,
             )
-            LabelledFASTA.merge(prodigal_dir, output_file=Path(temp_fasta.name))
+            FASTAmerger(prodigal_dir).merge(
+                Path(temp_fasta.name), prepend_file_name=False
+            )
             return LabelledFASTA.from_prodigal_output(
                 Path(temp_fasta.name), output_file
             )
@@ -536,7 +588,7 @@ class Database:
         if not self._data.exists():
             raise FileNotFoundError(f"{self._data} does not exist")
         if self._data.is_dir():
-            self._data_files = [self._data / f for f in self._data.iterdir()]
+            self._data_files = [f for f in self._data.iterdir()]
         else:
             self._data_files = [self._data]
 
@@ -574,12 +626,19 @@ class Database:
         else:
             return False
 
-    def build(self, seq_prefix: str = None, output_file: Path = None) -> LabelledFASTA:
+    def build(
+        self,
+        seq_prefix: str = None,
+        prepend_file_name: bool = False,
+        output_file: Path = None,
+    ) -> LabelledFASTA:
         """Build database from data files.
 
         Args:
             prefix (str, optionall): prefix to be added to each sequence in database.
                 Defaults to "".
+            prepend_file_name (bool, optional): whether to add file name as genome ID to
+                each record in the result merged fasta file.
             output_file (Path, optional): path to output file. Defaults to None.
 
         Returns:
@@ -590,18 +649,23 @@ class Database:
         else:
             output_file = Path(output_file)
         if self.is_fasta(self._data_files[0]):
-            if self._data.is_dir():
-                assembly_fasta = FASTA.from_FASTA_directory(self._data)
-            else:
-                assembly_fasta = FASTA(self._data)
-            logger.info("Translating and annotating assembly data.")
-            labelled_database = GeneAnnotator(assembly_fasta).annotate(
-                output_file=output_file
-            )
+            with tempfile.NamedTemporaryFile() as tmpmerge:
+                if self._data.is_dir():
+                    assembly_fasta = FASTA.from_FASTA_directory(
+                        self._data,
+                        merged_fasta=Path(tmpmerge.name),
+                        prepend_file_name=prepend_file_name,
+                    )
+                else:
+                    assembly_fasta = FASTA(self._data)
+                logger.info("Translating and annotating assembly data.")
+                labelled_database = GeneAnnotator(assembly_fasta).annotate(
+                    output_file=output_file
+                )
         elif self.is_gbk(self._data_files[0]):
             logger.info("Parsing GenBank data.")
             labelled_database = LabelledFASTA.from_genbank(
-                self._data, output_file=output_file
+                self._data, output_file=output_file, prepend_file_name=prepend_file_name
             )
         else:
             logging.error(f"{self._data} is not a valid FASTA or genbank file")
