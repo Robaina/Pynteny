@@ -46,7 +46,7 @@ def run_prodigal(
     output_file: Path = None,
     output_dir: Path = None,
     output_format: str = "fasta",
-    metagenome: bool = False,
+    metagenome: bool = True,
     additional_args: str = None,
 ):
     """Simple CLI wrapper to prodigal.
