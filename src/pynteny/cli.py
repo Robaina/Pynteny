@@ -222,7 +222,7 @@ class SubcommandParser:
                 "name must coincide with the hmm name that will be displayed in the synteny structure. \n"
                 "The directory can contain more hmm models than used in the synteny structure. \n"
                 "It may also be the path to a compressed (tar, tar.gz, tgz) directory. \n"
-                "If not provided, hmm models (PGAP database) will be downloaded from the NCBI.\n"
+                "If not provided, hmm models (PGAP database) will be downloaded from the NCBI. \n"
                 "(if not already downloaded)"
             ),
         )
