@@ -13,6 +13,8 @@ from argparse import ArgumentParser
 from pathlib import Path
 from typing import Union
 
+import numpy as np
+
 import pynteny.parsers.syntenyparser as syntenyparser
 from pynteny.filter import SyntenyHits, filter_FASTA_by_synteny_structure
 from pynteny.hmm import PGAP
@@ -110,12 +112,13 @@ def synteny_search(args: Union[CommandArgs, ArgumentParser]) -> SyntenyHits:
         hmm_dir = args.hmm_dir
 
     hmm_names = syntenyparser.get_all_HMMs_in_structure(args.synteny_struc)
+    unique_hmm_names = np.unique(hmm_names)
     input_hmms = [
         file
         for file in hmm_dir.iterdir()
         if any([hmm_name in file.as_posix() for hmm_name in hmm_names])
     ]
-    if len(input_hmms) < len(hmm_names):
+    if len(input_hmms) < len(unique_hmm_names):
         logger.error(
             "Not all HMMs in synteny structure found in HMM directory. "
             "Remember to include '--gene_ids' option if you want to search by gene symbols."
