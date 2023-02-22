@@ -218,6 +218,8 @@ class SubcommandParser:
             default=None,
             help=(
                 "path to directory containing hmm (i.e, tigrfam or pfam) models. \n"
+                "IMPORTANT: the directory must contain one hmm per file, and the file \n"
+                "name must coincide with the hmm name that will be displayed in the synteny structure. \n"
                 "The directory can contain more hmm models than used in the synteny structure. \n"
                 "It may also be the path to a compressed (tar, tar.gz, tgz) directory. \n"
                 "If not provided, hmm models (PGAP database) will be downloaded from the NCBI.\n"
