@@ -121,19 +121,19 @@
 <td align="left"><code>-s</code></td>
 <td align="left"><code>--synteny_struc</code></td>
 <td align="left"><code>None</code></td>
-<td align="left">string displaying hmm structure to search for, such as:    '&gt;hmm_a n_ab <hmm_b n_bc hmm_c'   where '>' indicates a hmm target located on the positive strand,  '&lt;' a target located on the negative strand, and n_ab corresponds to the maximum number of genes separating matched genes a and b.  Multiple hmms may be employed.  No order symbol in a hmm indicates that results should be independent of strand location.</td>
+<td align="left">string displaying hmm structure to search for, such as:    '&gt;hmm_a n_ab <hmm_b n_bc hmm_c'   where '>' indicates a hmm target located on the positive strand,  '&lt;' a target located on the negative strand, and n_ab cooresponds  to the maximum number of genes separating matched genes a and b.  Multiple hmms may be employed.  No order symbol in a hmm indicates that results should be independent  of strand location.</td>
 </tr>
 <tr>
 <td align="left"><code>-i</code></td>
 <td align="left"><code>--data</code></td>
 <td align="left"><code>None</code></td>
-<td align="left">path to peptide database</td>
+<td align="left">path to fasta file containing peptide database.  Record labels must follow the format specified in docs  (see section: General Usage). Pynteny build subcommand exports  the generated database in the correct format</td>
 </tr>
 <tr>
 <td align="left"><code>-d</code></td>
 <td align="left"><code>--hmm_dir</code></td>
 <td align="left"><code>None</code></td>
-<td align="left">path to directory containing hmm (i.e, tigrfam or pfam) models.  The directory can contain more hmm models than used in the synteny structure.  It may also be the path to a compressed (tar, tar.gz, tgz) directory.  If not provided, hmm models (PGAP database) will be downloaded from the NCBI. (if not already downloaded)</td>
+<td align="left">path to directory containing hmm (i.e, tigrfam or pfam) models.  IMPORTANT: the directory must contain one hmm per file, and the file  name must coincide with the hmm name that will be displayed in the synteny structure.  The directory can contain more hmm models than used in the synteny structure.  It may also be the path to a compressed (tar, tar.gz, tgz) directory.  If not provided, hmm models (PGAP database) will be downloaded from the NCBI.  (if not already downloaded)</td>
 </tr>
 <tr>
 <td align="left"><code>-o</code></td>
@@ -157,19 +157,19 @@
 <td align="left"><code>-a</code></td>
 <td align="left"><code>--hmmsearch_args</code></td>
 <td align="left"><code>None</code></td>
-<td align="left">list of comma-separated additional arguments to hmmsearch for each input hmm.  A single argument may be provided, in which case the same additional argument is employed in all hmms.</td>
+<td align="left">list of comma-separated additional arguments to hmmsearch for each input hmm.  A single argument may be provided, in which case the same additional argument  is employed in all hmms.</td>
 </tr>
 <tr>
 <td align="left"><code>-g</code></td>
 <td align="left"><code>--gene_ids</code></td>
 <td align="left"></td>
-<td align="left">use gene symbols in synteny structure instead of HMM names.  If set, a path to the hmm database metadata file must be provided in argument '--hmm_meta'</td>
+<td align="left">use gene symbols in synteny structure instead of HMM names.  If set, a path to the hmm database metadata file must be provided  in argument '--hmm_meta'</td>
 </tr>
 <tr>
 <td align="left"><code>-u</code></td>
 <td align="left"><code>--unordered</code></td>
 <td align="left"></td>
-<td align="left">whether the HMMs should be arranged in the exact same order displayed in the synteny_structure or in any order. If ordered, the filters will filter collinear rather than syntenic structures. If more than two HMMs are employed, the largest maximum distance among any pair is considered to run the search.</td>
+<td align="left">whether the HMMs should be arranged in the exact same order displayed  in the synteny_structure or in  any order. If ordered, the filters will  filter collinear rather than syntenic structures.  If more than two HMMs are employed, the largest maximum distance among any  pair is considered to run the search.</td>
 </tr>
 <tr>
 <td align="left"><code>-r</code></td>

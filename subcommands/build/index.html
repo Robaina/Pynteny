@@ -121,19 +121,25 @@
 <td align="left"><code>-i</code></td>
 <td align="left"><code>--data</code></td>
 <td align="left"><code>None</code></td>
-<td align="left">path to assembly input nucleotide data or annotated GenBank file.  It can be a single file or a directory of files (either of FASTA or GeneBank format).</td>
+<td align="left">path to assembly input nucleotide data or annotated GenBank file.  It can be a single file or a directory of files (either of FASTA or GeneBank format).  If a directory, file name is prepended to the label of each translated peptide  originally coming from that file (i.e., to track the genome of origin)</td>
+</tr>
+<tr>
+<td align="left"><code>-p</code></td>
+<td align="left"><code>--prefix</code></td>
+<td align="left"><code>None</code></td>
+<td align="left">prefix to be added to each sequence obtained from original  input assembly or GeneBank file: e.g. genome accession.</td>
 </tr>
 <tr>
 <td align="left"><code>-o</code></td>
 <td align="left"><code>--outfile</code></td>
 <td align="left"><code>None</code></td>
-<td align="left">path to output (labeled peptide database) file. Defaults to file in the directory of input data.</td>
+<td align="left">path to output (labelled peptide database) file. Defaults to  file in directory of input data.</td>
 </tr>
 <tr>
 <td align="left"><code>-n</code></td>
 <td align="left"><code>--processes</code></td>
 <td align="left"><code>None</code></td>
-<td align="left">set the maximum number of processes. Defaults to all but one.</td>
+<td align="left">set maximum number of processes. Defaults to all but one.</td>
 </tr>
 <tr>
 <td align="left"><code>-l</code></td>
