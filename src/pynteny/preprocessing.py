@@ -116,7 +116,7 @@ class FASTAmerger:
         Args:
             output_file (Path, optional): path to ouput merged fasta file. Defaults to None.
             prepend_file_name (bool, optional): whether to add file name as genome ID to
-            each record in the result merged fasta file.
+                each record in the result merged fasta file.
 
         """
         if output_file is None:
@@ -516,7 +516,7 @@ class GeneAnnotator:
         """Initialize GeneAnnotator
 
         Args:
-            assembly_file (FASTA): fasta object containing assembled nucleotide sequences
+            assembly (FASTA): fasta object containing assembled nucleotide sequences
         """
         self._assembly = assembly
 
@@ -635,7 +635,7 @@ class Database:
         """Build database from data files.
 
         Args:
-            prefix (str, optionall): prefix to be added to each sequence in database.
+            seq_prefix (str, optionall): prefix to be added to each sequence in database.
                 Defaults to "".
             prepend_file_name (bool, optional): whether to add file name as genome ID to
                 each record in the result merged fasta file.

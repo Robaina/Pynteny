@@ -173,7 +173,7 @@ class PGAP:
 
         Args:
             hmm_dir (Path): path to directory containing PGAP database.
-            outfile (Path, optional): path to output file. Defaults to None.
+            output_file (Path, optional): path to output file. Defaults to None.
         """
         hmm_dir = Path(hmm_dir)
         if output_file is None:

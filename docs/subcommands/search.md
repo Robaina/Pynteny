@@ -11,15 +11,15 @@ usage: pynteny search [-h] [args]
 |short|long|default|help|
 | :--- | :--- | :--- | :--- |
 |`-h`|`--help`||show this help message and exit|
-|`-s`|`--synteny_struc`|`None`|string displaying hmm structure to search for, such as:    '>hmm_a n_ab <hmm_b n_bc hmm_c'   where '>' indicates a hmm target located on the positive strand,  '<' a target located on the negative strand, and n_ab corresponds to the maximum number of genes separating matched genes a and b.  Multiple hmms may be employed.  No order symbol in a hmm indicates that results should be independent of strand location. |
-|`-i`|`--data`|`None`|path to peptide database|
-|`-d`|`--hmm_dir`|`None`|path to directory containing hmm (i.e, tigrfam or pfam) models.  The directory can contain more hmm models than used in the synteny structure.  It may also be the path to a compressed (tar, tar.gz, tgz) directory.  If not provided, hmm models (PGAP database) will be downloaded from the NCBI. (if not already downloaded)|
+|`-s`|`--synteny_struc`|`None`|string displaying hmm structure to search for, such as:    '>hmm_a n_ab <hmm_b n_bc hmm_c'   where '>' indicates a hmm target located on the positive strand,  '<' a target located on the negative strand, and n_ab cooresponds  to the maximum number of genes separating matched genes a and b.  Multiple hmms may be employed.  No order symbol in a hmm indicates that results should be independent  of strand location. |
+|`-i`|`--data`|`None`|path to fasta file containing peptide database.  Record labels must follow the format specified in docs  (see section: General Usage). Pynteny build subcommand exports  the generated database in the correct format|
+|`-d`|`--hmm_dir`|`None`|path to directory containing hmm (i.e, tigrfam or pfam) models.  IMPORTANT: the directory must contain one hmm per file, and the file  name must coincide with the hmm name that will be displayed in the synteny structure.  The directory can contain more hmm models than used in the synteny structure.  It may also be the path to a compressed (tar, tar.gz, tgz) directory.  If not provided, hmm models (PGAP database) will be downloaded from the NCBI.  (if not already downloaded)|
 |`-o`|`--outdir`|`None`|path to output directory|
 |`-x`|`--prefix`|``|prefix to be added to output files|
 |`-p`|`--processes`|`None`|maximum number of processes available to HMMER. Defaults to all but one.|
-|`-a`|`--hmmsearch_args`|`None`|list of comma-separated additional arguments to hmmsearch for each input hmm.  A single argument may be provided, in which case the same additional argument is employed in all hmms.|
-|`-g`|`--gene_ids`||use gene symbols in synteny structure instead of HMM names.  If set, a path to the hmm database metadata file must be provided in argument '--hmm_meta'|
-|`-u`|`--unordered`||whether the HMMs should be arranged in the exact same order displayed in the synteny_structure or in any order. If ordered, the filters will filter collinear rather than syntenic structures. If more than two HMMs are employed, the largest maximum distance among any pair is considered to run the search.|
+|`-a`|`--hmmsearch_args`|`None`|list of comma-separated additional arguments to hmmsearch for each input hmm.  A single argument may be provided, in which case the same additional argument  is employed in all hmms.|
+|`-g`|`--gene_ids`||use gene symbols in synteny structure instead of HMM names.  If set, a path to the hmm database metadata file must be provided  in argument '--hmm_meta'|
+|`-u`|`--unordered`||whether the HMMs should be arranged in the exact same order displayed  in the synteny_structure or in  any order. If ordered, the filters will  filter collinear rather than syntenic structures.  If more than two HMMs are employed, the largest maximum distance among any  pair is considered to run the search.|
 |`-r`|`--reuse`||reuse hmmsearch result table in following synteny searches.  Do not delete hmmer_outputs subdirectory for this option to work.|
 |`-m`|`--hmm_meta`|`None`|path to hmm database metadata file|
 |`-l`|`--log`|`None`|path to log file. Log not written by default.|
