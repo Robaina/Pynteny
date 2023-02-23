@@ -46,9 +46,27 @@ class SyntenyPatternFilters:
                 any order. If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to False.
         """
-        parsed_structure = syntenyparser.parse_synteny_structure(synteny_structure)
-        hmm_codes = list(range(len(parsed_structure["hmm_groups"])))
-        self.hmm_code_order_pattern = hmm_codes
+        parsed_structure = syntenyparser.parse_synteny_structure(
+            synteny_structure
+        )
+        if unordered:
+            parsed_structure["strands"] = [
+                "" for _ in parsed_structure["strands"]
+            ]
+        self._hmm_order_dict = dict(
+            zip(
+                parsed_structure["hmm_groups"],
+                range(len(parsed_structure["hmm_groups"])),
+            )
+        )
+        # parsed_structure = syntenyparser.parse_synteny_structure(synteny_structure)
+        # hmm_codes = list(range(len(parsed_structure["hmm_groups"])))
+        self.hmm_code_order_pattern = [
+            self._hmm_order_dict[hmm_group]
+            for hmm_group in parsed_structure["hmm_groups"]
+            ]
+        if unordered:
+            self.hmm_code_order_pattern = sorted(self.hmm_code_order_pattern)
 
         if unordered:
             max_distance = max(parsed_structure["distances"])
@@ -80,10 +98,10 @@ class SyntenyPatternFilters:
         Returns:
             int: 1 for True 0 for False.
         """
+        hmm_codes = [int(code) for code in data.values]
         if self._unordered:
-            return 1 if set(data.values) == set(self.hmm_code_order_pattern) else 0
-        else:
-            return 1 if data.values.tolist() == self.hmm_code_order_pattern else 0
+            hmm_codes = sorted(hmm_codes)
+        return 1 if hmm_codes == self.hmm_code_order_pattern else 0
 
     def contains_distance_pattern(self, data: pd.Series) -> int:
         """Check if series items satisfy the maximum distance
@@ -176,7 +194,8 @@ class SyntenyHMMfilter:
                 range(len(self._parsed_structure["hmm_groups"])),
             )
         )
-        self._n_hmm_groups = len(self._hmm_order_dict)
+        self._n_hmm_groups = len(self._parsed_structure["hmm_groups"])
+        self._n_hmms = len(self._hmms) # len(self._hmm_order_dict)
         self._unordered = unordered
 
     def _assign_code_to_HMM(self, hmm_group_name: str) -> int:
@@ -291,7 +310,7 @@ class SyntenyHMMfilter:
                 hmm_group: [] for hmm_group in contig_hits.hmm.unique()
             }
 
-            if contig_hits.hmm.nunique() >= self._n_hmm_groups:
+            if contig_hits.hmm.nunique() >= self._n_hmms:
                 hmm_match = contig_hits.hmm_code.rolling(
                     window=self._n_hmm_groups
                 ).apply(filters.contains_hmm_pattern)
