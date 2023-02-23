@@ -49,3 +49,7 @@ class TestDatabase(unittest.TestCase):
                 LabelledFASTA,
                 "Failed to build database from GenBank data",
             )
+
+
+if __name__ == "__main__":
+    unittest.main()

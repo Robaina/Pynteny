@@ -48,3 +48,7 @@ class TestSyntenySearch(unittest.TestCase):
             hit_labels,
             "Failed finding synteny hits",
         )
+
+
+if __name__ == "__main__":
+    unittest.main()
