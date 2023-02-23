@@ -46,13 +46,9 @@ class SyntenyPatternFilters:
                 any order. If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to False.
         """
-        parsed_structure = syntenyparser.parse_synteny_structure(
-            synteny_structure
-        )
+        parsed_structure = syntenyparser.parse_synteny_structure(synteny_structure)
         if unordered:
-            parsed_structure["strands"] = [
-                "" for _ in parsed_structure["strands"]
-            ]
+            parsed_structure["strands"] = ["" for _ in parsed_structure["strands"]]
         self._hmm_order_dict = dict(
             zip(
                 parsed_structure["hmm_groups"],
@@ -64,7 +60,7 @@ class SyntenyPatternFilters:
         self.hmm_code_order_pattern = [
             self._hmm_order_dict[hmm_group]
             for hmm_group in parsed_structure["hmm_groups"]
-            ]
+        ]
         if unordered:
             self.hmm_code_order_pattern = sorted(self.hmm_code_order_pattern)
 
@@ -195,7 +191,7 @@ class SyntenyHMMfilter:
             )
         )
         self._n_hmm_groups = len(self._parsed_structure["hmm_groups"])
-        self._n_hmms = len(self._hmms) # len(self._hmm_order_dict)
+        self._n_hmms = len(self._hmms)  # len(self._hmm_order_dict)
         self._unordered = unordered
 
     def _assign_code_to_HMM(self, hmm_group_name: str) -> int:
