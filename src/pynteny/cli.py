@@ -360,20 +360,20 @@ class SubcommandParser:
             help=(
                 "path to assembly input nucleotide data or annotated GenBank file. \n"
                 "It can be a single file or a directory of files (either of FASTA or GeneBank format). \n"
-                "If a directory, file name is prepended to the label of each translated peptide \n"
-                "originally coming from that file (i.e., to track the genome of origin)"
+                "If a directory, file name can be prepended to the label of each translated peptide \n"
+                "originally coming from that file by default (i.e., to track the genome of origin) \n"
+                "with the flag '--prepend-filename.'"
             ),
         )
         optional.add_argument(
             "-p",
-            "--prefix",
-            dest="prefix",
-            type=str,
-            metavar="",
-            default=None,
+            "--prepend-filename",
+            dest="prepend",
+            default=False,
+            action="store_true",
             help=(
-                "prefix to be added to each sequence obtained from original \n"
-                "input assembly or GeneBank file: e.g. genome accession."
+                "whether to prepend file name to peptide sequences when a directory \n"
+                "with multiple fasta or genbank files is used as input."
             ),
         )
         optional.add_argument(
