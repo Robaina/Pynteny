@@ -175,7 +175,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-        <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">prepend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">outfile</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">logfile</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -192,7 +192,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="n">CommandArgs</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
-            <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span> <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">prefix</span><span class="p">,</span>
+            <span class="n">prepend</span><span class="o">=</span><span class="n">prepend</span><span class="p">,</span>
             <span class="n">outfile</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span> <span class="k">if</span> <span class="n">outfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">outfile</span><span class="p">,</span>
             <span class="n">logfile</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">logfile</span><span class="p">)</span> <span class="k">if</span> <span class="n">logfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">logfile</span><span class="p">,</span>
             <span class="n">processes</span><span class="o">=</span><span class="n">processes</span><span class="p">,</span>
@@ -221,7 +221,7 @@
 
 
 <h3 id="src.pynteny.api.Build.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">processes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">outfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">processes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -314,7 +314,7 @@
 <span class="normal">197</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
-    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">prepend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">outfile</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">logfile</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -331,7 +331,7 @@
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="n">CommandArgs</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
-        <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span> <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">prefix</span><span class="p">,</span>
+        <span class="n">prepend</span><span class="o">=</span><span class="n">prepend</span><span class="p">,</span>
         <span class="n">outfile</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span> <span class="k">if</span> <span class="n">outfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">outfile</span><span class="p">,</span>
         <span class="n">logfile</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">logfile</span><span class="p">)</span> <span class="k">if</span> <span class="n">logfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">logfile</span><span class="p">,</span>
         <span class="n">processes</span><span class="o">=</span><span class="n">processes</span><span class="p">,</span>
@@ -1614,21 +1614,7 @@ specificed by using '&gt;' for sense and '&lt;' for antisense.</p></td>
 
         <details class="quote">
           <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
@@ -1804,7 +1790,22 @@ specificed by using '&gt;' for sense and '&lt;' for antisense.</p></td>
 <span class="normal">317</span>
 <span class="normal">318</span>
 <span class="normal">319</span>
-<span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SyntenyHMMfilter</span><span class="p">:</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SyntenyHMMfilter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tools to search for synteny structures among sets of hmm models&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -1853,7 +1854,8 @@ specificed by using '&gt;' for sense and '&lt;' for antisense.</p></td>
                 <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">])),</span>
             <span class="p">)</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_n_hmm_groups</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hmm_order_dict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_hmm_groups</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_hmms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hmms</span><span class="p">)</span>  <span class="c1"># len(self._hmm_order_dict)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_unordered</span> <span class="o">=</span> <span class="n">unordered</span>
 
     <span class="k">def</span> <span class="nf">_assign_code_to_HMM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hmm_group_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -1968,7 +1970,7 @@ specificed by using '&gt;' for sense and '&lt;' for antisense.</p></td>
                 <span class="n">hmm_group</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">hmm_group</span> <span class="ow">in</span> <span class="n">contig_hits</span><span class="o">.</span><span class="n">hmm</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
             <span class="p">}</span>
 
-            <span class="k">if</span> <span class="n">contig_hits</span><span class="o">.</span><span class="n">hmm</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_hmm_groups</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">contig_hits</span><span class="o">.</span><span class="n">hmm</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_hmms</span><span class="p">:</span>
                 <span class="n">hmm_match</span> <span class="o">=</span> <span class="n">contig_hits</span><span class="o">.</span><span class="n">hmm_code</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span>
                     <span class="n">window</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_hmm_groups</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">filters</span><span class="o">.</span><span class="n">contains_hmm_pattern</span><span class="p">)</span>
@@ -2081,21 +2083,7 @@ than syntenic structures. Defaults to True.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
@@ -2128,7 +2116,22 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
-<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">hmm_hits</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">synteny_structure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for contigs that satisfy the given gene synteny structure.</span>
@@ -2174,7 +2177,8 @@ than syntenic structures. Defaults to True.</p></td>
             <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">])),</span>
         <span class="p">)</span>
     <span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_n_hmm_groups</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hmm_order_dict</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_n_hmm_groups</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_n_hmms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hmms</span><span class="p">)</span>  <span class="c1"># len(self._hmm_order_dict)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_unordered</span> <span class="o">=</span> <span class="n">unordered</span>
 </code></pre></div></td></tr></table></div>
       </details>
@@ -2216,22 +2220,7 @@ than syntenic structures. Defaults to True.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">276</span>
 <span class="normal">277</span>
 <span class="normal">278</span>
 <span class="normal">279</span>
@@ -2275,7 +2264,22 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">317</span>
 <span class="normal">318</span>
 <span class="normal">319</span>
-<span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filter_hits_by_synteny_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filter_hits_by_synteny_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for contigs that satisfy the given gene synteny structure.</span>
 
 <span class="sd">    Returns:</span>
@@ -2308,7 +2312,7 @@ than syntenic structures. Defaults to True.</p></td>
             <span class="n">hmm_group</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">hmm_group</span> <span class="ow">in</span> <span class="n">contig_hits</span><span class="o">.</span><span class="n">hmm</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
         <span class="p">}</span>
 
-        <span class="k">if</span> <span class="n">contig_hits</span><span class="o">.</span><span class="n">hmm</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_hmm_groups</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">contig_hits</span><span class="o">.</span><span class="n">hmm</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_hmms</span><span class="p">:</span>
             <span class="n">hmm_match</span> <span class="o">=</span> <span class="n">contig_hits</span><span class="o">.</span><span class="n">hmm_code</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span>
                 <span class="n">window</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_hmm_groups</span>
             <span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">filters</span><span class="o">.</span><span class="n">contains_hmm_pattern</span><span class="p">)</span>
@@ -2375,22 +2379,7 @@ than syntenic structures. Defaults to True.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">248</span>
 <span class="normal">249</span>
 <span class="normal">250</span>
 <span class="normal">251</span>
@@ -2401,7 +2390,22 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">256</span>
 <span class="normal">257</span>
 <span class="normal">258</span>
-<span class="normal">259</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_all_HMM_hits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_all_HMM_hits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Group and preprocess all hit labels into a single dataframe.</span>
 
 <span class="sd">    Returns:</span>
@@ -2461,22 +2465,7 @@ than syntenic structures. Defaults to True.</p></td>
 
         <details class="quote">
           <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">338</span>
 <span class="normal">339</span>
 <span class="normal">340</span>
 <span class="normal">341</span>
@@ -2617,7 +2606,22 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">476</span>
 <span class="normal">477</span>
 <span class="normal">478</span>
-<span class="normal">479</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SyntenyHits</span><span class="p">:</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SyntenyHits</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Store and manipulate synteny hits by contig&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">synteny_hits</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -2844,11 +2848,11 @@ than syntenic structures. Defaults to True.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">synteny_hits</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">synteny_hits</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialize from synteny hits object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2917,22 +2921,7 @@ than syntenic structures. Defaults to True.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">400</span>
 <span class="normal">401</span>
 <span class="normal">402</span>
 <span class="normal">403</span>
@@ -2944,7 +2933,22 @@ than syntenic structures. Defaults to True.</p></td>
 <span class="normal">409</span>
 <span class="normal">410</span>
 <span class="normal">411</span>
-<span class="normal">412</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_HMM_meta_info_to_hits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hmm_meta</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SyntenyHits</span><span class="p">:</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_HMM_meta_info_to_hits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hmm_meta</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SyntenyHits</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add molecular metadata to synteny hits.</span>
 
 <span class="sd">    Args:</span>
@@ -3040,17 +3044,17 @@ than syntenic structures. Defaults to True.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">364</span>
-<span class="normal">365</span>
-<span class="normal">366</span>
-<span class="normal">367</span>
-<span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_hits_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hits_by_contig</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SyntenyHits</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize SyntenyHits object from hits_by_contig dictionary.</span>
 
@@ -3128,22 +3132,7 @@ in which the synteny search was conducted.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">438</span>
 <span class="normal">439</span>
 <span class="normal">440</span>
 <span class="normal">441</span>
@@ -3184,7 +3173,22 @@ in which the synteny search was conducted.</p></td>
 <span class="normal">476</span>
 <span class="normal">477</span>
 <span class="normal">478</span>
-<span class="normal">479</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write_hit_sequences_to_FASTA_files</span><span class="p">(</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write_hit_sequences_to_FASTA_files</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">sequence_database</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -3287,14 +3291,14 @@ in which the synteny search was conducted.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">414</span>
-<span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write_to_TSV</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_tsv</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write_to_TSV</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_tsv</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Write synteny hits to a TSV file.</span>
 
 <span class="sd">    Args:</span>
@@ -3438,7 +3442,21 @@ or collinearity. These filters are inputs to pandas.Dataframe.rolling method.</p
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SyntenyPatternFilters</span><span class="p">:</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">SyntenyPatternFilters</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Methods to filter hmm hits in the  same contig by synteny structure</span>
 <span class="sd">    or collinearity. These filters are inputs to pandas.Dataframe.rolling method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -3463,8 +3481,22 @@ or collinearity. These filters are inputs to pandas.Dataframe.rolling method.</p
 <span class="sd">                than syntenic structures. Defaults to False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">parsed_structure</span> <span class="o">=</span> <span class="n">syntenyparser</span><span class="o">.</span><span class="n">parse_synteny_structure</span><span class="p">(</span><span class="n">synteny_structure</span><span class="p">)</span>
-        <span class="n">hmm_codes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">])))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="o">=</span> <span class="n">hmm_codes</span>
+        <span class="k">if</span> <span class="n">unordered</span><span class="p">:</span>
+            <span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;strands&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;strands&quot;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hmm_order_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="nb">zip</span><span class="p">(</span>
+                <span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">],</span>
+                <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">])),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># parsed_structure = syntenyparser.parse_synteny_structure(synteny_structure)</span>
+        <span class="c1"># hmm_codes = list(range(len(parsed_structure[&quot;hmm_groups&quot;])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_hmm_order_dict</span><span class="p">[</span><span class="n">hmm_group</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">hmm_group</span> <span class="ow">in</span> <span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">unordered</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">unordered</span><span class="p">:</span>
             <span class="n">max_distance</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;distances&quot;</span><span class="p">])</span>
@@ -3496,10 +3528,10 @@ or collinearity. These filters are inputs to pandas.Dataframe.rolling method.</p
 <span class="sd">        Returns:</span>
 <span class="sd">            int: 1 for True 0 for False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hmm_codes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unordered</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="n">hmm_codes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">hmm_codes</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">hmm_codes</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="k">else</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">contains_distance_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if series items satisfy the maximum distance</span>
@@ -3658,7 +3690,21 @@ than syntenic structures. Defaults to False.</p></td>
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">synteny_structure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">synteny_structure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize filter class from synteny structure.</span>
 
 <span class="sd">    Args:</span>
@@ -3678,8 +3724,22 @@ than syntenic structures. Defaults to False.</p></td>
 <span class="sd">            than syntenic structures. Defaults to False.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parsed_structure</span> <span class="o">=</span> <span class="n">syntenyparser</span><span class="o">.</span><span class="n">parse_synteny_structure</span><span class="p">(</span><span class="n">synteny_structure</span><span class="p">)</span>
-    <span class="n">hmm_codes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">])))</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="o">=</span> <span class="n">hmm_codes</span>
+    <span class="k">if</span> <span class="n">unordered</span><span class="p">:</span>
+        <span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;strands&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;strands&quot;</span><span class="p">]]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_hmm_order_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span>
+            <span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">],</span>
+            <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">])),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># parsed_structure = syntenyparser.parse_synteny_structure(synteny_structure)</span>
+    <span class="c1"># hmm_codes = list(range(len(parsed_structure[&quot;hmm_groups&quot;])))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hmm_order_dict</span><span class="p">[</span><span class="n">hmm_group</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">hmm_group</span> <span class="ow">in</span> <span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;hmm_groups&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">unordered</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">unordered</span><span class="p">:</span>
         <span class="n">max_distance</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">parsed_structure</span><span class="p">[</span><span class="s2">&quot;distances&quot;</span><span class="p">])</span>
@@ -3766,28 +3826,28 @@ than syntenic structures. Defaults to False.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
-<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_distance_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_distance_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if series items satisfy the maximum distance</span>
 <span class="sd">       between HMM hits.</span>
 
@@ -3873,19 +3933,19 @@ than syntenic structures. Defaults to False.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_hmm_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_hmm_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if series items contain a profile HMM</span>
 
 <span class="sd">    Args:</span>
@@ -3894,10 +3954,10 @@ than syntenic structures. Defaults to False.</p></td>
 <span class="sd">    Returns:</span>
 <span class="sd">        int: 1 for True 0 for False.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hmm_codes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unordered</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">hmm_codes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">hmm_codes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">hmm_codes</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hmm_code_order_pattern</span> <span class="k">else</span> <span class="mi">0</span>
 </code></pre></div></td></tr></table></div>
       </details>
   </div>
@@ -3963,23 +4023,23 @@ than syntenic structures. Defaults to False.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
 <span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_strand_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">contains_strand_pattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if series items satisfy the strand pattern</span>
 <span class="sd">       between HMM hits.</span>
 
@@ -4176,22 +4236,7 @@ same additional argument is passed to hmmsearch for all input hmms. Defaults to 
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/filter.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">497</span>
 <span class="normal">498</span>
 <span class="normal">499</span>
 <span class="normal">500</span>
@@ -4286,7 +4331,22 @@ same additional argument is passed to hmmsearch for all input hmms. Defaults to 
 <span class="normal">589</span>
 <span class="normal">590</span>
 <span class="normal">591</span>
-<span class="normal">592</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filter_FASTA_by_synteny_structure</span><span class="p">(</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filter_FASTA_by_synteny_structure</span><span class="p">(</span>
     <span class="n">synteny_structure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">input_fasta</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">input_hmms</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">],</span>
@@ -12449,20 +12509,20 @@ command-line-subcommands-with-pythons-argparse-4dbac80f7110</p>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
                 <span class="s2">&quot;path to assembly input nucleotide data or annotated GenBank file. </span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="s2">&quot;It can be a single file or a directory of files (either of FASTA or GeneBank format). </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;If a directory, file name is prepended to the label of each translated peptide </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;originally coming from that file (i.e., to track the genome of origin)&quot;</span>
+                <span class="s2">&quot;If a directory, file name can be prepended to the label of each translated peptide </span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;originally coming from that file by default (i.e., to track the genome of origin) </span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;with the flag &#39;--prepend-filename.&#39;&quot;</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="n">optional</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
             <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--prefix&quot;</span><span class="p">,</span>
-            <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;prefix&quot;</span><span class="p">,</span>
-            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-            <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;--prepend-filename&quot;</span><span class="p">,</span>
+            <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;prepend&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;prefix to be added to each sequence obtained from original </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;input assembly or GeneBank file: e.g. genome accession.&quot;</span>
+                <span class="s2">&quot;whether to prepend file name to peptide sequences when a directory </span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;with multiple fasta or genbank files is used as input.&quot;</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="n">optional</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -12895,20 +12955,20 @@ command-line-subcommands-with-pythons-argparse-4dbac80f7110</p>
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
             <span class="s2">&quot;path to assembly input nucleotide data or annotated GenBank file. </span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="s2">&quot;It can be a single file or a directory of files (either of FASTA or GeneBank format). </span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;If a directory, file name is prepended to the label of each translated peptide </span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;originally coming from that file (i.e., to track the genome of origin)&quot;</span>
+            <span class="s2">&quot;If a directory, file name can be prepended to the label of each translated peptide </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;originally coming from that file by default (i.e., to track the genome of origin) </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;with the flag &#39;--prepend-filename.&#39;&quot;</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">optional</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--prefix&quot;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;prefix&quot;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;--prepend-filename&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;prepend&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;prefix to be added to each sequence obtained from original </span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;input assembly or GeneBank file: e.g. genome accession.&quot;</span>
+            <span class="s2">&quot;whether to prepend file name to peptide sequences when a directory </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;with multiple fasta or genbank files is used as input.&quot;</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">optional</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -13926,8 +13986,7 @@ or GenBank data.</p>
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">build_database</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CommandArgs</span><span class="p">,</span> <span class="n">ArgumentParser</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">build_database</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CommandArgs</span><span class="p">,</span> <span class="n">ArgumentParser</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Build annotated peptide database from input assembly</span>
 <span class="sd">    or GenBank data.</span>
 
@@ -13938,14 +13997,13 @@ or GenBank data.</p>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Building annotated peptide database&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">processes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">args</span><span class="o">.</span><span class="n">processes</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">prepend</span><span class="p">:</span>
         <span class="n">prepend_file_name</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">prepend_file_name</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="n">database</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     <span class="n">database</span><span class="o">.</span><span class="n">build</span><span class="p">(</span>
-        <span class="n">seq_prefix</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span>
         <span class="n">output_file</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">outfile</span><span class="p">,</span>
         <span class="n">prepend_file_name</span><span class="o">=</span><span class="n">prepend_file_name</span><span class="p">,</span>
     <span class="p">)</span>
@@ -13997,7 +14055,8 @@ or GenBank data.</p>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/subcommands.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">223</span>
+<span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
@@ -14044,8 +14103,7 @@ or GenBank data.</p>
 <span class="normal">268</span>
 <span class="normal">269</span>
 <span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">download_hmms</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CommandArgs</span><span class="p">,</span> <span class="n">ArgumentParser</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">download_hmms</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CommandArgs</span><span class="p">,</span> <span class="n">ArgumentParser</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Download HMM (PGAP) database from NCBI.</span>
 
 <span class="sd">    Args:</span>
@@ -14169,7 +14227,8 @@ Defaults to False.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/subcommands.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">290</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">289</span>
+<span class="normal">290</span>
 <span class="normal">291</span>
 <span class="normal">292</span>
 <span class="normal">293</span>
@@ -14186,8 +14245,7 @@ Defaults to False.</p></td>
 <span class="normal">304</span>
 <span class="normal">305</span>
 <span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_citation</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CommandArgs</span><span class="p">,</span> <span class="n">ArgumentParser</span><span class="p">],</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">307</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_citation</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CommandArgs</span><span class="p">,</span> <span class="n">ArgumentParser</span><span class="p">],</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get Pynteny citation string.</span>
 
 <span class="sd">    Args:</span>
@@ -14374,7 +14432,8 @@ by HMM names.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/subcommands.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">190</span>
+<span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
 <span class="normal">194</span>
@@ -14403,8 +14462,7 @@ by HMM names.</p></td>
 <span class="normal">217</span>
 <span class="normal">218</span>
 <span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parse_gene_ids</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CommandArgs</span><span class="p">,</span> <span class="n">ArgumentParser</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">220</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parse_gene_ids</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">CommandArgs</span><span class="p">,</span> <span class="n">ArgumentParser</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert gene symbols to hmm names.</span>
 
 <span class="sd">    Args:</span>
@@ -14457,7 +14515,8 @@ by HMM names.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/subcommands.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">275</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">274</span>
+<span class="normal">275</span>
 <span class="normal">276</span>
 <span class="normal">277</span>
 <span class="normal">278</span>
@@ -14468,8 +14527,7 @@ by HMM names.</p></td>
 <span class="normal">283</span>
 <span class="normal">284</span>
 <span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_app</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_app</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run Pynteny app through streamlit&quot;&quot;&quot;</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigParser</span><span class="o">.</span><span class="n">get_default_config</span><span class="p">()</span>
     <span class="n">config_path</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get_config_path</span><span class="p">()</span>
