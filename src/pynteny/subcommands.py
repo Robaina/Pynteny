@@ -173,14 +173,13 @@ def build_database(args: Union[CommandArgs, ArgumentParser]) -> None:
     logger.info("Building annotated peptide database")
     if args.processes is None:
         args.processes = os.cpu_count() - 1
-    if args.data.is_dir():
+    if args.data.is_dir() and args.prepend:
         prepend_file_name = True
     else:
         prepend_file_name = False
 
     database = Database(args.data)
     database.build(
-        seq_prefix=args.prefix,
         output_file=args.outfile,
         prepend_file_name=prepend_file_name,
     )
