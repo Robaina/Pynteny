@@ -16,6 +16,7 @@ dependencies:
   - biopython >= 1.8
   - numpy
   - pandas
+  - seqkit
   - psutil >= 5.9
   - python-wget
   - streamlit=1.16

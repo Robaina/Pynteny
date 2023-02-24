@@ -132,6 +132,7 @@ Pynteny would not work without these awesome projects:
 - [prodigal](https://github.com/hyattpd/Prodigal)
 - [pyfastx](https://github.com/lmdu/pyfastx)
 - [biopython](https://github.com/biopython/biopython)
+- [seqkit](https://bioinf.shenwei.me/seqkit/)
 - [numpy](https://github.com/numpy/numpy)
 - [pandas](https://github.com/pandas-dev/pandas)
 - [psutil](https://github.com/giampaolo/psutil)
