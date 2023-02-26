@@ -117,7 +117,14 @@ conda activate pynteny
 <ol>
 <li>Install pynteny</li>
 </ol>
+<p>Pynteny can be install with the following command:</p>
 <pre><code class="language-bash">conda install -c bioconda pynteny
+</code></pre>
+<p>If conda takes a long time to solve the dependencies (e.g., more than a few minutes) or fails to solve it, you may try:</p>
+<pre><code class="language-bash">conda install -c conda-forge -c bioconda python pynteny
+</code></pre>
+<p>Or install it with <a href="https://github.com/mamba-org/mamba">mamba</a> instead of conda:</p>
+<pre><code class="language-bash">mamba install -c bioconda pynteny
 </code></pre>
 <ol>
 <li>Check that installation worked fine:</li>
@@ -200,5 +207,5 @@ conda activate pynteny
 
 <!--
 MkDocs version : 1.4.2
-Build Date UTC : 2023-02-23 17:18:30.425001+00:00
+Build Date UTC : 2023-02-26 09:38:21.353996+00:00
 -->
