@@ -41,7 +41,7 @@ conda activate pynteny
 ```
 2. Install pynteny
 
-Pynteny can be install with the following command:
+Pynteny can be installed with the following command:
 ```bash
 conda install -c bioconda pynteny
 ```
