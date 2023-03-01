@@ -194,12 +194,21 @@ class SyntenyHMMfilter:
         self._n_hmms = len(self._hmms)  # len(self._hmm_order_dict)
         self._unordered = unordered
 
+    def _in_hmm_group(self, query_hmm_group: str, hmm_group: str) -> bool:
+        """check if hmm name patters in query hmm group match hmm group
+        """
+        query_split = query_hmm_group.split("|")
+        return all(
+            [hmm_pattern in hmm_group for hmm_pattern in query_split]
+            )
+
     def _assign_code_to_HMM(self, hmm_group_name: str) -> int:
         hmm_group_name = str(hmm_group_name)
         code = [
             code
             for hmm_group, code in self._hmm_order_dict.items()
-            if set(hmm_group_name.split("|")).issubset(set(hmm_group.split("|")))
+            if self._in_hmm_group(hmm_group_name, hmm_group)
+            # if set(hmm_group_name.split("|")).issubset(set(hmm_group.split("|")))
         ]
         if len(code) > 1:
             logger.error(
