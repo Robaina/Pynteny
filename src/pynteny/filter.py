@@ -195,12 +195,9 @@ class SyntenyHMMfilter:
         self._unordered = unordered
 
     def _in_hmm_group(self, query_hmm_group: str, hmm_group: str) -> bool:
-        """check if hmm name patters in query hmm group match hmm group
-        """
+        """check if hmm name patters in query hmm group match hmm group"""
         query_split = query_hmm_group.split("|")
-        return all(
-            [hmm_pattern in hmm_group for hmm_pattern in query_split]
-            )
+        return all([hmm_pattern in hmm_group for hmm_pattern in query_split])
 
     def _assign_code_to_HMM(self, hmm_group_name: str) -> int:
         hmm_group_name = str(hmm_group_name)
@@ -560,12 +557,10 @@ def filter_FASTA_by_synteny_structure(
     if additional_args is None:
         additional_args = [None for _ in input_hmms]
 
-    # if type(additional_args) == str:
     if isinstance(additional_args, str):
         logger.warning(f"Repeating hmmsearch arg: '{additional_args}' for all HMMs")
         additional_args = [additional_args for _ in input_hmms]
 
-    # elif type(additional_args) == list:
     elif isinstance(additional_args, list):
         if len(additional_args) == 1:
             logger.warning(
