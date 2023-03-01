@@ -3,6 +3,7 @@ channels:
   - defaults
   - bioconda
   - conda-forge
+  - semidan.robaina
 dependencies:
   - python >= 3.8
   - poetry >= 1.3

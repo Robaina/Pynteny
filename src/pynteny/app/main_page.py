@@ -84,4 +84,4 @@ if "pynteny_log" not in st.session_state:
 
 show_sidebar()
 show_mainpage()
-set_example()
+# set_example()
