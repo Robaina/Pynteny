@@ -1,5 +1,5 @@
 {% set name = "pynteny" %}
-{% set version = "0.0.5" %}
+{% set version = "0.0.6" %}
 
 package:
   name: "{{ name|lower }}"
@@ -18,11 +18,11 @@ requirements:
   build:
     - {{ compiler('c') }}
   host:
-    - python =3.10
+    - python >=3.8
     - poetry
     - pip
   run:
-    - python =3.10
+    - python >=3.8
     - hmmer
     - prodigal
     - pyfastx >=0.8
@@ -31,13 +31,10 @@ requirements:
     - pandas
     - psutil
     - python-wget
-    - streamlit
-    - streamlit-aggrid
 
 test:
   imports:
     - pynteny
-    - pynteny.app
   commands:
     - pynteny --help
 

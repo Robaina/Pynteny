@@ -44,7 +44,7 @@ class Pynteny:
         )
         parser._positionals.title = "subcommands"
         parser.add_argument(
-            help=("search \n" "build \n" "parse \n" "download \n" "app \n" "cite \n"),
+            help=("search \n" "build \n" "parse \n" "download \n" "cite \n"),
             dest="subcommand",
             metavar="",
         )
@@ -118,12 +118,6 @@ class Pynteny:
         parser = SubcommandParser.download()
         args = parser.parse_args(self._subcommand_args)
         sub.download_hmms(args)
-
-    def app(self):
-        """Run pynteny app through Streamlit"""
-        parser = SubcommandParser.app()
-        parser.parse_args(self._subcommand_args)
-        sub.run_app()
 
     def cite(self):
         """Print pynteny's citation string"""
@@ -523,24 +517,6 @@ class SubcommandParser:
             required=False,
             help="path to log file. Log not written by default.",
         )
-        return parser
-
-    @staticmethod
-    def app() -> argparse.ArgumentParser:
-        """Parser for the app subcommand.
-
-        Returns:
-            argparse.ArgumentParser: ArgumentParser object.
-        """
-        parser = argparse.ArgumentParser(
-            description=("Run Pynteny in web browser."),
-            epilog="  \n",
-            usage=("pynteny app [-h] \n"),
-            formatter_class=argparse.RawTextHelpFormatter,
-        )
-        optional = parser._action_groups.pop()
-        parser.add_argument_group("required arguments")
-        parser._action_groups.append(optional)
         return parser
 
     @staticmethod

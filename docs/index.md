@@ -8,7 +8,6 @@ These are the available subcommands, run as ```pynteny <subcommand> <options>```
 - [build](subcommands/build.md)
 - [download](subcommands/download.md)
 - [parse](subcommands/parse.md)
-- [app](subcommands/app.md)
 
 ## Setup
 
@@ -71,7 +70,7 @@ Here are some Jupyter Notebooks with examples to show how Pynteny works.
 * [Pynteny CLI](https://robaina.github.io/Pynteny/examples/example_cli/)
 * [Sus operon](https://robaina.github.io/Pynteny/examples/example_sus/)
 
-You can find more notebooks in the [examples directory](docs/examples/). We invite you to explore Pynteny's web application by executing the command `pynteny app`. Find more info in the [documentation](https://robaina.github.io/Pynteny/).
+You can find more notebooks in the [examples directory](docs/examples/). Find more info in the [documentation](https://robaina.github.io/Pynteny/).
 
 ## Contributing
 

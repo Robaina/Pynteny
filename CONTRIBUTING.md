@@ -71,9 +71,6 @@ Alternatively, you can directly work on a developer environment in the browser w
 
 2. Start a new Codespace for the new branch. GitHub will build an environment with all required dependencies as well as pynteny the first time (it will take a couple of minutes). Pynteny will be installed in a conda environment named "pynteny-dev".
 
-__Known issues__:
-Port forwarding within the codespace doesn't work very well for Streamlit (pynteny app). This is a [known issue](https://discuss.streamlit.io/t/how-to-make-streamlit-run-on-codespaces/24526) regarding Streamlit and Codespaces.
-
 ## Building the documentation
 
 The documentation is formed by a series of markdown files located in directory [docs](https://github.com/Robaina/Pynteny/tree/main/docs). This repo uses [mkdocs](https://www.mkdocs.org/) to automatically generate documentation pages from markdown files. Also, [MathJax](https://github.com/mathjax/MathJax) syntax is allowed!

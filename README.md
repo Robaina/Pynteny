@@ -25,7 +25,7 @@
 
 ## 1. :bulb: What is Pynteny?
 
-`Pynteny` is Python tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in (prokaryotic) sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/). By leveraging genomic context information, `Pynteny` can be employed to decrease the uncertainty of functional annotation of unlabelled sequence data due to the effect of paralogs. `Pynteny` can be accessed (i) through the command line, (ii) as a Python module or (iii) as a (locally served) web application.
+`Pynteny` is Python tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in (prokaryotic) sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/). By leveraging genomic context information, `Pynteny` can be employed to decrease the uncertainty of functional annotation of unlabelled sequence data due to the effect of paralogs. `Pynteny` can be accessed (i) through the command line or (ii) as a Python module.
 
 Get more info in the [documentation](https://robaina.github.io/Pynteny/) pages!
 
@@ -71,7 +71,7 @@ Consider the following toy example of a syntenic block:
 
 Here, we are interested in four genes which colocate according to the pattern above: genes A-C show consecutive locations in the positive strand, followed by three (untargeted) genes and followed by gene D, which is located in the negative strand.
 
-Pynteny can be run either as a command line tool or as a (locally-served) web application. To run pynteny in the command line, execute:
+Pynteny can be run either as a command line tool or as a Python module. To run pynteny in the command line, execute:
 
 ```bash
 conda activate pynteny
@@ -110,19 +110,6 @@ pynteny search \
     --gene_ids
 ```
 
-Pynteny may also be used with a graphical interface (made with [Streamlit](https://streamlit.io)). The app is run on a local server in your machine, thus all files are kept locally and the app can be run without an internet connection. 
-
-To run the app, execute the following command once pynteny has been successfully installed:
-
-```bash
-conda activate pynteny
-pynteny app
-```
-
-<p align="center">
-   <img src="assets/pynteny_app.gif" alt="pynyeny-app">
-</p>
-
 ## 4. :notebook_with_decorative_cover: Examples
 
 Here are some Jupyter Notebooks with examples to show how Pynteny works:
@@ -132,7 +119,7 @@ Here are some Jupyter Notebooks with examples to show how Pynteny works:
 * [Pynteny CLI](https://robaina.github.io/Pynteny/examples/example_cli/)
 * [Sus operon](https://robaina.github.io/Pynteny/examples/example_sus/)
 
-You can find more notebooks in the [examples directory](docs/examples/). We invite you to explore Pynteny's web application by executing the command `pynteny app`. Find more info in the [documentation](https://robaina.github.io/Pynteny/).
+You can find more notebooks in the [examples directory](docs/examples/). Find more info in the [documentation](https://robaina.github.io/Pynteny/).
 
 ## 5. :arrows_counterclockwise: Dependencies
 Pynteny would not work without these awesome projects:
@@ -146,8 +133,6 @@ Pynteny would not work without these awesome projects:
 - [pandas](https://github.com/pandas-dev/pandas)
 - [psutil](https://github.com/giampaolo/psutil)
 - [python-wget](https://anaconda.org/conda-forge/python-wget/)
-- [streamlit](https://github.com/streamlit/streamlit)
-- [streamlit-aggrid](https://github.com/PablocFonseca/streamlit-aggrid)
 
 Thanks!
 

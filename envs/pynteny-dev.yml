@@ -3,7 +3,6 @@ channels:
   - defaults
   - bioconda
   - conda-forge
-  - semidan.robaina
 dependencies:
   - python >= 3.8
   - poetry >= 1.3
@@ -19,8 +18,6 @@ dependencies:
   - seqkit
   - psutil >= 5.9
   - python-wget
-  - streamlit=1.16
-  - streamlit-aggrid
   - pip:
     - mkdocs
     - mkdocs-gen-files
