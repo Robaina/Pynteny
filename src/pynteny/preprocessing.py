@@ -133,6 +133,7 @@ class FASTAmerger:
                 utils.terminal_execute(cmd_str, work_dir=tempdir)
         else:
             utils.terminal_execute(cmd_str, work_dir=self.input_dir)
+        logging.shutdown()
 
 
 class FASTA:
@@ -404,6 +405,7 @@ class LabelledFASTA(FASTA):
                 header = f">{contig}_{gene_number}__{contig}_{gene_number}_{start}_{end}_{strand}"
                 outfile.write(header + "\n")
                 outfile.write(record_seq + "\n")
+        logging.shutdown()
         return cls(output_file)
 
     @classmethod
@@ -561,6 +563,7 @@ class GeneAnnotator:
                 metagenome=metagenome,
                 additional_args=prodigal_args,
             )
+            logging.shutdown()
             FASTAmerger(prodigal_dir).merge(
                 Path(temp_fasta.name), prepend_file_name=False
             )
