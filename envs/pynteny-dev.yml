@@ -18,8 +18,6 @@ dependencies:
   - seqkit
   - psutil >= 5.9
   - python-wget
-  - streamlit=1.16
-  - streamlit-aggrid
   - pip:
     - mkdocs
     - mkdocs-gen-files

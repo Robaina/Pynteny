@@ -24,8 +24,6 @@ packages = [
     { include = "pynteny", from = "src" },
 ]
 include = [
-    "src/pynteny/app/assets/*",
-    "src/pynteny/app/assets/img/*",
     "src/pynteny/config.json"
 ]
 [tool.poetry.dependencies]

@@ -24,7 +24,6 @@ from pynteny.utils import (
     ConfigParser,
     download_file,
     is_tar_file,
-    terminal_execute,
 )
 
 
@@ -269,21 +268,6 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
         config.update_config("PGAP_database", unpacked_PGAP_dir.as_posix())
         logger.info("PGAP database unpacked successfully")
     logging.shutdown()
-
-
-def run_app() -> None:
-    """Run Pynteny app through streamlit"""
-    config = ConfigParser.get_default_config()
-    config_path = config.get_config_path()
-    logfile = str(Path(config_path.parent) / "streamlit.log")
-    config.update_config("streamlit_log", logfile)
-    app_path = Path(__file__).parent / "app" / "main_page.py"
-    log_str = f"--logger.level=info 2> {logfile}"
-    cmd_str = (
-        f"streamlit run {app_path} --browser.gatherUsageStats False --server.fileWatcherType none "
-        f"{log_str}"
-    )
-    terminal_execute(cmd_str)
 
 
 def get_citation(args: Union[CommandArgs, ArgumentParser], silent: bool = False) -> str:
