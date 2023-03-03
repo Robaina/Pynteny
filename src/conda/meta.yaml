@@ -17,20 +17,21 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
   host:
-    - python >=3.8
+    - python
     - poetry
     - pip
   run:
-    - python >=3.8
-    - hmmer >=3.3
-    - prodigal >=2.6
-    - pyfastx >=0.8
-    - biopython >=1.8
+    - python
+    - hmmer
+    - prodigal
+    - pyfastx
+    - biopython
     - numpy
     - pandas
     - seqkit
-    - psutil >=5.9
+    - psutil
     - requests
     - tqdm
 
