@@ -34,7 +34,7 @@ While function is generally conserved among sequence orthologs, i.e., homologs t
 
 Here we introduce `Pynteny`, a Python tool designed to conduct synteny-aware, profile HMM searches in prokaryotic sequence databases. `Pynteny` facilitates querying sequence databases with arrangements of profile HMMs that reflect a target syntenic block. To this end, it enables encoding positional information, such as gene order, maximum in-between gene distances, and strand specificity, into the search query. `Pynteny` is designed to work directly with assembled nucleotide sequence data, however, it also accepts annotated genomes in GenBank format as input data. It relies on Prodigal [@prodigal] to translate and add positional tags to individual genes, and on HMMER3, [@hmmer] to search sequence databases for homologs through profile HMMs.
 
-`Pynteny` was designed to be used by researchers working with large, unannotated sequence databases, such as those typically encountered in metagenomic analyses. It can be accessed through a command line interface or easily integrated into pipelines as a Python package. `Pynteny` can also be used through a graphical interface running locally in the browser, which is more suitable for educational purposes.
+`Pynteny` was designed to be used by researchers working with large, unannotated sequence databases, such as those typically encountered in metagenomic analyses. It can be accessed through a command line interface or easily integrated into pipelines as a Python package.
 
 # State of the field
 
@@ -42,6 +42,6 @@ Several existing tools are dedicated to the exploration, analysis, and visualiza
 
 # Acknowledgements
 
-We acknowledge constructive feedback from Pynteny users which has helped to improve the package. This study was funded by project PID2019-110011RB-C32 (Spanish Ministry of Science and Innovation, Spanish State Research Agency, doi: 10.13039/501100011033).
+We acknowledge constructive feedback from Pynteny users as well as reviewers at PyOpenSci which has helped to improve the package. This study was funded by project PID2019-110011RB-C32 (Spanish Ministry of Science and Innovation, Spanish State Research Agency, doi: 10.13039/501100011033).
 
 # References
