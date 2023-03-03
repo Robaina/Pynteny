@@ -202,8 +202,8 @@ def download_file(url: str, output_file: Path) -> None:
     output_file = Path(output_file)
     with requests.get(url, stream=True) as r:
         total_length = int(r.headers.get("Content-Length"))
-        with tqdm.wrapattr(r.raw, "read", total=total_length, desc="")as raw:
-            with open(output_file, 'wb')as output:
+        with tqdm.wrapattr(r.raw, "read", total=total_length, desc="") as raw:
+            with open(output_file, "wb") as output:
                 shutil.copyfileobj(raw, output)
 
 
