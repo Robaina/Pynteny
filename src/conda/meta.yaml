@@ -9,7 +9,7 @@ source:
   url: https://github.com/Robaina/pynteny/archive/v{{ version }}.tar.gz
 
 build:
-  number: 0
+  number: 2
   entry_points:
     - pynteny = pynteny.cli:main
   script: {{ PYTHON }} -m pip install --no-deps --ignore-installed .

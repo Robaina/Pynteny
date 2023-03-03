@@ -1,2 +1,5 @@
 numpy:
   - 1.16
+
+target_platform:
+  - osx-64
