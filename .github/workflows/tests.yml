@@ -2,9 +2,6 @@ name: tests
 on:
   push:
     branches: [ main ]
-    # paths:
-    #   - 'envs/pynteny-dev.yml'
-    #   - '.github/workflows/tests.yml'
     paths-ignore:
       - '**.md'
       - '**.ipynb'

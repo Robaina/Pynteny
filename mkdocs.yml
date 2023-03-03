@@ -9,7 +9,6 @@ nav:
         - Build: subcommands/build.md
         - Parse: subcommands/parse.md
         - Download: subcommands/download.md
-        - App: subcommands/app.md
     - Examples:
          - Example CLI: examples/example_cli.ipynb
          - Example API: examples/example_api.ipynb
