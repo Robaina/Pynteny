@@ -1,0 +1,48 @@
+name: test_build
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - '**.ipynb'
+  pull_request:
+    types: [opened, reopened, edited]
+    paths-ignore:
+      - '**.md'
+      - '**.ipynb'
+
+jobs:
+
+  create-env:
+    name: ${{ matrix.os }} 
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: create environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.8
+          # mamba-version: "*"
+          # channels: conda-forge,bioconda,semidan.robaina,defaults
+          # auto-activate-base: false
+          # activate-environment: tests_pynteny
+          # environment-file: envs/pynteny-dev.yml
+
+      - name: Build & Install Pynteny
+        run: conda install -c semidan.robaina pynteny
+
+      - name: Run tests and collect coverage
+        run: pynteny --help && python -m unittest discover tests
