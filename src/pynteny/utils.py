@@ -18,7 +18,8 @@ from functools import partial
 from multiprocessing import Pool
 from pathlib import Path
 
-import wget
+import requests
+from tqdm.auto import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -199,7 +200,11 @@ def download_file(url: str, output_file: Path) -> None:
         output_file (Path): path to downloaded file
     """
     output_file = Path(output_file)
-    wget.download(url, output_file.as_posix())
+    with requests.get(url, stream=True) as r:
+        total_length = int(r.headers.get("Content-Length"))
+        with tqdm.wrapattr(r.raw, "read", total=total_length, desc="") as raw:
+            with open(output_file, "wb") as output:
+                shutil.copyfileobj(raw, output)
 
 
 def is_tar_file(tar_file: Path) -> bool:

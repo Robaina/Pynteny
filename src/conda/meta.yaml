@@ -23,14 +23,16 @@ requirements:
     - pip
   run:
     - python >=3.8
-    - hmmer
-    - prodigal
+    - hmmer >=3.3
+    - prodigal >=2.6
     - pyfastx >=0.8
-    - biopython
+    - biopython >=1.8
     - numpy
     - pandas
-    - psutil
-    - python-wget
+    - seqkit
+    - psutil >=5.9
+    - requests
+    - tqdm
 
 test:
   imports:
