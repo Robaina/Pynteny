@@ -269,6 +269,7 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
         logger.info("PGAP database unpacked successfully")
     logging.shutdown()
 
+
 def get_citation(args: Union[CommandArgs, ArgumentParser], silent: bool = False) -> str:
     """Get Pynteny citation string.
 
