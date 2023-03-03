@@ -5,6 +5,7 @@ channels:
   - conda-forge
 dependencies:
   - python >= 3.8
+  - poetry >= 1.3
   - pip
   - hmmer >= 3.3
   - prodigal >= 2.6
@@ -23,7 +24,6 @@ dependencies:
     - mkdocs-jupyter
     - mkdocstrings[python]
     - ruff
-    - coverage
     - black
-    - poetry >= 1.3
     - argmark
+    - coverage
