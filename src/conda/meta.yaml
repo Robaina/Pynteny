@@ -9,7 +9,7 @@ source:
   url: https://github.com/Robaina/pynteny/archive/v{{ version }}.tar.gz
 
 build:
-  number: 2
+  number: 4
   entry_points:
     - pynteny = pynteny.cli:main
   script: {{ PYTHON }} -m pip install --no-deps --ignore-installed .
@@ -17,21 +17,20 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
   host:
-    - python
+    - python >=3.8
     - poetry
     - pip
   run:
-    - python
-    - hmmer
-    - prodigal
-    - pyfastx
-    - biopython
+    - python >=3.8
+    - hmmer >=3.3
+    - prodigal >=2.6
+    - pyfastx >=0.8
+    - biopython >=1.8
     - numpy
     - pandas
     - seqkit
-    - psutil
+    - psutil >=5.9
     - requests
     - tqdm
 
