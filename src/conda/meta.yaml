@@ -22,7 +22,6 @@ requirements:
     - poetry
     - pip
   run:
-    - python >=3.8
     - hmmer >=3.3
     - prodigal >=2.6
     - pyfastx >=0.8
