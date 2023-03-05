@@ -42,7 +42,7 @@ jobs:
           # environment-file: envs/pynteny-dev.yml
 
       - name: Build & Install Pynteny
-        run: conda install pynteny
+        run: conda install -c semidan.robaina pynteny
 
       - name: Run tests and collect coverage
         run: pynteny --help && python -m unittest discover tests
