@@ -16,4 +16,4 @@ jobs:
         AnacondaToken: ${{ secrets.ANACONDA_TOKEN }}
         platforms: 'osx-64,linux-64'
         override: true
-        dry_run: false
+        dry_run: true
