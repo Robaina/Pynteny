@@ -15,6 +15,6 @@ jobs:
       with:
         subDir: '.conda'
         AnacondaToken: ${{ secrets.ANACONDA_TOKEN }}
-        platforms: 'osx-64,linux-64'
+        platforms: 'osx-64'
         override: true
         dry_run: true
