@@ -3,20 +3,14 @@ name: publish_conda
 on:
   release:
     types: [published]
-  push:
     
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: conda-channels
-      run: conda config --show channels
     - name: publish-to-conda
-      uses: MichaelsJP/conda-package-publish-action@v1.1.0
+      uses: maxibor/conda-package-publish-action@v1.1
       with:
-        subDir: '.conda'
+        subDir: 'conda'
         AnacondaToken: ${{ secrets.ANACONDA_TOKEN }}
-        platforms: 'osx-64'
-        override: true
-        dry_run: true
