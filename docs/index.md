@@ -1,8 +1,8 @@
 ![logo](https://user-images.githubusercontent.com/21340147/191948930-3ee11b4e-4b13-4365-b14a-2b709c76a49f.png)
 
-Pynteny is a Python package to query sequence databases for synteny blocks through Hidden Markov Models (HMMs). It can be run in a command line interface or through a graphical interface. The command line tool is more complete and is intended to be employed in remote servers. In contrast, the graphical interface runs locally and may be easier to handle for some users (also intended for educational purposes).
+`Pynteny` is Python tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in (prokaryotic) sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/). By leveraging genomic context information, `Pynteny` can be employed to decrease the uncertainty of functional annotation of unlabelled sequence data due to the effect of paralogs. `Pynteny` can be accessed (i) through the command line or (ii) as a Python module.
 
-These are the available subcommands, run as ```pynteny <subcommand> <options>```:
+These are the available subcommands in the CLI, run as ```pynteny <subcommand> <options>```:
 
 - [search](subcommands/search.md)
 - [build](subcommands/build.md)
@@ -13,33 +13,19 @@ These are the available subcommands, run as ```pynteny <subcommand> <options>```
 
 Install with conda:
 
-1. Create dedicated conda environment (highly recommended)
+1. Pynteny requires Python 3.10. The easiest way to handle dependencies is by creating a dedicated conda environment:
 
 ```bash
-conda create -n pynteny
+conda create -n pynteny -c bioconda -c conda-forge python=3.10 pynteny
 conda activate pynteny
 ```
-2. Install pynteny
 
-Pynteny can be install with the following command:
-```bash
-conda install -c bioconda pynteny
-```
-If conda takes a long time to solve the dependencies (e.g., more than a few minutes) or fails to solve it, you may try:
-```bash
-conda install -c conda-forge -c bioconda python pynteny
-```
-Or install it with [mamba](https://github.com/mamba-org/mamba) instead of conda:
-```bash
-mamba install -c bioconda pynteny
-```
-
-3. Check that installation worked fine:
+2. Check that installation worked fine:
 
 ```bash
-pynteny --help
+(pynteny) pynteny --help
 ```
-### Installing Pynteny on Windows
+### 2.1. Installing Pynteny on Windows
 
 Pynteny is designed to run on Linux machines. However, it can be installed within the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) via conda.
 
