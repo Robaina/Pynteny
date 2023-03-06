@@ -17,7 +17,7 @@
 
 
 [![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/platforms.svg)](https://anaconda.org/bioconda/pynteny)
-![python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![python](https://img.shields.io/badge/Python-3.10-blue)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 [![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783)
@@ -33,35 +33,22 @@ Get more info in the [documentation](https://robaina.github.io/Pynteny/) pages!
 
 Install with conda:
 
-1. Create dedicated conda environment (highly recommended)
+1. Pynteny requires Python 3.10. The easiest way to handle dependencies is by creating a dedicated conda environment:
 
 ```bash
-conda create -n pynteny
+conda create -n pynteny -c bioconda -c conda-forge python=3.10 pynteny
 conda activate pynteny
 ```
-2. Install pynteny
 
-Pynteny can be installed with the following command:
-```bash
-conda install -c bioconda pynteny
-```
-If conda takes a long time to solve the dependencies (e.g., more than a few minutes) or fails to solve it, you may try:
-```bash
-conda install -c conda-forge -c bioconda python pynteny
-```
-Or install it with [mamba](https://github.com/mamba-org/mamba) instead of conda:
-```bash
-mamba install -c bioconda pynteny
-```
-
-3. Check that installation worked fine:
+2. Check that installation worked fine:
 
 ```bash
-pynteny --help
+(pynteny) pynteny --help
 ```
 ### 2.1. Installing Pynteny on Windows
 
 Pynteny is designed to run on Linux machines. However, it can be installed within the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) via conda.
+
 
 ## 3. :rocket: Usage
 
