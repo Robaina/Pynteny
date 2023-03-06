@@ -37,12 +37,9 @@ jobs:
           # python-version: "3.10"
           # mamba-version: "*"
           channels: conda-forge,bioconda,defaults
-          # auto-activate-base: false
-          # activate-environment: tests_pynteny
-          # environment-file: envs/pynteny-dev.yml
 
       - name: Build & Install Pynteny
-        run: conda install -c conda-forge -c bioconda pynteny
+        run: conda install pynteny
 
       - name: Run tests and collect coverage
         run: pynteny --help && python -m unittest discover tests
