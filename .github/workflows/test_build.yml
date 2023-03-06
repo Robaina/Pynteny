@@ -42,7 +42,7 @@ jobs:
           # environment-file: envs/pynteny-dev.yml
 
       - name: Build & Install Pynteny
-        run: conda install -c conda-forge -c bioconda python=3.10 pynteny
+        run: conda install -c conda-forge -c bioconda python=3.8 pynteny
 
       - name: Run tests and collect coverage
         run: pynteny --help && python -m unittest discover tests
