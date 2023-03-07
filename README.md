@@ -119,7 +119,8 @@ Pynteny would not work without these awesome projects:
 - [numpy](https://github.com/numpy/numpy)
 - [pandas](https://github.com/pandas-dev/pandas)
 - [psutil](https://github.com/giampaolo/psutil)
-- [python-wget](https://anaconda.org/conda-forge/python-wget/)
+- [requests](https://requests.readthedocs.io/en/latest/)
+- [tqdm](https://github.com/tqdm/tqdm)
 
 Thanks!
 
