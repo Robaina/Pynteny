@@ -40,10 +40,6 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#21-installing-on-windows">2.1. Installing on Windows</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#22-installing-on-macos-with-the-latest-arm64-architecture">2.2. Installing on MacOS with the latest ARM64 architecture</a>
-    </li>
     </ul>
                 </li>
               </ul>
@@ -97,6 +93,7 @@
             <div class="section" itemprop="articleBody">
               
                 <p><img alt="logo" src="https://user-images.githubusercontent.com/21340147/191948930-3ee11b4e-4b13-4365-b14a-2b709c76a49f.png" /></p>
+<h2 id="1-what-is-pynteny">1. What is Pynteny?</h2>
 <p><code>Pynteny</code> is Python tool to search for <a href="https://en.wikipedia.org/wiki/Synteny">synteny</a> blocks in (prokaryotic) sequence data through <a href="https://www.bioinformatics.org/wiki/Hidden_Markov_Model">HMMs</a> of the ORFs of interest and <a href="http://hmmer.janelia.org/">HMMER</a>. By leveraging genomic context information, <code>Pynteny</code> can be employed to decrease the uncertainty of functional annotation of unlabelled sequence data due to the effect of paralogs. <code>Pynteny</code> can be accessed (i) through the command line or (ii) as a Python module.</p>
 <p>These are the available subcommands in the CLI, run as <code>pynteny &lt;subcommand&gt; &lt;options&gt;</code>:</p>
 <ul>
@@ -105,7 +102,7 @@
 <li><a href="subcommands/download/">download</a></li>
 <li><a href="subcommands/parse/">parse</a></li>
 </ul>
-<h2 id="setup">Setup</h2>
+<h2 id="2-setup">2. Setup</h2>
 <p>Install with conda:</p>
 <ol>
 <li>Pynteny requires Python 3.10. The easiest way to handle dependencies is by creating a dedicated conda environment:</li>
@@ -127,7 +124,7 @@ conda activate pynteny_x86
 conda config --env --set subdir osx-64
 conda install -c bioconda pynteny
 </code></pre>
-<h2 id="general-usage">General usage</h2>
+<h2 id="3-general-usage">3. General usage</h2>
 <p>Pynteny's main subcommand, <a href="subcommands/search/"><code>pynteny search</code></a>, requires a peptide (ORF) sequence database in fasta format in which record labels contain positional information of each sequence with respect to their contig of origin. Additionally, labels must follow the following format:</p>
 <pre><code>&lt;genome ID&gt;_&lt;contig ID&gt;_&lt;gene position&gt;_&lt;locus start&gt;_&lt;locus end&gt;_&lt;strand&gt;
 </code></pre>
@@ -136,16 +133,16 @@ conda install -c bioconda pynteny
 <p>Once both the peptide database and the required HMMs are ready, you can query the peptide database with a text string encoding the query synteny structure such as the following:</p>
 <p><span class="arithmatex">\(&gt;HMM_a \:\: n_{ab} \:\: &gt; (HMM_{b1} | HMM_{b2}) \:\: n_{bc} \:\: &lt; HMM_c.\)</span></p>
 <p>Where <span class="arithmatex">\(HMM_a\)</span> represents the name of the HMM to be used (corresponding to the file name without the extension), <span class="arithmatex">\(n_{ab}\)</span> is an integer representing the maximum number of genes between HMMs a and b, &lt; and &gt; indicate the strand in which to search for the HMM pattern, antisense and sense, respectively. Note that more than one HMM can be employed for a single gene in the structure, as indicated by the HMM group <span class="arithmatex">\((HMM_{b1} | HMM_{b2})\)</span> above. In these cases, <a href="subcommands/search/"><code>pynteny search</code></a> will search for sequences that matched any HMM contained within the HMM group.</p>
-<h2 id="getting-started-and-examples">Getting started and Examples</h2>
+<h2 id="4-getting-started-and-examples">4. Getting started and Examples</h2>
 <p>Here are some Jupyter Notebooks with examples to show how Pynteny works.</p>
 <p><a href="https://colab.research.google.com/github/Robaina/Pynteny/blob/main/docs/examples/example_api_colab.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 * <a href="https://robaina.github.io/Pynteny/examples/example_api/">Pynteny API</a>
 * <a href="https://robaina.github.io/Pynteny/examples/example_cli/">Pynteny CLI</a>
 * <a href="https://robaina.github.io/Pynteny/examples/example_sus/">Sus operon</a></p>
 <p>You can find more notebooks in the <a href="docs/examples/">examples directory</a>. Find more info in the <a href="https://robaina.github.io/Pynteny/">documentation</a>.</p>
-<h2 id="contributing">Contributing</h2>
+<h2 id="5-contributing">5. Contributing</h2>
 <p>Contributions are always welcome! If you don't know where to start, you may find an interesting <a href="https://github.com/Robaina/Pynteny/issues">issue to work in here</a>. Please, read our <a href="https://github.com/Robaina/Pynteny/blob/main/CONTRIBUTING.md">contribution guidelines</a> first.</p>
-<h2 id="citation">Citation</h2>
+<h2 id="6-citation">6. Citation</h2>
 <p>If you use this software, please cite it as below:</p>
 <p>Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy(Version 0.0.4). Zenodo. https://doi.org/10.5281/zenodo.7048685</p>
               
@@ -201,5 +198,5 @@ conda install -c bioconda pynteny
 
 <!--
 MkDocs version : 1.4.2
-Build Date UTC : 2023-03-07 22:18:23.998072+00:00
+Build Date UTC : 2023-03-07 22:54:56.623664+00:00
 -->
