@@ -45,10 +45,20 @@ conda activate pynteny
 ```bash
 (pynteny) pynteny --help
 ```
-### 2.1. Installing Pynteny on Windows
+### 2.1. Installing on Windows
 
 Pynteny is designed to run on Linux machines. However, it can be installed within the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) via conda.
 
+### 2.2. Installing on MacOS with the lastest ARM64 architectures
+
+Pynteny doesn't currently support the latest ARM64 architectures of silicon processors (e.g. MacBook M1 and M2). If that is your case, you can install Pynteny using the workaround below (based on [this post](https://towardsdatascience.com/how-to-manage-conda-environments-on-an-apple-silicon-m1-mac-1e29cb3bad12)):
+
+```bash
+CONDA_SUBDIR=osx-64 conda create -n pynteny_x86 python=3.10
+conda activate pynteny_x86
+conda config --env --set subdir osx-64
+conda install -c bioconda pynteny
+```
 
 ## 3. :rocket: Usage
 
