@@ -1,5 +1,7 @@
 ![logo](https://user-images.githubusercontent.com/21340147/191948930-3ee11b4e-4b13-4365-b14a-2b709c76a49f.png)
 
+## 1. What is Pynteny?
+
 `Pynteny` is Python tool to search for [synteny](https://en.wikipedia.org/wiki/Synteny) blocks in (prokaryotic) sequence data through [HMMs](https://www.bioinformatics.org/wiki/Hidden_Markov_Model) of the ORFs of interest and [HMMER](http://hmmer.janelia.org/). By leveraging genomic context information, `Pynteny` can be employed to decrease the uncertainty of functional annotation of unlabelled sequence data due to the effect of paralogs. `Pynteny` can be accessed (i) through the command line or (ii) as a Python module.
 
 These are the available subcommands in the CLI, run as ```pynteny <subcommand> <options>```:
@@ -9,7 +11,7 @@ These are the available subcommands in the CLI, run as ```pynteny <subcommand> <
 - [download](subcommands/download.md)
 - [parse](subcommands/parse.md)
 
-## Setup
+## 2. Setup
 
 Install with conda:
 
@@ -40,7 +42,7 @@ conda config --env --set subdir osx-64
 conda install -c bioconda pynteny
 ```
 
-## General usage
+## 3. General usage
 
 Pynteny's main subcommand, [`pynteny search`](subcommands/search.md), requires a peptide (ORF) sequence database in fasta format in which record labels contain positional information of each sequence with respect to their contig of origin. Additionally, labels must follow the following format:
 
@@ -58,7 +60,7 @@ $>HMM_a \:\: n_{ab} \:\: > (HMM_{b1} | HMM_{b2}) \:\: n_{bc} \:\: < HMM_c.$
 
 Where $HMM_a$ represents the name of the HMM to be used (corresponding to the file name without the extension), $n_{ab}$ is an integer representing the maximum number of genes between HMMs a and b, < and > indicate the strand in which to search for the HMM pattern, antisense and sense, respectively. Note that more than one HMM can be employed for a single gene in the structure, as indicated by the HMM group $(HMM_{b1} | HMM_{b2})$ above. In these cases, [`pynteny search`](subcommands/search.md) will search for sequences that matched any HMM contained within the HMM group.
 
-## Getting started and Examples
+## 4. Getting started and Examples
 
 Here are some Jupyter Notebooks with examples to show how Pynteny works.
 
@@ -69,11 +71,11 @@ Here are some Jupyter Notebooks with examples to show how Pynteny works.
 
 You can find more notebooks in the [examples directory](docs/examples/). Find more info in the [documentation](https://robaina.github.io/Pynteny/).
 
-## Contributing
+## 5. Contributing
 
 Contributions are always welcome! If you don't know where to start, you may find an interesting [issue to work in here](https://github.com/Robaina/Pynteny/issues). Please, read our [contribution guidelines](https://github.com/Robaina/Pynteny/blob/main/CONTRIBUTING.md) first.
 
-## Citation
+## 6. Citation
 
 If you use this software, please cite it as below:
 
