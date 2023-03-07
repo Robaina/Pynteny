@@ -42,7 +42,7 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#21-installing-on-windows">2.1. Installing on Windows</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#22-installing-on-macos-with-the-lastest-arm64-architectures">2.2. Installing on MacOS with the lastest ARM64 architectures</a>
+    <li class="toctree-l2"><a class="reference internal" href="#22-installing-on-macos-with-the-latest-arm64-architecture">2.2. Installing on MacOS with the latest ARM64 architecture</a>
     </li>
     </ul>
                 </li>
@@ -120,8 +120,8 @@ conda activate pynteny
 </code></pre>
 <h3 id="21-installing-on-windows">2.1. Installing on Windows</h3>
 <p>Pynteny is designed to run on Linux machines. However, it can be installed within the <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows Subsystem for Linux</a> via conda.</p>
-<h3 id="22-installing-on-macos-with-the-lastest-arm64-architectures">2.2. Installing on MacOS with the lastest ARM64 architectures</h3>
-<p>Pynteny doesn't currently support the latest ARM64 architectures of silicon processors (e.g. MacBook M1 and M2). If that is your case, you can install Pynteny using the workaround below (based on <a href="https://towardsdatascience.com/how-to-manage-conda-environments-on-an-apple-silicon-m1-mac-1e29cb3bad12">this post</a>):</p>
+<h3 id="22-installing-on-macos-with-the-latest-arm64-architecture">2.2. Installing on MacOS with the latest ARM64 architecture</h3>
+<p>Pynteny doesn't currently support the latest ARM64 architecture of silicon processors (e.g. MacBook M1 and M2). If that is your case, you can install Pynteny using the workaround below (based on <a href="https://towardsdatascience.com/how-to-manage-conda-environments-on-an-apple-silicon-m1-mac-1e29cb3bad12">this post</a>):</p>
 <pre><code class="language-bash">CONDA_SUBDIR=osx-64 conda create -n pynteny_x86 python=3.10
 conda activate pynteny_x86
 conda config --env --set subdir osx-64
@@ -201,5 +201,5 @@ conda install -c bioconda pynteny
 
 <!--
 MkDocs version : 1.4.2
-Build Date UTC : 2023-03-07 22:10:01.044441+00:00
+Build Date UTC : 2023-03-07 22:18:23.998072+00:00
 -->
