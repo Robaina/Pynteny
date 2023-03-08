@@ -15,14 +15,14 @@ These are the available subcommands in the CLI, run as ```pynteny <subcommand> <
 
 Install with conda:
 
-1. Pynteny requires Python 3.10. The easiest way to handle dependencies is by creating a dedicated conda environment:
+Pynteny requires Python 3.10. The easiest way to handle dependencies is by creating a dedicated conda environment:
 
 ```bash
 conda create -n pynteny -c bioconda -c conda-forge python=3.10 pynteny
 conda activate pynteny
 ```
 
-2. Check that installation worked fine:
+Check that installation worked fine:
 
 ```bash
 (pynteny) pynteny --help
