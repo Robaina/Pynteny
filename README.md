@@ -143,5 +143,5 @@ Contributions are always welcome! If you don't know where to start, you may find
 
 If you use this software, please cite it as below:
 
-Semidán Robaina Estévez. (2022). Pynteny: synteny-aware hmm searches made easy (Version 0.0.4). Zenodo. https://doi.org/10.5281/zenodo.7048685
+Semidán Robaina Estévez. (2023). Pynteny: synteny-aware hmm searches made easy (Version 1.0.0). Zenodo. https://zenodo.org/record/7696204
 
