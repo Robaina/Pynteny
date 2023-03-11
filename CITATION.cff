@@ -5,7 +5,7 @@ authors:
     given-names: "Semidán"
     orcid: "https://orcid.org/0000-0003-0781-1677"
 title: "Pynteny: synteny-aware hmm searches made easy"
-version: 0.0.2
-doi: 10.5281/zenodo.7048685
-date-released: 2022-09-04
+version: 1.0.0
+doi: 10.5281/zenodo.7696204
+date-released: 2023-03-03
 url: "https://github.com/Robaina/Pynteny"
