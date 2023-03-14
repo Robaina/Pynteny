@@ -557,7 +557,7 @@ class GeneAnnotator:
             utils.parallelize_over_input_files(
                 wrappers.run_prodigal,
                 input_list=list(contigs_dir.iterdir()),
-                n_processes=processes,
+                processes=processes,
                 output_dir=prodigal_dir,
                 output_format="fasta",
                 metagenome=metagenome,
@@ -634,6 +634,7 @@ class Database:
         seq_prefix: str = None,
         prepend_file_name: bool = False,
         output_file: Path = None,
+        processes: int = None,
     ) -> LabelledFASTA:
         """Build database from data files.
 
@@ -643,6 +644,7 @@ class Database:
             prepend_file_name (bool, optional): whether to add file name as genome ID to
                 each record in the result merged fasta file.
             output_file (Path, optional): path to output file. Defaults to None.
+            processes (int, optional): maximum number of threads. Defaults to all minus one.
 
         Returns:
             LabelledFASTA: object containing the labelled peptide database.
@@ -663,7 +665,8 @@ class Database:
                     assembly_fasta = FASTA(self._data)
                 logger.info("Translating and annotating assembly data.")
                 labelled_database = GeneAnnotator(assembly_fasta).annotate(
-                    output_file=output_file
+                    output_file=output_file,
+                    processes=processes,
                 )
         elif self.is_gbk(self._data_files[0]):
             logger.info("Parsing GenBank data.")

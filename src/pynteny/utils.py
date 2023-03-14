@@ -172,7 +172,7 @@ def terminal_execute(
 
 
 def parallelize_over_input_files(
-    callable, input_list: list, n_processes: int = None, **callable_kwargs
+    callable, input_list: list, processes: int = None, **callable_kwargs
 ) -> None:
     """Parallelize callable over a set of input objects using a pool
     of workers. Inputs in input list are passed to the first argument
@@ -184,9 +184,9 @@ def parallelize_over_input_files(
         n_processes (int, optional): maximum number of threads.
             Defaults to all minus one.
     """
-    if n_processes is None:
-        n_processes = os.cpu_count - 1
-    p = Pool(processes=n_processes)
+    if processes is None:
+        processes = os.cpu_count - 1
+    p = Pool(processes=processes)
     p.map(partial(callable, **callable_kwargs), input_list)
     p.close()
     p.join()
