@@ -181,6 +181,7 @@ def build_database(args: Union[CommandArgs, ArgumentParser]) -> None:
     database.build(
         output_file=args.outfile,
         prepend_file_name=prepend_file_name,
+        processes=args.processes,
     )
     logger.info("Database built successfully!")
     logging.shutdown()
