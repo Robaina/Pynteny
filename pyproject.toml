@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pynteny"
-version = "1.0.0"
+version = "1.1.0"
 description = "Synteny-aware hmm searches made easy in Python"
 license = "Apache-2.0"
 authors = ["Semidán Robaina Estévez <srobaina@ull.edu.es>"]
