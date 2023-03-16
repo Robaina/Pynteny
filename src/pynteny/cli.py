@@ -390,7 +390,17 @@ class SubcommandParser:
             metavar="",
             required=False,
             default=None,
-            help=("set maximum number of processes. " "Defaults to all but one."),
+            help=("set maximum number of processes. Defaults to all but one."),
+        )
+        optional.add_argument(
+            "-t",
+            "--tempdir",
+            dest="tempdir",
+            type=Path,
+            default=None,
+            metavar="",
+            required=False,
+            help="path to directory to store temporary files. Defaults to system temp directory.",
         )
         optional.add_argument(
             "-l",

@@ -21,7 +21,10 @@ class TestDatabase(unittest.TestCase):
         database = Database(data)
         with tempfile.NamedTemporaryFile() as outfile:
             labelled_database = database.build(
-                seq_prefix="test", output_file=outfile.name, prepend_file_name=True
+                seq_prefix="test",
+                output_file=outfile.name,
+                prepend_file_name=True,
+                tempdir=None,
             )
             self.assertIsInstance(
                 labelled_database,
@@ -35,6 +38,7 @@ class TestDatabase(unittest.TestCase):
                 data=Path(this_file_dir / "test_data/test_assembly"),
                 outfile=outfile.name,
                 logfile=None,
+                tempdir=None,
             ).run()
 
     def test_build_gbk(self):

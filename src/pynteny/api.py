@@ -177,15 +177,17 @@ class Build(Command):
         outfile: Path = None,
         logfile: Path = None,
         processes: int = None,
+        tempdir: Path = None,
     ):
         """Translate nucleotide assembly file and assign contig and gene location
            info to each identified ORF (using prodigal).
 
         Args:
             data (Path): _description_
-            outfile (Path, optional): _description_. Defaults to None.
-            logfile (Path, optional): _description_. Defaults to None.
-            processes (int, optional): _description_. Defaults to None.
+            outfile (Path, optional): path to file containing built database. Defaults to None.
+            logfile (Path, optional): path to logfile. Defaults to None.
+            processes (int, optional): maximum number of processes. Defaults to all minus one.
+            tempdir (Path, optional): path to directory to contain temporary files. Defaults to None.
         """
 
         self._args = CommandArgs(
@@ -194,6 +196,7 @@ class Build(Command):
             outfile=Path(outfile) if outfile is not None else outfile,
             logfile=Path(logfile) if logfile is not None else logfile,
             processes=processes,
+            tempdir=Path(tempdir) if tempdir is not None else tempdir,
         )
 
     def run(self) -> None:
