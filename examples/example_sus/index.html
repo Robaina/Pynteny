@@ -1124,18 +1124,18 @@ Licensed under the Apache License, Version 2.0.
     init_mathjax();
     </script>
     <!-- End of mathjax configuration --><div class="jupyter-wrapper">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><img src="https://user-images.githubusercontent.com/21340147/192824830-dcbe8d09-2b10-431d-bd9a-b4624192dcc9.png" alt="logo">
+<p><img src="https://user-images.githubusercontent.com/21340147/192824830-dcbe8d09-2b10-431d-bd9a-b4624192dcc9.png" alt="logo" /></p>
 <br/>
-<br/></p>
+<br/>
 <p><a href="https://github.com/Robaina">Semidán Robaina</a>, September 2022.</p>
 <p>In this Notebook, we will use Pynteny through its command-line interface to find candidate peptide sequences beloging to the <em>susC</em>-<em>susD</em> gene pair within unannotated, fully sequenced, genomes of marine prokaryotic organisms.</p>
-<p>The pair <em>susC</em>-<em>susD</em> is characteristic of the phylum <em>Bacteroidota</em> and allows these bacteria to feed on long polysaccharides collected from the environment through a <a href="https://www.nature.com/articles/s41467-020-20285-y">"pedal-bin" mechanism</a>. <em>Bacteroidota</em> is found across different environments, including the oceans, soil and our gut.</p>
+<p>The pair <em>susC</em>-<em>susD</em> is characteristic of the phylum <em>Bacteroidota</em> and allows these bacteria to feed on long polysaccharides collected from the environment through a <a href="https://www.nature.com/articles/s41467-020-20285-y">&quot;pedal-bin&quot; mechanism</a>. <em>Bacteroidota</em> is found across different environments, including the oceans, soil and our gut.</p>
 <p>Interestingly, <em>susC</em>, a TomB-dependent membrane protein, has a number of <a href="https://www.ebi.ac.uk/interpro/entry/InterPro/IPR023996/">known homologs</a>, such as <em>RagA</em> and <em>OmpW</em>. Hence, labelling unannotated sequences as <em>susC</em> solely based on sequence similarity may be difficult to accomplish. Here, we are going to leverage the genomic context information of the pair <em>susC</em>-<em>susD</em> to reduce function annotation uncertainty. Since the gene pair is specific to <em>Bacteroidota</em>, wi will also explore the taxonomy assigned to the environmental sequences.</p>
 <p>Note that we could have conducted the same search through <a href="example_api.ipynb">Pynteny's python API</a>. Find more info in the <a href="https://robaina.github.io/Pynteny/">documentation pages</a>. Let's start by importing some required modules.</p>
 
@@ -1143,7 +1143,7 @@ Licensed under the Apache License, Version 2.0.
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div  class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1175,28 +1175,28 @@ Licensed under the Apache License, Version 2.0.
 
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="preprocess-data">Preprocess data<a class="anchor-link" href="#preprocess-data">&#182;</a></h2><p>In this notebook, we will start directly with the already-built peptide database, which contains positional information in sequence labels. We have also previously downloaded the <a href="https://academic.oup.com/nar/article/49/D1/D1020/6018440">PGAP</a>'s profile HMM database.</p>
+<h2 id="Preprocess-data">Preprocess data<a class="anchor-link" href="#Preprocess-data">&#182;</a></h2><p>In this notebook, we will start directly with the already-built peptide database, which contains positional information in sequence labels. We have also previously downloaded the <a href="https://academic.oup.com/nar/article/49/D1/D1020/6018440">PGAP</a>'s profile HMM database.</p>
 <p>These steps are shown <a href="example_cli.ipynb">here</a></p>
 
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="search-synteny-structure-in-mar-ref">Search synteny structure in MAR ref<a class="anchor-link" href="#search-synteny-structure-in-mar-ref">&#182;</a></h2><p>We are going to use pynteny's <code>search</code> subcommand to search for the gene pair <em>susC</em>-<em>susD</em> within the MAR ref database:</p>
-
-<pre><code>&gt;OMP_RagA_SusC 0 &gt;SusD</code></pre>
+<h2 id="Search-synteny-structure-in-MAR-ref">Search synteny structure in MAR ref<a class="anchor-link" href="#Search-synteny-structure-in-MAR-ref">&#182;</a></h2><p>We are going to use pynteny's <code>search</code> subcommand to search for the gene pair <em>susC</em>-<em>susD</em> within the MAR ref database:</p>
+<pre><code>&gt;OMP_RagA_SusC 0 &gt;SusD
+</code></pre>
 <p>Here, we are using the gene symbols as found in the metadata file of the <a href="https://academic.oup.com/nar/article/49/D1/D1020/6018440">PGAP</a>'s profile HMM database. We the above synteny structure, we are searching for peptide sequences matching the profile HMM corresponding to these gene symbols, which are also arranged in this particular order, all in the positive (sense) strand, as indicated by <code>&gt;</code>, and which are located exactly next to each other in the same contig (no ORFs allowed between them, as indicated by a maximum number of in-between ORFs of 0 in all cases.)</p>
 <p>It would be interesting to compare the results generated by using the above synteny structure with those generated by simply matching the gene <em>susC</em>, that is, without considering genomic context. Hence, we will run pynteny's <code>search</code> subcommand also for this second case.</p>
 
@@ -1204,7 +1204,7 @@ Licensed under the Apache License, Version 2.0.
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1256,9 +1256,7 @@ pynteny search \
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -1295,7 +1293,7 @@ Semidán Robaina Estévez (srobaina@ull.edu.es), 2022
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1347,9 +1345,7 @@ pynteny search \
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -1386,7 +1382,7 @@ Semidán Robaina Estévez (srobaina@ull.edu.es), 2022
 
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1398,19 +1394,19 @@ Semidán Robaina Estévez (srobaina@ull.edu.es), 2022
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="assigning-gtdb-taxonomy-to-sequence-hits">Assigning GTDB taxonomy to sequence hits<a class="anchor-link" href="#assigning-gtdb-taxonomy-to-sequence-hits">&#182;</a></h2><p>The pair <em>susC</em>-<em>susD</em> is specific to phylum <em>Bacteroidota</em>. Let's check if the taxonomy assigned to the retrieved sequences matches that phylum. To this end, we will extract that info from the MAR ref database itself, which provides a metadata file that contains GTDB taxonomical information for each genome in it.</p>
+<h2 id="Assigning-GTDB-taxonomy-to-sequence-hits">Assigning GTDB taxonomy to sequence hits<a class="anchor-link" href="#Assigning-GTDB-taxonomy-to-sequence-hits">&#182;</a></h2><p>The pair <em>susC</em>-<em>susD</em> is specific to phylum <em>Bacteroidota</em>. Let's check if the taxonomy assigned to the retrieved sequences matches that phylum. To this end, we will extract that info from the MAR ref database itself, which provides a metadata file that contains GTDB taxonomical information for each genome in it.</p>
 
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div  class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1460,7 +1456,7 @@ def assign_tax(genome_id: str) -> str:
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div  class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1508,19 +1504,19 @@ susC.to_csv("example_sus/SusC_results/synteny_matched_tax.tsv", sep="\t", index=
 
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="lets-do-some-basic-statistics">Let's do some basic statistics<a class="anchor-link" href="#lets-do-some-basic-statistics">&#182;</a></h2><p>Alright, everything is ready. Let's briefly explore the results obtained by our pynteny searches. First, let's count the total number of hits correspondin to <em>susC</em> and to the pair <em>susC</em>-<em>susD</em>.</p>
+<h2 id="Let's-do-some-basic-statistics">Let's do some basic statistics<a class="anchor-link" href="#Let's-do-some-basic-statistics">&#182;</a></h2><p>Alright, everything is ready. Let's briefly explore the results obtained by our pynteny searches. First, let's count the total number of hits correspondin to <em>susC</em> and to the pair <em>susC</em>-<em>susD</em>.</p>
 
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1564,9 +1560,7 @@ ax = pd.Series(hit_counts).plot(kind="bar")</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -1588,7 +1582,7 @@ class="
 
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1600,7 +1594,7 @@ class="
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1636,9 +1630,7 @@ class="
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 
@@ -1659,7 +1651,7 @@ Name: taxonomy, dtype: int64</pre>
 
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1671,7 +1663,7 @@ Name: taxonomy, dtype: int64</pre>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1707,9 +1699,7 @@ Name: taxonomy, dtype: int64</pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 
@@ -1743,7 +1733,7 @@ Name: taxonomy, dtype: int64</pre>
 
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
