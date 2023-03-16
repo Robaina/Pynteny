@@ -555,16 +555,15 @@ class GeneAnnotator:
             tempdir = Path(tempfile.gettempdir())
         else:
             tempdir = Path(tempdir).resolve()
-        tempcontigs = tempdir / "contigs"
-        tempcontigs.mkdir(parents=True, exist_ok=True)
-        tempprodigal = tempdir / "prodigal"
-        tempprodigal.mkdir(parents=True, exist_ok=True)
+        # tempcontigs = tempdir / "contigs"
+        # tempcontigs.mkdir(parents=True, exist_ok=True)
+        # tempprodigal = tempdir / "prodigal"
+        # tempprodigal.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(
-            dir=tempcontigs
+            dir=tempdir
         ) as contigs_dir, tempfile.TemporaryDirectory(
-            dir=tempprodigal
+            dir=tempdir
         ) as prodigal_dir, tempfile.NamedTemporaryFile() as temp_fasta:
-
             contigs_dir = Path(contigs_dir)
             prodigal_dir = Path(prodigal_dir)
             logger.info("Running prodigal on assembly data")
