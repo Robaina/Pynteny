@@ -124,8 +124,6 @@ class FASTAmerger:
         else:
             output_file = Path(output_file)
         logger.info("Merging FASTA files in input directory")
-        # cmd_str = f'awk 1 * > {output_file}'
-        # # cmd_str = "find . -maxdepth 1 -type f --exec cat {} + > " + f"{output_file}"
         cmd_str = f"printf '%s\\0' * | xargs -0 cat > {output_file}"
         if prepend_file_name:
             with tempfile.TemporaryDirectory() as tempdir:
@@ -555,10 +553,6 @@ class GeneAnnotator:
             tempdir = Path(tempfile.gettempdir())
         else:
             tempdir = Path(tempdir).resolve()
-        # tempcontigs = tempdir / "contigs"
-        # tempcontigs.mkdir(parents=True, exist_ok=True)
-        # tempprodigal = tempdir / "prodigal"
-        # tempprodigal.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(
             dir=tempdir
         ) as contigs_dir, tempfile.TemporaryDirectory(
