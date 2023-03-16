@@ -528,7 +528,7 @@ class GeneAnnotator:
         metagenome: bool = True,
         output_file: Path = None,
         prodigal_args: str = None,
-        tmpdir: Path = None,
+        tempdir: Path = None,
     ) -> LabelledFASTA:
         """Run prodigal on assembly and export single fasta file with peptide ORFs predictions
 
@@ -537,7 +537,7 @@ class GeneAnnotator:
             metagenome (bool, optional): whether assembled sequences correspond to metagenomic data. Defaults to True.
             output_file (Path, optional): path to output fasta file. Defaults to None.
             prodigal_args (str, optional): additional arguments to be passed to prodigal CLI. Defaults to None.
-            tmpdir (Path, optional): path to temporary directory. Defaults to tempfile default.
+            tempdir (Path, optional): path to temporary directory. Defaults to tempfile default.
 
         Returns:
             LabelledFASTA: object containing the labelled peptide database.
@@ -551,15 +551,18 @@ class GeneAnnotator:
             )
         else:
             output_file = Path(output_file)
-        if tmpdir is None:
-            tmpdir = Path(tempfile.gettempdir())
+        if tempdir is None:
+            tempdir = Path(tempfile.gettempdir())
         else:
-            tmpdir = Path(tmpdir).resolve()
-
+            tempdir = Path(tempdir).resolve()
+        tempcontigs = tempdir / "contigs"
+        tempcontigs.mkdir(parents=True, exist_ok=True)
+        tempprodigal = tempdir / "prodigal"
+        tempprodigal.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(
-            dir=tmpdir / "contigs"
+            dir=tempcontigs
         ) as contigs_dir, tempfile.TemporaryDirectory(
-            dir=tmpdir / "prodigal"
+            dir=tempprodigal
         ) as prodigal_dir, tempfile.NamedTemporaryFile() as temp_fasta:
 
             contigs_dir = Path(contigs_dir)
@@ -647,7 +650,7 @@ class Database:
         prepend_file_name: bool = False,
         output_file: Path = None,
         processes: int = None,
-        tmpdir: Path = None,
+        tempdir: Path = None,
     ) -> LabelledFASTA:
         """Build database from data files.
 
@@ -681,7 +684,7 @@ class Database:
                 labelled_database = GeneAnnotator(assembly_fasta).annotate(
                     output_file=output_file,
                     processes=processes,
-                    tmpdir=tmpdir,
+                    tempdir=tempdir,
                 )
         elif self.is_gbk(self._data_files[0]):
             logger.info("Parsing GenBank data.")
