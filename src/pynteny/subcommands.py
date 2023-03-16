@@ -237,7 +237,7 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
     else:
         download_dir = Path(args.outdir).absolute()
     if not download_dir.exists():
-        os.makedirs(download_dir, exist_ok=True)
+        download_dir.mkdir(parents=True, exist_ok=True)
 
     config.update_config("database_dir", download_dir.as_posix())
     config.update_config("upack_PGAP_database", args.unpack)

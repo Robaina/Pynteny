@@ -295,7 +295,7 @@ class FASTA:
             )
         else:
             output_dir = Path(output_dir)
-        os.makedirs(output_dir, exist_ok=True)
+        output_dir.mkdir(parents=True, exist_ok=True)
         contigs = pyfastx.Fasta(
             self.file_path.as_posix(), build_index=False, full_name=True
         )
