@@ -15,6 +15,7 @@ usage: pynteny build [-h] [args]
 |`-p`|`--prepend-filename`||whether to prepend file name to peptide sequences when a directory with multiple fasta or genbank files is used as input.|
 |`-o`|`--outfile`|`None`|path to output (labelled peptide database) file. Defaults to  file in directory of input data.|
 |`-n`|`--processes`|`None`|set maximum number of processes. Defaults to all but one.|
+|`-t`|`--tempdir`|`None`|path to directory to store temporary files. Defaults to system temp directory.|
 |`-l`|`--log`|`None`|path to log file. Log not written by default.|
 
 

@@ -21,7 +21,7 @@ class TestDatabase(unittest.TestCase):
         database = Database(data)
         with tempfile.NamedTemporaryFile() as outfile:
             labelled_database = database.build(
-                seq_prefix="test", output_file=outfile.name, prepend_file_name=True
+                seq_prefix="test", output_file=outfile.name, prepend_file_name=True, tmpdir=None
             )
             self.assertIsInstance(
                 labelled_database,
