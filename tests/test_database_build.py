@@ -38,6 +38,7 @@ class TestDatabase(unittest.TestCase):
                 data=Path(this_file_dir / "test_data/test_assembly"),
                 outfile=outfile.name,
                 logfile=None,
+                tempdir=None,
             ).run()
 
     def test_build_gbk(self):
