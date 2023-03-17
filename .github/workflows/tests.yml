@@ -5,11 +5,15 @@ on:
     paths-ignore:
       - '**.md'
       - '**.ipynb'
+      - '**.bib'
+      - 'ms/*'
   pull_request:
     types: [opened, reopened, edited]
     paths-ignore:
       - '**.md'
       - '**.ipynb'
+      - '**.bib'
+      - 'ms/*'
 
 jobs:
 
