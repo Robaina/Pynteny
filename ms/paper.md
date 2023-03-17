@@ -32,16 +32,31 @@ While function is generally conserved among sequence orthologs, i.e., homologs t
 
 # Statement of need
 
-Here we introduce `Pynteny`, a Python tool designed to conduct synteny-aware, profile HMM searches in prokaryotic sequence databases. `Pynteny` facilitates querying sequence databases with arrangements of profile HMMs that reflect a target syntenic block. To this end, it enables encoding positional information, such as gene order, maximum in-between gene distances, and strand specificity, into the search query. `Pynteny` is designed to work directly with assembled nucleotide sequence data, however, it also accepts annotated genomes in GenBank format as input data. It relies on Prodigal [@prodigal] to translate and add positional tags to individual genes, and on HMMER3, [@hmmer] to search sequence databases for homologs through profile HMMs.
+Here we introduce `Pynteny`, a Python tool designed to conduct synteny-aware, profile HMM searches in prokaryotic sequence databases. `Pynteny` facilitates querying sequence databases with arrangements of profile HMMs that reflect a target syntenic block. To this end, it enables encoding positional information, such as gene order, maximum in-between gene distances, and strand specificity, into the search query. 
 
-`Pynteny` was designed to be used by researchers working with large, unannotated sequence databases, such as those typically encountered in metagenomic analyses. It can be accessed through a command line interface or easily integrated into pipelines as a Python package.
+For instance, consider the following syntenic block:
+
+![synteny example.\label{fig:example}](synteny_example.png){ width=20% }
+
+The syntenic block shown above is composed of four genes, `A`, `B`, `C`, and `D`. Genes A-C locate consecutively in the positive strand, and are followed by three (untargeted) genes and by gene D, which is located in the negative strand. `Pynteny` allows searching for the syntenic block above with the following query string:
+
+$>HMM_A \:\: 0 \:\: >(HMM_{B1} | HMM_{B2}) \:\: 0 \:\: >HMM_C \:\: 3 \:\:< HMM_D,$
+
+where $HMM_a$ represents the name of the HMM modeling gene A, eacn integer represents the maximum number of genes between consecutive, and `<` and `>` indicate the strand in which to search for the HMM pattern, antisense and sense, respectively. Alternative HMMs can be used for a single gene, as shown in the HMM group $(HMM_{B1} | HMM_{B2})$ above, in which case the search will be performed with both HMMs. Additionally, gene symbols can be used directly in the query string when the [@pgap] HMM database is employed, and which is the default database used by `Pynteny`.
+
+`Pynteny` was designed to be used by researchers working with large, unannotated sequence databases, such as those typically encountered in metagenomic analyses. It can be accessed through a command line interface or easily integrated into pipelines as a Python package. It can directly handle assembled nucleotide sequence data, however, it also accepts annotated genomes in GenBank format as input data. In both cases, the package provides all the necessary functionality to preprocess the sequence database. 
+
+`Pynteny` relies on Prodigal [@prodigal] to translate and add positional tags to individual genes, and on HMMER3, [@hmmer] to search sequence databases for homologs through profile HMMs. Usage information as well as examples in the form of Jupyter Notebooks for both the command line interface and the Python package are available in the [documentation](https://robaina.github.io/Pynteny/).
 
 # State of the field
 
 Several existing tools are dedicated to the exploration, analysis, and visualization of synteny blocks among genomes. In these tools, users typically input a number of annotated genomes and obtain a collection of syntenic relations of shared gene sets among the genomes. Examples of these tools are MCScan [@mcscan] and MCScanX [@mcscanx], Clinker [@clinker], pyGenomeViz [@pyGenomeViz], genePlotR [@geneplotR], gggenomes [@gggenomes], GENESPACE [@genespace] and Mology [@mology]. These tools are excellent resources for the identification and analysis of syntenic relations among genomes, and they are functionally complementary to `Pynteny`. Specifically, rather than exploring syntenic blocks within annotated genomes, `Pynteny`'s objective is to search for specific syntenic structures within unannotated (assembled) sequence data, as well as to leverage syntenic information to reduce uncertainty due to paralogs during function annotation. Therefore, `Pynteny` requires a previous identification of conserved syntenic structures, which can be obtained from existing tools such as the ones previously indicated.
 
+# Availability
+`Pynteny` is available as a Python package for Linux and MacOS under the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license and hosted on bioconda [@pypi], a [Docker image](https://github.com/Robaina/Pynteny/pkgs/container/pynteny) is also available. Source code can be found on [GitHub](https://github.com/Robaina/Pynteny), and features a GitHub CodeSpace and a Continuous Integration workflow to run integration tests on changes. Documentation is hosted on [GitHub pages](https://robaina.github.io/Pynteny/) and is built for each new release.
+
 # Acknowledgements
 
-We acknowledge constructive feedback from Pynteny users as well as reviewers at PyOpenSci which has helped to improve the package. This study was funded by project PID2019-110011RB-C32 (Spanish Ministry of Science and Innovation, Spanish State Research Agency, doi: 10.13039/501100011033).
+We acknowledge constructive feedback from Pynteny users as well as editors and reviewers Alex Batisse, C. Thoben, David Nicholson, Ariane Sasso, and Leah Wasser at PyOpenSci who have tremendously helped to improve the package. This study was funded by project PID2019-110011RB-C32 (Spanish Ministry of Science and Innovation, Spanish State Research Agency, doi: 10.13039/501100011033).
 
 # References
