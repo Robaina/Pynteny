@@ -4543,7 +4543,13 @@ same additional argument is passed to hmmsearch for all input hmms. Defaults to 
 
         <details class="quote">
           <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">589</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
 <span class="normal">590</span>
 <span class="normal">591</span>
 <span class="normal">592</span>
@@ -4647,13 +4653,7 @@ same additional argument is passed to hmmsearch for all input hmms. Defaults to 
 <span class="normal">690</span>
 <span class="normal">691</span>
 <span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
-<span class="normal">696</span>
-<span class="normal">697</span>
-<span class="normal">698</span>
-<span class="normal">699</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Database</span><span class="p">:</span>
+<span class="normal">693</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Database</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;_Sequence database constructor&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -4840,7 +4840,13 @@ same additional argument is passed to hmmsearch for all input hmms. Defaults to 
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">592</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
 <span class="normal">593</span>
 <span class="normal">594</span>
 <span class="normal">595</span>
@@ -4852,13 +4858,7 @@ same additional argument is passed to hmmsearch for all input hmms. Defaults to 
 <span class="normal">601</span>
 <span class="normal">602</span>
 <span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span>
-<span class="normal">610</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">604</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize Database object</span>
 
 <span class="sd">    Args:</span>
@@ -4983,7 +4983,13 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">646</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
 <span class="normal">647</span>
 <span class="normal">648</span>
 <span class="normal">649</span>
@@ -5030,13 +5036,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">690</span>
 <span class="normal">691</span>
 <span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
-<span class="normal">696</span>
-<span class="normal">697</span>
-<span class="normal">698</span>
-<span class="normal">699</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">build</span><span class="p">(</span>
+<span class="normal">693</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">build</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">seq_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">prepend_file_name</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -5158,7 +5158,13 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">612</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
 <span class="normal">613</span>
 <span class="normal">614</span>
 <span class="normal">615</span>
@@ -5167,13 +5173,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">618</span>
 <span class="normal">619</span>
 <span class="normal">620</span>
-<span class="normal">621</span>
-<span class="normal">622</span>
-<span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">621</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">is_fasta</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if file is in fasta format</span>
 
@@ -5257,7 +5257,13 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">629</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
 <span class="normal">630</span>
 <span class="normal">631</span>
 <span class="normal">632</span>
@@ -5266,13 +5272,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">635</span>
 <span class="normal">636</span>
 <span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span>
-<span class="normal">640</span>
-<span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">638</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">is_gbk</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if file is in genbank format</span>
 
@@ -5321,7 +5321,9 @@ each record in the result merged fasta file.</p></td>
 
         <details class="quote">
           <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
@@ -5542,9 +5544,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">357</span>
 <span class="normal">358</span>
 <span class="normal">359</span>
-<span class="normal">360</span>
-<span class="normal">361</span>
-<span class="normal">362</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FASTA</span><span class="p">:</span>
+<span class="normal">360</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FASTA</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle and process fasta files.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -5789,8 +5789,8 @@ each record in the result merged fasta file.</p></td>
 <code class="highlight language-python"><span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span></code>
   
   <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-writable"><code>writable</code></small>
       <small class="doc doc-label doc-label-property"><code>property</code></small>
+      <small class="doc doc-label doc-label-writable"><code>writable</code></small>
   </span>
 
 </h3>
@@ -5887,13 +5887,13 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
 <span class="normal">143</span>
 <span class="normal">144</span>
 <span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize FASTA object.</span>
 
 <span class="sd">    Args:</span>
@@ -5966,7 +5966,9 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">337</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
 <span class="normal">338</span>
 <span class="normal">339</span>
 <span class="normal">340</span>
@@ -5989,9 +5991,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">357</span>
 <span class="normal">358</span>
 <span class="normal">359</span>
-<span class="normal">360</span>
-<span class="normal">361</span>
-<span class="normal">362</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_prefix_to_records</span><span class="p">(</span>
+<span class="normal">360</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_prefix_to_records</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">point_to_new_file</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add prefix to sequence records in FASTA</span>
@@ -6083,7 +6083,9 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">258</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
 <span class="normal">261</span>
@@ -6107,9 +6109,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filter_by_IDs</span><span class="p">(</span>
+<span class="normal">282</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filter_by_IDs</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">record_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">point_to_new_file</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter records in fasta file matching provided IDs.</span>
@@ -6202,7 +6202,9 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">310</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
 <span class="normal">311</span>
 <span class="normal">312</span>
 <span class="normal">313</span>
@@ -6225,9 +6227,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">330</span>
 <span class="normal">331</span>
 <span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filter_by_minimum_length</span><span class="p">(</span>
+<span class="normal">333</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">filter_by_minimum_length</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">min_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">point_to_new_file</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter records in fasta file by minimum length.</span>
@@ -6342,7 +6342,9 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">166</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
@@ -6361,9 +6363,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_FASTA_directory</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">input_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">merged_fasta</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">prepend_file_name</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FASTA</span><span class="p">:</span>
@@ -6461,7 +6461,9 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">220</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
 <span class="normal">223</span>
@@ -6495,9 +6497,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">251</span>
 <span class="normal">252</span>
 <span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">remove_corrupted_sequences</span><span class="p">(</span>
+<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">remove_corrupted_sequences</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">is_peptide</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -6618,7 +6618,9 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">189</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
@@ -6645,9 +6647,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">213</span>
 <span class="normal">214</span>
 <span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">remove_duplicates</span><span class="p">(</span>
+<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">remove_duplicates</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">export_duplicates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -6723,7 +6723,9 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">286</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
 <span class="normal">289</span>
@@ -6743,9 +6745,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">303</span>
 <span class="normal">304</span>
 <span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">split_by_contigs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">306</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">split_by_contigs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Split large fasta file into several ones containing one contig each.</span>
 
 <span class="sd">    Args:</span>
@@ -6841,9 +6841,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FASTAmerger</span><span class="p">:</span>
+<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FASTAmerger</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span>
 
@@ -6878,8 +6876,6 @@ each record in the result merged fasta file.</p></td>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">output_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Merging FASTA files in input directory&quot;</span><span class="p">)</span>
-        <span class="c1"># cmd_str = f&#39;awk 1 * &gt; {output_file}&#39;</span>
-        <span class="c1"># # cmd_str = &quot;find . -maxdepth 1 -type f --exec cat {} + &gt; &quot; + f&quot;{output_file}&quot;</span>
         <span class="n">cmd_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;printf &#39;%s</span><span class="se">\\</span><span class="s2">0&#39; * | xargs -0 cat &gt; </span><span class="si">{</span><span class="n">output_file</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="n">prepend_file_name</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tempdir</span><span class="p">:</span>
@@ -6975,9 +6971,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">prepend_file_name</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">prepend_file_name</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Merge input fasta files into a one (multi)fasta file.</span>
 
 <span class="sd">    Args:</span>
@@ -6991,8 +6985,6 @@ each record in the result merged fasta file.</p></td>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">output_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Merging FASTA files in input directory&quot;</span><span class="p">)</span>
-    <span class="c1"># cmd_str = f&#39;awk 1 * &gt; {output_file}&#39;</span>
-    <span class="c1"># # cmd_str = &quot;find . -maxdepth 1 -type f --exec cat {} + &gt; &quot; + f&quot;{output_file}&quot;</span>
     <span class="n">cmd_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;printf &#39;%s</span><span class="se">\\</span><span class="s2">0&#39; * | xargs -0 cat &gt; </span><span class="si">{</span><span class="n">output_file</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="k">if</span> <span class="n">prepend_file_name</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tempdir</span><span class="p">:</span>
@@ -7111,7 +7103,9 @@ each record in the result merged fasta file.</p></td>
 
         <details class="quote">
           <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">514</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
 <span class="normal">515</span>
 <span class="normal">516</span>
 <span class="normal">517</span>
@@ -7177,13 +7171,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">577</span>
 <span class="normal">578</span>
 <span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span>
-<span class="normal">585</span>
-<span class="normal">586</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GeneAnnotator</span><span class="p">:</span>
+<span class="normal">580</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GeneAnnotator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run prodigal on assembly, predict ORFs and extract location info&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assembly</span><span class="p">:</span> <span class="n">FASTA</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -7227,10 +7215,6 @@ each record in the result merged fasta file.</p></td>
             <span class="n">tempdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">tempdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempdir</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
-        <span class="c1"># tempcontigs = tempdir / &quot;contigs&quot;</span>
-        <span class="c1"># tempcontigs.mkdir(parents=True, exist_ok=True)</span>
-        <span class="c1"># tempprodigal = tempdir / &quot;prodigal&quot;</span>
-        <span class="c1"># tempprodigal.mkdir(parents=True, exist_ok=True)</span>
         <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">(</span>
             <span class="nb">dir</span><span class="o">=</span><span class="n">tempdir</span>
         <span class="p">)</span> <span class="k">as</span> <span class="n">contigs_dir</span><span class="p">,</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">(</span>
@@ -7311,13 +7295,13 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">517</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
 <span class="normal">518</span>
 <span class="normal">519</span>
 <span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assembly</span><span class="p">:</span> <span class="n">FASTA</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">521</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assembly</span><span class="p">:</span> <span class="n">FASTA</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize GeneAnnotator</span>
 
 <span class="sd">    Args:</span>
@@ -7428,7 +7412,9 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">525</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
 <span class="normal">526</span>
 <span class="normal">527</span>
 <span class="normal">528</span>
@@ -7483,13 +7469,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">577</span>
 <span class="normal">578</span>
 <span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span>
-<span class="normal">585</span>
-<span class="normal">586</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span>
+<span class="normal">580</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">metagenome</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -7522,10 +7502,6 @@ each record in the result merged fasta file.</p></td>
         <span class="n">tempdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">tempdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempdir</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
-    <span class="c1"># tempcontigs = tempdir / &quot;contigs&quot;</span>
-    <span class="c1"># tempcontigs.mkdir(parents=True, exist_ok=True)</span>
-    <span class="c1"># tempprodigal = tempdir / &quot;prodigal&quot;</span>
-    <span class="c1"># tempprodigal.mkdir(parents=True, exist_ok=True)</span>
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">(</span>
         <span class="nb">dir</span><span class="o">=</span><span class="n">tempdir</span>
     <span class="p">)</span> <span class="k">as</span> <span class="n">contigs_dir</span><span class="p">,</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">(</span>
@@ -7586,7 +7562,9 @@ each record in the result merged fasta file.</p></td>
 
         <details class="quote">
           <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">365</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
 <span class="normal">366</span>
 <span class="normal">367</span>
 <span class="normal">368</span>
@@ -7730,9 +7708,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">506</span>
 <span class="normal">507</span>
 <span class="normal">508</span>
-<span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">LabelledFASTA</span><span class="p">(</span><span class="n">FASTA</span><span class="p">):</span>
+<span class="normal">509</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">LabelledFASTA</span><span class="p">(</span><span class="n">FASTA</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tools to add and parse FASTA with positional info on record tags&quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
@@ -7998,7 +7974,9 @@ each record in the result merged fasta file.</p></td>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">411</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
 <span class="normal">412</span>
 <span class="normal">413</span>
 <span class="normal">414</span>
@@ -8058,9 +8036,7 @@ each record in the result merged fasta file.</p></td>
 <span class="normal">468</span>
 <span class="normal">469</span>
 <span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">471</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_genbank</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">gbk_data</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -8202,7 +8178,9 @@ Extract positional gene info from prodigal output and export to fasta file.</p>
 
       <details class="quote">
         <summary>Source code in <code>src/pynteny/preprocessing.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">368</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
 <span class="normal">369</span>
 <span class="normal">370</span>
 <span class="normal">371</span>
@@ -8241,9 +8219,7 @@ Extract positional gene info from prodigal output and export to fasta file.</p>
 <span class="normal">404</span>
 <span class="normal">405</span>
 <span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span>
-<span class="normal">409</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">407</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">from_prodigal_output</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">prodigal_faa</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LabelledFASTA</span><span class="p">:</span>
