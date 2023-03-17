@@ -112,7 +112,7 @@ pynteny search \
 
 Here are some Jupyter Notebooks with examples to show how Pynteny works:
 
-<a href="https://colab.research.google.com/github/Robaina/Pynteny/blob/main/docs/examples/example_api_colab.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+<!-- <a href="https://colab.research.google.com/github/Robaina/Pynteny/blob/main/docs/examples/example_api_colab.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> -->
 * [Pynteny API](https://robaina.github.io/Pynteny/examples/example_api/)
 * [Pynteny CLI](https://robaina.github.io/Pynteny/examples/example_cli/)
 * [Sus operon](https://robaina.github.io/Pynteny/examples/example_sus/)
