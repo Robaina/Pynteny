@@ -94,7 +94,7 @@ def run_HMM_search(
     input_fasta: Path,
     output_file: Path = None,
     method: str = "hmmsearch",
-    n_processes: int = None,
+    processes: int = None,
     additional_args: str = None,
 ) -> None:
     """Simple CLI wrapper to hmmsearch or hmmscan.
@@ -108,8 +108,8 @@ def run_HMM_search(
         additional_args (str, optional): a string containing additional arguments to
             hmmsearch/scan. Defaults to None.
     """
-    if n_processes is None:
-        n_processes = os.cpu_count() - 1
+    if processes is None:
+        processes = os.cpu_count() - 1
     if output_file is None:
         output_file = set_default_output_path(input_fasta, "_hmmer_hits", ".txt")
     if additional_args is not None:
@@ -117,7 +117,7 @@ def run_HMM_search(
     else:
         args_str = ""
     cmd_str = (
-        f"{method} --tblout {output_file} {args_str} --cpu {n_processes} "
+        f"{method} --tblout {output_file} {args_str} --cpu {processes} "
         f"{hmm_model} {input_fasta}"
     )
     terminal_execute(cmd_str, suppress_shell_output=True)
