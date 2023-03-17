@@ -111,7 +111,7 @@ class HMMER:
                     input_fasta=self._input_fasta,
                     output_file=hmmer_output,
                     method=method,
-                    n_processes=self._processes,
+                    processes=self._processes,
                     additional_args=add_args,
                 )
             elif reuse_hmmer_results and os.path.isfile(hmmer_output):

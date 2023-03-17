@@ -360,7 +360,7 @@ class SubcommandParser:
             ),
         )
         optional.add_argument(
-            "-p",
+            "-x",
             "--prepend-filename",
             dest="prepend",
             default=False,
@@ -383,7 +383,7 @@ class SubcommandParser:
             ),
         )
         optional.add_argument(
-            "-n",
+            "-p",
             "--processes",
             dest="processes",
             type=int,
