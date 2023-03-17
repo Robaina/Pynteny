@@ -8806,7 +8806,7 @@ Extract positional gene info from prodigal output and export to fasta file.</p>
                     <span class="n">input_fasta</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_fasta</span><span class="p">,</span>
                     <span class="n">output_file</span><span class="o">=</span><span class="n">hmmer_output</span><span class="p">,</span>
                     <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
-                    <span class="n">n_processes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_processes</span><span class="p">,</span>
+                    <span class="n">processes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_processes</span><span class="p">,</span>
                     <span class="n">additional_args</span><span class="o">=</span><span class="n">add_args</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="n">reuse_hmmer_results</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">hmmer_output</span><span class="p">):</span>
@@ -9144,7 +9144,7 @@ again for HMMs already searched in the same output directory. Defaults to True.<
                 <span class="n">input_fasta</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_fasta</span><span class="p">,</span>
                 <span class="n">output_file</span><span class="o">=</span><span class="n">hmmer_output</span><span class="p">,</span>
                 <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
-                <span class="n">n_processes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_processes</span><span class="p">,</span>
+                <span class="n">processes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_processes</span><span class="p">,</span>
                 <span class="n">additional_args</span><span class="o">=</span><span class="n">add_args</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">reuse_hmmer_results</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">hmmer_output</span><span class="p">):</span>
@@ -12590,7 +12590,7 @@ command-line-subcommands-with-pythons-argparse-4dbac80f7110</p>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="n">optional</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-x&quot;</span><span class="p">,</span>
             <span class="s2">&quot;--prepend-filename&quot;</span><span class="p">,</span>
             <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;prepend&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -12613,7 +12613,7 @@ command-line-subcommands-with-pythons-argparse-4dbac80f7110</p>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="n">optional</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;-n&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
             <span class="s2">&quot;--processes&quot;</span><span class="p">,</span>
             <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;processes&quot;</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
@@ -12961,7 +12961,7 @@ command-line-subcommands-with-pythons-argparse-4dbac80f7110</p>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">optional</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-x&quot;</span><span class="p">,</span>
         <span class="s2">&quot;--prepend-filename&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;prepend&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -12984,7 +12984,7 @@ command-line-subcommands-with-pythons-argparse-4dbac80f7110</p>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">optional</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-n&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
         <span class="s2">&quot;--processes&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;processes&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
@@ -16490,7 +16490,7 @@ or directory based on an input file name and path.</p>
 
 
 <h2 id="src.pynteny.wrappers.run_HMM_search" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">run_HMM_search</span><span class="p">(</span><span class="n">hmm_model</span><span class="p">,</span> <span class="n">input_fasta</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;hmmsearch&#39;</span><span class="p">,</span> <span class="n">n_processes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">additional_args</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">run_HMM_search</span><span class="p">(</span><span class="n">hmm_model</span><span class="p">,</span> <span class="n">input_fasta</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;hmmsearch&#39;</span><span class="p">,</span> <span class="n">processes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">additional_args</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
 
@@ -16557,7 +16557,7 @@ or directory based on an input file name and path.</p>
           </td>
           <td><p>maximum number of threads. Defaults to all minus one.</p></td>
           <td>
-                <code>None</code>
+              <em>required</em>
           </td>
         </tr>
         <tr>
@@ -16612,7 +16612,7 @@ hmmsearch/scan. Defaults to None.</p></td>
     <span class="n">input_fasta</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">output_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hmmsearch&quot;</span><span class="p">,</span>
-    <span class="n">n_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">additional_args</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple CLI wrapper to hmmsearch or hmmscan.</span>
@@ -16626,8 +16626,8 @@ hmmsearch/scan. Defaults to None.</p></td>
 <span class="sd">        additional_args (str, optional): a string containing additional arguments to</span>
 <span class="sd">            hmmsearch/scan. Defaults to None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">n_processes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">n_processes</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">processes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">processes</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">output_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">output_file</span> <span class="o">=</span> <span class="n">set_default_output_path</span><span class="p">(</span><span class="n">input_fasta</span><span class="p">,</span> <span class="s2">&quot;_hmmer_hits&quot;</span><span class="p">,</span> <span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">additional_args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -16635,7 +16635,7 @@ hmmsearch/scan. Defaults to None.</p></td>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">args_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">cmd_str</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> --tblout </span><span class="si">{</span><span class="n">output_file</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">args_str</span><span class="si">}</span><span class="s2"> --cpu </span><span class="si">{</span><span class="n">n_processes</span><span class="si">}</span><span class="s2"> &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> --tblout </span><span class="si">{</span><span class="n">output_file</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">args_str</span><span class="si">}</span><span class="s2"> --cpu </span><span class="si">{</span><span class="n">processes</span><span class="si">}</span><span class="s2"> &quot;</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">hmm_model</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">input_fasta</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
     <span class="n">terminal_execute</span><span class="p">(</span><span class="n">cmd_str</span><span class="p">,</span> <span class="n">suppress_shell_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
