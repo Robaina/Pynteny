@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/devcontainers/miniconda:0-3
+USER root
 
 WORKDIR /Pynteny
 # Copy repo to docker container
