@@ -98,7 +98,7 @@ pynteny build \
 
 ```
 
-Finally, to search the peptide database for the syntenic structure displayed above: `>gene_A 0 >gene_B 0 >gene_C 3 <gene_D`, using the donwloaded [PGAP](https://academic.oup.com/nar/article/49/D1/D1020/6018440) database:
+Finally, to search the peptide database for the syntenic structure displayed above: `>gene_A 0 >gene_B 0 >gene_C 3 <gene_D`, and using the downloaded [PGAP](https://academic.oup.com/nar/article/49/D1/D1020/6018440) database:
 
 ```bash
 pynteny search \
