@@ -3,7 +3,7 @@ USER root
 
 WORKDIR /Pynteny
 # Copy repo to docker container
-COPY pynteny pynteny/
+COPY src/pynteny src/pynteny/
 COPY tests tests/
 COPY envs envs/
 COPY README.md .
