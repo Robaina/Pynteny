@@ -22,7 +22,8 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 [![pyOpenSci](https://tinyurl.com/y22nb8up)](https://github.com/pyOpenSci/software-review/issues/67)
-[![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.05289/status.svg)](https://doi.org/10.21105/joss.05289)
+<!-- [![DOI](https://zenodo.org/badge/500470783.svg)](https://zenodo.org/badge/latestdoi/500470783) -->
 
 
 ## 1. :bulb: What is Pynteny?
