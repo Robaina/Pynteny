@@ -36,7 +36,7 @@ Here we introduce `Pynteny`, a Python tool designed to conduct synteny-aware, pr
 
 For instance, consider the following syntenic block:
 
-![Example of a syntenic structure.\label{fig:example}](synteny_example.png){ width=70% }
+![Example of a syntenic structure.\label{fig:example}](../assets/synteny_example.png){ width=70% }
 
 The syntenic block shown above is composed of four genes, `A`, `B`, `C`, and `D`. Genes A-C locate consecutively in the positive strand and are followed by three untargeted genes and by gene D, which is located in the negative strand. `Pynteny` allows searching for the syntenic block above with the following query string:
 
