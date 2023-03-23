@@ -32,6 +32,8 @@
 
 Get more info in the [documentation](https://robaina.github.io/Pynteny/) pages!
 
+Check out the [Pynteny paper](https://doi.org/10.21105/joss.05289) in the Journal of Open Source Software!
+
 ## 2. :wrench: Setup
 
 Install with conda:
