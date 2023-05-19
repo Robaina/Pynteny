@@ -3,7 +3,7 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: "Robaina Estévez"
     given-names: "Semidán"
-    orcid: "0000-0003-0781-1677"
+    orcid: "https://orcid.org/0000-0003-0781-1677"
     affiliation: "Department of Microbiology. University of La Laguna. Spain"
     email: "srobaina@ull.edu.es"
 title: "Pynteny: synteny-aware hmm searches made easy"
