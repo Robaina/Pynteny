@@ -191,7 +191,7 @@ class SyntenyHMMfilter:
             )
         )
         self._n_hmm_groups = len(self._parsed_structure["hmm_groups"])
-        self._n_hmms = len(self._hmms)  # len(self._hmm_order_dict)
+        self._n_hmms = len(self._hmm_order_dict)
         self._unordered = unordered
 
     def _in_hmm_group(self, query_hmm_group: str, hmm_group: str) -> bool:

@@ -32,7 +32,9 @@ class TestPGAP(unittest.TestCase):
         pgap = PGAP(this_file_dir / "test_data/hmm_meta.tsv")
         hmm_group = pgap.get_HMM_group_for_gene_symbol("leuD")
         self.assertEqual(
-            hmm_group, "TIGR00171.1", "Failed to retrieve HMM group from gene symbol"
+            hmm_group,
+            "TIGR00171.1|TIGR02084.1",
+            "Failed to retrieve HMM group from gene symbol",
         )
 
     def test_get_meta_info_for_HMM(self):

@@ -24,3 +24,4 @@ examples/data/*
 examples/example_cli/*
 examples/example_api/*
 pyopensci_reviews/*
+test_issue_91/*

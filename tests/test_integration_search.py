@@ -19,7 +19,7 @@ class TestSyntenySearch(unittest.TestCase):
         with TemporaryDirectory() as tempdir:
             search = Search(
                 data=tests_dir / "test_data/MG1655.fasta",
-                synteny_struc="<TIGR00171.1 0 <TIGR00170.1 1 <TIGR00973.1",
+                synteny_struc="<(TIGR00171.1|TIGR02084.1) 0 <(TIGR00170.1|TIGR02083.1) 1 <(TIGR00973.1|NF002084.0|TIGR00970.1)",
                 hmm_dir=tests_dir / "test_data/hmms",
                 hmm_meta=None,
                 outdir=Path(tempdir),
