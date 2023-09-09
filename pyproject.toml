@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pynteny"
-version = "1.1.0"
+version = "1.1.2"
 description = "Synteny-aware hmm searches made easy in Python"
 license = "Apache-2.0"
 authors = ["Semidán Robaina Estévez <srobaina@ull.edu.es>"]
@@ -18,14 +18,10 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
-    "Natural Language :: English"
+    "Natural Language :: English",
 ]
-packages = [
-    { include = "pynteny", from = "src" },
-]
-include = [
-    "src/pynteny/config.json"
-]
+packages = [{ include = "pynteny", from = "src" }]
+include = ["src/pynteny/config.json"]
 [tool.poetry.dependencies]
 python = "^3.8"
 [tool.poetry.scripts]
