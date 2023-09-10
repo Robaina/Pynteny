@@ -21,7 +21,7 @@ RUN poetry build && pip install dist/pynteny*.whl && pynteny --help
 RUN chmod ugo+rw /opt/conda/envs/pynteny-dev/lib/python3.10/site-packages
 
 # Initialize conda for default user
-RUN micromamba sheel init
+RUN micromamba shell init
 # # Activate pynteny environment by default
 RUN echo "conda activate pynteny-dev" >> ../root/.bashrc
 RUN source ../root/.bashrc
