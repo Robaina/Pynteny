@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/devcontainers/miniconda:0-3
+# FROM mcr.microsoft.com/devcontainers/miniconda:0-3
+FROM mambaorg/micromamba:latest
 USER root
 
 WORKDIR /Pynteny
@@ -11,8 +12,8 @@ COPY pyproject.toml .
 COPY LICENSE .
 
 # Make conda environment and activate
-RUN conda install mamba -n base -c conda-forge
-RUN mamba env create -f envs/pynteny-dev.yml
+# RUN conda install mamba -n base -c conda-forge
+RUN micromamba env create -f envs/pynteny-dev.yml
 SHELL ["conda", "run", "-n", "pynteny-dev", "/bin/bash", "-c"]
 # Build and install Pynteny
 RUN poetry build && pip install dist/pynteny*.whl && pynteny --help
