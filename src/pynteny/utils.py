@@ -252,6 +252,26 @@ def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
         sys.exit(1)
 
 
+def extract_gz_file(gz_file: Path, dest_dir: Path = None) -> None:
+    """Extract gz files to dest_dir.
+
+    Args:
+        gz_file (Path): path to gz file.
+        dest_dir (Path, optional): path to destination directory
+            to store the uncompressed file. Defaults to None.
+    """
+    gz_file = Path(gz_file)
+    if dest_dir is None:
+        dest_dir = "."
+    if gz_file.as_posix().endswith("gz"):
+        gz = tarfile.open(gz_file, "r:gz")
+        gz.extractall(path=dest_dir)
+        gz.close()
+    else:
+        logger.error("Input is not a gz file")
+        sys.exit(1)
+
+
 def list_tar_dir(tar_dir: Path) -> list:
     """List files within tar or tar.gz directory.
 
@@ -305,3 +325,24 @@ def is_right_list_nested_type(list_object: list, inner_type: type) -> bool:
         bool: whether list contains elements of the same specified type.
     """
     return all(isinstance(x, inner_type) for x in list_object)
+
+
+def split_hmms(hmm_file: Path, output_dir: Path) -> None:
+    """Split PFAM-A hmm database into individual HMM files
+        and extract metadata file.
+
+    Args:
+        output_dir (Path): path to output directory.
+    """
+    output_dir = Path(output_dir)
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
+    with open(hmm_file, "r") as f:
+        hmm_text = f.read()
+    hmm_texts = hmm_text.split("//")
+    for text in hmm_texts:
+        acc_code = [entry for entry in text.split("\n") if entry.startswith("ACC")]
+        if acc_code:
+            acc_name = acc_code[0].split()[1]
+            with open(output_dir / f"{acc_name}.hmm", "w+") as f:
+                f.write(text)

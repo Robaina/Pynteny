@@ -17,7 +17,7 @@ import numpy as np
 
 import pynteny.parsers.syntenyparser as syntenyparser
 from pynteny.filter import SyntenyHits, filter_FASTA_by_synteny_structure
-from pynteny.hmm import PGAP
+from pynteny.hmm import PGAP, PFAM, Downloader
 from pynteny.preprocessing import Database
 from pynteny.utils import (
     CommandArgs,
@@ -230,10 +230,10 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
     logger = init_logger(args)
     config = ConfigParser.get_default_config()
     if (config.get_field("data_downloaded")) and (not args.force):
-        logger.info("PGAP database already downloaded. Skipping download")
+        logger.info("HMM databases already downloaded. Skipping download")
         sys.exit(1)
     if args.outdir is None:
-        logger.error("Please, provide directory in which to download PGAP database.")
+        logger.error("Please, provide directory in which to download HMM databases.")
         sys.exit(1)
     else:
         download_dir = Path(args.outdir).absolute()
@@ -241,34 +241,36 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
         download_dir.mkdir(parents=True, exist_ok=True)
 
     config.update_config("database_dir", download_dir.as_posix())
-    config.update_config("upack_PGAP_database", args.unpack)
+    config.update_config("unpack_PGAP_database", args.unpack)
 
-    data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
-    meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
-    logger.info("Downloading PGAP database")
-    try:
-        PGAP_file = download_dir / "hmm_PGAP.HMM.tgz"
-        meta_file = download_dir / "hmm_PGAP.tsv"
-        download_file(data_url, PGAP_file)
-        download_file(meta_url, meta_file)
-        logger.info("Database dowloaded successfully\n")
-        config.update_config("data_downloaded", True)
-        config.update_config("PGAP_database", PGAP_file.as_posix())
-        config.update_config("PGAP_meta_file", meta_file.as_posix())
-    except Exception:
-        logger.exception(
-            "Failed to download PGAP database. Please check your internet connection."
-        )
-        sys.exit(1)
-    logger.info("Removing missing entries from PGAP metadata file")
-    PGAP(meta_file).remove_missing_HMMs_from_metadata(PGAP_file, meta_file)
-    if args.unpack:
-        logger.info("Unpacking PGAP database")
-        unpacked_PGAP_dir = download_dir / "hmm_PGAP"
-        PGAP.extract_PGAP_to_directory(PGAP_file, output_dir=unpacked_PGAP_dir)
-        os.remove(PGAP_file)
-        config.update_config("PGAP_database", unpacked_PGAP_dir.as_posix())
-        logger.info("PGAP database unpacked successfully")
+    downloader = Downloader(download_dir)
+
+    # data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
+    # meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
+    # logger.info("Downloading PGAP database")
+    # try:
+    #     PGAP_file = download_dir / "hmm_PGAP.HMM.tgz"
+    #     meta_file = download_dir / "hmm_PGAP.tsv"
+    #     download_file(data_url, PGAP_file)
+    #     download_file(meta_url, meta_file)
+    #     logger.info("Database dowloaded successfully\n")
+    #     config.update_config("data_downloaded", True)
+    #     config.update_config("PGAP_database", PGAP_file.as_posix())
+    #     config.update_config("PGAP_meta_file", meta_file.as_posix())
+    # except Exception:
+    #     logger.exception(
+    #         "Failed to download PGAP database. Please check your internet connection."
+    #     )
+    #     sys.exit(1)
+    # logger.info("Removing missing entries from PGAP metadata file")
+    # PGAP(meta_file).remove_missing_HMMs_from_metadata(PGAP_file, meta_file)
+    # if args.unpack:
+    #     logger.info("Unpacking PGAP database")
+    #     unpacked_PGAP_dir = download_dir / "hmm_PGAP"
+    #     PGAP.extract_PGAP_to_directory(PGAP_file, output_dir=unpacked_PGAP_dir)
+    #     os.remove(PGAP_file)
+    #     config.update_config("PGAP_database", unpacked_PGAP_dir.as_posix())
+    #     logger.info("PGAP database unpacked successfully")
     logging.shutdown()
 
 
