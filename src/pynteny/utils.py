@@ -55,10 +55,13 @@ class ConfigParser:
             config = {
                 "database_dir": "",
                 "upack_PGAP_database": False,
-                "data_downloaded": False,
+                "upack_PFAM_database": False,
+                "PGAP_data_downloaded": False,
+                "PFAM_data_downloaded": False,
                 "PGAP_database": "",
                 "PGAP_meta_file": "",
-                "streamlit_process": "",
+                "PFAM_database": "",
+                "PFAM_meta_file": "",
             }
             with open(config_file, "w", encoding="UTF-8") as f:
                 json.dump(config, f, indent=4)

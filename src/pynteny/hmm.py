@@ -10,7 +10,6 @@ from __future__ import annotations
 import logging
 import os
 import sys
-from typing import Callable
 from collections import defaultdict
 from pathlib import Path
 import tempfile
@@ -250,12 +249,13 @@ class HMMDatabase:
 class PGAP(HMMDatabase):
     """Tools to parse PGAP hmm database metadata"""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Initialize class PGAP"""
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self._meta = self._meta.rename(columns={"#ncbi_accession": "accession"})
-        self._meta = self.remove_missing_HMMs_from_metadata(meta_outfile=None)
+        # self._meta = self.remove_missing_HMMs_from_metadata(meta_outfile=None)
 
+    @staticmethod
     def remove_missing_HMMs_from_metadata(self, meta_outfile: Path = None) -> None:
         """Remove HMMs from metadata that are not in HMM directory
 
@@ -289,10 +289,6 @@ class PGAP(HMMDatabase):
 
 class PFAM(HMMDatabase):
     """Tools to preprocess the PFAM-A hmm database"""
-
-    def __init__(self):
-        """Initialize class PFAM"""
-        super().__init__()
 
     @classmethod
     def from_gz_file(
@@ -359,95 +355,83 @@ class PFAM(HMMDatabase):
         self._meta = pd.read_csv(meta_outfile, sep="\t")
 
 
-class Downloader:
-    """Tools to download and preprocess HMM databases"""
+def download_pgap(download_dir: Path, unpack: bool = False) -> tuple[Path, Path]:
+    """Download PGAP database
 
-    def __init__(self, download_dir: Path):
-        """Initialize class Downloader
+    Args:
+        download_dir (Path): path to output directory.
+        unpack (bool, optional): if True then PGAP database will be extracted
+    """
+    if download_dir.exists():
+        logger.warning(
+            f"{download_dir} already exists. Downloader may overwrite files."
+        )
 
-        Args:
-            output_dir (Path): path to output directory.
-        """
-        self._download_dir = Path(download_dir)
-        if self._download_dir.exists():
-            logger.warning(
-                f"{self._download_dir} already exists. Downloader may overwrite files."
-            )
+    data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
+    meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
+    PGAP_file = download_dir / "hmm_PGAP.HMM.tgz"
+    meta_file = download_dir / "hmm_PGAP.tsv"
+    download_file(data_url, PGAP_file)
+    download_file(meta_url, meta_file)
+    if unpack:
+        destination_path = download_dir / "pgap_hmms"
+        extract_pgap_to_directory(PGAP_file, destination_dir=destination_path)
+        return destination_path, meta_file
+    else:
+        return PGAP_file, meta_file
 
-    def download_pgap(self, unpack: bool = False) -> None:
-        """Download PGAP database
 
-        Args:
-            unpack (bool, optional): if True then PGAP database will be extracted
-        """
+def download_pfam(download_dir: Path, unpack: bool = False) -> Path:
+    """Download PFAM database
 
-        data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
-        meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
-        logger.info("Downloading PGAP database")
-        try:
-            PGAP_file = self._download_dir / "hmm_PGAP.HMM.tgz"
-            meta_file = self._download_dir / "hmm_PGAP.tsv"
-            download_file(data_url, PGAP_file)
-            download_file(meta_url, meta_file)
-        except Exception:
-            logger.exception(
-                "Failed to download PGAP database. Please check your internet connection."
-            )
-            sys.exit(1)
-        if unpack:
-            self.extract_pgap_to_directory(PGAP_file)
-        logger.info("Database downloaded successfully\n")
+    Args:
+        unpack (bool, optional): if True then PFAM database will be extracted
+    """
+    if download_dir.exists():
+        logger.warning(
+            f"{download_dir} already exists. Downloader may overwrite files."
+        )
+    PFAM_file = download_dir / "Pfam-A.gz"
+    logger.info("Downloading PFAM-A hmm database")
+    url = "https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz"
+    download_file(url, PFAM_file)
+    if unpack:
+        destination_path = download_dir / "pfam_hmms"
+        extract_pfam_to_directory(PFAM_file, destination_dir=destination_path)
+        return destination_path
+    else:
+        return PFAM_file
 
-    def download_pfam(self, unpack: bool = False) -> None:
-        """Download PFAM database
 
-        Args:
-            unpack (bool, optional): if True then PFAM database will be extracted
-        """
-        pfam_file = self.download_dir / "Pfam-A.gz"
-        # hmm_outdir = self._output_dir.parent / "pfam_hmms"
-        # meta_outfile = hmm_outdir / f"{pfam_file.stem}_meta.tsv"
-        logger.info("Downloading PFAM-A hmm database")
-        try:
-            url = (
-                "https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz"
-            )
-            download_file(url, pfam_file)
-        except Exception:
-            logger.exception(
-                "Failed to download PFAM-A database. Please check your internet connection."
-            )
-            sys.exit(1)
-        if unpack:
-            self.extract_pfam_to_directory(pfam_file)
-        logger.info("Database downloaded successfully")
+def extract_pgap_to_directory(pgap_tar: Path, destination_dir: Path) -> None:
+    """Extract PGAP hmm database (tar.gz) to downlaod directory
 
-    def extract_pgap_to_directory(self, pgap_tar: Path) -> None:
-        """Extract PGAP hmm database (tar.gz) to downlaod directory
+    Args:
+        pgap_tar (Path): path to compressed PGAP database.
+    """
+    pgap_tar = Path(pgap_tar)
+    if not is_tar_file(pgap_tar):
+        logger.warning(f"{pgap_tar} is not a tar file. Skipping extraction")
+        return
+    logger.info("Extracting hmm files to target directory")
+    extract_tar_file(pgap_tar, destination_dir)
+    flatten_directory(destination_dir)
+    os.remove(pgap_tar)
+    logger.info("PGAP database unpacked successfully")
 
-        Args:
-            pgap_tar (Path): path to compressed PGAP database.
-        """
-        pgap_tar = Path(pgap_tar)
-        if not is_tar_file(pgap_tar):
-            logger.warning(f"{pgap_tar} is not a tar file. Skipping extraction")
-            return
-        logger.info("Extracting hmm files to target directory")
-        extract_tar_file(pgap_tar, self._download_dir)
-        flatten_directory(self._download_dir)
-        logger.info("PGAP database unpacked successfully")
 
-    def extract_pfam_to_directory(self, pfam_gz: Path) -> None:
-        """Extract PFAM hmm database (gz) to downlaod directory
+def extract_pfam_to_directory(pfam_gz: Path, destination_dir: Path) -> None:
+    """Extract PFAM hmm database (gz) to downlaod directory
 
-        Args:
-            pfam_gz (Path): path to compressed PFAM database.
-        """
-        pfam_gz = Path(pfam_gz)
-        if not pfam_gz.is_file():
-            logger.warning(f"{pfam_gz} is not a file. Skipping extraction")
-            return
-        logger.info("Extracting hmm files to target directory")
-        extract_gz_file(pfam_gz, self._download_dir)
-        flatten_directory(self.download_dir)
-        logger.info("PGAP database unpacked successfully")
+    Args:
+        pfam_gz (Path): path to compressed PFAM database.
+    """
+    pfam_gz = Path(pfam_gz)
+    if not pfam_gz.is_file():
+        logger.warning(f"{pfam_gz} is not a file. Skipping extraction")
+        return
+    logger.info("Extracting hmm files to target directory")
+    extract_gz_file(pfam_gz, destination_dir)
+    flatten_directory(destination_dir)
+    os.remove(pfam_gz)
+    logger.info("PGAP database unpacked successfully")

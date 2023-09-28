@@ -518,6 +518,22 @@ class SubcommandParser:
             help="force-download database again if already downloaded",
         )
         optional.add_argument(
+            "-pgap",
+            "--pgap",
+            dest="pgap",
+            default=False,
+            action="store_true",
+            help="download PGAP database (default)",
+        )
+        optional.add_argument(
+            "-pfam",
+            "--pfam",
+            dest="pfam",
+            default=False,
+            action="store_true",
+            help="download PFAM database",
+        )
+        optional.add_argument(
             "-l",
             "--log",
             dest="logfile",
