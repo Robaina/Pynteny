@@ -229,6 +229,19 @@ def is_tar_file(tar_file: Path) -> bool:
     return tar_file.is_file() and tarfile.is_tarfile(tar_file.as_posix())
 
 
+def is_gz_file(gz_file: Path) -> bool:
+    """Check whether file is gz-compressed.
+
+    Args:
+        gz_file (Path): path to file.
+
+    Returns:
+        bool: whether file is compressed or not.
+    """
+    gz_file = Path(gz_file)
+    return gz_file.is_file() and gz_file.as_posix().endswith("gz")
+
+
 def extract_tar_file(tar_file: Path, dest_dir: Path = None) -> None:
     """Extract tar or tar.gz files to dest_dir.
 
@@ -273,6 +286,27 @@ def extract_gz_file(gz_file: Path, dest_dir: Path = None) -> None:
     else:
         logger.error("Input is not a gz file")
         sys.exit(1)
+
+
+def extract_to_directory(file: Path, destination_dir: Path) -> None:
+    """Extract hmm database (tar.gz) to downlaod directory
+
+    Args:
+        hmm_file (Path): path to compressed database.
+    """
+    file = Path(file)
+    if (not is_tar_file(file)) and (not is_gz_file(file)):
+        logger.warning(f"{file} is not a tar or gz file. Skipping extraction")
+        return
+    else:
+        logger.info("Extracting files to target directory")
+        if is_tar_file(file):
+            extract_tar_file(file, destination_dir)
+        elif is_gz_file(file):
+            extract_gz_file(file, destination_dir)
+        flatten_directory(destination_dir)
+        os.remove(file)
+        logger.info("Database unpacked successfully")
 
 
 def list_tar_dir(tar_dir: Path) -> list:

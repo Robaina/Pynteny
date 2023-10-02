@@ -17,11 +17,18 @@ import numpy as np
 
 import pynteny.parsers.syntenyparser as syntenyparser
 from pynteny.filter import SyntenyHits, filter_FASTA_by_synteny_structure
-from pynteny.hmm import PGAP, PFAM, download_pgap, download_pfam
+from pynteny.hmm import (
+    PFAM,
+    PGAP,
+    download_pfam,
+    download_pgap,
+)
 from pynteny.preprocessing import Database
 from pynteny.utils import (
     CommandArgs,
     ConfigParser,
+    extract_to_directory,
+    is_gz_file,
     is_tar_file,
 )
 
@@ -109,8 +116,8 @@ def synteny_search(args: Union[CommandArgs, ArgumentParser]) -> SyntenyHits:
         )
 
     temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
-    if is_tar_file(args.hmm_dir):
-        PGAP.extract_PGAP_to_directory(args.hmm_dir, temp_hmm_dir)
+    if is_tar_file(args.hmm_dir) or is_gz_file(args.hmm_dir):
+        extract_to_directory(args.hmm_dir, temp_hmm_dir)
         hmm_dir = temp_hmm_dir
     else:
         hmm_dir = args.hmm_dir
@@ -266,8 +273,8 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
         logger.info("Downloading PGAP database")
         try:
             PGAP_path, PGAP_meta_file = download_pgap(download_dir, unpack=args.unpack)
-            PGAP(PGAP_path, PGAP_meta_file).remove_missing_HMMs_from_metadata(
-                PGAP_meta_file
+            PGAP(PGAP_meta_file).remove_missing_HMMs_from_metadata(
+                PGAP_path, PGAP_meta_file
             )
             config.update_config("unpack_PGAP_database", args.unpack)
             logger.info("PGAP database downloaded successfully\n")
@@ -286,7 +293,7 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
             PFAM_meta_file = download_dir / "hmm_PFAM.tsv"
             PFAM_path = download_dir / "PFAM_hmms"
             PFAM_gz_file = download_pfam(download_dir, unpack=True)
-            pfam = PFAM.from_gz_file(
+            PFAM.from_gz_file(
                 PFAM_gz_file,
                 hmm_outdir=PFAM_path,
                 meta_outfile=PFAM_meta_file,

@@ -10,21 +10,20 @@ from __future__ import annotations
 import logging
 import os
 import sys
+import tempfile
 from collections import defaultdict
 from pathlib import Path
-import tempfile
 
 import pandas as pd
 from Bio import SearchIO
 
 import pynteny.wrappers as wrappers
 from pynteny.utils import (
-    extract_tar_file,
-    flatten_directory,
-    is_tar_file,
-    list_tar_dir,
     download_file,
     extract_gz_file,
+    extract_to_directory,
+    is_tar_file,
+    list_tar_dir,
     split_hmms,
 )
 
@@ -133,20 +132,16 @@ class HMMDatabase:
 
     def __init__(
         self,
-        database_directory: Path,
         metadata_file: Path,
         metadata_columns: list[str] = None,
     ) -> None:
         """Initialize class HMMDatabase
 
         Args:
-            database_directory (Path): path to directory containing HMM database
-                                       with individual files for each HMM.
             metadata_file (Path): path to metadata file.
             metadata_columns (list[str], optional): list of metadata columns to be
                                                     used. Defaults to None (all columns).
         """
-        self._data_dir = Path(database_directory)
         self._metadata_file = Path(metadata_file)
         self._meta = pd.read_csv(
             self._metadata_file, sep="\t", usecols=metadata_columns
@@ -169,15 +164,6 @@ class HMMDatabase:
             Path: metadata file
         """
         return self._metadata_file
-
-    @property
-    def data_dir(self) -> Path:
-        """Return data directory
-
-        Returns:
-            Path: data directory
-        """
-        return self._data_dir
 
     def get_HMM_names_by_gene_symbol(self, gene_symbol: str) -> list[str]:
         """Try to retrieve HMM by its gene symbol, more
@@ -255,16 +241,18 @@ class PGAP(HMMDatabase):
         self._meta = self._meta.rename(columns={"#ncbi_accession": "accession"})
         # self._meta = self.remove_missing_HMMs_from_metadata(meta_outfile=None)
 
-    @staticmethod
-    def remove_missing_HMMs_from_metadata(self, meta_outfile: Path = None) -> None:
+    def remove_missing_HMMs_from_metadata(
+        self, hmm_database: Path, meta_outfile: Path = None
+    ) -> None:
         """Remove HMMs from metadata that are not in HMM directory
 
         Args:
+            hmm_database (Path): path to HMM database.
             hmm_dir (Path): path to directory containing PGAP database.
             meta_outfile (Path, optional): path to output file. Defaults to None.
         """
         logger.info("Removing missing HMMs from PGAP metadata")
-        hmm_dir = self._database_dir
+        hmm_dir = hmm_database
         if meta_outfile is None:
             meta_outfile = (
                 self._metadata_file.parent
@@ -314,21 +302,24 @@ class PFAM(HMMDatabase):
             extract_gz_file(hmm_gz_file, temp.name)
             split_hmms(temp.name, hmm_outdir)
             cls.construct_meta_file(hmm_outdir, meta_outfile)
-        return cls(hmm_outdir, meta_outfile)
+        return cls(meta_outfile)
 
-    def construct_meta_file(self, meta_outfile: Path = None) -> None:
+    def construct_meta_file(
+        self, hmm_database: Path, meta_outfile: Path = None
+    ) -> None:
         """Construct metadata file from individual HMM files.
 
         Args:
+            hmm_database (Path): path to HMM database.
             meta_outfile (Path): path to metadata file.
         """
         logger.info("Constructing metadata file for PFAM-A database")
         if meta_outfile is None:
-            meta_outfile = self._database_dir / "PFAM_meta.tsv"
+            meta_outfile = hmm_database / "PFAM_meta.tsv"
         else:
             meta_outfile = Path(meta_outfile)
         hmm_meta_lines = ["accession\tgene_symbol\tdescription\tlength\n"]
-        for hmm_file in self._database_dir.glob("*.hmm"):
+        for hmm_file in hmm_database.glob("*.hmm"):
             with open(hmm_file, "r") as f:
                 hmm_text = f.read()
 
@@ -375,7 +366,7 @@ def download_pgap(download_dir: Path, unpack: bool = False) -> tuple[Path, Path]
     download_file(meta_url, meta_file)
     if unpack:
         destination_path = download_dir / "pgap_hmms"
-        extract_pgap_to_directory(PGAP_file, destination_dir=destination_path)
+        extract_to_directory(PGAP_file, destination_dir=destination_path)
         return destination_path, meta_file
     else:
         return PGAP_file, meta_file
@@ -397,41 +388,7 @@ def download_pfam(download_dir: Path, unpack: bool = False) -> Path:
     download_file(url, PFAM_file)
     if unpack:
         destination_path = download_dir / "pfam_hmms"
-        extract_pfam_to_directory(PFAM_file, destination_dir=destination_path)
+        extract_to_directory(PFAM_file, destination_dir=destination_path)
         return destination_path
     else:
         return PFAM_file
-
-
-def extract_pgap_to_directory(pgap_tar: Path, destination_dir: Path) -> None:
-    """Extract PGAP hmm database (tar.gz) to downlaod directory
-
-    Args:
-        pgap_tar (Path): path to compressed PGAP database.
-    """
-    pgap_tar = Path(pgap_tar)
-    if not is_tar_file(pgap_tar):
-        logger.warning(f"{pgap_tar} is not a tar file. Skipping extraction")
-        return
-    logger.info("Extracting hmm files to target directory")
-    extract_tar_file(pgap_tar, destination_dir)
-    flatten_directory(destination_dir)
-    os.remove(pgap_tar)
-    logger.info("PGAP database unpacked successfully")
-
-
-def extract_pfam_to_directory(pfam_gz: Path, destination_dir: Path) -> None:
-    """Extract PFAM hmm database (gz) to downlaod directory
-
-    Args:
-        pfam_gz (Path): path to compressed PFAM database.
-    """
-    pfam_gz = Path(pfam_gz)
-    if not pfam_gz.is_file():
-        logger.warning(f"{pfam_gz} is not a file. Skipping extraction")
-        return
-    logger.info("Extracting hmm files to target directory")
-    extract_gz_file(pfam_gz, destination_dir)
-    flatten_directory(destination_dir)
-    os.remove(pfam_gz)
-    logger.info("PGAP database unpacked successfully")
