@@ -146,6 +146,8 @@ class HMMDatabase:
         self._meta = pd.read_csv(
             self._metadata_file, sep="\t", usecols=metadata_columns
         )
+        if "#ncbi_accession" in self._meta.columns:
+            self._meta = self._meta.rename(columns={"#ncbi_accession": "accession"})
 
     @property
     def meta(self) -> pd.DataFrame:
@@ -238,8 +240,6 @@ class PGAP(HMMDatabase):
     def __init__(self, *args, **kwargs):
         """Initialize class PGAP"""
         super().__init__(*args, **kwargs)
-        self._meta = self._meta.rename(columns={"#ncbi_accession": "accession"})
-        # self._meta = self.remove_missing_HMMs_from_metadata(meta_outfile=None)
 
     def remove_missing_HMMs_from_metadata(
         self, hmm_database: Path, meta_outfile: Path = None
