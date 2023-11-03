@@ -16,7 +16,7 @@ import pandas as pd
 
 import pynteny.parsers.labelparser as labelparser
 import pynteny.parsers.syntenyparser as syntenyparser
-from pynteny.hmm import HMMER, PGAP
+from pynteny.hmm import HMMER, PFAM, PGAP, HMMDatabase
 from pynteny.preprocessing import FASTA
 
 logger = logging.getLogger(__name__)
@@ -416,14 +416,14 @@ class SyntenyHits:
         fields = ["gene_symbol", "label", "product", "ec_number"]
         if all([f in self._synteny_hits.columns for f in fields]):
             return self._synteny_hits
-        pgap = PGAP(hmm_meta)
+        hmm_db = HMMDatabase(hmm_meta)
         self._synteny_hits[fields] = ""
         for row in self._synteny_hits.itertuples():
             meta_values = [
                 [
                     str(v).replace("nan", "")
-                    for k, v in pgap.get_meta_info_for_HMM(hmm).items()
-                    if k != "#ncbi_accession"
+                    for k, v in hmm_db.get_meta_info_for_HMM(hmm).items()
+                    if k != "accession"
                 ]
                 for hmm in row.hmm.split("|")
             ]

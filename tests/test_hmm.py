@@ -18,7 +18,9 @@ this_file_dir = Path(__file__).parent
 class TestPGAP(unittest.TestCase):
     def test_remove_missing_HMMs_from_metadata(self):
         with tempfile.NamedTemporaryFile() as tmp:
-            pgap = PGAP(this_file_dir / "test_data/hmm_meta.tsv")
+            pgap = PGAP(
+                this_file_dir / "test_data/hmm_meta.tsv",
+            )
             pgap.remove_missing_HMMs_from_metadata(
                 this_file_dir / "test_data/hmms", tmp.name
             )

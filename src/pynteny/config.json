@@ -1,9 +1,11 @@
 {
     "database_dir": "",
     "upack_PGAP_database": false,
-    "data_downloaded": false,
+    "upack_PFAM_database": false,
+    "PGAP_data_downloaded": false,
+    "PFAM_data_downloaded": false,
     "PGAP_database": "",
     "PGAP_meta_file": "",
-    "streamlit_process": "",
-    "streamlit_log": ""
+    "PFAM_database": "",
+    "PFAM_meta_file": ""
 }

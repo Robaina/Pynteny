@@ -17,12 +17,18 @@ import numpy as np
 
 import pynteny.parsers.syntenyparser as syntenyparser
 from pynteny.filter import SyntenyHits, filter_FASTA_by_synteny_structure
-from pynteny.hmm import PGAP
+from pynteny.hmm import (
+    PFAM,
+    PGAP,
+    download_pfam,
+    download_pgap,
+)
 from pynteny.preprocessing import Database
 from pynteny.utils import (
     CommandArgs,
     ConfigParser,
-    download_file,
+    extract_to_directory,
+    is_gz_file,
     is_tar_file,
 )
 
@@ -74,7 +80,10 @@ def synteny_search(args: Union[CommandArgs, ArgumentParser]) -> SyntenyHits:
         )
         sys.exit(1)
     if args.hmm_dir is None:
-        if not config.get_field("data_downloaded"):
+        if not (
+            config.get_field("PGAP_data_downloaded")
+            or config.get_field("PFAM_data_downloaded")
+        ):
             logger.warning(
                 "HMM database not found. Downloading PGAP database from NCBI"
             )
@@ -84,7 +93,10 @@ def synteny_search(args: Union[CommandArgs, ArgumentParser]) -> SyntenyHits:
             args.hmm_dir = Path(config.get_field("PGAP_database"))
     if args.gene_ids:
         if args.hmm_meta is None:
-            if not config.get_field("data_downloaded"):
+            if not (
+                config.get_field("PGAP_data_downloaded")
+                or config.get_field("PFAM_data_downloaded")
+            ):
                 logger.error(
                     "Please download hmm database first or provide path to hmm metadata file."
                 )
@@ -104,8 +116,8 @@ def synteny_search(args: Union[CommandArgs, ArgumentParser]) -> SyntenyHits:
         )
 
     temp_hmm_dir = Path(args.hmm_dir.parent) / "temp_hmm_dir"
-    if is_tar_file(args.hmm_dir):
-        PGAP.extract_PGAP_to_directory(args.hmm_dir, temp_hmm_dir)
+    if is_tar_file(args.hmm_dir) or is_gz_file(args.hmm_dir):
+        extract_to_directory(args.hmm_dir, temp_hmm_dir)
         hmm_dir = temp_hmm_dir
     else:
         hmm_dir = args.hmm_dir
@@ -201,7 +213,10 @@ def parse_gene_ids(args: Union[CommandArgs, ArgumentParser]) -> str:
     logger = init_logger(args)
     config = ConfigParser.get_default_config()
     if args.hmm_meta is None:
-        if not config.get_field("data_downloaded"):
+        if not (
+            config.get_field("PGAP_data_downloaded")
+            or config.get_field("PFAM_data_downloaded")
+        ):
             logger.error(
                 "Please download hmm database meta file or provide path to existing one first."
             )
@@ -229,11 +244,23 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
     """
     logger = init_logger(args)
     config = ConfigParser.get_default_config()
-    if (config.get_field("data_downloaded")) and (not args.force):
-        logger.info("PGAP database already downloaded. Skipping download")
+    if (config.get_field("PGAP_data_downloaded")) and (args.pgap) and (not args.force):
+        logger.info("PGAP HMM database already downloaded. Skipping download")
+    elif (
+        (config.get_field("PFAM_data_downloaded")) and (args.pfam) and (not args.force)
+    ):
+        logger.info("PFAM HMM database already downloaded. Skipping download")
+    elif (
+        (config.get_field("PGAP_data_downloaded"))
+        and (args.pgap)
+        and (config.get_field("PFAM_data_downloaded"))
+        and (args.pfam)
+        and (not args.force)
+    ):
+        logger.info("HMM databases already downloaded. Skipping download")
         sys.exit(1)
     if args.outdir is None:
-        logger.error("Please, provide directory in which to download PGAP database.")
+        logger.error("Please, provide directory in which to download HMM databases.")
         sys.exit(1)
     else:
         download_dir = Path(args.outdir).absolute()
@@ -241,34 +268,46 @@ def download_hmms(args: Union[CommandArgs, ArgumentParser]) -> None:
         download_dir.mkdir(parents=True, exist_ok=True)
 
     config.update_config("database_dir", download_dir.as_posix())
-    config.update_config("upack_PGAP_database", args.unpack)
 
-    data_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.HMM.tgz"
-    meta_url = "https://ftp.ncbi.nlm.nih.gov/hmm/current/hmm_PGAP.tsv"
-    logger.info("Downloading PGAP database")
-    try:
-        PGAP_file = download_dir / "hmm_PGAP.HMM.tgz"
-        meta_file = download_dir / "hmm_PGAP.tsv"
-        download_file(data_url, PGAP_file)
-        download_file(meta_url, meta_file)
-        logger.info("Database dowloaded successfully\n")
-        config.update_config("data_downloaded", True)
-        config.update_config("PGAP_database", PGAP_file.as_posix())
-        config.update_config("PGAP_meta_file", meta_file.as_posix())
-    except Exception:
-        logger.exception(
-            "Failed to download PGAP database. Please check your internet connection."
-        )
-        sys.exit(1)
-    logger.info("Removing missing entries from PGAP metadata file")
-    PGAP(meta_file).remove_missing_HMMs_from_metadata(PGAP_file, meta_file)
-    if args.unpack:
-        logger.info("Unpacking PGAP database")
-        unpacked_PGAP_dir = download_dir / "hmm_PGAP"
-        PGAP.extract_PGAP_to_directory(PGAP_file, output_dir=unpacked_PGAP_dir)
-        os.remove(PGAP_file)
-        config.update_config("PGAP_database", unpacked_PGAP_dir.as_posix())
-        logger.info("PGAP database unpacked successfully")
+    if args.pgap:
+        logger.info("Downloading PGAP database")
+        try:
+            PGAP_path, PGAP_meta_file = download_pgap(download_dir, unpack=args.unpack)
+            PGAP(PGAP_meta_file).remove_missing_HMMs_from_metadata(
+                PGAP_path, PGAP_meta_file
+            )
+            config.update_config("unpack_PGAP_database", args.unpack)
+            logger.info("PGAP database downloaded successfully\n")
+            config.update_config("PGAP_data_downloaded", True)
+            config.update_config("PGAP_database", PGAP_path.as_posix())
+            config.update_config("PGAP_meta_file", PGAP_meta_file.as_posix())
+        except Exception:
+            logger.exception(
+                "Failed to download PGAP database. Please check your internet connection."
+            )
+            sys.exit(1)
+
+    if args.pfam:
+        logger.info("Downloading PFAM-A database")
+        try:
+            PFAM_meta_file = download_dir / "hmm_PFAM.tsv"
+            PFAM_path = download_dir / "PFAM_hmms"
+            PFAM_gz_file = download_pfam(download_dir, unpack=True)
+            PFAM.from_gz_file(
+                PFAM_gz_file,
+                hmm_outdir=PFAM_path,
+                meta_outfile=PFAM_meta_file,
+            )
+            config.update_config("unpack_PFAM_database", True)
+            logger.info("PFAM database downloaded successfully\n")
+            config.update_config("PFAM_data_downloaded", True)
+            config.update_config("PFAM_database", PFAM_path.as_posix())
+            config.update_config("PFAM_meta_file", PFAM_meta_file.as_posix())
+        except Exception:
+            logger.exception(
+                "Failed to download PFAM-A database. Please check your internet connection."
+            )
+            sys.exit(1)
     logging.shutdown()
 
 
