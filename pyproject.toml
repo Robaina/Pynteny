@@ -38,7 +38,6 @@ ignore = [
     "E501", # line too long, handled by black
     "B008", # do not perform function calls in argument defaults
     "C901", # mccabe complexity
-    "E999", # match statement is not yet supported
     "W605", # ASCII art, verbatim text
 ]
 
