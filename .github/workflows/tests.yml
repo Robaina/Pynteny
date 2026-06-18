@@ -7,13 +7,11 @@ on:
       - '**.ipynb'
       - '**.bib'
       - 'ms/*'
+  # No paths-ignore here: these jobs are required status checks, and a PR whose
+  # only changes match an ignore pattern would otherwise skip them and deadlock
+  # at "Expected - waiting for status to be reported".
   pull_request:
     types: [opened, reopened, edited, synchronize]
-    paths-ignore:
-      - '**.md'
-      - '**.ipynb'
-      - '**.bib'
-      - 'ms/*'
 
 jobs:
 
