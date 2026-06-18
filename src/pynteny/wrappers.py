@@ -2,91 +2,120 @@
 # -*- coding: utf-8 -*-
 
 """
-Simple CLI wrappers to several tools
+In-process replacements for the external CLI tools that Pynteny used to shell
+out to (HMMER, Prodigal, seqkit). These now rely on the pure-Python,
+pip-installable packages pyhmmer, pyrodigal and pyfastx so that Pynteny can be
+installed without conda.
 """
 
+from __future__ import annotations
+
+import logging
 import os
+import shlex
 from pathlib import Path
 
-from pynteny.utils import set_default_output_path, terminal_execute
+import pyfastx
+import pyhmmer
+
+from pynteny.utils import set_default_output_path
+
+logger = logging.getLogger(__name__)
 
 
 def run_seqkit_nodup(
     input_fasta: Path, output_fasta: Path = None, export_duplicates: bool = False
 ):
-    """Simpe CLI wrapper to seqkit rmdup to remove sequence duplicates
-    in fasta file.
+    """Remove duplicated sequences from a fasta file (by sequence content).
+
+    Pure-Python replacement for ``seqkit rmdup -s``.
 
     Args:
         input_fasta (Path): path to input fasta.
         output_fasta (Path, optional): path to output fasta. Defaults to None.
         export_duplicates (bool, optional): whether to export a file containing
-            duplicated sequences. Defaults to False.
+            the IDs of duplicated sequences. Defaults to False.
     """
     input_fasta = Path(input_fasta)
     if output_fasta is None:
         output_fasta = set_default_output_path(input_fasta, tag="_no_duplicates")
     else:
         output_fasta = Path(output_fasta)
+
+    seen_sequences = set()
+    duplicated_ids = []
+    fasta = pyfastx.Fasta(input_fasta.as_posix(), build_index=False, full_name=True)
+    with open(output_fasta, "w+", encoding="UTF-8") as outfile:
+        for record_name, record_seq in fasta:
+            seq_key = record_seq.upper()
+            if seq_key in seen_sequences:
+                duplicated_ids.append(record_name.split()[0])
+                continue
+            seen_sequences.add(seq_key)
+            outfile.write(f">{record_name}\n{record_seq}\n")
+
     if export_duplicates:
         dup_file = set_default_output_path(
             input_fasta, tag="_duplicates", extension=".txt"
         )
-        dup_str = f"-D {dup_file}"
-    else:
-        dup_str = ""
-    cmd_str = (
-        f"seqkit rmdup {input_fasta} -s {dup_str} -o {output_fasta.as_posix()} --quiet"
-    )
-    terminal_execute(cmd_str, suppress_shell_output=True)
+        with open(dup_file, "w+", encoding="UTF-8") as f:
+            f.write("\n".join(duplicated_ids))
 
 
-def run_prodigal(
-    input_file: Path,
-    output_file: Path = None,
-    output_dir: Path = None,
-    output_format: str = "fasta",
-    metagenome: bool = True,
-    additional_args: str = None,
-):
-    """Simple CLI wrapper to prodigal.
+def _parse_hmmsearch_args(additional_args: str) -> dict:
+    """Translate a (subset of) hmmsearch/hmmscan CLI argument strings into
+    keyword options understood by :func:`pyhmmer.hmmsearch`.
+
+    Only the options commonly used with Pynteny are supported. Unknown flags
+    (and ``--cpu``, which is handled separately) are ignored with a warning.
 
     Args:
-        input_file (Path): path to input fasta file with nucleotide sequences.
-        output_file (Path, optional): path to output file containing translated peptides.
-            Defaults to None.
-        output_dir (Path, optional): path to output directory (all prodigal output files).
-            Defaults to None.
-        output_format (str, optional): either 'gbk' or 'fasta'. Defaults to 'fasta'.
-        metagenome (bool, optional): whether input fasta correspond to a metagenomic sample.
-            Defaults to False.
-        additional_args (str, optional): a string containing additional arguments to prodigal.
-            Defaults to None.
+        additional_args (str): CLI-style argument string, e.g. "--cut_ga" or
+            "-E 1e-10".
+
+    Returns:
+        dict: keyword options for the pyhmmer Pipeline.
     """
-    input_file = Path(input_file)
-    if metagenome:
-        procedure = "meta"
-    else:
-        procedure = "single"
-    if output_dir is None:
-        output_dir = Path(input_file.parent)
-    else:
-        output_dir = Path(output_dir)
-    if "fasta" in output_format.lower():
-        if output_file is None:
-            output_file = output_dir / f"{input_file.stem}prodigal_output.faa"
-        out_str = f"-a {output_file}"
-    else:
-        if output_file is None:
-            output_file = output_dir / f"{input_file.stem}prodigal_output.gbk"
-        out_str = f"-o {output_file}"
-    output_file = Path(output_file)
-    if additional_args is not None:
-        args_str = additional_args
-    else:
-        args_str = ""
-    cmd_str = f"prodigal -i {input_file} -p {procedure} " f"-q {out_str} {args_str}"
-    terminal_execute(cmd_str, suppress_shell_output=True)
+    if not additional_args:
+        return {}
+    bit_cutoff_flags = {
+        "--cut_ga": "gathering",
+        "--cut_nc": "noise",
+        "--cut_tc": "trusted",
+    }
+    float_flags = {
+        "-E": "E",
+        "--incE": "incE",
+        "--domE": "domE",
+        "-T": "T",
+        "--incT": "incT",
+        "--domT": "domT",
+        "-Z": "Z",
+        "--domZ": "domZ",
+    }
+    options = {}
+    tokens = shlex.split(additional_args)
+    i = 0
+    while i < len(tokens):
+        token = tokens[i]
+        if token in bit_cutoff_flags:
+            options["bit_cutoffs"] = bit_cutoff_flags[token]
+            i += 1
+        elif token in float_flags:
+            if i + 1 >= len(tokens):
+                logger.warning(f"Missing value for hmmsearch argument '{token}'")
+                break
+            options[float_flags[token]] = float(tokens[i + 1])
+            i += 2
+        elif token in ("--cpu",):
+            # number of threads is handled through the 'processes' argument
+            i += 2
+        else:
+            logger.warning(
+                f"Ignoring unsupported hmmsearch argument for pyhmmer: '{token}'"
+            )
+            i += 1
+    return options
 
 
 def run_HMM_search(
@@ -97,27 +126,45 @@ def run_HMM_search(
     processes: int = None,
     additional_args: str = None,
 ) -> None:
-    """Simple CLI wrapper to hmmsearch or hmmscan.
+    """Run an HMM search with pyhmmer and write the results as an HMMER3
+    tabular (``--tblout``) output file.
+
+    In-process replacement for the ``hmmsearch``/``hmmscan`` CLI tools. The
+    on-disk format is unchanged (standard HMMER3 tabular output), so downstream
+    parsing and result reuse keep working as before.
 
     Args:
         hmm_model (Path): path to profile HMM to be used.
-        input_fasta (Path): path to fasta containing sequence database to be searched.
-        output_file (Path, optional): path to prodigal output table file. Defaults to None.
+        input_fasta (Path): path to fasta containing the sequence database to be searched.
+        output_file (Path, optional): path to HMMER tabular output file. Defaults to None.
         method (str, optional): either 'hmmsearch' or 'hmmscan'. Defaults to 'hmmsearch'.
-        n_processes (int, optional): maximum number of threads. Defaults to all minus one.
-        additional_args (str, optional): a string containing additional arguments to
-            hmmsearch/scan. Defaults to None.
+        processes (int, optional): maximum number of threads. Defaults to all minus one.
+        additional_args (str, optional): a CLI-style string with additional
+            arguments for hmmsearch/hmmscan. Defaults to None.
     """
+    hmm_model = Path(hmm_model)
+    input_fasta = Path(input_fasta)
     if processes is None:
         processes = os.cpu_count() - 1
     if output_file is None:
         output_file = set_default_output_path(input_fasta, "_hmmer_hits", ".txt")
-    if additional_args is not None:
-        args_str = additional_args
     else:
-        args_str = ""
-    cmd_str = (
-        f"{method} --tblout {output_file} {args_str} --cpu {processes} "
-        f"{hmm_model} {input_fasta}"
-    )
-    terminal_execute(cmd_str, suppress_shell_output=True)
+        output_file = Path(output_file)
+
+    options = _parse_hmmsearch_args(additional_args)
+
+    with pyhmmer.easel.SequenceFile(input_fasta.as_posix(), digital=True) as seq_file:
+        sequences = seq_file.read_block()
+    with pyhmmer.plan7.HMMFile(hmm_model.as_posix()) as hmm_file:
+        hmms = list(hmm_file)
+
+    search = pyhmmer.hmmscan if method == "hmmscan" else pyhmmer.hmmsearch
+    if method == "hmmscan":
+        # hmmscan queries sequences against the HMM database
+        all_hits = list(search(sequences, hmms, cpus=processes, **options))
+    else:
+        all_hits = list(search(hmms, sequences, cpus=processes, **options))
+
+    with open(output_file, "wb") as fh:
+        for i, hits in enumerate(all_hits):
+            hits.write(fh, format="targets", header=(i == 0))

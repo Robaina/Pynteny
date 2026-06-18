@@ -13,15 +13,17 @@ from __future__ import annotations
 
 import logging
 import os
+import shutil
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import TextIO
 
 import pyfastx
+import pyrodigal
 from Bio import SeqFeature, SeqIO, SeqRecord
 
-import pynteny.utils as utils
 import pynteny.wrappers as wrappers
 
 logger = logging.getLogger(__name__)
@@ -124,13 +126,21 @@ class FASTAmerger:
         else:
             output_file = Path(output_file)
         logger.info("Merging FASTA files in input directory")
-        cmd_str = f"printf '%s\\0' * | xargs -0 cat > {output_file}"
+
+        def _concatenate(source_dir: Path) -> None:
+            source_dir = Path(source_dir)
+            with open(output_file, "wb") as outfile:
+                for file in sorted(source_dir.iterdir()):
+                    if file.is_file():
+                        with open(file, "rb") as infile:
+                            shutil.copyfileobj(infile, outfile)
+
         if prepend_file_name:
             with tempfile.TemporaryDirectory() as tempdir:
                 self.prepend_filename_to_record_names(output_dir=tempdir)
-                utils.terminal_execute(cmd_str, work_dir=tempdir)
+                _concatenate(tempdir)
         else:
-            utils.terminal_execute(cmd_str, work_dir=self.input_dir)
+            _concatenate(self.input_dir)
         logging.shutdown()
 
 
@@ -270,14 +280,15 @@ class FASTA:
             )
         else:
             output_file = Path(output_file)
-        with tempfile.NamedTemporaryFile(mode="w+t") as tmp_ids:
-            tmp_ids.writelines("\n".join(record_ids))
-            tmp_ids.flush()
-            tmp_ids_path = tmp_ids.name
-            cmd_str = (
-                f"seqkit grep -i -f {tmp_ids_path} {self._input_file} -o {output_file}"
-            )
-            utils.terminal_execute(cmd_str, suppress_shell_output=True)
+        wanted_ids = {record_id.lower() for record_id in record_ids}
+        fasta = pyfastx.Fasta(
+            self.file_path.as_posix(), build_index=False, full_name=True
+        )
+        with open(output_file, "w+", encoding="UTF-8") as outfile:
+            for record_name, record_seq in fasta:
+                record_id = record_name.split()[0]
+                if record_id.lower() in wanted_ids:
+                    outfile.write(f">{record_name}\n{record_seq}\n")
         if point_to_new_file:
             self.file_path = output_file
 
@@ -353,9 +364,20 @@ class FASTA:
             self.file_path.as_posix(), build_index=False, full_name=True
         )
         prefix = prefix.strip("_")
-        with open(output_file, "w+", encoding="UTF-8") as outfile:
+        # Write to a temporary file first and then move it into place. pyfastx
+        # reads the input lazily, so writing directly to output_file would
+        # truncate the source whenever output_file == self.file_path.
+        with tempfile.NamedTemporaryFile(
+            mode="w+t",
+            encoding="UTF-8",
+            dir=output_file.parent,
+            suffix=output_file.suffix,
+            delete=False,
+        ) as outfile:
+            tmp_path = Path(outfile.name)
             for record_name, record_seq in fasta:
                 outfile.write(f">{prefix}_{record_name}\n{record_seq}\n")
+        shutil.move(tmp_path.as_posix(), output_file.as_posix())
         if point_to_new_file:
             self.file_path = output_file
 
@@ -549,32 +571,48 @@ class GeneAnnotator:
             )
         else:
             output_file = Path(output_file)
+        if prodigal_args:
+            logger.warning(
+                "prodigal_args are ignored when predicting genes with pyrodigal: "
+                f"'{prodigal_args}'"
+            )
         if tempdir is None:
             tempdir = Path(tempfile.gettempdir())
         else:
             tempdir = Path(tempdir).resolve()
-        with tempfile.TemporaryDirectory(
-            dir=tempdir
-        ) as contigs_dir, tempfile.TemporaryDirectory(
-            dir=tempdir
-        ) as prodigal_dir, tempfile.NamedTemporaryFile() as temp_fasta:
-            contigs_dir = Path(contigs_dir)
-            prodigal_dir = Path(prodigal_dir)
-            logger.info("Running prodigal on assembly data")
-            self._assembly.split_by_contigs(contigs_dir)
-            utils.parallelize_over_input_files(
-                wrappers.run_prodigal,
-                input_list=list(contigs_dir.iterdir()),
-                processes=processes,
-                output_dir=prodigal_dir,
-                output_format="fasta",
-                metagenome=metagenome,
-                additional_args=prodigal_args,
-            )
+
+        logger.info("Predicting genes with pyrodigal")
+        assembly_path = self._assembly.file_path
+        gene_finder = pyrodigal.GeneFinder(meta=metagenome)
+        if not metagenome:
+            training_seqs = [
+                seq.encode()
+                for _, seq in pyfastx.Fasta(
+                    assembly_path.as_posix(), build_index=False, full_name=True
+                )
+            ]
+            gene_finder.train(*training_seqs)
+
+        contigs = pyfastx.Fasta(
+            assembly_path.as_posix(), build_index=False, full_name=True
+        )
+
+        # pyrodigal releases the GIL during find_genes, so we can predict genes
+        # for several contigs concurrently while keeping input order for the
+        # output (and thus reproducible gene labels).
+        def _find(record):
+            record_name, record_seq = record
+            seq_id = record_name.split()[0]
+            return seq_id, gene_finder.find_genes(record_seq.encode())
+
+        with tempfile.NamedTemporaryFile(
+            mode="w+t", dir=tempdir, suffix=".faa"
+        ) as temp_fasta:
+            with ThreadPoolExecutor(max_workers=max(processes, 1)) as executor:
+                for seq_id, genes in executor.map(_find, contigs):
+                    genes.write_translations(temp_fasta, sequence_id=seq_id)
+            temp_fasta.flush()
             logging.shutdown()
-            FASTAmerger(prodigal_dir).merge(
-                Path(temp_fasta.name), prepend_file_name=False
-            )
             return LabelledFASTA.from_prodigal_output(
                 Path(temp_fasta.name), output_file
             )
