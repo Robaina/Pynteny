@@ -220,9 +220,9 @@ class SyntenyHMMfilter:
     def _add_meta_codes_to_HMM_hits(self, all_hit_labels: pd.Dataframe) -> pd.Dataframe:
         """Add numeric codes for each hmm and strand, compute distance between genes"""
         all_hit_labels["gene_pos_diff"] = all_hit_labels.gene_pos.diff()
-        all_hit_labels.loc[
-            0, "gene_pos_diff"
-        ] = 1  # required for rolling (skips first nan)
+        all_hit_labels.loc[0, "gene_pos_diff"] = (
+            1  # required for rolling (skips first nan)
+        )
         all_hit_labels["hmm_code"] = all_hit_labels.hmm.apply(self._assign_code_to_HMM)
         all_hit_labels["strand"] = all_hit_labels.strand.apply(
             lambda strand: -1 if strand == "neg" else (1 if strand == "pos" else 0)

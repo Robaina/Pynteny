@@ -652,10 +652,14 @@ class Database:
             bool: whether the file is in fasta format
         """
         filename = Path(filename)
-        if filename.exists():
-            fasta = list(SeqIO.parse(str(filename), "fasta"))
-            return any(fasta)
-        else:
+        if not filename.exists():
+            return False
+        # Recent Biopython versions raise (instead of returning no records) when
+        # the file is not valid FASTA (e.g. a GenBank file with leading
+        # comments), so treat any parse error as "not a FASTA file".
+        try:
+            return any(SeqIO.parse(str(filename), "fasta"))
+        except ValueError:
             return False
 
     @staticmethod
@@ -669,10 +673,11 @@ class Database:
             _bool: whether the file is in genbank format
         """
         filename = Path(filename)
-        if filename.exists():
-            gbk = list(SeqIO.parse(str(filename), "genbank"))
-            return any(gbk)
-        else:
+        if not filename.exists():
+            return False
+        try:
+            return any(SeqIO.parse(str(filename), "genbank"))
+        except ValueError:
             return False
 
     def build(
