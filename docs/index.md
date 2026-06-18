@@ -13,9 +13,18 @@ These are the available subcommands in the CLI, run as ```pynteny <subcommand> <
 
 ## 2. Setup
 
-Install with conda:
+Pynteny is a pure-Python package (it no longer requires conda or any external
+binaries). The HMMER and Prodigal engines are provided by the pip packages
+[pyhmmer](https://github.com/althonos/pyhmmer) and
+[pyrodigal](https://github.com/althonos/pyrodigal).
 
-Pynteny requires Python 3.10. The easiest way to handle dependencies is by creating a dedicated conda environment:
+Install with pip:
+
+```bash
+pip install pynteny
+```
+
+Or with conda (from bioconda):
 
 ```bash
 conda create -n pynteny -c bioconda -c conda-forge python=3.10 pynteny
@@ -25,22 +34,15 @@ conda activate pynteny
 Check that installation worked fine:
 
 ```bash
-(pynteny) pynteny --help
+pynteny --help
 ```
-### 2.1. Installing on Windows
 
-Pynteny is designed to run on Linux machines. However, it can be installed within the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install) via conda.
+### 2.1. Installing on Windows and macOS
 
-### 2.2. Installing on MacOS with the latest ARM64 architecture
-
-Pynteny doesn't currently support the latest ARM64 architecture of silicon processors (e.g. MacBook M1 and M2). If that is your case, you can install Pynteny using the workaround below (based on [this post](https://towardsdatascience.com/how-to-manage-conda-environments-on-an-apple-silicon-m1-mac-1e29cb3bad12)):
-
-```bash
-CONDA_SUBDIR=osx-64 conda create -n pynteny_x86 python=3.10
-conda activate pynteny_x86
-conda config --env --set subdir osx-64
-conda install -c bioconda pynteny
-```
+Pynteny is developed and tested on Linux, but since it is now a pure-Python
+package, `pip install pynteny` also works on Windows and macOS (including Apple
+Silicon / ARM64), provided wheels are available for pyhmmer and pyrodigal on
+your platform.
 
 ## 3. General usage
 

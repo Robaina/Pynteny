@@ -9,6 +9,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import pyfastx
+
 from pynteny.api import Build
 from pynteny.preprocessing import Database, LabelledFASTA
 
@@ -30,6 +32,22 @@ class TestDatabase(unittest.TestCase):
                 labelled_database,
                 LabelledFASTA,
                 "Failed to build database from assembly data",
+            )
+            records = list(
+                pyfastx.Fasta(
+                    Path(labelled_database.file_path).as_posix(),
+                    build_index=False,
+                    full_name=True,
+                )
+            )
+            self.assertGreater(
+                len(records),
+                0,
+                "Built database from assembly data is empty",
+            )
+            self.assertTrue(
+                all(name.startswith("test_") for name, _ in records),
+                "Sequence prefix was not added to built database records",
             )
 
     def test_build(self):

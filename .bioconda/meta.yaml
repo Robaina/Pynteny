@@ -24,14 +24,13 @@ requirements:
     - poetry
     - pip
   run:
-    - hmmer
-    - prodigal
+    - pyhmmer >=0.10
+    - pyrodigal >=3.0
     - pyfastx >=0.8
     - biopython
     - numpy
     - pandas
     - psutil
-    - seqkit
     - requests
     - tqdm
 

@@ -7,49 +7,47 @@ on:
       - '**.ipynb'
       - '**.bib'
       - 'ms/*'
+  # No paths-ignore here: these jobs are required status checks, and a PR whose
+  # only changes match an ignore pattern would otherwise skip them and deadlock
+  # at "Expected - waiting for status to be reported".
   pull_request:
-    types: [opened, reopened, edited]
-    paths-ignore:
-      - '**.md'
-      - '**.ipynb'
-      - '**.bib'
-      - 'ms/*'
+    types: [opened, reopened, edited, synchronize]
 
 jobs:
 
-  create-env:
-    name: ${{ matrix.os }} 
+  test:
+    name: ${{ matrix.os }} / py${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: bash -l {0}
 
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
+        python-version: ["3.9", "3.12"]
 
     steps:
       - name: checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: create environment
-        uses: conda-incubator/setup-miniconda@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.8
-          # mamba-version: "*"
-          channels: conda-forge,bioconda,defaults
-          auto-activate-base: false
-          activate-environment: tests_pynteny
-          environment-file: envs/pynteny-dev.yml
+          python-version: ${{ matrix.python-version }}
 
-      - name: Build & Install Pynteny
-        run: poetry build && pip install dist/pynteny*.whl
+      # Pynteny is a pure-pip package (no conda / external binaries required).
+      - name: Install Pynteny
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install .
+          python -m pip install coverage
 
       - name: Run tests and collect coverage
-        run: pynteny --help && coverage run --omit pynteny/wrappers.py,pynteny/cli.py,pynteny/subcommands.py,pynteny/utils.py -m unittest discover tests && coverage xml
+        run: |
+          pynteny --help
+          coverage run --omit pynteny/wrappers.py,pynteny/cli.py,pynteny/subcommands.py,pynteny/utils.py -m unittest discover tests
+          coverage xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

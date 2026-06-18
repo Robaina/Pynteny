@@ -32,36 +32,30 @@ Unsure where to begin contributing to Pynteny? You can start by looking for issu
 
 ## Setting up a local developer environment
 
-Pynteny depends on packages that are not available in pip, namely [HMMER](https://github.com/EddyRivasLab/hmmer) and [Prodigal](https://github.com/hyattpd/Prodigal). These can be installed from the bioconda channel. Hence, to setup up a developer environment for Pynteny:
+Pynteny is a pure-Python package. Its dependencies (including the HMMER and
+Prodigal engines, provided by [pyhmmer](https://github.com/althonos/pyhmmer)
+and [pyrodigal](https://github.com/althonos/pyrodigal)) are all installable
+from pip, so no conda or external binaries are required. To set up a developer
+environment for Pynteny:
 
 1. Fork and download repo, cd to downloaded directory. You should create a new branch to work on your issue.
 
-2. Create conda environment with required dependencies:
-
-The file `envs/pynteny-dev.yml` contains all dependencies required to use Pynteny. Conda is very slow solving the environment. It is recommended to use [mamba](https://github.com/mamba-org/mamba) instead:
+2. Create a virtual environment and install Pynteny in editable mode:
 
 ```bash
-mamba env create -n pynteny-dev -f envs/pynteny-dev.yml
-conda activate pynteny-dev
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
 ```
 
-3. Build package
+3. Run tests
 
 ```bash
-(pynteny-dev) poetry build
+python -m unittest discover tests
 ```
 
-4. Install Pynteny
-
-```bash
-(pynteny-dev) pip install dist/pynteny*.whl
-```
-
-5. Run tests
-
-```bash
-(pynteny-dev) python -m unittest discover tests
-```
+A conda environment file (`envs/pynteny-dev.yml`) is still provided for
+contributors who prefer conda, but it is no longer required.
 
 ## Using GitHub codespaces
 

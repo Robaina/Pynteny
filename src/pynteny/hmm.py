@@ -222,9 +222,7 @@ class HMMDatabase:
         Returns:
             dict: metadata of provided HMM.
         """
-        meta = self._meta.dropna(subset=["accession"], axis=0).applymap(
-            lambda x: x if not pd.isna(x) else ""
-        )
+        meta = self._meta.dropna(subset=["accession"], axis=0).fillna("")
         metadata = {
             k: list(v.values())[0] if list(v.values())[0] else "undef"
             for k, v in meta[meta["accession"] == hmm_name].to_dict().items()

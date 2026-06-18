@@ -24,6 +24,15 @@ packages = [{ include = "pynteny", from = "src" }]
 include = ["src/pynteny/config.json"]
 [tool.poetry.dependencies]
 python = "^3.8"
+pyhmmer = ">=0.10"
+pyrodigal = ">=3.0"
+pyfastx = ">=0.8"
+biopython = ">=1.8"
+numpy = "*"
+pandas = "*"
+psutil = ">=5.9"
+requests = "*"
+tqdm = "*"
 [tool.poetry.scripts]
 pynteny = "pynteny.cli:main"
 
