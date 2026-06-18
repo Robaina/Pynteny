@@ -18,17 +18,16 @@ binaries). The HMMER and Prodigal engines are provided by the pip packages
 [pyhmmer](https://github.com/althonos/pyhmmer) and
 [pyrodigal](https://github.com/althonos/pyrodigal).
 
-Install with pip:
+Install the latest development version directly from GitHub:
+
+```bash
+pip install git+https://github.com/Robaina/Pynteny.git
+```
+
+Once released on PyPI, Pynteny will also be installable with:
 
 ```bash
 pip install pynteny
-```
-
-Or with conda (from bioconda):
-
-```bash
-conda create -n pynteny -c bioconda -c conda-forge python=3.10 pynteny
-conda activate pynteny
 ```
 
 Check that installation worked fine:
