@@ -8,17 +8,12 @@
 [![docs](https://github.com/Robaina/Pynteny/actions/workflows/docs.yml/badge.svg)](https://github.com/Robaina/Pynteny/actions/workflows/docs.yml)
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/latest_release_date.svg)](https://anaconda.org/bioconda/pynteny)
 ![license](https://img.shields.io/github/license/Robaina/Pynteny)
 ![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 
-[![Bioconda](https://img.shields.io/conda/vn/bioconda/pynteny?logo=anaconda&style=flat-square&maxAge=3600)](https://anaconda.org/bioconda/pynteny)
-[![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/downloads.svg)](https://anaconda.org/bioconda/pynteny)
 [![GitHub release](https://img.shields.io/github/release/Robaina/Pynteny.svg)](https://GitHub.com/Robaina/Pynteny/releases/)
 
-
-[![Anaconda-Server Badge](https://anaconda.org/bioconda/pynteny/badges/platforms.svg)](https://anaconda.org/bioconda/pynteny)
-![python](https://img.shields.io/badge/Python-3.10-blue)
+![python](https://img.shields.io/badge/Python-3.9%20|%203.12-blue)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 [![pyOpenSci](https://tinyurl.com/y22nb8up)](https://github.com/pyOpenSci/software-review/issues/67)
@@ -41,17 +36,16 @@ binaries). All dependencies, including the HMMER and Prodigal engines, are
 provided by the pip packages [pyhmmer](https://github.com/althonos/pyhmmer) and
 [pyrodigal](https://github.com/althonos/pyrodigal).
 
-Install with pip:
+Install the latest development version directly from GitHub:
+
+```bash
+pip install git+https://github.com/Robaina/Pynteny.git
+```
+
+Once released on PyPI, Pynteny will also be installable with:
 
 ```bash
 pip install pynteny
-```
-
-Or with conda (from bioconda):
-
-```bash
-conda create -n pynteny -c bioconda -c conda-forge python=3.10 pynteny
-conda activate pynteny
 ```
 
 Check that the installation worked fine:
@@ -78,7 +72,6 @@ Here, we are interested in four genes which colocate according to the pattern ab
 Pynteny can be run either as a command line tool or as a Python module. To run pynteny in the command line, execute:
 
 ```bash
-conda activate pynteny
 pynteny <subcommand> <options>
 ```
 
