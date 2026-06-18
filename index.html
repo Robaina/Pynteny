@@ -8,7 +8,7 @@
     <title>Pynteny</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
         <link href="assets/_mkdocstrings.css" rel="stylesheet" />
     
       <script>
@@ -18,12 +18,11 @@
         var mkdocs_page_url = "/Pynteny/";
       </script>
     
-    <script src="js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -38,7 +37,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
     <ul class="current">
     </ul>
                 </li>
@@ -81,8 +80,8 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Home</li>
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
     <li class="wy-breadcrumbs-aside">
           <a href="https://github.com/Robaina/Pynteny/edit/master/docs/index.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
@@ -103,23 +102,25 @@
 <li><a href="subcommands/parse/">parse</a></li>
 </ul>
 <h2 id="2-setup">2. Setup</h2>
-<p>Install with conda:</p>
-<p>Pynteny requires Python 3.10. The easiest way to handle dependencies is by creating a dedicated conda environment:</p>
+<p>Pynteny is a pure-Python package (it no longer requires conda or any external
+binaries). The HMMER and Prodigal engines are provided by the pip packages
+<a href="https://github.com/althonos/pyhmmer">pyhmmer</a> and
+<a href="https://github.com/althonos/pyrodigal">pyrodigal</a>.</p>
+<p>Install with pip:</p>
+<pre><code class="language-bash">pip install pynteny
+</code></pre>
+<p>Or with conda (from bioconda):</p>
 <pre><code class="language-bash">conda create -n pynteny -c bioconda -c conda-forge python=3.10 pynteny
 conda activate pynteny
 </code></pre>
 <p>Check that installation worked fine:</p>
-<pre><code class="language-bash">(pynteny) pynteny --help
+<pre><code class="language-bash">pynteny --help
 </code></pre>
-<h3 id="21-installing-on-windows">2.1. Installing on Windows</h3>
-<p>Pynteny is designed to run on Linux machines. However, it can be installed within the <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows Subsystem for Linux</a> via conda.</p>
-<h3 id="22-installing-on-macos-with-the-latest-arm64-architecture">2.2. Installing on MacOS with the latest ARM64 architecture</h3>
-<p>Pynteny doesn't currently support the latest ARM64 architecture of silicon processors (e.g. MacBook M1 and M2). If that is your case, you can install Pynteny using the workaround below (based on <a href="https://towardsdatascience.com/how-to-manage-conda-environments-on-an-apple-silicon-m1-mac-1e29cb3bad12">this post</a>):</p>
-<pre><code class="language-bash">CONDA_SUBDIR=osx-64 conda create -n pynteny_x86 python=3.10
-conda activate pynteny_x86
-conda config --env --set subdir osx-64
-conda install -c bioconda pynteny
-</code></pre>
+<h3 id="21-installing-on-windows-and-macos">2.1. Installing on Windows and macOS</h3>
+<p>Pynteny is developed and tested on Linux, but since it is now a pure-Python
+package, <code>pip install pynteny</code> also works on Windows and macOS (including Apple
+Silicon / ARM64), provided wheels are available for pyhmmer and pyrodigal on
+your platform.</p>
 <h2 id="3-general-usage">3. General usage</h2>
 <p>Pynteny's main subcommand, <a href="subcommands/search/"><code>pynteny search</code></a>, requires a peptide (ORF) sequence database in fasta format in which record labels contain positional information of each sequence with respect to their contig of origin. Additionally, labels must follow the following format:</p>
 <pre><code>&lt;genome ID&gt;_&lt;contig ID&gt;_&lt;gene position&gt;_&lt;locus start&gt;_&lt;locus end&gt;_&lt;strand&gt;
@@ -179,22 +180,23 @@ conda install -c bioconda pynteny
     
   </span>
 </div>
-    <script>var base_url = '.';</script>
-    <script src="js/theme_extra.js" defer></script>
-    <script src="js/theme.js" defer></script>
-      <script src="javascripts/mathjax.js" defer></script>
-      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
-      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="javascripts/mathjax.js"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>
 </html>
 
 <!--
-MkDocs version : 1.4.2
-Build Date UTC : 2023-03-17 09:41:36.744604+00:00
+MkDocs version : 1.6.1
+Build Date UTC : 2026-06-18 22:55:57.123921+00:00
 -->

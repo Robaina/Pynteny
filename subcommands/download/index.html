@@ -8,7 +8,7 @@
     <title>Download - Pynteny</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
         <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
     
       <script>
@@ -18,12 +18,11 @@
         var mkdocs_page_url = "/Pynteny/subcommands/download/";
       </script>
     
-    <script src="../../js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="../../js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -49,7 +48,7 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../parse/">Parse</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Download</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Download</a>
     <ul class="current">
     </ul>
                   </li>
@@ -81,9 +80,9 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-          <li>Subcommands &raquo;</li>
-      <li>Download</li>
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Subcommands</li>
+      <li class="breadcrumb-item active">Download</li>
     <li class="wy-breadcrumbs-aside">
           <a href="https://github.com/Robaina/Pynteny/edit/master/docs/subcommands/download.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
@@ -102,42 +101,42 @@
 <table>
 <thead>
 <tr>
-<th align="left">short</th>
-<th align="left">long</th>
-<th align="left">default</th>
-<th align="left">help</th>
+<th style="text-align: left;">short</th>
+<th style="text-align: left;">long</th>
+<th style="text-align: left;">default</th>
+<th style="text-align: left;">help</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>-h</code></td>
-<td align="left"><code>--help</code></td>
-<td align="left"></td>
-<td align="left">show this help message and exit</td>
+<td style="text-align: left;"><code>-h</code></td>
+<td style="text-align: left;"><code>--help</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">show this help message and exit</td>
 </tr>
 <tr>
-<td align="left"><code>-o</code></td>
-<td align="left"><code>--outdir</code></td>
-<td align="left"><code>None</code></td>
-<td align="left">path to the directory where to download HMM database.</td>
+<td style="text-align: left;"><code>-o</code></td>
+<td style="text-align: left;"><code>--outdir</code></td>
+<td style="text-align: left;"><code>None</code></td>
+<td style="text-align: left;">path to the directory where to download HMM database.</td>
 </tr>
 <tr>
-<td align="left"><code>-u</code></td>
-<td align="left"><code>--unpack</code></td>
-<td align="left"></td>
-<td align="left">unpack originally compressed database files</td>
+<td style="text-align: left;"><code>-u</code></td>
+<td style="text-align: left;"><code>--unpack</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">unpack originally compressed database files</td>
 </tr>
 <tr>
-<td align="left"><code>-f</code></td>
-<td align="left"><code>--force</code></td>
-<td align="left"></td>
-<td align="left">force-download database again if already downloaded.</td>
+<td style="text-align: left;"><code>-f</code></td>
+<td style="text-align: left;"><code>--force</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">force-download database again if already downloaded.</td>
 </tr>
 <tr>
-<td align="left"><code>-l</code></td>
-<td align="left"><code>--log</code></td>
-<td align="left"><code>None</code></td>
-<td align="left">path to log file. Log not written by default.</td>
+<td style="text-align: left;"><code>-l</code></td>
+<td style="text-align: left;"><code>--log</code></td>
+<td style="text-align: left;"><code>None</code></td>
+<td style="text-align: left;">path to log file. Log not written by default.</td>
 </tr>
 </tbody>
 </table>
@@ -182,16 +181,17 @@
     
   </span>
 </div>
-    <script>var base_url = '../..';</script>
-    <script src="../../js/theme_extra.js" defer></script>
-    <script src="../../js/theme.js" defer></script>
-      <script src="../../javascripts/mathjax.js" defer></script>
-      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
-      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../javascripts/mathjax.js"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>
