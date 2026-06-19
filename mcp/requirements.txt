@@ -1,0 +1,17 @@
+# Runtime dependencies for the Pynteny MCP server + the example LLM agent.
+# Install into the same environment that has `pynteny` (a pure-Python pip
+# package — no conda or external binaries required):
+#
+#     pip install pynteny            # if not already installed
+#     pip install -r requirements.txt
+#
+# The server itself only needs `mcp` and `pynteny`; anthropic/openai/
+# python-dotenv are only used by examples/synteny_search_agent.py.
+
+mcp>=1.2.0
+pynteny>=1.3.0
+
+# --- example agent only ---
+anthropic>=0.40
+openai>=1.40
+python-dotenv>=1.0
