@@ -169,6 +169,12 @@
 <td style="text-align: left;">whether the HMMs should be arranged in the exact same order displayed  in the synteny_structure or in  any order. If ordered, the filters will  filter collinear rather than syntenic structures.  If more than two HMMs are employed, the largest maximum distance among any  pair is considered to run the search.</td>
 </tr>
 <tr>
+<td style="text-align: left;"><code>-b</code></td>
+<td style="text-align: left;"><code>--best_hmm_wins</code></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">if the same peptide is hit by more than one HMM (e.g. paralogous models that cross-hit), keep only the highest-scoring HMM for that peptide. Use this when your HMM panel contains close paralogs to avoid silently dropping genuine syntenic blocks. Disabled by default.</td>
+</tr>
+<tr>
 <td style="text-align: left;"><code>-r</code></td>
 <td style="text-align: left;"><code>--reuse</code></td>
 <td style="text-align: left;"></td>
@@ -194,6 +200,13 @@
 <p>where <span class="arithmatex">\(n_{ab}\)</span> corresponds to the maximum number of genes between <span class="arithmatex">\(HMM_a\)</span> and <span class="arithmatex">\(HMM_b\)</span>. Results can be strand-specific, in that case, <span class="arithmatex">\(&gt;\)</span> preceding an HMM name indicates that the corresponding ORF must be located in the positive (or sense) strand. Likewise, a <span class="arithmatex">\(&lt;\)</span> symbol indicates that the ORF must be located in the negative (antisense) strand. Searches can be made strand-insensitive by omitting the <span class="arithmatex">\(&gt;\)</span> or <span class="arithmatex">\(&lt;\)</span> symbol. </p>
 <p>Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them. In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.</p>
 <p>If the PGAP database is employed (see <code>pynteny download</code> below), synteny blocks can also be specified by gene symbols, such as $<span class="arithmatex">\(\lt leuD \space 0 \space \lt leuC \space 1 \space \lt leuA.\)</span>$ In that case, the program will try to match gene symbols to HMM names in the PGAP database before running the search.</p>
+<h3 id="a-note-on-paralogous-hmms">A note on paralogous HMMs</h3>
+<p>By default, Pynteny's synteny matcher does <strong>not</strong> disambiguate paralogous HMMs. If your panel contains close paralogs (e.g. nitrogenase α/β subunits <code>nifD</code>/<code>nifK</code>, MoFe-cofactor biosynthesis <code>nifE</code>/<code>nifN</code>, or light-independent protochlorophyllide reductase <code>bchL</code>/<code>nifH</code>), the same peptide can score above threshold under more than one HMM. These cross-hits add duplicate rows that can interleave with true syntenic neighbours and cause a genuine syntenic block to be <strong>silently dropped</strong> (a warning is printed). To handle paralog-aware panels, prefer one of:</p>
+<ul>
+<li>a disjoint, orthogonal HMM set;</li>
+<li><code>|</code>-grouped HMMs declared in the synteny structure (e.g. <code>&gt;(nifD|nifK)</code>); or</li>
+<li>the <code>--best_hmm_wins</code> flag, which assigns each peptide to its single highest-scoring HMM before matching.</li>
+</ul>
               
             </div>
           </div><footer>
