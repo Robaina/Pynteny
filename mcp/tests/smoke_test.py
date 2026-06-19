@@ -48,8 +48,12 @@ TIMEOUT = timedelta(seconds=300)
 
 async def call(session: ClientSession, name: str, **arguments):
     result = await session.call_tool(name, arguments, read_timeout_seconds=TIMEOUT)
-    assert not getattr(result, "isError", False), f"{name} returned an error: {result.content}"
-    text = "\n".join(getattr(b, "text", "") for b in result.content if getattr(b, "text", ""))
+    assert not getattr(
+        result, "isError", False
+    ), f"{name} returned an error: {result.content}"
+    text = "\n".join(
+        getattr(b, "text", "") for b in result.content if getattr(b, "text", "")
+    )
     return json.loads(text)
 
 
@@ -82,30 +86,61 @@ async def main() -> None:
             async with ClientSession(read, write) as session:
                 await session.initialize()
                 tools = (await session.list_tools()).tools
-                print(f"Server exposes {len(tools)} tools: {', '.join(t.name for t in tools)}\n")
+                print(
+                    f"Server exposes {len(tools)} tools: {', '.join(t.name for t in tools)}\n"
+                )
                 check("expected tool count", len(tools) == 6, f"got {len(tools)}")
 
                 info = await call(session, "get_pynteny_info")
-                check("pynteny version reported", bool(info.get("version")), str(info.get("version")))
+                check(
+                    "pynteny version reported",
+                    bool(info.get("version")),
+                    str(info.get("version")),
+                )
                 check("citation present", "Pynteny" in info.get("citation", ""), "")
 
-                good = await call(session, "validate_synteny_structure",
-                                  synteny_structure=SYNTENY_STRUC)
-                check("valid structure recognised", good["valid"] is True, str(good.get("valid")))
-                check("structure has 3 genes", good["n_genes"] == 3, str(good.get("n_genes")))
-                check("max distances parsed", good["max_distances"] == [0, 1],
-                      str(good.get("max_distances")))
-                check("strands parsed", good["strands"] == ["neg", "neg", "neg"],
-                      str(good.get("strands")))
+                good = await call(
+                    session,
+                    "validate_synteny_structure",
+                    synteny_structure=SYNTENY_STRUC,
+                )
+                check(
+                    "valid structure recognised",
+                    good["valid"] is True,
+                    str(good.get("valid")),
+                )
+                check(
+                    "structure has 3 genes",
+                    good["n_genes"] == 3,
+                    str(good.get("n_genes")),
+                )
+                check(
+                    "max distances parsed",
+                    good["max_distances"] == [0, 1],
+                    str(good.get("max_distances")),
+                )
+                check(
+                    "strands parsed",
+                    good["strands"] == ["neg", "neg", "neg"],
+                    str(good.get("strands")),
+                )
 
                 # Two adjacent genes with no distance token between them: the
                 # gene/distance counts don't line up, so this is malformed.
-                bad = await call(session, "validate_synteny_structure",
-                                 synteny_structure=">TIGR00171.1 >TIGR00170.1")
-                check("invalid structure rejected", bad["valid"] is False, str(bad.get("valid")))
+                bad = await call(
+                    session,
+                    "validate_synteny_structure",
+                    synteny_structure=">TIGR00171.1 >TIGR00170.1",
+                )
+                check(
+                    "invalid structure rejected",
+                    bad["valid"] is False,
+                    str(bad.get("valid")),
+                )
 
                 hits = await call(
-                    session, "run_synteny_search",
+                    session,
+                    "run_synteny_search",
                     data=str(data),
                     synteny_structure=SYNTENY_STRUC,
                     hmm_dir=str(hmm_dir),
@@ -113,22 +148,39 @@ async def main() -> None:
                     reuse=True,
                     outdir=outdir,
                 )
-                check("search returned 3 hits", hits["n_hits"] == 3, str(hits.get("n_hits")))
+                check(
+                    "search returned 3 hits",
+                    hits["n_hits"] == 3,
+                    str(hits.get("n_hits")),
+                )
                 labels = {h.get("full_label") for h in hits["hits"]}
-                check("hit labels match expected leu operon", labels == EXPECTED_LABELS,
-                      str(labels))
-                check("hits annotated with gene_symbol", "gene_symbol" in hits["columns"],
-                      str(hits["columns"]))
-                check("wrote synteny_matched.tsv", bool(hits.get("synteny_table")),
-                      str(hits.get("synteny_table")))
-                check("wrote per-gene FASTA files", len(hits.get("fasta_files", [])) >= 1,
-                      str(hits.get("fasta_files")))
+                check(
+                    "hit labels match expected leu operon",
+                    labels == EXPECTED_LABELS,
+                    str(labels),
+                )
+                check(
+                    "hits annotated with gene_symbol",
+                    "gene_symbol" in hits["columns"],
+                    str(hits["columns"]),
+                )
+                check(
+                    "wrote synteny_matched.tsv",
+                    bool(hits.get("synteny_table")),
+                    str(hits.get("synteny_table")),
+                )
+                check(
+                    "wrote per-gene FASTA files",
+                    len(hits.get("fasta_files", [])) >= 1,
+                    str(hits.get("fasta_files")),
+                )
 
                 # best_hmm_wins: must still return the leu hits. On a Pynteny old
                 # enough to lack the option the service reports a `warning` and
                 # carries on; on a new-enough Pynteny it is honored (no warning).
                 bhw = await call(
-                    session, "run_synteny_search",
+                    session,
+                    "run_synteny_search",
                     data=str(data),
                     synteny_structure=SYNTENY_STRUC,
                     hmm_dir=str(hmm_dir),
@@ -137,11 +189,16 @@ async def main() -> None:
                     best_hmm_wins=True,
                     outdir=outdir,
                 )
-                check("best_hmm_wins search still returns 3 hits", bhw["n_hits"] == 3,
-                      str(bhw.get("n_hits")))
+                check(
+                    "best_hmm_wins search still returns 3 hits",
+                    bhw["n_hits"] == 3,
+                    str(bhw.get("n_hits")),
+                )
                 if bhw.get("warning"):
-                    print(f"  [NOTE] best_hmm_wins not honored by installed Pynteny: "
-                          f"{bhw['warning']}")
+                    print(
+                        f"  [NOTE] best_hmm_wins not honored by installed Pynteny: "
+                        f"{bhw['warning']}"
+                    )
                 else:
                     print("  [NOTE] best_hmm_wins honored by installed Pynteny.")
 

@@ -72,7 +72,9 @@ def pynteny_info() -> dict[str, Any]:
     from pynteny.utils import CommandArgs, ConfigParser
     from pynteny.subcommands import get_citation
 
-    citation = get_citation(CommandArgs(version=__version__, author=__author__), silent=True)
+    citation = get_citation(
+        CommandArgs(version=__version__, author=__author__), silent=True
+    )
 
     config = ConfigParser.get_default_config()
     db: dict[str, Any] = {}
@@ -183,7 +185,9 @@ def validate_structure(synteny_structure: str) -> dict[str, Any]:
     return result
 
 
-def parse_gene_symbols(synteny_structure: str, hmm_meta: Optional[str]) -> dict[str, Any]:
+def parse_gene_symbols(
+    synteny_structure: str, hmm_meta: Optional[str]
+) -> dict[str, Any]:
     """Translate a *gene-symbol* synteny structure into one based on HMM names,
     using a PGAP/PFAM metadata table."""
     from pynteny.api import Search
@@ -336,7 +340,9 @@ def run_search(
     # when the installed Pynteny supports it so this works on both.
     import inspect
 
-    best_hmm_wins_supported = "best_hmm_wins" in inspect.signature(Search.__init__).parameters
+    best_hmm_wins_supported = (
+        "best_hmm_wins" in inspect.signature(Search.__init__).parameters
+    )
     if best_hmm_wins_supported:
         kwargs["best_hmm_wins"] = best_hmm_wins
 

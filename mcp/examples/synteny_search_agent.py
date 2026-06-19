@@ -98,7 +98,9 @@ class MCPToolbox:
         result = await self.session.call_tool(
             name, arguments, read_timeout_seconds=TOOL_TIMEOUT
         )
-        parts = [getattr(b, "text", "") for b in result.content if getattr(b, "text", "")]
+        parts = [
+            getattr(b, "text", "") for b in result.content if getattr(b, "text", "")
+        ]
         text = "\n".join(parts).strip()
         if not text and getattr(result, "structuredContent", None):
             text = json.dumps(result.structuredContent)
@@ -108,7 +110,11 @@ class MCPToolbox:
 
     def anthropic_tools(self) -> list[dict]:
         return [
-            {"name": t.name, "description": t.description or "", "input_schema": t.inputSchema}
+            {
+                "name": t.name,
+                "description": t.description or "",
+                "input_schema": t.inputSchema,
+            }
             for t in self.tools
         ]
 
@@ -210,7 +216,10 @@ async def run_deepseek(toolbox: MCPToolbox, question: str) -> str:
                 {
                     "id": tc.id,
                     "type": "function",
-                    "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                    "function": {
+                        "name": tc.function.name,
+                        "arguments": tc.function.arguments,
+                    },
                 }
                 for tc in msg.tool_calls
             ]
@@ -249,7 +258,9 @@ async def main_async(provider: str, question: str) -> None:
             toolbox = MCPToolbox(session)
             await toolbox.load()
 
-            print(f"Connected to Pynteny MCP server: {len(toolbox.tools)} tools available")
+            print(
+                f"Connected to Pynteny MCP server: {len(toolbox.tools)} tools available"
+            )
             print(f"Provider: {provider}\n")
             print(f"Question:\n  {question}\n")
             print("--- agent trace ---")
@@ -259,7 +270,9 @@ async def main_async(provider: str, question: str) -> None:
                     answer = await run_claude(toolbox, question)
                 else:
                     answer = await run_deepseek(toolbox, question)
-            except Exception as exc:  # noqa: BLE001 — surface a clean message, not a stack trace
+            except (
+                Exception
+            ) as exc:  # noqa: BLE001 — surface a clean message, not a stack trace
                 print(f"\nLLM call failed ({type(exc).__name__}): {exc}")
                 return
 
@@ -270,11 +283,14 @@ async def main_async(provider: str, question: str) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--provider", choices=["claude", "deepseek"], default="claude",
+        "--provider",
+        choices=["claude", "deepseek"],
+        default="claude",
         help="Which LLM backend to use (default: claude).",
     )
     parser.add_argument(
-        "--question", default=DEFAULT_QUESTION,
+        "--question",
+        default=DEFAULT_QUESTION,
         help="Question to ask the agent (defaults to the leu-operon example).",
     )
     args = parser.parse_args()
