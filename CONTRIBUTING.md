@@ -40,12 +40,14 @@ environment for Pynteny:
 
 1. Fork and download repo, cd to downloaded directory. You should create a new branch to work on your issue.
 
-2. Create a virtual environment and install Pynteny in editable mode:
+2. Create a virtual environment and install Pynteny (in editable mode) together
+   with its development tools:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -e .
+pip install -r requirements-dev.txt
 ```
 
 3. Run tests
@@ -53,17 +55,6 @@ pip install -e .
 ```bash
 python -m unittest discover tests
 ```
-
-A conda environment file (`envs/pynteny-dev.yml`) is still provided for
-contributors who prefer conda, but it is no longer required.
-
-## Using GitHub codespaces
-
-Alternatively, you can directly work on a developer environment in the browser within GitHub's codespaces. To set this environment up:
-
-1. Fork repository and create new branch for your issue.
-
-2. Start a new Codespace for the new branch. GitHub will build an environment with all required dependencies as well as pynteny the first time (it will take a couple of minutes). Pynteny will be installed in a conda environment named "pynteny-dev".
 
 ## Building the documentation
 
