@@ -11,6 +11,7 @@
 ![license](https://img.shields.io/github/license/Robaina/Pynteny)
 ![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 
+[![PyPI version](https://img.shields.io/pypi/v/pynteny?logo=pypi&style=flat-square)](https://pypi.org/project/pynteny/)
 [![GitHub release](https://img.shields.io/github/release/Robaina/Pynteny.svg)](https://GitHub.com/Robaina/Pynteny/releases/)
 
 ![python](https://img.shields.io/badge/Python-3.9%20|%203.12-blue)
@@ -36,16 +37,16 @@ binaries). All dependencies, including the HMMER and Prodigal engines, are
 provided by the pip packages [pyhmmer](https://github.com/althonos/pyhmmer) and
 [pyrodigal](https://github.com/althonos/pyrodigal).
 
-Install the latest development version directly from GitHub:
-
-```bash
-pip install git+https://github.com/Robaina/Pynteny.git
-```
-
-Once released on PyPI, Pynteny will also be installable with:
+Install with pip:
 
 ```bash
 pip install pynteny
+```
+
+Or install the latest development version directly from GitHub:
+
+```bash
+pip install git+https://github.com/Robaina/Pynteny.git
 ```
 
 Check that the installation worked fine:
