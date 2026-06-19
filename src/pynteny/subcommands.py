@@ -152,6 +152,7 @@ def synteny_search(args: Union[CommandArgs, ArgumentParser]) -> SyntenyHits:
     synteny_hits = filter_FASTA_by_synteny_structure(
         synteny_structure=args.synteny_struc,
         unordered=args.unordered,
+        best_hmm_wins=getattr(args, "best_hmm_wins", False),
         input_fasta=args.data,
         input_hmms=input_hmms,
         hmm_meta=args.hmm_meta,

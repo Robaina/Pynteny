@@ -71,6 +71,7 @@ class Search(Command):
         synteny_struc: str,
         gene_ids: bool = False,
         unordered: bool = False,
+        best_hmm_wins: bool = False,
         reuse: bool = False,
         hmm_dir: Path = None,
         hmm_meta: Path = None,
@@ -100,6 +101,9 @@ class Search(Command):
                 exact same order displayed in the synteny_structure or in
                 any order If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to False.
+            best_hmm_wins (bool, optional): if True, when the same peptide is hit
+                by more than one HMM (paralog cross-hits), keep only the
+                highest-scoring HMM for that peptide. Defaults to False.
             reuse (bool, optional): if True then HMMER3 won't be run again for HMMs already
                 searched in the same output directory. Defaults to False.
             hmm_dir (Path, optional): path to directory containing input HMM files.
@@ -132,6 +136,7 @@ class Search(Command):
             logfile=Path(logfile) if logfile is not None else logfile,
             processes=processes,
             unordered=unordered,
+            best_hmm_wins=best_hmm_wins,
             reuse=reuse,
         )
 
