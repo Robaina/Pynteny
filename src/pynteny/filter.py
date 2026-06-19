@@ -145,7 +145,11 @@ class SyntenyHMMfilter:
     """Tools to search for synteny structures among sets of hmm models"""
 
     def __init__(
-        self, hmm_hits: dict, synteny_structure: str, unordered: bool = True
+        self,
+        hmm_hits: dict,
+        synteny_structure: str,
+        unordered: bool = True,
+        best_hmm_wins: bool = False,
     ) -> None:
         """Search for contigs that satisfy the given gene synteny structure.
 
@@ -166,8 +170,14 @@ class SyntenyHMMfilter:
                 exact same order displayed in the synteny_structure or in
                 any order. If ordered, the filters would filter collinear rather
                 than syntenic structures. Defaults to True.
+            best_hmm_wins (bool, optional): if True, when the same peptide is hit
+                by more than one HMM (e.g. paralogous models that cross-hit),
+                keep only the highest-scoring HMM for that peptide. This prevents
+                duplicate rows from breaking the rolling-window synteny matcher.
+                Defaults to False.
         """
         self._unordered = unordered
+        self._best_hmm_wins = best_hmm_wins
         self._hmm_hits = hmm_hits
         self._hmms = list(hmm_hits.keys())
         self._synteny_structure = synteny_structure
@@ -263,8 +273,15 @@ class SyntenyHMMfilter:
             if not labels:
                 logger.error(f"No records found in database matching HMM: {hmm}")
                 sys.exit(1)
-            hit_labels[hmm] = labelparser.parse_from_list(labels)
-            hit_labels[hmm]["hmm"] = hmm
+            parsed = labelparser.parse_from_list(labels)
+            parsed["hmm"] = hmm
+            # Carry the HMMER bitscore along (only when needed) so paralog
+            # cross-hits on the same peptide can be disambiguated by score.
+            # It is dropped again right after deduplication so the default code
+            # path keeps exactly the same columns as before.
+            if self._best_hmm_wins and "bitscore" in hits.columns:
+                parsed["bitscore"] = hits.bitscore.values
+            hit_labels[hmm] = parsed
         # Create single dataframe with new column corresponding to HMM and all hits
         # Remove contigs with less hits than the number of hmms in synteny structure (drop if enabling partial searching)
         all_hit_labels = (
@@ -274,6 +291,20 @@ class SyntenyHMMfilter:
             .sort_values(["contig", "gene_pos"], ascending=True)
         )
         all_hit_labels = all_hit_labels.reset_index(drop=True)
+        if self._best_hmm_wins:
+            # Keep only the highest-scoring HMM per peptide. Without this,
+            # paralogous HMMs that cross-hit the same peptide create duplicate
+            # rows that interleave with true syntenic neighbours and break the
+            # rolling-window matcher (silent false negatives).
+            if "bitscore" not in all_hit_labels.columns:
+                all_hit_labels["bitscore"] = float("nan")
+            all_hit_labels = (
+                all_hit_labels.sort_values("bitscore", ascending=False)
+                .drop_duplicates(subset=["full_label"], keep="first")
+                .sort_values(["contig", "gene_pos"], ascending=True)
+                .reset_index(drop=True)
+                .drop(columns="bitscore")
+            )
         if self._contains_hmm_groups:
             all_hit_labels = self._merge_hits_by_HMM_group(all_hit_labels)
         all_hit_labels = all_hit_labels.reset_index(drop=True)
@@ -291,8 +322,22 @@ class SyntenyHMMfilter:
         )
         all_hit_labels = self.get_all_HMM_hits()
         if all_hit_labels.full_label.duplicated().any():
+            n_dup = int(all_hit_labels.full_label.duplicated().sum())
+            dup_mask = all_hit_labels.full_label.duplicated(keep=False)
+            affected_combinations = (
+                all_hit_labels[dup_mask]
+                .groupby("full_label")
+                .hmm.apply(lambda s: tuple(sorted(set(s))))
+                .value_counts()
+                .head(5)
+                .to_dict()
+            )
             logger.warning(
-                "At least two different HMMs produced identical sequence hits"
+                f"{n_dup} peptide(s) hit by >=2 HMMs (paralog cross-hits). "
+                f"Top HMM combinations: {affected_combinations}. "
+                "Syntenic patterns adjacent to these peptides may be silently "
+                "dropped. Re-run with --best_hmm_wins to keep only each "
+                "peptide's highest-scoring HMM."
             )
         if all_hit_labels.full_label.duplicated().sum() == all_hit_labels.shape[0] / 2:
             logger.error(
@@ -505,6 +550,7 @@ def filter_FASTA_by_synteny_structure(
     input_fasta: Path,
     input_hmms: list[Path],
     unordered: bool = False,
+    best_hmm_wins: bool = False,
     hmm_meta: Path = None,
     hmmer_output_dir: Path = None,
     reuse_hmmer_results: bool = True,
@@ -532,6 +578,10 @@ def filter_FASTA_by_synteny_structure(
             displayed in the synteny structure string or not, i.e., whether
             to search for only synteny (colocation) or collinearity as well
             (same order). Defaults to False.
+        best_hmm_wins (bool, optional): if True, when the same peptide is hit by
+            more than one HMM (paralog cross-hits), keep only the highest-scoring
+            HMM for that peptide before matching the synteny structure. Defaults
+            to False.
         hmm_meta (Path, optional): path to PGAP's metadata file. Defaults to None.
         hmmer_output_dir (Path, optional): output directory to store HMMER3 output files. Defaults to None.
         reuse_hmmer_results (bool, optional): if True then HMMER3 won't be run again for HMMs already
@@ -601,7 +651,12 @@ def filter_FASTA_by_synteny_structure(
         sys.exit(1)
 
     logger.info("Filtering results by synteny structure")
-    syntenyfilter = SyntenyHMMfilter(hmm_hits, synteny_structure, unordered=unordered)
+    syntenyfilter = SyntenyHMMfilter(
+        hmm_hits,
+        synteny_structure,
+        unordered=unordered,
+        best_hmm_wins=best_hmm_wins,
+    )
     hits_by_contig = syntenyfilter.filter_hits_by_synteny_structure()
     if hmm_meta is not None:
         return SyntenyHits.from_hits_dict(hits_by_contig).add_HMM_meta_info_to_hits(

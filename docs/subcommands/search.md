@@ -20,6 +20,7 @@ usage: pynteny search [-h] [args]
 |`-a`|`--hmmsearch_args`|`None`|list of comma-separated additional arguments to hmmsearch for each input hmm.  A single argument may be provided, in which case the same additional argument  is employed in all hmms.|
 |`-g`|`--gene_ids`||use gene symbols in synteny structure instead of HMM names.  If set, a path to the hmm database metadata file must be provided  in argument '--hmm_meta'|
 |`-u`|`--unordered`||whether the HMMs should be arranged in the exact same order displayed  in the synteny_structure or in  any order. If ordered, the filters will  filter collinear rather than syntenic structures.  If more than two HMMs are employed, the largest maximum distance among any  pair is considered to run the search.|
+|`-b`|`--best_hmm_wins`||if the same peptide is hit by more than one HMM (e.g. paralogous models that cross-hit), keep only the highest-scoring HMM for that peptide. Use this when your HMM panel contains close paralogs to avoid silently dropping genuine syntenic blocks. Disabled by default.|
 |`-r`|`--reuse`||reuse hmmsearch result table in following synteny searches.  Do not delete hmmer_outputs subdirectory for this option to work.|
 |`-m`|`--hmm_meta`|`None`|path to hmm database metadata file|
 |`-l`|`--log`|`None`|path to log file. Log not written by default.|
@@ -36,3 +37,11 @@ where $n_{ab}$ corresponds to the maximum number of genes between $HMM_a$ and $H
 Several HMMs can be assigned to the same ORF, in which case the search is performed for all of them. In this case, HMM names must be separated by "|" and grouped within parentheses, as shown above.
 
 If the PGAP database is employed (see `pynteny download` below), synteny blocks can also be specified by gene symbols, such as $$\lt leuD \space 0 \space \lt leuC \space 1 \space \lt leuA.$$ In that case, the program will try to match gene symbols to HMM names in the PGAP database before running the search.
+
+### A note on paralogous HMMs
+
+By default, Pynteny's synteny matcher does **not** disambiguate paralogous HMMs. If your panel contains close paralogs (e.g. nitrogenase α/β subunits `nifD`/`nifK`, MoFe-cofactor biosynthesis `nifE`/`nifN`, or light-independent protochlorophyllide reductase `bchL`/`nifH`), the same peptide can score above threshold under more than one HMM. These cross-hits add duplicate rows that can interleave with true syntenic neighbours and cause a genuine syntenic block to be **silently dropped** (a warning is printed). To handle paralog-aware panels, prefer one of:
+
+- a disjoint, orthogonal HMM set;
+- `|`-grouped HMMs declared in the synteny structure (e.g. `>(nifD|nifK)`); or
+- the `--best_hmm_wins` flag, which assigns each peptide to its single highest-scoring HMM before matching.

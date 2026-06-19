@@ -288,6 +288,20 @@ class SubcommandParser:
             ),
         )
         optional.add_argument(
+            "-b",
+            "--best_hmm_wins",
+            dest="best_hmm_wins",
+            default=False,
+            action="store_true",
+            help=(
+                "if the same peptide is hit by more than one HMM (e.g. paralogous \n"
+                "models that cross-hit), keep only the highest-scoring HMM for that \n"
+                "peptide. Use this when your HMM panel contains close paralogs \n"
+                "(e.g. nitrogenase nifD/nifK, nifE/nifN) to avoid silently dropping \n"
+                "genuine syntenic blocks. Disabled by default."
+            ),
+        )
+        optional.add_argument(
             "-r",
             "--reuse",
             dest="reuse",
