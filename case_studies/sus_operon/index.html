@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Semidán Robaina" /><link rel="canonical" href="https://robaina.github.io/Pynteny/examples/example_cli/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Semidán Robaina" /><link rel="canonical" href="https://robaina.github.io/Pynteny/case_studies/sus_operon/" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Example CLI - Pynteny</title>
+    <title>Finding the SusC–SusD polysaccharide-utilization pair with Pynteny - Pynteny</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Example CLI";
-        var mkdocs_page_input_path = "examples/example_cli.ipynb";
-        var mkdocs_page_url = "/Pynteny/examples/example_cli/";
+        var mkdocs_page_name = "Finding the SusC\u2013SusD polysaccharide-utilization pair with Pynteny";
+        var mkdocs_page_input_path = "case_studies/sus_operon.ipynb";
+        var mkdocs_page_url = "/Pynteny/case_studies/sus_operon/";
       </script>
     
     <!--[if lt IE 9]>
@@ -52,19 +52,39 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Examples</span></p>
-              <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Example CLI</a>
-    <ul class="current">
-    </ul>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../examples/example_cli/">Example CLI</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../example_api/">Example API</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../examples/example_api/">Example API</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Case studies</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../case_studies/nif_operon/">Finding the nitrogen-fixation (nif) operon with Pynteny</a>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../nif_operon/">Finding the nitrogen-fixation (nif) operon with Pynteny</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../case_studies/sus_operon/">Finding the SusC–SusD polysaccharide-utilization pair with Pynteny</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Finding the SusC–SusD polysaccharide-utilization pair with Pynteny</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1-the-two-genes">1. The two genes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2-the-genome-panel">2. The genome panel</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3-build-labelled-peptide-databases">3. Build labelled peptide databases</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4-search-a-alone-no-genomic-context">4. Search A — alone (no genomic context)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5-search-b-the-strict-tandem">5. Search B — the strict – tandem</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6-search-c-the-tandem-on-either-strand-the-full-pul-repertoire">6. Search C — the tandem on either strand: the full PUL repertoire</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#7-summary">7. Summary</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#takeaways">Takeaways</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">References</span></p>
@@ -86,10 +106,10 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Examples</li>
-      <li class="breadcrumb-item active">Example CLI</li>
+          <li class="breadcrumb-item">Case studies</li>
+      <li class="breadcrumb-item active">Finding the SusC–SusD polysaccharide-utilization pair with Pynteny</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/Robaina/Pynteny/edit/master/docs/examples/example_cli.ipynb" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/Robaina/Pynteny/edit/master/docs/case_studies/sus_operon.ipynb" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -818,22 +838,46 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ccafa031">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><img alt="logo" src="https://user-images.githubusercontent.com/21340147/192824830-dcbe8d09-2b10-431d-bd9a-b4624192dcc9.png"/>
-<br/>
-<br/></p>
-<p><a href="https://github.com/Robaina">Semidán Robaina</a>, September 2022.</p>
-<p>In this Notebook, we will use Pynteny through its command-line interface to find candidate peptide sequences beloging to the <em>sox</em> operon within unannotated, fully sequenced, genomes of marine prokaryotic organisms. Note that we could have conducted the same search through <a href="example_api.ipynb">Pynteny's python API</a>. Find more info in the <a href="https://robaina.github.io/Pynteny/">documentation pages</a>. Let's start by importing some required modules.</p>
+<h1 id="finding-the-suscsusd-polysaccharide-utilization-pair-with-pynteny">Finding the SusC–SusD polysaccharide-utilization pair with Pynteny<a class="anchor-link" href="#finding-the-suscsusd-polysaccharide-utilization-pair-with-pynteny">¶</a></h1><p>Members of the phylum <strong>Bacteroidota</strong> harvest complex polysaccharides using
+<strong>polysaccharide-utilization loci (PULs)</strong>. At the heart of every PUL sits a tandem pair of
+outer-membrane proteins — <strong><code>susC</code></strong> (a TonB-dependent transporter) and <strong><code>susD</code></strong> (a
+substrate-binding lipoprotein) — that together form the "pedal-bin" import machine.</p>
+<p><code>susC</code> is a great illustration of why <strong>sequence similarity alone is a weak annotation signal</strong>:
+it belongs to the large <strong>SusC/RagA/OmpW</strong> family of TonB-dependent receptors found across many
+phyla, so a lone <code>susC</code>-like hit tells you little. The <strong><code>susC</code>–<code>susD</code> tandem</strong>, on the other
+hand, is a crisp syntenic signature of a genuine PUL — exactly the kind of genomic-context
+signal Pynteny is built to exploit.</p>
+<p>In this notebook we show, across three Bacteroidota and three non-Bacteroidota genomes, that:</p>
+<ol>
+<li><strong><code>susC</code> alone is promiscuous</strong> — it lights up across phyla;</li>
+<li><strong>the <code>susC</code>–<code>susD</code> tandem is specific</strong> to Bacteroidota; and</li>
+<li>relaxing the strand constraint reveals the <strong>full PUL repertoire</strong> — dozens of loci in a gut
+<em>Bacteroides</em>.</li>
+</ol>
+<p>The two HMMs and their metadata are committed under <code>data/</code>, so you do <strong>not</strong> need the full
+432 MB PGAP database.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dbd472f7">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="setup">Setup<a class="anchor-link" href="#setup">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f1fb17e4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -851,36 +895,100 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">".*IProgress.*"</span><span class="p">)</span>   <span class="c1"># cosmetic tqdm-in-notebook notice</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span><span class="o">,</span><span class="w"> </span><span class="nn">gzip</span><span class="o">,</span><span class="w"> </span><span class="nn">shutil</span><span class="o">,</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pynteny.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Build</span><span class="p">,</span> <span class="n">Search</span>
+
+<span class="n">BASE</span>     <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+<span class="n">DATA</span>     <span class="o">=</span> <span class="n">BASE</span> <span class="o">/</span> <span class="s2">"data"</span>
+<span class="n">HMM_DIR</span>  <span class="o">=</span> <span class="n">DATA</span> <span class="o">/</span> <span class="s2">"hmms"</span>
+<span class="n">HMM_META</span> <span class="o">=</span> <span class="n">DATA</span> <span class="o">/</span> <span class="s2">"sus_hmm_meta.tsv"</span>
+<span class="n">GENOMES</span>  <span class="o">=</span> <span class="n">DATA</span> <span class="o">/</span> <span class="s2">"genomes"</span>      <span class="c1"># downloaded below (git-ignored)</span>
+<span class="n">PEPTIDES</span> <span class="o">=</span> <span class="n">DATA</span> <span class="o">/</span> <span class="s2">"peptides"</span>     <span class="c1"># built below     (git-ignored)</span>
+<span class="n">RESULTS</span>  <span class="o">=</span> <span class="n">BASE</span> <span class="o">/</span> <span class="s2">"results"</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="n">GENOMES</span><span class="p">,</span> <span class="n">PEPTIDES</span><span class="p">,</span> <span class="n">RESULTS</span><span class="p">):</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Negatives legitimately match nothing, which Pynteny logs at ERROR level; silence &lt;= ERROR so</span>
+<span class="c1"># expected "no hits" cases don't print scary red lines.</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">disable</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">"display.max_colwidth"</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="c1"># susC/RagA is a large, promiscuous family: use a permissive reporting threshold and let the</span>
+<span class="c1"># synteny filter (not the bit-score) provide the specificity.</span>
+<span class="n">HMMSEARCH_ARGS</span> <span class="o">=</span> <span class="s2">"-E 1e-10"</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"HMMs committed for this case study:"</span><span class="p">,</span>
+      <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">HMM_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'*.HMM'</span><span class="p">))))</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-1">from pathlib import Path
-from IPython.display import display, HTML
-import pandas as pd</div>
+<div class="clipboard-copy-txt" id="cell-1">import warnings
+warnings.filterwarnings("ignore", message=".*IProgress.*")   # cosmetic tqdm-in-notebook notice
+
+from pathlib import Path
+import urllib.request, gzip, shutil, logging
+import pandas as pd
+from pynteny.api import Build, Search
+
+BASE     = Path.cwd()
+DATA     = BASE / "data"
+HMM_DIR  = DATA / "hmms"
+HMM_META = DATA / "sus_hmm_meta.tsv"
+GENOMES  = DATA / "genomes"      # downloaded below (git-ignored)
+PEPTIDES = DATA / "peptides"     # built below     (git-ignored)
+RESULTS  = BASE / "results"
+for d in (GENOMES, PEPTIDES, RESULTS):
+    d.mkdir(parents=True, exist_ok=True)
+
+# Negatives legitimately match nothing, which Pynteny logs at ERROR level; silence &lt;= ERROR so
+# expected "no hits" cases don't print scary red lines.
+logging.disable(logging.ERROR)
+pd.set_option("display.max_colwidth", 60)
+
+# susC/RagA is a large, promiscuous family: use a permissive reporting threshold and let the
+# synteny filter (not the bit-score) provide the specificity.
+HMMSEARCH_ARGS = "-E 1e-10"
+print("HMMs committed for this case study:",
+      ", ".join(p.name for p in sorted(HMM_DIR.glob('*.HMM'))))</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>HMMs committed for this case study: NF033071.0.HMM, TIGR04056.1.HMM
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a2e71ab7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="download-pgap-profile-hmm-database">Download PGAP profile HMM database<a class="anchor-link" href="#download-pgap-profile-hmm-database">¶</a></h2><p>First, let's download <a href="https://academic.oup.com/nar/article/49/D1/D1020/6018440">PGAP</a>'s profile HMM database from the NCBI webpage. To this end, we will use pynteny subcommand <code>download</code>, which will unzip and store files in the specified output directory. The metadata file will be parsed and filtered to remove HMM entries that are not available in the downloaded database (this is to avoid possible downstream errors).</p>
+<h2 id="1-the-two-genes">1. The two genes<a class="anchor-link" href="#1-the-two-genes">¶</a></h2><p>Two HMMs from the NCBI <strong>PGAP</strong> collection. We give each a clean <code>gene_symbol</code> so the synteny
+structure reads in plain <code>susC</code>/<code>susD</code> terms (via <code>--gene_ids</code>).</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c283db20">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
@@ -893,42 +1001,90 @@ import pandas as pd</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
-
-<span class="n">pynteny</span> <span class="n">download</span> <span class="o">--</span><span class="n">outdir</span> <span class="n">data</span><span class="o">/</span><span class="n">hmms</span> <span class="o">--</span><span class="n">unpack</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">HMM_META</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">%%bash
+<div class="clipboard-copy-txt" id="cell-2">pd.read_csv(HMM_META, sep="\t")</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-pynteny download --outdir data/hmms --unpack</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>#ncbi_accession</th>
+<th>label</th>
+<th>product_name</th>
+<th>gene_symbol</th>
+<th>ec_numbers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>TIGR04056.1</td>
+<td>susC</td>
+<td>SusC/RagA family TonB-linked outer membrane protein</td>
+<td>susC</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>1</th>
+<td>NF033071.0</td>
+<td>susD</td>
+<td>starch-binding outer membrane lipoprotein SusD</td>
+<td>susD</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=79c95241">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="build-peptide-sequence-database">Build peptide sequence database<a class="anchor-link" href="#build-peptide-sequence-database">¶</a></h2><p>For this example, we are going to use the <a href="https://mmp2.sfb.uit.no/marref/">MAR reference</a> database (currently version <em>v7</em>), a collection of 970 fully sequenced prokaryotic genomes from the marine environment. Specifically, we will use the assembly data file containing the assembled nucleotide sequences.</p>
-<p>Our final goal is to build a peptide sequence database in a single FASTA file where each record corresponds to an inferred ORF, which will display the positional information (i.e. ORF number within the parent contig as well as the DNA strand). To this end, we will run pynteny's subcommand <code>build</code>, which will take care of:</p>
-<ul>
-<li>Predict and translate ORFs with <a href="">prodigal</a></li>
-<li>Label each ORF with a unique identifier and add positional metadata (with respect to the parent contig)</li>
-</ul>
-<p>To follow this example, you should have previously downloaded the assembly data file, <code>assembly.fa</code>, from <a href="https://mmp2.sfb.uit.no/marref/">MAR ref</a>. Here is what the first lines of <code>assembly.fa</code> look like, each record corresponds to a single, assembled genome:</p>
+<h2 id="2-the-genome-panel">2. The genome panel<a class="anchor-link" href="#2-the-genome-panel">¶</a></h2><p>Three <strong>Bacteroidota</strong> (expected to carry PULs) and three <strong>non-Bacteroidota</strong> controls. Two of
+the controls (<em>Pseudomonas</em>, <em>E. coli</em>) deliberately carry <code>susC</code>-like TonB-dependent receptors
+but <strong>no <code>susD</code> partner</strong> — the crux of the specificity story.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d7853436">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
@@ -941,13 +1097,13 @@ pynteny download --outdir data/hmms --unpack</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="o">%%</span><span class="n">bash</span> 
-
-<span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">4</span> <span class="n">data</span><span class="o">/</span><span class="n">MARref_v7</span><span class="o">/</span><span class="n">assembly</span><span class="o">.</span><span class="n">fa</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">genomes</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">BASE</span> <span class="o">/</span> <span class="s2">"genomes.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"#"</span><span class="p">)))</span>
+<span class="n">genomes</span><span class="p">[[</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"role"</span><span class="p">,</span> <span class="s2">"lineage"</span><span class="p">,</span> <span class="s2">"lifestyle"</span><span class="p">,</span> <span class="s2">"sus_expectation"</span><span class="p">]]</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">%%bash 
-
-head -n 4 data/MARref_v7/assembly.fa</div>
+<div class="clipboard-copy-txt" id="cell-3">genomes = (pd.read_csv(BASE / "genomes.tsv", sep="\t")
+             .rename(columns=lambda c: c.lstrip("#")))
+genomes[["name", "role", "lineage", "lifestyle", "sus_expectation"]]</div>
 </div>
 </div>
 </div>
@@ -956,39 +1112,111 @@ head -n 4 data/MARref_v7/assembly.fa</div>
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&gt;CP000435.1 Synechococcus sp. CC9311, complete genome
-ACATCGTTTCCCCTGTTTCCACAAGACCTACTACGGCTGTTTTCGTAGTTCTTTTAAGAGAATAAAAACAGCCCTAAAGC
-CGGGGAACACGAAAAAAACGTGAAACCATTGCGCTTCTCCCTTGCCTGTGAAATTGTGAGGAGAGATTTGTTCACGCCGT
-TGACTCGGACCTCATGAAATTGGTCTGTTCCCAGGCAGAACTCAACGCAGCTCTGCAGTTGGTCAGTCGGGCTGTCGCCT
-</pre>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>name</th>
+<th>role</th>
+<th>lineage</th>
+<th>lifestyle</th>
+<th>sus_expectation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>Bacteroides_thetaiotaomicron_VPI5482</td>
+<td>positive</td>
+<td>Bacteroidota</td>
+<td>human gut symbiont</td>
+<td>dozens of susC-susD PULs (model Sus organism)</td>
+</tr>
+<tr>
+<th>1</th>
+<td>Bacteroides_fragilis_NCTC9343</td>
+<td>positive</td>
+<td>Bacteroidota</td>
+<td>human gut symbiont</td>
+<td>many susC-susD PULs</td>
+</tr>
+<tr>
+<th>2</th>
+<td>Flavobacterium_johnsoniae_UW101</td>
+<td>positive</td>
+<td>Bacteroidota</td>
+<td>soil/freshwater glider</td>
+<td>many susC-susD PULs (environmental Bacteroidota)</td>
+</tr>
+<tr>
+<th>3</th>
+<td>Pseudomonas_aeruginosa_PAO1</td>
+<td>negative</td>
+<td>Pseudomonadota (Gamma)</td>
+<td>soil/opportunist</td>
+<td>susC-like TonB receptors present, but NO susD tandem</td>
+</tr>
+<tr>
+<th>4</th>
+<td>Escherichia_coli_MG1655</td>
+<td>negative</td>
+<td>Pseudomonadota (Gamma)</td>
+<td>enteric</td>
+<td>a few susC-like TonB receptors, no susD tandem</td>
+</tr>
+<tr>
+<th>5</th>
+<td>Bacillus_subtilis_168</td>
+<td>negative</td>
+<td>Bacillota (Firmicutes)</td>
+<td>soil saprophyte</td>
+<td>no SusC/SusD system</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c6611481">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Let's run <code>pynteny build</code> to generate a peptide database labeled with positional information. The labels are organized following the structure:</p>
-<p><code>&lt;genome ID&gt;__&lt;contig ID&gt;_&lt;gene position&gt;_&lt;locus start&gt;_&lt;locus end&gt;_&lt;strand&gt;</code></p>
-<p>where gene position, locus start, and locus end are taken with respect to the contig.</p>
+<h2 id="3-build-labelled-peptide-databases">3. Build labelled peptide databases<a class="anchor-link" href="#3-build-labelled-peptide-databases">¶</a></h2><p><code>pynteny build</code> translates every ORF (Prodigal) and writes a FASTA whose record labels encode
+each gene's <strong>contig, position and strand</strong> — the positional information the synteny filter
+reads. Already-built genomes are skipped, so re-running is cheap.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8299abd7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
@@ -1001,35 +1229,85 @@ TGACTCGGACCTCATGAAATTGGTCTGTTCCCAGGCAGAACTCAACGCAGCTCTGCAGTTGGTCAGTCGGGCTGTCGCCT
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">NCBI</span> <span class="o">=</span> <span class="s2">"https://ftp.ncbi.nlm.nih.gov/genomes/all"</span>
 
-<span class="n">pynteny</span> <span class="n">build</span> \
-    <span class="o">--</span><span class="n">data</span> <span class="n">data</span><span class="o">/</span><span class="n">MARref_v7</span><span class="o">/</span><span class="n">assembly</span><span class="o">.</span><span class="n">fa</span> \
-    <span class="o">--</span><span class="n">outfile</span> <span class="n">data</span><span class="o">/</span><span class="n">labeled_marref</span><span class="o">.</span><span class="n">fasta</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fetch_and_build</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">refseq_path</span><span class="p">):</span>
+    <span class="n">fna</span><span class="p">,</span> <span class="n">faa</span> <span class="o">=</span> <span class="n">GENOMES</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.fna"</span><span class="p">,</span> <span class="n">PEPTIDES</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.faa"</span>
+    <span class="k">if</span> <span class="n">faa</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">faa</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">fna</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">refseq_path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">gz</span> <span class="o">=</span> <span class="n">fna</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">".fna.gz"</span><span class="p">)</span>
+        <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">NCBI</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">refseq_path</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">_genomic.fna.gz"</span><span class="p">,</span> <span class="n">gz</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">gz</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">fna</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">fi</span><span class="p">,</span> <span class="n">fo</span><span class="p">)</span>
+        <span class="n">gz</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+    <span class="n">Build</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">fna</span><span class="p">,</span> <span class="n">outfile</span><span class="o">=</span><span class="n">faa</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">faa</span>
+
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">genomes</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">fetch_and_build</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">"refseq_path"</span><span class="p">])</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">PEPTIDES</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">}</span><span class="s2">.faa"</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"&gt;"</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;40</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">n</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2"> ORFs"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">%%bash
+<div class="clipboard-copy-txt" id="cell-4">NCBI = "https://ftp.ncbi.nlm.nih.gov/genomes/all"
 
-pynteny build \
-    --data data/MARref_v7/assembly.fa \
-    --outfile data/labeled_marref.fasta</div>
+def fetch_and_build(name, refseq_path):
+    fna, faa = GENOMES / f"{name}.fna", PEPTIDES / f"{name}.faa"
+    if faa.exists():
+        return faa
+    if not fna.exists():
+        base = refseq_path.rsplit("/", 1)[-1]
+        gz = fna.with_suffix(".fna.gz")
+        urllib.request.urlretrieve(f"{NCBI}/{refseq_path}/{base}_genomic.fna.gz", gz)
+        with gzip.open(gz, "rb") as fi, open(fna, "wb") as fo:
+            shutil.copyfileobj(fi, fo)
+        gz.unlink()
+    Build(data=fna, outfile=faa).run()
+    return faa
+
+for _, row in genomes.iterrows():
+    fetch_and_build(row["name"], row["refseq_path"])
+    n = sum(1 for line in open(PEPTIDES / f"{row['name']}.faa") if line.startswith("&gt;"))
+    print(f"{row['name']:&lt;40} {n:&gt;5} ORFs")</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Bacteroides_thetaiotaomicron_VPI5482      4964 ORFs
+Bacteroides_fragilis_NCTC9343             4351 ORFs
+Flavobacterium_johnsoniae_UW101           5173 ORFs
+Pseudomonas_aeruginosa_PAO1               5715 ORFs
+Escherichia_coli_MG1655                   4319 ORFs
+Bacillus_subtilis_168                     4242 ORFs
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a7d1f8d7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Here are some position-labeled predicted peptides corresponding to the assembled genome displayed above (<code>CP000435.1</code>):</p>
+<h2 id="4-search-a-susc-alone-no-genomic-context">4. Search A — <code>susC</code> alone (no genomic context)<a class="anchor-link" href="#4-search-a-susc-alone-no-genomic-context">¶</a></h2><pre><code>&gt;susC
+</code></pre>
+<p>A bare search for the SusC/RagA receptor family.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e8ffb3c3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1047,13 +1325,47 @@ pynteny build \
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">DISPLAY_COLS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"contig"</span><span class="p">,</span> <span class="s2">"gene_number"</span><span class="p">,</span> <span class="s2">"locus"</span><span class="p">,</span> <span class="s2">"strand"</span><span class="p">,</span> <span class="s2">"gene_symbol"</span><span class="p">]</span>
 
-<span class="n">grep</span> <span class="o">-</span><span class="n">A</span> <span class="mi">1</span> <span class="s2">"CP000435.1"</span> <span class="n">data</span><span class="o">/</span><span class="n">labeled_marref</span><span class="o">.</span><span class="n">fasta</span> <span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="n">n</span> <span class="mi">6</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">synteny_search</span><span class="p">(</span><span class="n">genome</span><span class="p">,</span> <span class="n">struct</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">unordered</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">subdir</span><span class="o">=</span><span class="s2">"tmp"</span><span class="p">):</span>
+    <span class="c1"># Run a Pynteny synteny search; return the hits DataFrame (empty if no match).</span>
+    <span class="n">outdir</span> <span class="o">=</span> <span class="n">RESULTS</span> <span class="o">/</span> <span class="n">subdir</span> <span class="o">/</span> <span class="n">genome</span>
+    <span class="n">outdir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">hits</span> <span class="o">=</span> <span class="n">Search</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">PEPTIDES</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">genome</span><span class="si">}</span><span class="s2">.faa"</span><span class="p">,</span> <span class="n">synteny_struc</span><span class="o">=</span><span class="n">struct</span><span class="p">,</span> <span class="n">gene_ids</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">unordered</span><span class="o">=</span><span class="n">unordered</span><span class="p">,</span> <span class="n">hmm_dir</span><span class="o">=</span><span class="n">HMM_DIR</span><span class="p">,</span> <span class="n">hmm_meta</span><span class="o">=</span><span class="n">HMM_META</span><span class="p">,</span>
+            <span class="n">hmmsearch_args</span><span class="o">=</span><span class="n">HMMSEARCH_ARGS</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><span class="n">outdir</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">hits</span><span class="o">.</span><span class="n">hits</span>
+    <span class="k">except</span> <span class="ne">SystemExit</span><span class="p">:</span>           <span class="c1"># Pynteny exits when an HMM matches nothing -&gt; a negative</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="n">hitsA</span> <span class="o">=</span> <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="n">synteny_search</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">"&gt;susC"</span><span class="p">,</span> <span class="n">subdir</span><span class="o">=</span><span class="s2">"A_susC_alone"</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">genomes</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]}</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"role"</span><span class="p">:</span> <span class="n">genomes</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)[</span><span class="s2">"role"</span><span class="p">],</span>
+              <span class="s2">"susC_alone_hits"</span><span class="p">:</span> <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">hitsA</span><span class="o">.</span><span class="n">items</span><span class="p">()}})</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">%%bash
+<div class="clipboard-copy-txt" id="cell-5">DISPLAY_COLS = ["contig", "gene_number", "locus", "strand", "gene_symbol"]
 
-grep -A 1 "CP000435.1" data/labeled_marref.fasta | head -n 6</div>
+def synteny_search(genome, struct, *, unordered=False, subdir="tmp"):
+    # Run a Pynteny synteny search; return the hits DataFrame (empty if no match).
+    outdir = RESULTS / subdir / genome
+    outdir.mkdir(parents=True, exist_ok=True)
+    try:
+        hits = Search(
+            data=PEPTIDES / f"{genome}.faa", synteny_struc=struct, gene_ids=True,
+            unordered=unordered, hmm_dir=HMM_DIR, hmm_meta=HMM_META,
+            hmmsearch_args=HMMSEARCH_ARGS, outdir=outdir,
+        ).run()
+        return hits.hits
+    except SystemExit:           # Pynteny exits when an HMM matches nothing -&gt; a negative
+        return pd.DataFrame()
+
+hitsA = {g: synteny_search(g, "&gt;susC", subdir="A_susC_alone") for g in genomes["name"]}
+
+pd.DataFrame({"role": genomes.set_index("name")["role"],
+              "susC_alone_hits": {g: len(df) for g, df in hitsA.items()}})</div>
 </div>
 </div>
 </div>
@@ -1062,42 +1374,105 @@ grep -A 1 "CP000435.1" data/labeled_marref.fasta | head -n 6</div>
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&gt;CP000435.1_1__CP000435.1_1_174_1331_pos
-MKLVCSQAELNAALQLVSRAVASRPTHPVLANVLLTADAGTDRLSLTGFDLNLGIQTSLAASVDTSGAVTLPARLLGEIVSKLSSDSPVSLSSDAGADQVELTSSSGSYQMRGMPADDFPELPLVENGTALRVDPASLLKALRATLFASSGDEAKQLLTGVHLRFNQKRLEAASTDGHRLAMLTVEDALQAEISAEESEPDELAVTLPARSLREVERLMASWKGGDPVSLFCERGQVVVLAADQMVTSRTLEGTYPNYRQLIPDGFSRTIDLDRRAFISALERIAVLADQHNNVVRIATEPATGLVQISADAQDVGSGSESLPAEINGDAVQIAFNARYVLDGLKAMDCDRVRLSCNAPTTPAILTPANDDPGLTYLVMPVQIRT*
-&gt;CP000435.1_2__CP000435.1_2_1435_2148_pos
-MAWMHPPVHRLLGWVSRPSALRTSRDVWRLDQCRGFDDQQVFVKGAPAEADQITLDRLPTLLDADLLNADGERVGIIADLAFLPASGQISHYLVARSDPRLPGTSRWRLLPDRIVDQQPGLVSSAIHELDDLPLARASVRQDFLQRSRHWREQLQQFGDRAGERLEGWLEEPPWDEPPAVSDVASSYSSTAAPTVDPLDDWDDGDWTDAPRVERGRSVRNDPTDRNDWPDHEEDPWV*
-&gt;CP000435.1_3__CP000435.1_3_2185_4518_pos
-MTQSSHAVAAFDLGAALRQEGLTETDYSEIQRRLGRDPNRAELGMFGVMWSEHCCYRNSRPLLSGFPTEGPRILVGPGENAGVVDLGEGHHLAFKVESHNHPSAVEPFQGAATGVGGILRDIFTMGARPIALLNALRFGPLDEPATRGLVEGVVAGIAHYGNCVGVPTVGGEVAFDPSYRGNPLVNAMALGLMETDEIVRSGAAGVGNPVVYVGSTTGRDGMGGASFASAELSADSLDDRPAVQVGDPFLEKGLIEACLEAFQSGDVVAAQDMGAAGLTCSCSEMAAKGDVGVELDLDRVPAREKGMTAYEFLLSESQERMLFVVRAGREEQLMQRFRRWGLQAAVVGRVLEEKVVRVLQHGAVAAEVPARALAEDTPINKHELLSEPPDDIQTHWTWRESDLPSPAIDRDWNADLLRLLDDPTIASKRWIYRQYDQQVLANTVIRAGGADAAVVRLRPQQGDASLQMSQRGVAATLDCPNRWVALDPERGAIAAVAEAARNLSCVGAQPIAVTDNLNFPSPETSKGYWQLAMACRGLSHACRSMGTPVTGGNVSLYNETRADDGSLQPIHPTPVVGMVGLVEDLDRSGGLAWRQPGDFVVLLGVSTDEEGNESVGLAGSSYQGAVHGLLTGRPPSVDLELEGQVQALVRQAFAQGVLASAHDSSDGGLAVALAESTLASGLGVDLNLPHRSARLDRVLFAEGGARIVVSVRAEQRSAWHSLVASQEHRSVPVTEIGTVADHGCFRLAVEKHPVIDLAVETLREQYEQAVPRRLGAV*
-</pre>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>role</th>
+<th>susC_alone_hits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>Bacteroides_thetaiotaomicron_VPI5482</th>
+<td>positive</td>
+<td>69</td>
+</tr>
+<tr>
+<th>Bacteroides_fragilis_NCTC9343</th>
+<td>positive</td>
+<td>46</td>
+</tr>
+<tr>
+<th>Flavobacterium_johnsoniae_UW101</th>
+<td>positive</td>
+<td>32</td>
+</tr>
+<tr>
+<th>Pseudomonas_aeruginosa_PAO1</th>
+<td>negative</td>
+<td>6</td>
+</tr>
+<tr>
+<th>Escherichia_coli_MG1655</th>
+<td>negative</td>
+<td>0</td>
+</tr>
+<tr>
+<th>Bacillus_subtilis_168</th>
+<td>negative</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=034aaa30">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="search-synteny-structure-in-mar-ref">Search synteny structure in MAR ref<a class="anchor-link" href="#search-synteny-structure-in-mar-ref">¶</a></h2><p>Finally, we are going to use pynteny's <code>search</code> subcommand to search for a specific syntenic block within the previously built peptide database. Specifically, we are interested in the <a href="https://link.springer.com/article/10.1007/s00253-016-8026-2#Fig1"><em>sox</em> operon</a>:</p>
-<pre><code>&gt;soxX 0 &gt;soxY 0 &gt;soxZ 0 &gt;soxA 0 &gt;soxB 0 &gt;soxC
+<p><code>susC</code> is <strong>promiscuous</strong>: it scores dozens of hits in the Bacteroidota, but it also lights
+up in <em>Pseudomonas aeruginosa</em> — whose genome encodes many SusC-like TonB-dependent receptors
+that have <strong>nothing to do with polysaccharide-utilization loci</strong>. On these hits alone you could
+not confidently annotate a real <code>susC</code>. That is the annotation ambiguity synteny will resolve.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=23437f68">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="5-search-b-the-strict-suscsusd-tandem">5. Search B — the strict <code>susC</code>–<code>susD</code> tandem<a class="anchor-link" href="#5-search-b-the-strict-suscsusd-tandem">¶</a></h2><pre><code>&gt;susC 0 &gt;susD
 </code></pre>
-<p>We this synteny structure, we are searching for peptide sequences matching the profile HMM corresponding to these gene symbols, which are also arranged in this particular order, all in the positive (sense) strand, as indicated by <code>&gt;</code>, and which are located exactly next to each other in the same contig (no ORFs allowed between them, as indicated by a maximum number of in-between ORFs of 0 in all cases.)</p>
+<p><code>&gt;</code> requires the (+) strand; <code>0</code> requires the two genes to be <strong>immediately adjacent</strong> — the
+canonical PUL core.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=02bd3958">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
@@ -1110,17 +1485,19 @@ MTQSSHAVAAFDLGAALRQEGLTETDYSEIQRRLGRDPNRAELGMFGVMWSEHCCYRNSRPLLSGFPTEGPRILVGPGEN
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="o">%%</span><span class="n">bash</span> 
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">hitsB</span> <span class="o">=</span> <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="n">synteny_search</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">"&gt;susC 0 &gt;susD"</span><span class="p">,</span> <span class="n">subdir</span><span class="o">=</span><span class="s2">"B_tandem_strict"</span><span class="p">)</span>
+         <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">genomes</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]}</span>
 
-<span class="n">pynteny</span> <span class="n">parse</span> \
-    <span class="o">--</span><span class="n">synteny_struc</span> <span class="s2">"&gt;soxX 0 &gt;soxY 0 &gt;soxZ 0 &gt;soxA 0 &gt;soxB 0 &gt;soxC"</span> \
-    <span class="o">--</span><span class="n">hmm_meta</span> <span class="n">data</span><span class="o">/</span><span class="n">hmms</span><span class="o">/</span><span class="n">hmm_meta</span><span class="o">.</span><span class="n">tsv</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"role"</span><span class="p">:</span> <span class="n">genomes</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)[</span><span class="s2">"role"</span><span class="p">],</span>
+              <span class="s2">"tandem_member_hits"</span><span class="p">:</span> <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">hitsB</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+              <span class="s2">"= susC-susD pairs"</span><span class="p">:</span>  <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">hitsB</span><span class="o">.</span><span class="n">items</span><span class="p">()}})</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">%%bash 
+<div class="clipboard-copy-txt" id="cell-6">hitsB = {g: synteny_search(g, "&gt;susC 0 &gt;susD", subdir="B_tandem_strict")
+         for g in genomes["name"]}
 
-pynteny parse \
-    --synteny_struc "&gt;soxX 0 &gt;soxY 0 &gt;soxZ 0 &gt;soxA 0 &gt;soxB 0 &gt;soxC" \
-    --hmm_meta data/hmms/hmm_meta.tsv</div>
+pd.DataFrame({"role": genomes.set_index("name")["role"],
+              "tandem_member_hits": {g: len(df) for g, df in hitsB.items()},
+              "= susC-susD pairs":  {g: len(df) // 2 for g, df in hitsB.items()}})</div>
 </div>
 </div>
 </div>
@@ -1129,64 +1506,99 @@ pynteny parse \
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-    ____              __                  
-   / __ \__  ______  / /____  ____  __  __
-  / /_/ / / / / __ \/ __/ _ \/ __ \/ / / /
- / ____/ /_/ / / / / /_/  __/ / / / /_/ / 
-/_/    \__, /_/ /_/\__/\___/_/ /_/\__, /  
-      /____/                     /____/   
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-Synteny-based Hmmer searches made easy, v0.0.2
-Semidán Robaina Estévez (srobaina@ull.edu.es), 2022
- 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-2022-09-29 15:19:30,733 | INFO: Translated 
- "&gt;soxX 0 &gt;soxY 0 &gt;soxZ 0 &gt;soxA 0 &gt;soxB 0 &gt;soxC" 
- to 
- "&gt;TIGR04485.1 0 &gt;TIGR04488.1 0 &gt;TIGR04490.1 0 &gt;(TIGR01372.1|TIGR04484.1) 0 &gt;(TIGR01373.1|TIGR04486.1) 0 &gt;TIGR04555.1" 
- according to provided HMM database metadata
-</pre>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>role</th>
+<th>tandem_member_hits</th>
+<th>= susC-susD pairs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>Bacteroides_thetaiotaomicron_VPI5482</th>
+<td>positive</td>
+<td>48</td>
+<td>24</td>
+</tr>
+<tr>
+<th>Bacteroides_fragilis_NCTC9343</th>
+<td>positive</td>
+<td>34</td>
+<td>17</td>
+</tr>
+<tr>
+<th>Flavobacterium_johnsoniae_UW101</th>
+<td>positive</td>
+<td>24</td>
+<td>12</td>
+</tr>
+<tr>
+<th>Pseudomonas_aeruginosa_PAO1</th>
+<td>negative</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<th>Escherichia_coli_MG1655</th>
+<td>negative</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<th>Bacillus_subtilis_168</th>
+<td>negative</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5cec699c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We see that <code>pynteny parse</code> has found a number of profile HMMs matching the gene symbols in the provided synteny structure. Additionally, in two cases it has found two HMMs matching a single gene symbol, which are displayed within parentheses and separated by "|":</p>
-<p><code>&gt;TIGR04485.1 0 &gt;TIGR04488.1 0 &gt;TIGR04490.1 0 &gt;(TIGR01372.1|TIGR04484.1) 0 &gt;(TIGR01373.1|TIGR04486.1) 0 &gt;TIGR04555.1</code></p>
-<p>In these cases, <code>pynteny search</code> will match sequences by either or all of the HMMs in each group within parentheses.</p>
-<p>Alright, now that we know that our HMM database contains models for all the gene symbols in our synteny structure, let's run <code>pynteny search</code> to find matches in our peptide sequence database.</p>
-<p>Some notes:</p>
-<ul>
-<li><p>Since we are using gene symbols instead of HMM names, we need to add the flag <code>--gene_ids</code></p>
-</li>
-<li><p>We could have directly input the synteny string composed of HMM names. In that case, we wouldn't need to provide the path to the HMM metadata file (<code>--hmm_meta</code>) and we would remove the flag <code>--gene_ids</code></p>
-</li>
-<li><p>Providing a path to the HMM database directory (<code>--hmm_dir</code>) is optional. If not provided, then pynteny will download and store the PGAP HMM database (only once if not previously downloaded) and use it to run the search. A custom HMM database provided in <code>--hmm_dir</code>will override pynteny's default database</p>
-</li>
-<li><p>We can also manually download the PGAP HMM database with the subcommand <code>pynteny download</code></p>
-</li>
-</ul>
+<p><strong>The tandem is specific.</strong> Every Bacteroidota genome yields many adjacent <code>susC</code>–<code>susD</code>
+pairs; <em>Pseudomonas</em> — which had 6 lone-<code>susC</code> hits — drops to <strong>zero</strong>, because none of its
+TonB receptors sits next to a <code>susD</code>. Synteny converted an ambiguous family hit into a confident
+PUL call. Here are the first few pairs in <em>Bacteroides thetaiotaomicron</em>, alternating
+<code>susC</code>,<code>susD</code> along the contig:</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6e8ca5d8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
@@ -1199,25 +1611,9 @@ Semidán Robaina Estévez (srobaina@ull.edu.es), 2022
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
-
-<span class="n">pynteny</span> <span class="n">search</span> \
-    <span class="o">--</span><span class="n">synteny_struc</span> <span class="s2">"&gt;soxX 0 &gt;soxY 0 &gt;soxZ 0 &gt;soxA 0 &gt;soxB 0 &gt;soxC"</span> \
-    <span class="o">--</span><span class="n">data</span> <span class="n">data</span><span class="o">/</span><span class="n">labeled_marref</span><span class="o">.</span><span class="n">fasta</span> \
-    <span class="o">--</span><span class="n">outdir</span> <span class="n">example_cli</span><span class="o">/</span><span class="n">results</span><span class="o">/</span> \
-    <span class="o">--</span><span class="n">hmm_dir</span> <span class="n">data</span><span class="o">/</span><span class="n">hmms</span><span class="o">/</span><span class="n">hmm_PGAP</span> \
-    <span class="o">--</span><span class="n">hmm_meta</span> <span class="n">data</span><span class="o">/</span><span class="n">hmms</span><span class="o">/</span><span class="n">hmm_meta</span><span class="o">.</span><span class="n">tsv</span> \
-    <span class="o">--</span><span class="n">gene_ids</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">hitsB</span><span class="p">[</span><span class="s2">"Bacteroides_thetaiotaomicron_VPI5482"</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"gene_number"</span><span class="p">)[</span><span class="n">DISPLAY_COLS</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">%%bash
-
-pynteny search \
-    --synteny_struc "&gt;soxX 0 &gt;soxY 0 &gt;soxZ 0 &gt;soxA 0 &gt;soxB 0 &gt;soxC" \
-    --data data/labeled_marref.fasta \
-    --outdir example_cli/results/ \
-    --hmm_dir data/hmms/hmm_PGAP \
-    --hmm_meta data/hmms/hmm_meta.tsv \
-    --gene_ids</div>
+<div class="clipboard-copy-txt" id="cell-7">hitsB["Bacteroides_thetaiotaomicron_VPI5482"].sort_values("gene_number")[DISPLAY_COLS].head(8)</div>
 </div>
 </div>
 </div>
@@ -1226,48 +1622,124 @@ pynteny search \
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-    ____              __                  
-   / __ \__  ______  / /____  ____  __  __
-  / /_/ / / / / __ \/ __/ _ \/ __ \/ / / /
- / ____/ /_/ / / / / /_/  __/ / / / /_/ / 
-/_/    \__, /_/ /_/\__/\___/_/ /_/\__, /  
-      /____/                     /____/   
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-Synteny-based Hmmer searches made easy, v0.0.2
-Semidán Robaina Estévez (srobaina@ull.edu.es), 2022
- 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-2022-09-29 15:11:25,776 | INFO: Finding matching HMMs for gene symbols
-2022-09-29 15:11:25,947 | INFO: Found the following HMMs in database for given structure:
-&gt;TIGR04485.1 0 &gt;TIGR04488.1 0 &gt;TIGR04490.1 0 &gt;(TIGR01372.1|TIGR04484.1) 0 &gt;(TIGR01373.1|TIGR04486.1) 0 &gt;TIGR04555.1
-2022-09-29 15:11:26,134 | INFO: Searching database by synteny structure
-2022-09-29 15:11:26,135 | INFO: Running Hmmer
-2022-09-29 15:14:35,607 | INFO: Filtering results by synteny structure
-2022-09-29 15:15:58,818 | INFO: Writing matching sequences to FASTA files
-2022-09-29 15:16:03,511 | INFO: Finished!
-</pre>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>contig</th>
+<th>gene_number</th>
+<th>locus</th>
+<th>strand</th>
+<th>gene_symbol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>NC_004663.1</td>
+<td>32</td>
+<td>(22906, 26169)</td>
+<td>pos</td>
+<td>susC</td>
+</tr>
+<tr>
+<th>24</th>
+<td>NC_004663.1</td>
+<td>33</td>
+<td>(26182, 28011)</td>
+<td>pos</td>
+<td>susD</td>
+</tr>
+<tr>
+<th>1</th>
+<td>NC_004663.1</td>
+<td>144</td>
+<td>(139982, 143212)</td>
+<td>pos</td>
+<td>susC</td>
+</tr>
+<tr>
+<th>25</th>
+<td>NC_004663.1</td>
+<td>145</td>
+<td>(143223, 144962)</td>
+<td>pos</td>
+<td>susD</td>
+</tr>
+<tr>
+<th>2</th>
+<td>NC_004663.1</td>
+<td>197</td>
+<td>(200124, 203564)</td>
+<td>pos</td>
+<td>susC</td>
+</tr>
+<tr>
+<th>26</th>
+<td>NC_004663.1</td>
+<td>198</td>
+<td>(203588, 204979)</td>
+<td>pos</td>
+<td>susD</td>
+</tr>
+<tr>
+<th>3</th>
+<td>NC_004663.1</td>
+<td>213</td>
+<td>(222704, 225646)</td>
+<td>pos</td>
+<td>susC</td>
+</tr>
+<tr>
+<th>27</th>
+<td>NC_004663.1</td>
+<td>214</td>
+<td>(225665, 227200)</td>
+<td>pos</td>
+<td>susD</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=69d73363">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Pynteny has generated a number of output files in the provided output directory. HMMER3 hit results are stored within the subdirectory <code>hmmer_outputs</code>. The main output file, <code>synteny_matched.tsv</code> contains the labels of the matched sequences grouped by synteny block and sorted by gene number within their parent contig. The remaining (FASTA) files contain the retrieved peptide sequences for each gene symbol / HMM name in the synteny structure.</p>
+<h2 id="6-search-c-the-tandem-on-either-strand-the-full-pul-repertoire">6. Search C — the tandem on <em>either</em> strand: the full PUL repertoire<a class="anchor-link" href="#6-search-c-the-tandem-on-either-strand-the-full-pul-repertoire">¶</a></h2><pre><code>susC 0 susD     # no strand symbols, unordered=True
+</code></pre>
+<p>The strict <code>(+)</code>-strand search only catches the roughly half of PULs encoded on the forward
+strand. Dropping the strand and order constraints recovers them all — revealing how many
+SusC–SusD loci each genome really carries.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2b7517a6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1285,17 +1757,31 @@ Semidán Robaina Estévez (srobaina@ull.edu.es), 2022
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">output_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span>
-    <span class="n">file</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"example_cli/"</span><span class="p">)</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span>
-<span class="p">])</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">hitsC</span> <span class="o">=</span> <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="n">synteny_search</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">"susC 0 susD"</span><span class="p">,</span> <span class="n">unordered</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">subdir</span><span class="o">=</span><span class="s2">"C_tandem_any_strand"</span><span class="p">)</span>
+         <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">genomes</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]}</span>
 
-<span class="n">output_files</span>
+<span class="c1"># Count PULs as the number of susC loci recovered (each PUL contributes one susC).</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">n_susC</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s2">"gene_symbol"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"susC"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"role"</span><span class="p">:</span>              <span class="n">genomes</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)[</span><span class="s2">"role"</span><span class="p">],</span>
+    <span class="s2">"(+)-strand PULs"</span><span class="p">:</span>   <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">hitsB</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+    <span class="s2">"PULs (any strand)"</span><span class="p">:</span> <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="n">n_susC</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">hitsC</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+<span class="p">})</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">genomes</span><span class="p">[</span><span class="s2">"name"</span><span class="p">])</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8">output_files = sorted([
-    file.name for file in Path("example_cli/").iterdir()
-])
+<div class="clipboard-copy-txt" id="cell-8">hitsC = {g: synteny_search(g, "susC 0 susD", unordered=True, subdir="C_tandem_any_strand")
+         for g in genomes["name"]}
 
-output_files</div>
+# Count PULs as the number of susC loci recovered (each PUL contributes one susC).
+def n_susC(df):
+    return int((df["gene_symbol"] == "susC").sum()) if len(df) else 0
+
+pd.DataFrame({
+    "role":              genomes.set_index("name")["role"],
+    "(+)-strand PULs":   {g: len(df) // 2 for g, df in hitsB.items()},
+    "PULs (any strand)": {g: n_susC(df) for g, df in hitsC.items()},
+}).reindex(genomes["name"])</div>
 </div>
 </div>
 </div>
@@ -1306,38 +1792,113 @@ output_files</div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>['hmmer_outputs',
- 'soxA_TIGR04484.1_hits.fasta',
- 'soxB_TIGR04486.1_hits.fasta',
- 'soxC_TIGR04555.1_hits.fasta',
- 'soxX_TIGR04485.1_hits.fasta',
- 'soxY_TIGR04488.1_hits.fasta',
- 'soxZ_TIGR04490.1_hits.fasta',
- 'synteny_matched.tsv']</pre>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>role</th>
+<th>(+)-strand PULs</th>
+<th>PULs (any strand)</th>
+</tr>
+<tr>
+<th>name</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>Bacteroides_thetaiotaomicron_VPI5482</th>
+<td>positive</td>
+<td>24</td>
+<td>49</td>
+</tr>
+<tr>
+<th>Bacteroides_fragilis_NCTC9343</th>
+<td>positive</td>
+<td>17</td>
+<td>37</td>
+</tr>
+<tr>
+<th>Flavobacterium_johnsoniae_UW101</th>
+<td>positive</td>
+<td>12</td>
+<td>25</td>
+</tr>
+<tr>
+<th>Pseudomonas_aeruginosa_PAO1</th>
+<td>negative</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<th>Escherichia_coli_MG1655</th>
+<td>negative</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<th>Bacillus_subtilis_168</th>
+<td>negative</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b9dc90c0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="displaying-the-first-synteny-match">Displaying the first synteny match<a class="anchor-link" href="#displaying-the-first-synteny-match">¶</a></h2><p>So far, we have identified sequences (putatively) belonging to the sox operon in the MAR ref database. However, we don't know to which organisms these sequences belong. Luckily, the MAR ref database provides a metadata file that contains GTDB taxonomical information for each genome. Let's extract that info and add it to Pynteny's output table.</p>
+<p>Roughly <strong>double</strong> the pairs appear once both strands count: ~48 PULs in <em>B.
+thetaiotaomicron</em>, ~36 in <em>B. fragilis</em>, ~25 in <em>Flavobacterium</em>. The gut <em>Bacteroides</em> — which
+must process the huge diversity of dietary and host glycans — carry the largest PUL arsenals,
+exactly as the biology predicts. Every non-Bacteroidota control stays firmly at <strong>zero</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=336fd92a">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="7-summary">7. Summary<a class="anchor-link" href="#7-summary">¶</a></h2>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=492bcb14">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [67]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
 <clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
@@ -1350,43 +1911,21 @@ output_files</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Assign species (GTDB) to each genome ID</span>
-<span class="n">meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/MARref_v7/MarRef_1.7.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">assign_tax</span><span class="p">(</span><span class="n">genome_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
-            <span class="n">meta</span><span class="p">[</span><span class="s1">'acc:genbank'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="sa">f</span><span class="s1">'ena.embl:</span><span class="si">{</span><span class="n">genome_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">'</span><span class="p">),</span> <span class="s1">'tax:gtdb_classification'</span>
-            <span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"&gt;"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">""</span>
-    
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"example_cli/results/synteny_matched.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s2">"taxonomy"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">contig</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">assign_tax</span><span class="p">)</span>
-
-<span class="c1"># Display main results</span>
-<span class="n">till_row</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">display_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"gene_id"</span><span class="p">,</span> <span class="s2">"contig"</span><span class="p">,</span> <span class="s2">"gene_symbol"</span><span class="p">,</span> <span class="s2">"gene_number"</span><span class="p">,</span> <span class="s2">"locus"</span><span class="p">,</span> <span class="s2">"strand"</span><span class="p">,</span> <span class="s2">"hmm"</span><span class="p">,</span> <span class="s2">"taxonomy"</span><span class="p">]</span>
-<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="n">till_row</span><span class="p">,</span> <span class="n">display_cols</span><span class="p">]</span><span class="o">.</span><span class="n">to_html</span><span class="p">()))</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"role"</span><span class="p">:</span>                     <span class="n">genomes</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)[</span><span class="s2">"role"</span><span class="p">],</span>
+    <span class="s2">"susC_alone"</span><span class="p">:</span>               <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">hitsA</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+    <span class="s2">"tandem_strict (members)"</span><span class="p">:</span>  <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">hitsB</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+    <span class="s2">"PULs (any strand)"</span><span class="p">:</span>        <span class="p">{</span><span class="n">g</span><span class="p">:</span> <span class="n">n_susC</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">hitsC</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+<span class="p">})</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">genomes</span><span class="p">[</span><span class="s2">"name"</span><span class="p">])</span>
+<span class="n">summary</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9"># Assign species (GTDB) to each genome ID
-meta = pd.read_csv("data/MARref_v7/MarRef_1.7.tsv", sep="\t")
-
-def assign_tax(genome_id: str) -&gt; str:
-    try:
-        return meta.loc[
-            meta['acc:genbank'].str.contains(f'ena.embl:{genome_id.split(".")[0]}'), 'tax:gtdb_classification'
-            ].item().split("&gt;")[-1]
-    except:
-        return ""
-    
-df = pd.read_csv("example_cli/results/synteny_matched.tsv", sep="\t")
-df["taxonomy"] = df.contig.apply(assign_tax)
-
-# Display main results
-till_row = 5
-display_cols = ["gene_id", "contig", "gene_symbol", "gene_number", "locus", "strand", "hmm", "taxonomy"]
-display(HTML(df.loc[:till_row, display_cols].to_html()))</div>
+<div class="clipboard-copy-txt" id="cell-9">summary = pd.DataFrame({
+    "role":                     genomes.set_index("name")["role"],
+    "susC_alone":               {g: len(df) for g, df in hitsA.items()},
+    "tandem_strict (members)":  {g: len(df) for g, df in hitsB.items()},
+    "PULs (any strand)":        {g: n_susC(df) for g, df in hitsC.items()},
+}).reindex(genomes["name"])
+summary</div>
 </div>
 </div>
 </div>
@@ -1395,82 +1934,82 @@ display(HTML(df.loc[:till_row, display_cols].to_html()))</div>
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
 <thead>
-<tr style="text-align: center;">
+<tr style="text-align: right;">
 <th></th>
-<th>gene_id</th>
-<th>gene_symbol</th>
-<th>gene_number</th>
-<th>locus</th>
-<th>strand</th>
-<th>hmm</th>
-<th>taxonomy</th>
+<th>role</th>
+<th>susC_alone</th>
+<th>tandem_strict (members)</th>
+<th>PULs (any strand)</th>
+</tr>
+<tr>
+<th>name</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<th>0</th>
-<td>CP000031.2_985</td>
-<td>soxX</td>
-<td>985</td>
-<td>(1045616, 1046089)</td>
-<td>pos</td>
-<td>TIGR04485.1</td>
-<td>s__Ruegeria_B pomeroyi</td>
+<th>Bacteroides_thetaiotaomicron_VPI5482</th>
+<td>positive</td>
+<td>69</td>
+<td>48</td>
+<td>49</td>
 </tr>
 <tr>
-<th>1</th>
-<td>CP000031.2_986</td>
-<td>soxY</td>
-<td>986</td>
-<td>(1046132, 1046548)</td>
-<td>pos</td>
-<td>TIGR04488.1</td>
-<td>s__Ruegeria_B pomeroyi</td>
+<th>Bacteroides_fragilis_NCTC9343</th>
+<td>positive</td>
+<td>46</td>
+<td>34</td>
+<td>37</td>
 </tr>
 <tr>
-<th>2</th>
-<td>CP000031.2_987</td>
-<td>soxZ</td>
-<td>987</td>
-<td>(1046582, 1046911)</td>
-<td>pos</td>
-<td>TIGR04490.1</td>
-<td>s__Ruegeria_B pomeroyi</td>
+<th>Flavobacterium_johnsoniae_UW101</th>
+<td>positive</td>
+<td>32</td>
+<td>24</td>
+<td>25</td>
 </tr>
 <tr>
-<th>3</th>
-<td>CP000031.2_988</td>
-<td>soxA</td>
-<td>988</td>
-<td>(1046989, 1047840)</td>
-<td>pos</td>
-<td>TIGR04484.1</td>
-<td>s__Ruegeria_B pomeroyi</td>
+<th>Pseudomonas_aeruginosa_PAO1</th>
+<td>negative</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
 </tr>
 <tr>
-<th>4</th>
-<td>CP000031.2_989</td>
-<td>soxB</td>
-<td>989</td>
-<td>(1047975, 1049645)</td>
-<td>pos</td>
-<td>TIGR04486.1</td>
-<td>s__Ruegeria_B pomeroyi</td>
+<th>Escherichia_coli_MG1655</th>
+<td>negative</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
 </tr>
 <tr>
-<th>5</th>
-<td>CP000031.2_990</td>
-<td>soxC</td>
-<td>990</td>
-<td>(1049724, 1051007)</td>
-<td>pos</td>
-<td>TIGR04555.1</td>
-<td>s__Ruegeria_B pomeroyi</td>
+<th>Bacillus_subtilis_168</th>
+<td>negative</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
 </tr>
 </tbody>
 </table>
@@ -1480,120 +2019,30 @@ display(HTML(df.loc[:till_row, display_cols].to_html()))</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5fa47ec3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Displayed above the first synteny match in our peptide database, we see that all peptides are located within the same parent contig and respect the positional restrictions of our input synteny structure. Furthermore, all sequences belong to <em>Ruegeria pomeroyii</em>, and alphaproteobacteria of the family <em>Rhodobacteraceae</em>.</p>
-<p>Additional notes:</p>
-<ul>
-<li><p>The previous results are strand-specific (all ORFs must be located in the positive or <em>sense</em> strand). However, we could have made them strand-agnostic by omitting the strand symbols in the synteny structure (i.e., using <code>soxX 0 soxY 0 soxZ 0 soxA 0 soxB 0 soxC</code>)</p>
-</li>
-<li><p>We could have made the search even more general dropping the constraint on the arrangement by adding the flag <code>pynteny search --unordered</code>. In which case, Pynteny would match any group of 6 ORFs corresponding to the provided HMM names, located in the same contig and adjacent to each other, but not necessarily arranged in the same order displayed by the synteny structure. In other words, <code>--unordered</code> enables searching for "true" synteny, as opposed to the, more restrictive, collinearity.</p>
-</li>
+<h3 id="takeaways">Takeaways<a class="anchor-link" href="#takeaways">¶</a></h3><ul>
+<li><strong>Single-gene hits can mislead.</strong> <code>susC</code> belongs to a widespread TonB-receptor family
+(SusC/RagA/OmpW); a lone hit — e.g. the six in <em>Pseudomonas</em> — does not mean "polysaccharide
+utilization locus".</li>
+<li><strong>Synteny supplies the missing specificity.</strong> The adjacent <code>susC</code>–<code>susD</code> tandem is found in
+the Bacteroidota and <strong>nowhere</strong> in the controls, turning an ambiguous family match into a
+confident functional call.</li>
+<li><strong>Tune strand to the question.</strong> <code>&gt;susC 0 &gt;susD</code> characterises the (+)-strand loci precisely;
+dropping the strand symbols (<code>susC 0 susD</code>, <code>unordered</code>) inventories the <strong>whole</strong> PUL
+repertoire — which scales with lifestyle (gut <em>Bacteroides</em> ≫ environmental <em>Flavobacterium</em>).</li>
 </ul>
-<p>Alright, finally, let's get the peptide sequences in our original input database that correspond to the identified synteny block displayed above:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [68]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Get original peptide sequences</span>
-<span class="n">hit_labels</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="n">till_row</span><span class="p">,</span> <span class="s2">"full_label"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="n">grep_labels</span> <span class="o">=</span> <span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hit_labels</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-10"># Get original peptide sequences
-hit_labels = df.loc[:till_row, "full_label"].values
-grep_labels = "|".join(hit_labels)</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [69]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="o">%%</span><span class="n">bash</span> <span class="o">-</span><span class="n">s</span> <span class="s2">"$grep_labels"</span>
-
-<span class="n">grep</span> <span class="o">-</span><span class="n">A</span> <span class="mi">1</span> <span class="o">-</span><span class="n">E</span> <span class="err">$</span><span class="mi">1</span> <span class="n">data</span><span class="o">/</span><span class="n">labeled_marref</span><span class="o">.</span><span class="n">fasta</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-11">%%bash -s "$grep_labels"
-
-grep -A 1 -E $1 data/labeled_marref.fasta</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&gt;CP000031.2_985__CP000031.2_985_1045616_1046089_pos
-MKTTILTLAAALISGAAWAGETAPGDVVYADGAVEASLTGTPGDAANGAMVVGSKKHGNCVACHQVGALADVPFQGEIGPALDGAGSRWSEAELRGLVANAKLTFEGSMMPSFYRIDGYIRPGDAYTGKAAKGALTPLLSAQEIEDVVAFLATLKDE*
-&gt;CP000031.2_986__CP000031.2_986_1046132_1046548_pos
-MDFSRRDTLGLALGAAALTVLPFRVNAAAEDRIAEFTGGAEMGEGGLTLTAPEIAENGNTVPIEVSAPGAAAIMVLAMGNPTPGVAQFNFGPLAAAQAASTRIRLAGTQDVVAIAKMADGSFVKASSTVKVTIGGCGG*
-&gt;CP000031.2_987__CP000031.2_987_1046582_1046911_pos
-MASGVKPRVKVPKSVAAGEAITIKTLISHAMESGQRKDKEGNVIPRSIINRFTCEFNGQSVIDITMEPAISTNPYFQFDATVPEAGEFVFTWYDDDGSVYNDNKSITIA*
-&gt;CP000031.2_988__CP000031.2_988_1046989_1047840_pos
-MKVRAMTAIAALLAAPLAAVAGPDSDELVVNGEINMVTQTEAPAHLDGALSELYSGWRFRSDETQALQMDDFDNPAMVFVDQAQEAWDTADGTEGKSCASCHGDAADSMAGVRAVYPKWNEAAGEVRTLEAQVNDCRENRMGAKAWKYDGGDMASMTALISVQSRGLPVNVAIDGPAQATWEMGKEIYYTRYGQLELSCANCHEDNYGNMIRADHLSQGHINGFPTYRLKNAKLNTSHARFKGCVRDTRAETFNPGSPEFVALELYVASRGNGLSVEGPSVRN*
-&gt;CP000031.2_989__CP000031.2_989_1047975_1049645_pos
-MAASALVGASGFGNWSRLAAQQALTQDQLLEFDTFGNLTLIHITDIHAQLMPIYFREPEVNLGIGAAKGQMPHITGADFRRFYGIEDGSPSAYALTYDDFSSLARTYGRVGGMDRVANVVNAIRADRPDALLLDGGDTWHGSYTCHHTEGQDVVNVMNALKPDAMTFHWEFTLGTDRVTELVESLPFASLGQNIFDAEWDEPAELFKPYKFFERGGVKVAVIGQAFPYMPIANPGWMFPEFSFGIREENMQAMVDEVRAEGAEVVVVLSHNGFDVDKKMAGRVTGIDVILSGHTHDALPEPVLVEQTYVIASGSNGKFVSRVDLDIRDGRMMGLKHKLIPIFSDVIAPDPQVTALINAQREPHIDQLREVIGRTADDALLYRRGNFNGTWDDLICDALISERDADIAMSPGVRWGPSILPGQEITREDIWNVTSMSYGAAYRTEMTGEFLHVVLEDVGDNLFNPDPYYQQGGDMVRVGGLGYRIDVTKPQGSRISDMTLLKTGEQIDPAKNYVVAGWASVNEGTEGPQIWDVVENHIRKLGTVNVTPNTSVEVVGA*
-&gt;CP000031.2_990__CP000031.2_990_1049724_1051007_pos
-MSESSGKHSPSRRRFLTSVAAAGAGAVAAGAARAAGPDPLITEVQDWARATGDGVDATPYGLPIEYEGDVIRRNVEWLTADTISSINFTPIHALDGTITPQGCAFERHHSGAIALKKEDYRLMINGLVDTPLVFSYADLERFPRENHVYFCECAANSGMEWAGAQLNGAQFTHGMIHNMEYSGVSLRTLLEEAGLSAAGDLKDKWVYVEGADASSNGRSIPMEKALDDVLVAFKANGEALRKEHGYPVRLVVPGWEGNMWVKWLRRIEVMDGPVESREETSKYTDTLEDGTSRKWTWVMDAKSVVTSPSPQAPITHGAGPLVITGLAWSGRGAITGVDVSIDGGKSWQPARLAAPGQDKALTRFYLDTNWDGSEMLLQSRARDSSGYVQPTKAQLREVRGLNSIYHNNAIQTWWVKANGVAENVEVS*
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>There you go! All six peptide sequences corresponding to the synteny block <code>&gt;soxX 0 &gt;soxY 0 &gt;soxZ 0 &gt;soxA 0 &gt;soxB 0 &gt;soxC</code>. We have come from unannotated nucleotide assembly data to identify and locate (part of) the <em>sox</em> operon of <em>Ruegeria pomeroyi</em>. Not bad...</p>
-<p>Here is the KEGG genome visualization centered around the <em>sox</em> operon. Click on the image to open it in the browser, then change gene identifiers from <code>KID</code> to <code>Symbol</code> to display gene symbols. The <em>sox</em> operon is depicted in purple.</p>
-<p><a href="https://www.genome.jp/genome/sil+SPO0993?org=T00215&amp;from=1027057&amp;to=1064637&amp;label=gene"><img alt="kegg_sox" src="https://user-images.githubusercontent.com/21340147/193272708-87a3ab17-067c-40da-ae9a-47c74384ee4d.png"/></a></p>
+<hr/>
+<p><em>Reproducible CLI equivalent:</em> <a href="https://github.com/Robaina/Pynteny/blob/main/case_studies/sus_operon/run_case_study.sh"><code>run_case_study.sh</code></a> ·
+<em>Data provenance &amp; full write-up:</em> <a href="https://github.com/Robaina/Pynteny/blob/main/case_studies/sus_operon/README.md"><code>README.md</code></a>. HMMs from NCBI PGAP
+(susC = TIGR04056.1, susD = NF033071.0); genomes from NCBI RefSeq (accessions in
+<code>genomes.tsv</code>). This case study generalises the marine-metagenome <em>Sus</em> example from the Pynteny
+docs to a curated, reproducible genome panel.</p>
 </div>
 </div>
 </div>
@@ -1609,8 +2058,8 @@ MSESSGKHSPSRRRFLTSVAAAGAGAVAAGAARAAGPDPLITEVQDWARATGDGVDATPYGLPIEYEGDVIRRNVEWLTA
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../../subcommands/download/" class="btn btn-neutral float-left" title="Download"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../example_api/" class="btn btn-neutral float-right" title="Example API">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../nif_operon/" class="btn btn-neutral float-left" title="Finding the nitrogen-fixation (nif) operon with Pynteny"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../references/api/" class="btn btn-neutral float-right" title="API references">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -1637,10 +2086,10 @@ MSESSGKHSPSRRRFLTSVAAAGAGAVAAGAARAAGPDPLITEVQDWARATGDGVDATPYGLPIEYEGDVIRRNVEWLTA
         </span>
     
     
-      <span><a href="../../subcommands/download/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../nif_operon/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../example_api/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../../references/api/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
