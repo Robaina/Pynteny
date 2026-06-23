@@ -1,9 +1,5 @@
 # Case study: finding the nitrogen-fixation (*nif*) operon
 
-> *Motivation:* [issue #92](https://github.com/Robaina/Pynteny/issues), *"This could be great
-> for identifying operons. Do you have any examples of using this tool to identify common
-> operons? For example, nif operons or others involved in nitrogen fixation."*
-
 This case study uses Pynteny to detect the **nitrogenase (*nif*) operon**, the textbook
 example of a syntenic, co-regulated gene cluster, directly from genome assemblies, and to
 tell **diazotrophs** (nitrogen fixers) apart from non-fixers.
