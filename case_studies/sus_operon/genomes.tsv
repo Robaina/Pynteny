@@ -1,0 +1,7 @@
+#name	role	lineage	lifestyle	assembly_accession	refseq_path	sus_expectation
+Bacteroides_thetaiotaomicron_VPI5482	positive	Bacteroidota	human gut symbiont	GCF_000011065.1	GCF/000/011/065/GCF_000011065.1_ASM1106v1	dozens of susC-susD PULs (model Sus organism)
+Bacteroides_fragilis_NCTC9343	positive	Bacteroidota	human gut symbiont	GCF_000025985.1	GCF/000/025/985/GCF_000025985.1_ASM2598v1	many susC-susD PULs
+Flavobacterium_johnsoniae_UW101	positive	Bacteroidota	soil/freshwater glider	GCF_000016645.1	GCF/000/016/645/GCF_000016645.1_ASM1664v1	many susC-susD PULs (environmental Bacteroidota)
+Pseudomonas_aeruginosa_PAO1	negative	Pseudomonadota (Gamma)	soil/opportunist	GCF_000006765.1	GCF/000/006/765/GCF_000006765.1_ASM676v1	susC-like TonB receptors present, but NO susD tandem
+Escherichia_coli_MG1655	negative	Pseudomonadota (Gamma)	enteric	GCF_000005845.2	GCF/000/005/845/GCF_000005845.2_ASM584v2	a few susC-like TonB receptors, no susD tandem
+Bacillus_subtilis_168	negative	Bacillota (Firmicutes)	soil saprophyte	GCF_000009045.1	GCF/000/009/045/GCF_000009045.1_ASM904v1	no SusC/SusD system

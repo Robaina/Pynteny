@@ -1,0 +1,7 @@
+contig	gene_id	gene_number	locus	strand	full_label	hmm	gene_symbol	label	product	ec_number
+NC_002516.2	NC_002516.2_956	956	(1018230, 1020458)	pos	NC_002516.2_956__NC_002516.2_956_1018230_1020458_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_002516.2	NC_002516.2_1308	1308	(1381804, 1383654)	pos	NC_002516.2_1308__NC_002516.2_1308_1381804_1383654_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_002516.2	NC_002516.2_1402	1402	(1476384, 1478825)	pos	NC_002516.2_1402__NC_002516.2_1402_1476384_1478825_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_002516.2	NC_002516.2_1978	1978	(2097491, 2099452)	pos	NC_002516.2_1978__NC_002516.2_1978_2097491_2099452_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_002516.2	NC_002516.2_2149	2149	(2298012, 2300663)	pos	NC_002516.2_2149__NC_002516.2_2149_2298012_2300663_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_002516.2	NC_002516.2_4805	4805	(5243178, 5245406)	pos	NC_002516.2_4805__NC_002516.2_4805_5243178_5245406_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef

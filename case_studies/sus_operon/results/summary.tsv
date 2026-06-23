@@ -1,0 +1,7 @@
+genome	role	susC_alone	tandem_strict_members	tandem_anystrand_members
+Bacteroides_thetaiotaomicron_VPI5482	positive	69	48	97
+Bacteroides_fragilis_NCTC9343	positive	46	34	73
+Flavobacterium_johnsoniae_UW101	positive	32	24	50
+Pseudomonas_aeruginosa_PAO1	negative	6	0	0
+Escherichia_coli_MG1655	negative	0	0	0
+Bacillus_subtilis_168	negative	0	0	0

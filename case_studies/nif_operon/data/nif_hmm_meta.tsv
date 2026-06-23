@@ -1,0 +1,7 @@
+#ncbi_accession	label	product_name	gene_symbol	ec_numbers
+TIGR01287.1	nifH	nitrogenase iron protein	nifH	1.18.6.1
+TIGR01282.1	nifD	nitrogenase molybdenum-iron protein alpha chain	nifD	1.18.6.1
+TIGR01286.1	nifK	nitrogenase molybdenum-iron protein subunit beta	nifK	1.18.6.1
+TIGR01283.1	nifE	nitrogenase iron-molybdenum cofactor biosynthesis protein NifE	nifE	
+TIGR01285.1	nifN	nitrogenase iron-molybdenum cofactor biosynthesis protein NifN	nifN	
+TIGR01290.1	nifB	nitrogenase cofactor biosynthesis protein NifB	nifB	

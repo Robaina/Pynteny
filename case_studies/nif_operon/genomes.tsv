@@ -1,0 +1,7 @@
+#name	role	lineage	lifestyle	assembly_accession	refseq_path	nif_expectation
+Azotobacter_vinelandii_DJ	positive	Gammaproteobacteria	free-living aerobe	GCF_000021045.1	GCF/000/021/045/GCF_000021045.1_ASM2104v1	canonical nifHDK + nifENB cluster
+Sinorhizobium_meliloti_1021	positive	Alphaproteobacteria	legume symbiont	GCF_000006965.1	GCF/000/006/965/GCF_000006965.1_ASM696v1	nifHDKE on the pSymA megaplasmid
+Nostoc_PCC7120	positive	Cyanobacteria	heterocyst-forming	GCF_000009705.1	GCF/000/009/705/GCF_000009705.1_ASM970v1	nifHDK interrupted by the 11-kb nifD excision element
+Escherichia_coli_MG1655	negative	Gammaproteobacteria	enteric	GCF_000005845.2	GCF/000/005/845/GCF_000005845.2_ASM584v2	no nitrogenase
+Bacillus_subtilis_168	negative	Bacillota (Firmicutes)	soil saprophyte	GCF_000009045.1	GCF/000/009/045/GCF_000009045.1_ASM904v1	no nitrogenase
+Klebsiella_pneumoniae_342	negative	Gammaproteobacteria	endophyte/opportunist	GCF_000020705.1	GCF/000/020/705/GCF_000020705.1_ASM2070v1	this strain lacks nif (N-fixation is strain-specific)

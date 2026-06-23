@@ -12,13 +12,15 @@ nav:
     - Examples:
          - Example CLI: examples/example_cli.ipynb
          - Example API: examples/example_api.ipynb
-         - Sus operon: examples/example_sus.ipynb
-    - References: 
+    - Case studies:
+         - Nitrogen fixation (nif operon): case_studies/nif_operon.ipynb
+         - SusC-SusD pair (sus operon): case_studies/sus_operon.ipynb
+    - References:
          - API references: references/api.md
 theme: readthedocs
 plugins:
   - mkdocs-jupyter:
-      ignore: ["examples/example_api_colab.ipynb"]
+      ignore: ["examples/example_api_colab.ipynb", "examples/example_sus.ipynb"]
   - mkdocstrings
 # Add MathJax support:
 markdown_extensions:

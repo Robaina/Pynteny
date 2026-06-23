@@ -1,0 +1,49 @@
+contig	gene_id	gene_number	locus	strand	full_label	hmm	gene_symbol	label	product	ec_number
+NC_004663.1	NC_004663.1_32	32	(22906, 26169)	pos	NC_004663.1_32__NC_004663.1_32_22906_26169_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_33	33	(26182, 28011)	pos	NC_004663.1_33__NC_004663.1_33_26182_28011_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_144	144	(139982, 143212)	pos	NC_004663.1_144__NC_004663.1_144_139982_143212_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_145	145	(143223, 144962)	pos	NC_004663.1_145__NC_004663.1_145_143223_144962_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_197	197	(200124, 203564)	pos	NC_004663.1_197__NC_004663.1_197_200124_203564_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_198	198	(203588, 204979)	pos	NC_004663.1_198__NC_004663.1_198_203588_204979_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_213	213	(222704, 225646)	pos	NC_004663.1_213__NC_004663.1_213_222704_225646_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_214	214	(225665, 227200)	pos	NC_004663.1_214__NC_004663.1_214_225665_227200_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_280	280	(310606, 313776)	pos	NC_004663.1_280__NC_004663.1_280_310606_313776_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_281	281	(313801, 315312)	pos	NC_004663.1_281__NC_004663.1_281_313801_315312_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_447	447	(530005, 533124)	pos	NC_004663.1_447__NC_004663.1_447_530005_533124_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_448	448	(533139, 535022)	pos	NC_004663.1_448__NC_004663.1_448_533139_535022_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_491	491	(595675, 598419)	pos	NC_004663.1_491__NC_004663.1_491_595675_598419_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_492	492	(598438, 600171)	pos	NC_004663.1_492__NC_004663.1_492_598438_600171_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_773	773	(936269, 939685)	pos	NC_004663.1_773__NC_004663.1_773_936269_939685_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_774	774	(939715, 941520)	pos	NC_004663.1_774__NC_004663.1_774_939715_941520_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_2329	2329	(2847059, 2850154)	pos	NC_004663.1_2329__NC_004663.1_2329_2847059_2850154_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_2330	2330	(2850174, 2851583)	pos	NC_004663.1_2330__NC_004663.1_2330_2850174_2851583_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_2426	2426	(2942417, 2945503)	pos	NC_004663.1_2426__NC_004663.1_2426_2942417_2945503_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_2427	2427	(2945516, 2947354)	pos	NC_004663.1_2427__NC_004663.1_2427_2945516_2947354_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_2428	2428	(2947596, 2950673)	pos	NC_004663.1_2428__NC_004663.1_2428_2947596_2950673_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_2429	2429	(2950707, 2952200)	pos	NC_004663.1_2429__NC_004663.1_2429_2950707_2952200_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_3103	3103	(3824416, 3827481)	pos	NC_004663.1_3103__NC_004663.1_3103_3824416_3827481_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_3104	3104	(3827521, 3829146)	pos	NC_004663.1_3104__NC_004663.1_3104_3827521_3829146_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_3261	3261	(4054467, 4057769)	pos	NC_004663.1_3261__NC_004663.1_3261_4054467_4057769_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_3262	3262	(4057819, 4059651)	pos	NC_004663.1_3262__NC_004663.1_3262_4057819_4059651_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_3373	3373	(4191588, 4195136)	pos	NC_004663.1_3373__NC_004663.1_3373_4191588_4195136_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_3374	3374	(4195143, 4196612)	pos	NC_004663.1_3374__NC_004663.1_3374_4195143_4196612_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_3406	3406	(4248560, 4251565)	pos	NC_004663.1_3406__NC_004663.1_3406_4248560_4251565_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_3407	3407	(4251565, 4253100)	pos	NC_004663.1_3407__NC_004663.1_3407_4251565_4253100_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_3583	3583	(4488562, 4491702)	pos	NC_004663.1_3583__NC_004663.1_3583_4488562_4491702_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_3584	3584	(4491719, 4493767)	pos	NC_004663.1_3584__NC_004663.1_3584_4491719_4493767_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_3619	3619	(4543971, 4547426)	pos	NC_004663.1_3619__NC_004663.1_3619_4543971_4547426_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_3620	3620	(4547439, 4549367)	pos	NC_004663.1_3620__NC_004663.1_3620_4547439_4549367_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_3903	3903	(4918843, 4921944)	pos	NC_004663.1_3903__NC_004663.1_3903_4918843_4921944_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_3904	3904	(4921964, 4923943)	pos	NC_004663.1_3904__NC_004663.1_3904_4921964_4923943_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_3972	3972	(5015957, 5019088)	pos	NC_004663.1_3972__NC_004663.1_3972_5015957_5019088_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_3973	3973	(5019100, 5021031)	pos	NC_004663.1_3973__NC_004663.1_3973_5019100_5021031_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_4067	4067	(5132450, 5135593)	pos	NC_004663.1_4067__NC_004663.1_4067_5132450_5135593_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_4068	4068	(5135615, 5137549)	pos	NC_004663.1_4068__NC_004663.1_4068_5135615_5137549_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_4073	4073	(5146676, 5149828)	pos	NC_004663.1_4073__NC_004663.1_4073_5146676_5149828_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_4074	4074	(5149853, 5151817)	pos	NC_004663.1_4074__NC_004663.1_4074_5149853_5151817_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_4207	4207	(5334073, 5337207)	pos	NC_004663.1_4207__NC_004663.1_4207_5334073_5337207_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_4208	4208	(5337214, 5339010)	pos	NC_004663.1_4208__NC_004663.1_4208_5337214_5339010_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_4287	4287	(5474559, 5477825)	pos	NC_004663.1_4287__NC_004663.1_4287_5474559_5477825_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_4288	4288	(5477838, 5479424)	pos	NC_004663.1_4288__NC_004663.1_4288_5477838_5479424_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef
+NC_004663.1	NC_004663.1_4860	4860	(6198720, 6202139)	pos	NC_004663.1_4860__NC_004663.1_4860_6198720_6202139_pos	TIGR04056.1	susC	SusC/RagA family TonB-linked outer membrane protein	susC	undef
+NC_004663.1	NC_004663.1_4861	4861	(6202152, 6203495)	pos	NC_004663.1_4861__NC_004663.1_4861_6202152_6203495_pos	NF033071.0	susD	starch-binding outer membrane lipoprotein SusD	susD	undef

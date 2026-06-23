@@ -1,0 +1,8 @@
+contig	gene_id	gene_number	locus	strand	full_label	hmm	gene_symbol	label	product	ec_number
+NC_003272.1	NC_003272.1_1457	1457	(1694529, 1694942)	neg	NC_003272.1_1457__NC_003272.1_1457_1694529_1694942_neg	TIGR01290.1	nifB	nitrogenase cofactor biosynthesis protein NifB	nifB	undef
+NC_003272.1	NC_003272.1_1458	1458	(1695055, 1696389)	neg	NC_003272.1_1458__NC_003272.1_1458_1695055_1696389_neg	TIGR01285.1	nifN	nitrogenase iron-molybdenum cofactor biosynthesis protein NifN	nifN	undef
+NC_003272.1	NC_003272.1_1459	1459	(1696389, 1697831)	neg	NC_003272.1_1459__NC_003272.1_1459_1696389_1697831_neg	TIGR01283.1	nifE	nitrogenase iron-molybdenum cofactor biosynthesis protein NifE	nifE	undef
+NC_003272.1	NC_003272.1_1461	1461	(1698743, 1700281)	neg	NC_003272.1_1461__NC_003272.1_1461_1698743_1700281_neg	TIGR01286.1	nifK	nitrogenase molybdenum-iron protein subunit beta	nifK	1.18.6.1
+NC_003272.1	NC_003272.1_1475	1475	(1711821, 1713263)	neg	NC_003272.1_1475__NC_003272.1_1475_1711821_1713263_neg	TIGR01282.1	nifD	nitrogenase molybdenum-iron protein alpha chain	nifD	1.18.6.1
+NC_003272.1	NC_003272.1_1476	1476	(1713396, 1714283)	neg	NC_003272.1_1476__NC_003272.1_1476_1713396_1714283_neg	TIGR01287.1	nifH	nitrogenase iron protein	nifH	1.18.6.1
+NC_003272.1	NC_003272.1_1539	1539	(1776670, 1778097)	neg	NC_003272.1_1539__NC_003272.1_1539_1776670_1778097_neg	TIGR01290.1	nifB	nitrogenase cofactor biosynthesis protein NifB	nifB	undef

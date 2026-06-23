@@ -119,6 +119,11 @@ Here are some Jupyter Notebooks with examples to show how Pynteny works:
 
 You can find more notebooks in the [examples directory](docs/examples/). Find more info in the [documentation](https://robaina.github.io/Pynteny/).
 
+For longer, end-to-end worked analyses on real genomes, see the [case studies](case_studies/):
+
+* [Finding the nitrogen-fixation (*nif*) operon](case_studies/nif_operon/) — telling diazotrophs from non-fixers across three phyla, handling paralogues, and recovering an operon split by an 11-kb excision element.
+* [The SusC–SusD polysaccharide-utilization pair](case_studies/sus_operon/) — why a syntenic pair beats a single-gene hit, disambiguating a promiscuous gene family by genomic context.
+
 ## 5. :arrows_counterclockwise: Dependencies
 Pynteny would not work without these awesome projects:
 

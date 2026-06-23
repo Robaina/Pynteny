@@ -1,0 +1,13 @@
+contig	gene_id	gene_number	locus	strand	full_label	hmm	gene_symbol	label	product	ec_number
+NC_012560.1	NC_012560.1_129	129	(136759, 137631)	pos	NC_012560.1_129__NC_012560.1_129_136759_137631_pos	TIGR01287.1	nifH	nitrogenase iron protein	nifH	1.18.6.1
+NC_012560.1	NC_012560.1_130	130	(137758, 139236)	pos	NC_012560.1_130__NC_012560.1_130_137758_139236_pos	TIGR01282.1	nifD	nitrogenase molybdenum-iron protein alpha chain	nifD	1.18.6.1
+NC_012560.1	NC_012560.1_131	131	(139337, 140908)	pos	NC_012560.1_131__NC_012560.1_131_139337_140908_pos	TIGR01286.1	nifK	nitrogenase molybdenum-iron protein subunit beta	nifK	1.18.6.1
+NC_012560.1	NC_012560.1_133	133	(141263, 141991)	pos	NC_012560.1_133__NC_012560.1_133_141263_141991_pos	TIGR01290.1	nifB	nitrogenase cofactor biosynthesis protein NifB	nifB	undef
+NC_012560.1	NC_012560.1_136	136	(143285, 144712)	pos	NC_012560.1_136__NC_012560.1_136_143285_144712_pos	TIGR01283.1	nifE	nitrogenase iron-molybdenum cofactor biosynthesis protein NifE	nifE	undef
+NC_012560.1	NC_012560.1_137	137	(144724, 146100)	pos	NC_012560.1_137__NC_012560.1_137_144724_146100_pos	TIGR01285.1	nifN	nitrogenase iron-molybdenum cofactor biosynthesis protein NifN	nifN	undef
+NC_012560.1	NC_012560.1_243	243	(247952, 249379)	neg	NC_012560.1_243__NC_012560.1_243_247952_249379_neg	TIGR01286.1	nifK	nitrogenase molybdenum-iron protein subunit beta	nifK	1.18.6.1
+NC_012560.1	NC_012560.1_245	245	(249776, 251200)	neg	NC_012560.1_245__NC_012560.1_245_249776_251200_neg	TIGR01282.1	nifD	nitrogenase molybdenum-iron protein alpha chain	nifD	1.18.6.1
+NC_012560.1	NC_012560.1_248	248	(252507, 253379)	neg	NC_012560.1_248__NC_012560.1_248_252507_253379_neg	TIGR01287.1	nifH	nitrogenase iron protein	nifH	1.18.6.1
+NC_012560.1	NC_012560.1_254	254	(258644, 259192)	neg	NC_012560.1_254__NC_012560.1_254_258644_259192_neg	TIGR01290.1	nifB	nitrogenase cofactor biosynthesis protein NifB	nifB	undef
+NC_012560.1	NC_012560.1_255	255	(259189, 260571)	neg	NC_012560.1_255__NC_012560.1_255_259189_260571_neg	TIGR01285.1	nifN	nitrogenase iron-molybdenum cofactor biosynthesis protein NifN	nifN	undef
+NC_012560.1	NC_012560.1_256	256	(260573, 261982)	neg	NC_012560.1_256__NC_012560.1_256_260573_261982_neg	TIGR01283.1	nifE	nitrogenase iron-molybdenum cofactor biosynthesis protein NifE	nifE	undef
