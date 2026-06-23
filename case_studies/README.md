@@ -7,7 +7,7 @@ follow along, a `run_case_study.sh` script that reproduces every result from scr
 
 These are heavier and more narrative than the quick-start [`examples/`](../examples) notebooks:
 the notebooks show *how to call* Pynteny, the case studies show *how to answer a question* with
-it — choosing the HMMs, designing the synteny structure, and interpreting the hits.
+it: choosing the HMMs, designing the synteny structure, and interpreting the hits.
 
 | Case study | Question | Highlights |
 |------------|----------|------------|
@@ -26,6 +26,6 @@ bash run_case_study.sh              # one-shot CLI reproduction
 ## Contributing a case study
 
 Good case studies start from a concrete biological question and a genome panel with a known
-expected answer (positives **and** negatives). Keep committed inputs small — commit the HMMs
+expected answer (positives **and** negatives). Keep committed inputs small: commit the HMMs
 and metadata, and let the notebook/script download genomes and build peptide databases into
 git-ignored `data/` subfolders. See [`nif_operon/`](nif_operon) as the template.

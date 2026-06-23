@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/Robaina/Pynteny/branch/main/graph/badge.svg?token=WDSOC220X6)](https://codecov.io/gh/Robaina/Pynteny)
 [![docs](https://github.com/Robaina/Pynteny/actions/workflows/docs.yml/badge.svg)](https://github.com/Robaina/Pynteny/actions/workflows/docs.yml)
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![license](https://img.shields.io/github/license/Robaina/Pynteny)
 ![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 
@@ -121,8 +121,8 @@ You can find more notebooks in the [examples directory](docs/examples/). Find mo
 
 For longer, end-to-end worked analyses on real genomes, see the [case studies](case_studies/):
 
-* [Finding the nitrogen-fixation (*nif*) operon](case_studies/nif_operon/) — telling diazotrophs from non-fixers across three phyla, handling paralogues, and recovering an operon split by an 11-kb excision element.
-* [The SusC–SusD polysaccharide-utilization pair](case_studies/sus_operon/) — why a syntenic pair beats a single-gene hit, disambiguating a promiscuous gene family by genomic context.
+* [Finding the nitrogen-fixation (*nif*) operon](case_studies/nif_operon/), telling diazotrophs from non-fixers across three phyla, handling paralogues, and recovering an operon split by an 11-kb excision element.
+* [The SusC-SusD polysaccharide-utilization pair](case_studies/sus_operon/), why a syntenic pair beats a single-gene hit, disambiguating a promiscuous gene family by genomic context.
 
 ## 5. :arrows_counterclockwise: Dependencies
 Pynteny would not work without these awesome projects:

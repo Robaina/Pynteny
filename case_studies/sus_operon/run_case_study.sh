@@ -70,15 +70,15 @@ run_search () {           # run_search <label> <outsubdir> <extra-args> <struct>
     done <<< "$GENOMES"
 }
 
-# A) susC alone — a promiscuous TonB-dependent receptor family (SusC/RagA/OmpW),
+# A) susC alone, a promiscuous TonB-dependent receptor family (SusC/RagA/OmpW),
 #    found across many phyla. No genomic context => ambiguous annotation.
 run_search "A  susC alone" "A_susC_alone" "" ">susC"
 
-# B) Strict (+)-strand susC-susD tandem — the canonical PUL core, immediately adjacent.
+# B) Strict (+)-strand susC-susD tandem, the canonical PUL core, immediately adjacent.
 #    Specific to Bacteroidota; catches the ~half of PULs encoded on the (+) strand.
 run_search "B  susC-susD tandem, (+)-strand" "B_tandem_strict" "" ">susC 0 >susD"
 
-# C) Strand-agnostic, order-agnostic tandem — recovers the FULL PUL repertoire
+# C) Strand-agnostic, order-agnostic tandem, recovers the FULL PUL repertoire
 #    (both strands), i.e. how many SusC-SusD loci each genome actually carries.
 run_search "C  susC-susD tandem, any strand" "C_tandem_any_strand" "--unordered" "susC 0 susD"
 
